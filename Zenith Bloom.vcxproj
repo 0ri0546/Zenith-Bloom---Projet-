@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0c20a2ea-05d7-4760-8727-c7e99e0bf76b}</ProjectGuid>
+    <ProjectGuid>{849d52f2-a77c-4313-ab15-8a5d2ab08d6d}</ProjectGuid>
     <RootNamespace>ZenithBloom</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -70,7 +70,17 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\rmeudec\Documents\SFML-2.6.2\include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);C:\Users\rmeudec\Documents\SFML-2.6.2\lib</LibraryPath>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\rmeudec\Documents\SFML-2.6.2\include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);C:\Users\rmeudec\Documents\SFML-2.6.2\lib</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>C:\SFML-2.6.2\include;C:\Users\orio6\Documents\SFML-2.6.2\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\SFML-2.6.2\lib;C:\Users\orio6\Documents\SFML-2.6.2\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>C:\SFML-2.6.2\include;$(IncludePath)</IncludePath>
@@ -110,10 +120,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib
+;sfml-system-d.lib
+;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,33 +145,34 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib
+;sfml-window.lib;sfml-system.lib
+;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AssetLoader.cpp" />
-    <ClCompile Include="Datas.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="ennemy.cpp" />
-    
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="ManagerEnnemy.cpp" />
-    <ClCompile Include="Platform.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="src\core\Game.cpp" />
+    <ClCompile Include="src\entities\ennemy.cpp" />
+    <ClCompile Include="src\entities\Entity.cpp" />
+    <ClCompile Include="src\entities\ManagerEnnemy.cpp" />
+    <ClCompile Include="src\entities\Player.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\map\Map.cpp" />
+    <ClCompile Include="src\map\Platform.cpp" />
+    <ClCompile Include="src\systems\AssetLoader.cpp" />
+    <ClCompile Include="src\systems\Datas.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssetLoader.hpp" />
-    <ClInclude Include="Datas.hpp" />
-    <ClInclude Include="ennemy.hpp" />
-    <ClInclude Include="Entity.hpp" />
-    <ClInclude Include="Game.hpp" />
-    <ClInclude Include="GESTION TEXTURE.hpp" />
-    <ClInclude Include="ManagerEnnemy.hpp" />
-    <ClInclude Include="Map.hpp" />
-    <ClInclude Include="Platform.hpp" />
-    <ClInclude Include="Player.hpp" />
+    <ClInclude Include="src\core\Game.hpp" />
+    <ClInclude Include="src\entities\ennemy.hpp" />
+    <ClInclude Include="src\entities\Entity.hpp" />
+    <ClInclude Include="src\entities\ManagerEnnemy.hpp" />
+    <ClInclude Include="src\entities\Player.hpp" />
+    <ClInclude Include="src\map\Map.hpp" />
+    <ClInclude Include="src\map\Platform.hpp" />
+    <ClInclude Include="src\systems\AssetLoader.hpp" />
+    <ClInclude Include="src\systems\Datas.hpp" />
+    <ClInclude Include="src\systems\GESTION TEXTURE.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

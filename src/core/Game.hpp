@@ -1,12 +1,11 @@
 #ifndef GAME_HPP
 #define GAME_HPP
-#pragma once
 
-#include "Datas.hpp"
-#include "Player.hpp"
-#include "Platform.hpp"
-#include "Map.hpp"
-#include "AssetLoader.hpp"
+#include "../systems/Datas.hpp"
+#include "../entities/Player.hpp"
+#include "../map/Platform.hpp"
+#include "../systems/AssetLoader.hpp"
+#include "../map/Map.hpp"
 
 class Game {
 public:

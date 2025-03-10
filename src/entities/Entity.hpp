@@ -1,10 +1,9 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
-#pragma once
 
-#include "Datas.hpp"
-#include "Platform.hpp"
-#include "AssetLoader.hpp"
+#include "../systems/Datas.hpp"
+#include "../map/Platform.hpp"
+#include "../systems/AssetLoader.hpp"
 
 class Entity {
 public:
