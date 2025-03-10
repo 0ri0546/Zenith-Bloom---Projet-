@@ -153,8 +153,8 @@ void Player::border() {
 	if (playerSprite.getPosition().x <= 0) {
 		playerSprite.setPosition(0, playerSprite.getPosition().y);
 	}
-	if (playerSprite.getPosition().x + playerSprite.getGlobalBounds().width >= WIDTH) {
-		playerSprite.setPosition(WIDTH - playerSprite.getGlobalBounds().width, playerSprite.getPosition().y);
+	if (playerSprite.getPosition().x + playerSprite.getGlobalBounds().width >= Config::WINDOW_WIDTH) {
+		playerSprite.setPosition(Config::WINDOW_WIDTH - playerSprite.getGlobalBounds().width, playerSprite.getPosition().y);
 	}
 }
 

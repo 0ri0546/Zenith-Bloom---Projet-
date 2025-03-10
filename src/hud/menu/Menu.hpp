@@ -1,0 +1,23 @@
+#ifndef MENU_HPP
+#define MENU_HPP
+
+#include <SFML/Graphics.hpp>
+#include "Button.hpp"
+#include "../../systems/Datas.hpp"
+
+class Menu {
+protected:
+    sf::Font font;
+    std::vector<Button> buttons;
+
+    virtual void initButtons() = 0;
+    void initFont();
+
+public:
+    Menu();
+    virtual ~Menu() = default;
+    virtual int handleInput(sf::RenderWindow& window, const sf::Event& event);
+    virtual void render(sf::RenderWindow& window);
+};
+
+#endif // MENU_HPP

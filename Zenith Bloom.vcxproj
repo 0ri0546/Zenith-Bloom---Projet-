@@ -156,6 +156,12 @@
     <ClCompile Include="src\entities\Entity.cpp" />
     <ClCompile Include="src\entities\ManagerEnnemy.cpp" />
     <ClCompile Include="src\entities\Player.cpp" />
+    <ClCompile Include="src\hud\menu\Button.cpp" />
+    <ClCompile Include="src\hud\menu\GameOverMenu.cpp" />
+    <ClCompile Include="src\hud\menu\LevelSelectorMenu.cpp" />
+    <ClCompile Include="src\hud\menu\MainMenu.cpp" />
+    <ClCompile Include="src\hud\menu\Menu.cpp" />
+    <ClCompile Include="src\hud\menu\PauseMenu.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\map\Map.cpp" />
     <ClCompile Include="src\map\Platform.cpp" />
@@ -168,6 +174,12 @@
     <ClInclude Include="src\entities\Entity.hpp" />
     <ClInclude Include="src\entities\ManagerEnnemy.hpp" />
     <ClInclude Include="src\entities\Player.hpp" />
+    <ClInclude Include="src\hud\menu\Button.hpp" />
+    <ClInclude Include="src\hud\menu\GameOverMenu.hpp" />
+    <ClInclude Include="src\hud\menu\LevelSelectorMenu.hpp" />
+    <ClInclude Include="src\hud\menu\MainMenu.hpp" />
+    <ClInclude Include="src\hud\menu\Menu.hpp" />
+    <ClInclude Include="src\hud\menu\PauseMenu.hpp" />
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
