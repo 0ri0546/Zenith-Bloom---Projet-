@@ -28,7 +28,9 @@ private:
 	sf::RectangleShape shape, shapeAtk, shapeRangedAtk, shapeSmoke, shapeEnergy, shapeFillEnergy;
 	sf::Clock attackClock;
 	sf::Clock attackDurationClock;
-
+	
+	
+	
 
 	float velocityY;
 	float gravity;

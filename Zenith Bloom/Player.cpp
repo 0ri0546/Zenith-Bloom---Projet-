@@ -124,9 +124,10 @@ void Player::collide(const std::vector<Platform>& platforms) { //collision joueu
 	isOnGround = false;
 
 	for (const auto& platform : platforms) {
-		if (shape.getGlobalBounds().intersects(platform.getShape().getGlobalBounds())) {
+
+		if (shape.getGlobalBounds().intersects(platform.getSprite().getGlobalBounds())) {
 			sf::FloatRect playerBounds = shape.getGlobalBounds();
-			sf::FloatRect platformBounds = platform.getShape().getGlobalBounds();
+			sf::FloatRect platformBounds = platform.getSprite().getGlobalBounds();
 
 			float playerLeft = playerBounds.left;
 			float playerRight = playerBounds.left + playerBounds.width;
@@ -173,14 +174,14 @@ void Player::deplacement() {
 }
 
 void Player::border() {
-	//reste à faire :
-	//ajuster selon nos besoins
-	if (shape.getPosition().x <= 0) {
-		shape.setPosition(0, shape.getPosition().y);
-	}
-	if (shape.getPosition().x + shape.getSize().x >= WIDTH) {
-		shape.setPosition(WIDTH - shape.getSize().x, shape.getPosition().y);
-	}
+	////reste à faire :
+	////ajuster selon nos besoins
+	//if (shape.getPosition().x <= 0) {
+	//	shape.setPosition(0, shape.getPosition().y);
+	//}
+	//if (shape.getPosition().x + shape.getSize().x >= WIDTH) {
+	//	shape.setPosition(WIDTH - shape.getSize().x, shape.getPosition().y);
+	//}
 }
 
 float Player::attack() {

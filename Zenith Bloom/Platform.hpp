@@ -3,15 +3,22 @@
 #pragma once
 
 #include "Datas.hpp"
+#include "GESTION TEXTURE.hpp"
 
 class Platform {
 public:
-	Platform();
-	Platform(float x, float y, float width, float height);
-	sf::RectangleShape getShape() const;
+	TextureManager textureManager;
+	const sf::Texture& platformTexture = textureManager.getTexture("C:/Users/ceury/source/repos/0ri0546/Zenith-Bloom---Projet-/ASSETS/Srite Test/bob.jpg");
+
+	Platform(float x, float y);
+	void addPlatform(float x, float y);
+	sf::Sprite getSprite() const;
+	
 
 private:
-	sf::RectangleShape shape;
+	sf::Sprite spritePlatforme; 
+	
+	float scalePlateform =1 ;
 };
 
 
