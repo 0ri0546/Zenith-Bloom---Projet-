@@ -133,18 +133,34 @@ void Player::collide(const std::vector<Platform>& platforms) { //collision joueu
 }
 
 void Player::deplacement() {
-	//reste à faire :
-	//le joueur doit "glisser" si j'ai bien compris
-	sf::Vector2f nPos;
+	const float acceleration = 1.0f;
+	const float friction = 0.1f;
+	const float maxSpeed = 10.0f;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		nPos.x = 10.0f;
+		velocityX += acceleration;
 		lastDepIsLeft = false;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-		nPos.x = -10.0f;
+		velocityX -= acceleration;
 		lastDepIsLeft = true;
 	}
-	playerSprite.move(nPos);
+
+	if (velocityX > maxSpeed) velocityX = maxSpeed;
+	if (velocityX < -maxSpeed) velocityX = -maxSpeed;
+
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+		if (velocityX > 0) {
+			velocityX -= friction;
+			if (velocityX < 0) velocityX = 0; 
+		}
+		else if (velocityX < 0) {
+			velocityX += friction;
+			if (velocityX > 0) velocityX = 0;
+		}
+	}
+
+	playerSprite.move(velocityX, 0);
 }
 
 void Player::border() {

@@ -33,6 +33,7 @@ private:
 	sf::Clock attackDurationClock;
 
 	float velocityY;
+	float velocityX = 0;
 	float gravity;
 	bool isOnGround;
 	int jumpCount;

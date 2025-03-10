@@ -18,7 +18,7 @@ void Game::run() {
 	Assets assets();
 	addPlatform(0, 550, 40, 40);
 	//addPlatform(60, 550, 40, 40);
-	addPlatform(0, 400, 200, 20);
+	addPlatform(-200, 400, 2000, 20);
 	while (window.isOpen()) {
 		processEvents();
 		update();
