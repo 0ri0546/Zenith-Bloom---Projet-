@@ -5,11 +5,12 @@
 #include "Datas.hpp"
 #include "Platform.hpp"
 #include "AssetLoader.hpp"
+#include "Entity.hpp"
 
-class Player {
+class Player : public Entity {
 public:
 	Player();
-	void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view);
+	void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view) override;
 	void jump();
 	void deplacement();
 	void border();

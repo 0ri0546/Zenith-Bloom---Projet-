@@ -9,7 +9,6 @@ Player::Player() {
 	assets.resize(Shared::smokeSprite, 30, 50);
 	assets.resize(Shared::swordSprite, 30, 50);
 
-
 	velocityY = 0;
 	gravity = 0.5f;
 	isOnGround = false;
@@ -71,7 +70,6 @@ void Player::jump() {
 		if (jumpCount == 0) {
 			energy -= energyConsumption;
 		}
-
 	}
 
 	if (jumpCount == 0) { //pour la fumée
