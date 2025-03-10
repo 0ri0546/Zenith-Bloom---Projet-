@@ -149,7 +149,7 @@
     <ClInclude Include="Datas.hpp" />
     <ClInclude Include="ennemy.hpp" />
     <ClInclude Include="Entity.hpp" />
-    <ClInclude Include="Entity.hpp" />
+    
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GESTION TEXTURE.hpp" />
     <ClInclude Include="ManagerEnnemy.hpp" />
