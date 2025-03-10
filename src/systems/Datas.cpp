@@ -17,5 +17,3 @@ sf::Sprite Shared::swordSprite;
 //assets des tiles
 
 //assets des menus
-
-

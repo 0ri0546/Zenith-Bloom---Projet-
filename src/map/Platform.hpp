@@ -1,8 +1,7 @@
 #ifndef PLATFORM_HPP
 #define PLATFORM_HPP
-#pragma once
 
-#include "Datas.hpp"
+#include "../systems/Datas.hpp"
 
 class Platform {
 public:
@@ -14,6 +13,4 @@ private:
 	sf::RectangleShape shape;
 };
 
-
 #endif
-

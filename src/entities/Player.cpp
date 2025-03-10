@@ -132,8 +132,6 @@ void Player::collide(const std::vector<Platform>& platforms) { //collision joueu
 	Shared::playerSprite.getGlobalBounds().width;
 }
 
-
-
 void Player::deplacement() {
 	//reste à faire :
 	//le joueur doit "glisser" si j'ai bien compris
@@ -220,6 +218,3 @@ sf::RectangleShape Player::getShapeHUDEnergy() const {
 sf::RectangleShape Player::getShapeFillEnergy() const {
 	return shapeFillEnergy;
 }
-
-
-
