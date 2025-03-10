@@ -7,7 +7,7 @@ Platform::Platform(float x, float y, float width, float height) {
 	shape.setFillColor(sf::Color::Green);
 	shape.setPosition(x, y);
 }
-
+ 
 sf::RectangleShape Platform::getShape() const {
 	return shape;
 }
