@@ -1,6 +1,5 @@
 #ifndef DATAS_HPP
 #define DATAS_HPP
-#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <vector>
