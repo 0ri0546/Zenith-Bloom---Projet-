@@ -1,9 +1,14 @@
 #include "Player.hpp"
 
 Player::Player() {
-	shape.setSize(sf::Vector2f(50, 50));
-	shape.setFillColor(sf::Color::Red);
-	shape.setPosition(400, 200);
+	Assets assets;
+	Shared::playerSprite.setTexture(Shared::playerTexture);
+	Shared::smokeSprite.setTexture(Shared::smokeTexture);
+	Shared::swordSprite.setTexture(Shared::swordTexture);
+	assets.resize(Shared::playerSprite, 50, 50);
+	assets.resize(Shared::smokeSprite, 30, 50);
+	assets.resize(Shared::swordSprite, 30, 50);
+
 	velocityY = 0;
 	gravity = 0.5f;
 	isOnGround = false;
@@ -65,21 +70,18 @@ void Player::jump() {
 		if (jumpCount == 0) {
 			energy -= energyConsumption;
 		}
-
 	}
 
 	if (jumpCount == 0) { //pour la fumée
-		shapeSmoke.setSize(sf::Vector2f(30, 50));
-		shapeSmoke.setFillColor(sf::Color::Yellow);
 		if (lastDepIsLeft) {
-			shapeSmoke.setPosition(shape.getPosition().x + shape.getSize().x / 2, shape.getPosition().y + 30);
+			Shared::smokeSprite.setPosition(Shared::playerSprite.getPosition().x + Shared::playerSprite.getGlobalBounds().width / 2, Shared::playerSprite.getPosition().y + 30);
 		}
 		else {
-			shapeSmoke.setPosition(shape.getPosition().x - 30 + shape.getSize().x / 2, shape.getPosition().y + 30);
+			Shared::smokeSprite.setPosition(Shared::playerSprite.getPosition().x - 30 + Shared::playerSprite.getGlobalBounds().width / 2, Shared::playerSprite.getPosition().y + 30);
 		}
 	}
 	else {
-		shapeSmoke.setPosition(9999, 9999);
+		Shared::smokeSprite.setPosition(9999, 9999);
 	}
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
@@ -89,43 +91,15 @@ void Player::jump() {
 		}
 	}
 
-	shape.move(0, velocityY);
-}
-
-void Player::useJetpack() { // pas utilisé, remplacé par le double jump
-	if (!isOnGround) {
-		velocityY += gravity;
-	}
-	shapeSmoke.setPosition(9999, 9999);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && energy > energyConsumption) {
-		velocityY = jetpackPower;
-		energy -= energyConsumption;
-		shapeSmoke.setSize(sf::Vector2f(30, 50));
-		shapeSmoke.setFillColor(sf::Color::Yellow);
-		if (lastDepIsLeft) {
-			shapeSmoke.setPosition(shape.getPosition().x + shape.getSize().x / 2, shape.getPosition().y + 30);
-		}
-		else {
-			shapeSmoke.setPosition(shape.getPosition().x - 30 + shape.getSize().x / 2, shape.getPosition().y + 30);
-		}
-	}
-	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && energy < maxJetpackEnergy) {
-		energy += energyRecharge;
-	}
-
-	if (energy > maxJetpackEnergy) {
-		energy = maxJetpackEnergy;
-	}
-
-	shape.move(0, velocityY);
+	Shared::playerSprite.move(0, velocityY);
 }
 
 void Player::collide(const std::vector<Platform>& platforms) { //collision joueur/platforms
 	isOnGround = false;
 
 	for (const auto& platform : platforms) {
-		if (shape.getGlobalBounds().intersects(platform.getShape().getGlobalBounds())) {
-			sf::FloatRect playerBounds = shape.getGlobalBounds();
+		if (Shared::playerSprite.getGlobalBounds().intersects(platform.getShape().getGlobalBounds())) {
+			sf::FloatRect playerBounds = Shared::playerSprite.getGlobalBounds();
 			sf::FloatRect platformBounds = platform.getShape().getGlobalBounds();
 
 			float playerLeft = playerBounds.left;
@@ -141,21 +115,24 @@ void Player::collide(const std::vector<Platform>& platforms) { //collision joueu
 			if (velocityY > 0 && playerBottom > platformTop && playerTop < platformTop) { //bas
 				isOnGround = true;
 				velocityY = 0;
-				shape.setPosition(shape.getPosition().x, platformTop - shape.getSize().y);
+				Shared::playerSprite.setPosition(Shared::playerSprite.getPosition().x, platformTop - Shared::playerSprite.getGlobalBounds().height);
 			}
 			else if (velocityY < 0 && playerTop < platformBottom && playerBottom > platformBottom) { //haut
 				velocityY = 0;
-				shape.setPosition(shape.getPosition().x, platformBottom);
+				Shared::playerSprite.setPosition(Shared::playerSprite.getPosition().x, platformBottom);
 			}
 			else if (playerRight > platformLeft && playerLeft < platformLeft && velocityY >= 0) { //gauche
-				shape.setPosition(platformLeft - playerBounds.width, shape.getPosition().y);
+				Shared::playerSprite.setPosition(platformLeft - playerBounds.width, Shared::playerSprite.getPosition().y);
 			}
 			else if (playerLeft < platformRight && playerRight > platformRight && velocityY >= 0) { //droite
-				shape.setPosition(platformRight, shape.getPosition().y);
+				Shared::playerSprite.setPosition(platformRight, Shared::playerSprite.getPosition().y);
 			}
 		}
 	}
+	Shared::playerSprite.getGlobalBounds().width;
 }
+
+
 
 void Player::deplacement() {
 	//reste à faire :
@@ -169,35 +146,33 @@ void Player::deplacement() {
 		nPos.x = -10.0f;
 		lastDepIsLeft = true;
 	}
-	shape.move(nPos);
+	Shared::playerSprite.move(nPos);
 }
 
 void Player::border() {
 	//reste à faire :
 	//ajuster selon nos besoins
-	if (shape.getPosition().x <= 0) {
-		shape.setPosition(0, shape.getPosition().y);
+	if (Shared::playerSprite.getPosition().x <= 0) {
+		Shared::playerSprite.setPosition(0, Shared::playerSprite.getPosition().y);
 	}
-	if (shape.getPosition().x + shape.getSize().x >= WIDTH) {
-		shape.setPosition(WIDTH - shape.getSize().x, shape.getPosition().y);
+	if (Shared::playerSprite.getPosition().x + Shared::playerSprite.getGlobalBounds().width >= WIDTH) {
+		Shared::playerSprite.setPosition(WIDTH - Shared::playerSprite.getGlobalBounds().width, Shared::playerSprite.getPosition().y);
 	}
 }
 
 float Player::attack() {
 	float shortRangeDamage = 0.f;
 	if (lastDepIsLeft) {
-		shapeAtk.setPosition(shape.getPosition().x - 30, shape.getPosition().y);
+		Shared::swordSprite.setPosition(Shared::playerSprite.getPosition().x - 30, Shared::playerSprite.getPosition().y);
 	}
 	else {
-		shapeAtk.setPosition(shape.getPosition().x + shape.getSize().x, shape.getPosition().y);
+		Shared::swordSprite.setPosition(Shared::playerSprite.getPosition().x + Shared::playerSprite.getGlobalBounds().width, Shared::playerSprite.getPosition().y);
 	}
 
 	if (attackClock.getElapsedTime().asSeconds() >= 0.5f) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && energy > 1) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && energy > 5.0) {
 			shortRangeDamage = damage;
-			shapeAtk.setSize(sf::Vector2f(30, 50));
-			shapeAtk.setFillColor(sf::Color::Blue);
-
+			
 			energy -= 5.0;
 			attackClock.restart();
 			attackDurationClock.restart();
@@ -205,30 +180,11 @@ float Player::attack() {
 	}
 
 	if (attackDurationClock.getElapsedTime().asSeconds() >= 1.0f) { //valeur modifiable selon l'animation de l'attaque
-		shapeAtk.setSize(sf::Vector2f(1, 1));
-		shapeAtk.setFillColor(sf::Color::Transparent);
+		Shared::swordSprite.setPosition(9999, 9999);
 	}
 
 	return shortRangeDamage;
 }
-
-//void Player::rangedAttack(sf::RenderWindow& window) { 
-//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
-//		projectiles.push_back(Projectiles(lastDepIsLeft, shape));
-//	}
-//
-//	for (auto& projectile : projectiles) {
-//		projectile.update();
-//		std::cout << "Projectile position: " << projectile.getShape().getPosition().x << ", " << projectile.getShape().getPosition().y << std::endl;
-//		window.draw(projectile.getShape());
-//	}
-//
-//
-//	projectiles.erase(std::remove_if(projectiles.begin(), projectiles.end(), [](const Projectiles& p) {
-//		return p.getShape().getPosition().x < 0 || p.getShape().getPosition().x > WIDTH;
-//		}), projectiles.end());
-//
-//}
 
 void Player::updateHUDEnergy(sf::View& view) {
 	sf::Vector2f viewCenter = view.getCenter();
@@ -245,16 +201,16 @@ void Player::updateHUDEnergy(sf::View& view) {
 
 }
 
-sf::RectangleShape Player::getShape() const {
-	return shape;
+sf::Sprite Player::getShape() const {
+	return Shared::playerSprite;
 }
 
-sf::RectangleShape Player::getShapeAtk() const {
-	return shapeAtk;
+sf::Sprite Player::getShapeAtk() const {
+	return Shared::swordSprite;
 }
 
-sf::RectangleShape Player::getShapeSmoke() const {
-	return shapeSmoke;
+sf::Sprite Player::getShapeSmoke() const {
+	return Shared::smokeSprite;
 }
 
 sf::RectangleShape Player::getShapeHUDEnergy() const {

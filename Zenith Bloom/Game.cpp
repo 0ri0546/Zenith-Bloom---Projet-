@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), "tests gravite") {
+Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), "Zenith Bloom") {
 	window.setFramerateLimit(60);
 	view.setSize(window.getSize().x, window.getSize().y);
 	view.setCenter(player.getShape().getPosition());
@@ -13,6 +13,7 @@ void Game::addPlatform(float x, float y, float width, float height) {
 
 void Game::run() {
 	gamemap.loadMap(1);
+	Assets assets();
 	addPlatform(0, 550, 800, 20);
 	addPlatform(300, 400, 500, 20);
 	while (window.isOpen()) {
