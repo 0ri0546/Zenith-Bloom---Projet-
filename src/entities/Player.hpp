@@ -40,6 +40,7 @@ private:
 	const int maxJumps = 2;
 	bool canJump;
 	bool lastDepIsLeft;
+	int vie = 3;
 
 	float energy;
 	float maxJetpackEnergy;

@@ -4,6 +4,7 @@
 #include "../systems/Datas.hpp"
 #include "../map/Platform.hpp"
 #include "../systems/AssetLoader.hpp"
+#include <cmath> 
 
 class Entity {
 public:

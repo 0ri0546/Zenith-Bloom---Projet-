@@ -70,6 +70,9 @@ void Game::render() {
 		window.draw(player.getShapeHUDEnergy());
 		window.draw(player.getShapeFillEnergy());
 
+		//window.draw(ennemy.getSprite());
+		ennemy.runEnnemy(player, window);
+
 		for (auto& platform : platforms) {
 			window.draw(platform.getSprite());
 		}

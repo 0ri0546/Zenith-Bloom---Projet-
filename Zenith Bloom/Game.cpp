@@ -16,7 +16,7 @@ void Game::addPlatform(float x, float y, float width, float height) {
 }
 
 void Game::run() {
-
+	
 	
 
 	gamemap.loadMap(1);
@@ -58,7 +58,7 @@ void Game::render() {
 	for (auto platform : platforms) {
 		window.draw(platform.getSprite());
 	}
-
+	
 	window.setView(view);
 
 	window.display();

@@ -7,7 +7,7 @@
 #include "../systems/AssetLoader.hpp"
 #include "../map/Map.hpp"
 #include "../hud/menu/MainMenu.hpp"
-
+#include "../entities/ennemy.hpp"
 class Game {
 public:
 	Game();
@@ -27,7 +27,8 @@ private:
 	sf::RenderWindow window;
 	Player player;
 	//Player player2;
-	
+	Ennemy ennemy;
+
 	sf::View view;
 	std::vector<Platform> platforms;
 	Map gamemap;
