@@ -132,12 +132,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AssetLoader.cpp" />
+    <ClCompile Include="Datas.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetLoader.hpp" />
     <ClInclude Include="Datas.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Platform.hpp" />

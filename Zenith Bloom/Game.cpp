@@ -12,6 +12,7 @@ void Game::addPlatform(float x, float y, float width, float height) {
 }
 
 void Game::run() {
+	Assets assets();
 	addPlatform(0, 550, 800, 20);
 	addPlatform(300, 400, 500, 20);
 	while (window.isOpen()) {
