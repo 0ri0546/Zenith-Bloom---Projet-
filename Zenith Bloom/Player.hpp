@@ -25,7 +25,7 @@ public:
 	sf::RectangleShape getShapeFillEnergy() const;
 
 private:
-	sf::RectangleShape shapeAtk, shapeRangedAtk, shapeSmoke, shapeEnergy, shapeFillEnergy;
+	sf::RectangleShape shapeEnergy, shapeFillEnergy;
 	sf::Clock attackClock;
 	sf::Clock attackDurationClock;
 

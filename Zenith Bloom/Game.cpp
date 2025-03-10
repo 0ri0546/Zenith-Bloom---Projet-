@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), "tests gravite") {
+Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), "Zenith Bloom") {
 	window.setFramerateLimit(60);
 	view.setSize(window.getSize().x, window.getSize().y);
 	view.setCenter(player.getShape().getPosition());
