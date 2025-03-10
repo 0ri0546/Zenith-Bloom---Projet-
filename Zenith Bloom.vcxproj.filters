@@ -37,6 +37,12 @@
     <Filter Include="Fichiers sources\Systems">
       <UniqueIdentifier>{fe8dc32c-229c-4dd4-a786-46ea9b3ea910}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Hud">
+      <UniqueIdentifier>{a9a5bc1d-431f-4620-bb09-0872e32bafd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Hud">
+      <UniqueIdentifier>{e15debec-16a5-445e-89d4-8941a047e890}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -69,6 +75,24 @@
     <ClCompile Include="src\entities\ManagerEnnemy.cpp">
       <Filter>Fichiers sources\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\hud\menu\PauseMenu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\GameOverMenu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\LevelSelectorMenu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\MainMenu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\Menu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\Button.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -100,6 +124,24 @@
     </ClInclude>
     <ClInclude Include="src\systems\GESTION TEXTURE.hpp">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\LevelSelectorMenu.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\MainMenu.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\PauseMenu.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\GameOverMenu.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\Menu.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\Button.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
