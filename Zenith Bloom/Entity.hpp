@@ -1,17 +1,14 @@
-#include <iostream>
-#include <SFML/Graphics.hpp> 
+#ifndef ENTITY_HPP
+#define ENTITY_HPP
+#pragma once
 
-using namespace std; 
+#include "Datas.hpp"
+#include "Platform.hpp"
+#include "AssetLoader.hpp"
 
-
-class Entity
-{
-public : 
-	Entity(); 
-	virtual ~Entity() = 0; 
-
-	virtual void draw(sf::RenderWindow& window) = 0;
-
-
-
+class Entity {
+public:
+	virtual void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view) = 0;
 };
+
+#endif

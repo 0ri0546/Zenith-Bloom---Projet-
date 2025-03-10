@@ -4,33 +4,30 @@
 
 #include "Datas.hpp"
 #include "Platform.hpp"
+#include "AssetLoader.hpp"
+#include "Entity.hpp"
 
-class Player {
+class Player : public Entity {
 public:
 	Player();
-	void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view);
+	void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view) override;
 	void jump();
-	void useJetpack();
 	void deplacement();
 	void border();
 	void collide(const std::vector<Platform>& platforms);
 	float attack();
-	void rangedAttack(sf::RenderWindow& window);
 	void updateHUDEnergy(sf::View& view);
 
-	sf::RectangleShape getShape() const;
-	sf::RectangleShape getShapeAtk() const;
-	sf::RectangleShape getShapeSmoke() const;
+	sf::Sprite getShape() const;
+	sf::Sprite getShapeAtk() const;
+	sf::Sprite getShapeSmoke() const;
 	sf::RectangleShape getShapeHUDEnergy() const;
 	sf::RectangleShape getShapeFillEnergy() const;
 
 private:
-	sf::RectangleShape shape, shapeAtk, shapeRangedAtk, shapeSmoke, shapeEnergy, shapeFillEnergy;
+	sf::RectangleShape shapeEnergy, shapeFillEnergy;
 	sf::Clock attackClock;
 	sf::Clock attackDurationClock;
-	
-	
-	
 
 	float velocityY;
 	float gravity;

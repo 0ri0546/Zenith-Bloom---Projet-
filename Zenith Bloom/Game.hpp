@@ -5,6 +5,7 @@
 #include "Datas.hpp"
 #include "Player.hpp"
 #include "Platform.hpp"
+#include "AssetLoader.hpp"
 
 class Game {
 public:
