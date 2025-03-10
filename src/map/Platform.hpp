@@ -1,10 +1,9 @@
 #ifndef PLATFORM_HPP
 #define PLATFORM_HPP
-#pragma once
 
-#include "Datas.hpp"
-#include "GESTION TEXTURE.hpp"
-#include "AssetLoader.hpp"
+#include "../systems/Datas.hpp"
+#include "../systems/GESTION TEXTURE.hpp"
+#include "../systems/AssetLoader.hpp"
 
 class Platform {
 public:
@@ -22,6 +21,4 @@ private:
 	float scalePlateform = 1 ;
 };
 
-
 #endif
-

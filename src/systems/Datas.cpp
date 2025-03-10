@@ -16,5 +16,3 @@ sf::Texture Shared::groundTexture;
 //sf::Sprite groundSprite;
 
 //assets des menus
-
-

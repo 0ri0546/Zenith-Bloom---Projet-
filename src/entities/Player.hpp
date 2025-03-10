@@ -1,10 +1,9 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
-#pragma once
 
-#include "Datas.hpp"
-#include "Platform.hpp"
-#include "AssetLoader.hpp"
+#include "../systems/Datas.hpp"
+#include "../map/Platform.hpp"
+#include "../systems/AssetLoader.hpp"
 #include "Entity.hpp"
 
 class Player : public Entity {
@@ -34,6 +33,7 @@ private:
 	sf::Clock attackDurationClock;
 
 	float velocityY;
+	float velocityX = 0;
 	float gravity;
 	bool isOnGround;
 	int jumpCount;
@@ -49,7 +49,6 @@ private:
 	float damage;
 
 	int hp;
-
 };
 
 #endif

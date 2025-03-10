@@ -22,7 +22,7 @@ void Map::draw(RenderWindow& window)
 void Map::loadMap(int mapNum)
 {
     map.clear();
-    string path = "maps/map" + to_string(mapNum) + ".txt";
+    string path = "assets/maps/map" + to_string(mapNum) + ".txt";
 
     ifstream file(path);
     if (!file.is_open())
@@ -69,7 +69,7 @@ void Map::loadMap(int mapNum)
             row.push_back(tileCode[0]);
             if (tileValue == 05)
             {
-                cout << "block 05" << endl;
+                /*cout << "block 05" << endl;*/
             }
             map.push_back(row);
         }
