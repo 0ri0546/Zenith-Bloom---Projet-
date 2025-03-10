@@ -151,6 +151,7 @@
     <ClCompile Include="src\entities\Entity.cpp" />
     <ClCompile Include="src\entities\Player.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\map\Map.cpp" />
     <ClCompile Include="src\map\Platform.cpp" />
     <ClCompile Include="src\systems\AssetLoader.cpp" />
     <ClCompile Include="src\systems\Datas.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="src\core\Game.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />
     <ClInclude Include="src\entities\Player.hpp" />
+    <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
     <ClInclude Include="src\systems\Datas.hpp" />

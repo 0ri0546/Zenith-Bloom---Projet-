@@ -60,6 +60,9 @@
     <ClCompile Include="src\systems\AssetLoader.cpp">
       <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="src\map\Map.cpp">
+      <Filter>Fichiers sources\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="src\systems\AssetLoader.hpp">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\map\Map.hpp">
+      <Filter>Fichiers d%27en-tête\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

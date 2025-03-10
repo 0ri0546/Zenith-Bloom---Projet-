@@ -22,7 +22,7 @@ void Map::draw(RenderWindow& window)
 void Map::loadMap(int mapNum)
 {
     map.clear();
-    string path = "maps/map" + to_string(mapNum) + ".txt";
+    string path = "assets/maps/map" + to_string(mapNum) + ".txt";
 
     ifstream file(path);
     if (!file.is_open())
