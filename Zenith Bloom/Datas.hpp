@@ -23,6 +23,9 @@ public:
 
 	static sf::Texture swordTexture;
 
+	// assets ennemy
+	static sf::Texture ennemyTexture;
+
 	//assets map
 	static sf::Texture groundTexture; 
 	//static sf::Sprite groundSprite; 
