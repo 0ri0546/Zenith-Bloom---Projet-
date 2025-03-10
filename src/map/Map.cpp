@@ -69,7 +69,7 @@ void Map::loadMap(int mapNum)
             row.push_back(tileCode[0]);
             if (tileValue == 05)
             {
-                cout << "block 05" << endl;
+                /*cout << "block 05" << endl;*/
             }
             map.push_back(row);
         }
