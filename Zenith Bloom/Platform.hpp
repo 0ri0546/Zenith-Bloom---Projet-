@@ -3,15 +3,23 @@
 #pragma once
 
 #include "Datas.hpp"
+#include "GESTION TEXTURE.hpp"
+#include "AssetLoader.hpp"
 
 class Platform {
 public:
-	Platform();
+	
+
 	Platform(float x, float y, float width, float height);
-	sf::RectangleShape getShape() const;
+	
+	sf::Sprite getSprite() const;
+
+	Assets assets;
 
 private:
-	sf::RectangleShape shape;
+	sf::Sprite spritePlatform; 
+	
+	float scalePlateform = 1 ;
 };
 
 

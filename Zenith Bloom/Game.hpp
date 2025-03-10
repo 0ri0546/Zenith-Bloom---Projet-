@@ -16,7 +16,8 @@ public:
 private:
 	sf::RenderWindow window;
 	Player player;
-	Platform platform;
+	//Player player2;
+	
 	sf::View view;
 	std::vector<Platform> platforms;
 	Map gamemap;

@@ -2,12 +2,12 @@
 
 Player::Player() {
 	Assets assets;
-	Shared::playerSprite.setTexture(Shared::playerTexture);
-	Shared::smokeSprite.setTexture(Shared::smokeTexture);
-	Shared::swordSprite.setTexture(Shared::swordTexture);
-	assets.resize(Shared::playerSprite, 50, 50);
-	assets.resize(Shared::smokeSprite, 30, 50);
-	assets.resize(Shared::swordSprite, 30, 50);
+	playerSprite.setTexture(Shared::playerTexture);
+	smokeSprite.setTexture(Shared::smokeTexture);
+	swordSprite.setTexture(Shared::swordTexture);
+	assets.resize(playerSprite, 50, 50);
+	assets.resize(smokeSprite, 30, 50);
+	assets.resize(swordSprite, 30, 50);
 
 	velocityY = 0;
 	gravity = 0.5f;
@@ -39,7 +39,7 @@ void Player::update(const std::vector<Platform>& platforms, sf::RenderWindow& wi
 	//la fonction Player::boost() "le cyborg peut utiliser ses réacteurs pour se propulser en avant, ce qui consommera 15 points d'energie"
 	//afficher les HUD (vie (coeurs ?), progression dans le niveau, etc...)
 
-	border();
+	//border();
 	collide(platforms);
 	jump();
 	//useJetpack();
@@ -74,14 +74,14 @@ void Player::jump() {
 
 	if (jumpCount == 0) { //pour la fumée
 		if (lastDepIsLeft) {
-			Shared::smokeSprite.setPosition(Shared::playerSprite.getPosition().x + Shared::playerSprite.getGlobalBounds().width / 2, Shared::playerSprite.getPosition().y + 30);
+			smokeSprite.setPosition(playerSprite.getPosition().x + playerSprite.getGlobalBounds().width / 2, playerSprite.getPosition().y + 30);
 		}
 		else {
-			Shared::smokeSprite.setPosition(Shared::playerSprite.getPosition().x - 30 + Shared::playerSprite.getGlobalBounds().width / 2, Shared::playerSprite.getPosition().y + 30);
+			smokeSprite.setPosition(playerSprite.getPosition().x - 30 + playerSprite.getGlobalBounds().width / 2, playerSprite.getPosition().y + 30);
 		}
 	}
 	else {
-		Shared::smokeSprite.setPosition(9999, 9999);
+		smokeSprite.setPosition(9999, 9999);
 	}
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
@@ -91,16 +91,16 @@ void Player::jump() {
 		}
 	}
 
-	Shared::playerSprite.move(0, velocityY);
+	playerSprite.move(0, velocityY);
 }
 
 void Player::collide(const std::vector<Platform>& platforms) { //collision joueur/platforms
 	isOnGround = false;
 
 	for (const auto& platform : platforms) {
-		if (Shared::playerSprite.getGlobalBounds().intersects(platform.getShape().getGlobalBounds())) {
-			sf::FloatRect playerBounds = Shared::playerSprite.getGlobalBounds();
-			sf::FloatRect platformBounds = platform.getShape().getGlobalBounds();
+		if (playerSprite.getGlobalBounds().intersects(platform.getSprite().getGlobalBounds())) {
+			sf::FloatRect playerBounds = playerSprite.getGlobalBounds();
+			sf::FloatRect platformBounds = platform.getSprite().getGlobalBounds();
 
 			float playerLeft = playerBounds.left;
 			float playerRight = playerBounds.left + playerBounds.width;
@@ -115,21 +115,21 @@ void Player::collide(const std::vector<Platform>& platforms) { //collision joueu
 			if (velocityY > 0 && playerBottom > platformTop && playerTop < platformTop) { //bas
 				isOnGround = true;
 				velocityY = 0;
-				Shared::playerSprite.setPosition(Shared::playerSprite.getPosition().x, platformTop - Shared::playerSprite.getGlobalBounds().height);
+				playerSprite.setPosition(playerSprite.getPosition().x, platformTop - playerSprite.getGlobalBounds().height);
 			}
 			else if (velocityY < 0 && playerTop < platformBottom && playerBottom > platformBottom) { //haut
 				velocityY = 0;
-				Shared::playerSprite.setPosition(Shared::playerSprite.getPosition().x, platformBottom);
+				playerSprite.setPosition(playerSprite.getPosition().x, platformBottom);
 			}
 			else if (playerRight > platformLeft && playerLeft < platformLeft && velocityY >= 0) { //gauche
-				Shared::playerSprite.setPosition(platformLeft - playerBounds.width, Shared::playerSprite.getPosition().y);
+				playerSprite.setPosition(platformLeft - playerBounds.width, playerSprite.getPosition().y);
 			}
 			else if (playerLeft < platformRight && playerRight > platformRight && velocityY >= 0) { //droite
-				Shared::playerSprite.setPosition(platformRight, Shared::playerSprite.getPosition().y);
+				playerSprite.setPosition(platformRight, playerSprite.getPosition().y);
 			}
 		}
 	}
-	Shared::playerSprite.getGlobalBounds().width;
+	playerSprite.getGlobalBounds().width;
 }
 
 
@@ -146,27 +146,27 @@ void Player::deplacement() {
 		nPos.x = -10.0f;
 		lastDepIsLeft = true;
 	}
-	Shared::playerSprite.move(nPos);
+	playerSprite.move(nPos);
 }
 
 void Player::border() {
 	//reste à faire :
 	//ajuster selon nos besoins
-	if (Shared::playerSprite.getPosition().x <= 0) {
-		Shared::playerSprite.setPosition(0, Shared::playerSprite.getPosition().y);
+	if (playerSprite.getPosition().x <= 0) {
+		playerSprite.setPosition(0, playerSprite.getPosition().y);
 	}
-	if (Shared::playerSprite.getPosition().x + Shared::playerSprite.getGlobalBounds().width >= WIDTH) {
-		Shared::playerSprite.setPosition(WIDTH - Shared::playerSprite.getGlobalBounds().width, Shared::playerSprite.getPosition().y);
+	if (playerSprite.getPosition().x + playerSprite.getGlobalBounds().width >= WIDTH) {
+		playerSprite.setPosition(WIDTH - playerSprite.getGlobalBounds().width, playerSprite.getPosition().y);
 	}
 }
 
 float Player::attack() {
 	float shortRangeDamage = 0.f;
 	if (lastDepIsLeft) {
-		Shared::swordSprite.setPosition(Shared::playerSprite.getPosition().x - 30, Shared::playerSprite.getPosition().y);
+		swordSprite.setPosition(playerSprite.getPosition().x - 30, playerSprite.getPosition().y);
 	}
 	else {
-		Shared::swordSprite.setPosition(Shared::playerSprite.getPosition().x + Shared::playerSprite.getGlobalBounds().width, Shared::playerSprite.getPosition().y);
+		swordSprite.setPosition(playerSprite.getPosition().x + playerSprite.getGlobalBounds().width, playerSprite.getPosition().y);
 	}
 
 	if (attackClock.getElapsedTime().asSeconds() >= 0.5f) {
@@ -180,7 +180,7 @@ float Player::attack() {
 	}
 
 	if (attackDurationClock.getElapsedTime().asSeconds() >= 1.0f) { //valeur modifiable selon l'animation de l'attaque
-		Shared::swordSprite.setPosition(9999, 9999);
+		swordSprite.setPosition(9999, 9999);
 	}
 
 	return shortRangeDamage;
@@ -202,15 +202,15 @@ void Player::updateHUDEnergy(sf::View& view) {
 }
 
 sf::Sprite Player::getShape() const {
-	return Shared::playerSprite;
+	return playerSprite;
 }
 
 sf::Sprite Player::getShapeAtk() const {
-	return Shared::swordSprite;
+	return swordSprite;
 }
 
 sf::Sprite Player::getShapeSmoke() const {
-	return Shared::smokeSprite;
+	return smokeSprite;
 }
 
 sf::RectangleShape Player::getShapeHUDEnergy() const {
