@@ -39,7 +39,7 @@ void Player::update(const std::vector<Platform>& platforms, sf::RenderWindow& wi
 	//la fonction Player::boost() "le cyborg peut utiliser ses réacteurs pour se propulser en avant, ce qui consommera 15 points d'energie"
 	//afficher les HUD (vie (coeurs ?), progression dans le niveau, etc...)
 
-	border();
+	//border();
 	collide(platforms);
 	jump();
 	//useJetpack();
@@ -98,9 +98,9 @@ void Player::collide(const std::vector<Platform>& platforms) { //collision joueu
 	isOnGround = false;
 
 	for (const auto& platform : platforms) {
-		if (Shared::playerSprite.getGlobalBounds().intersects(platform.getShape().getGlobalBounds())) {
+		if (Shared::playerSprite.getGlobalBounds().intersects(platform.getSprite().getGlobalBounds())) {
 			sf::FloatRect playerBounds = Shared::playerSprite.getGlobalBounds();
-			sf::FloatRect platformBounds = platform.getShape().getGlobalBounds();
+			sf::FloatRect platformBounds = platform.getSprite().getGlobalBounds();
 
 			float playerLeft = playerBounds.left;
 			float playerRight = playerBounds.left + playerBounds.width;

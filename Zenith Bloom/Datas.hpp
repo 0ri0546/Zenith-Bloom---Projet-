@@ -24,6 +24,10 @@ public:
 	static sf::Texture swordTexture;
 	static sf::Sprite swordSprite;
 
+	//assets map
+	static sf::Texture groundTexture; 
+	//static sf::Sprite groundSprite; 
+
 };
 
 #endif

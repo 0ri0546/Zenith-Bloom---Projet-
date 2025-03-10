@@ -14,7 +14,9 @@ void Assets::loadAssetsFromFiles() {
 	Shared::playerTexture.loadFromFile("assets/playerAsset/player.png");
 	Shared::smokeTexture.loadFromFile("assets/playerAsset/smoke.png");
 	Shared::swordTexture.loadFromFile("assets/playerAsset/sword.jpg");
+	Shared::groundTexture.loadFromFile("assets/map/tile test/bob.jpg");
 }
+
 
 void Assets::resize(sf::Sprite& sprite, float scaleX, float scaleY) {
 	float scaleFinaleX = scaleX / sprite.getGlobalBounds().width;

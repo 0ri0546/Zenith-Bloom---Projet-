@@ -4,21 +4,22 @@
 
 #include "Datas.hpp"
 #include "GESTION TEXTURE.hpp"
+#include "AssetLoader.hpp"
 
 class Platform {
 public:
-	TextureManager textureManager;
-	const sf::Texture& platformTexture = textureManager.getTexture("C:/Users/ceury/source/repos/0ri0546/Zenith-Bloom---Projet-/ASSETS/Srite Test/bob.jpg");
-
-	Platform(float x, float y);
-	void addPlatform(float x, float y);
-	sf::Sprite getSprite() const;
 	
+
+	Platform(float x, float y, float width, float height);
+	
+	sf::Sprite getSprite() const;
+
+	Assets assets;
 
 private:
-	sf::Sprite spritePlatforme; 
+	sf::Sprite spritePlatform; 
 	
-	float scalePlateform =1 ;
+	float scalePlateform = 1 ;
 };
 
 

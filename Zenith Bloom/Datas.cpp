@@ -15,6 +15,8 @@ sf::Sprite Shared::swordSprite;
 //assets des ennemis
 
 //assets des tiles
+sf::Texture Shared::groundTexture;
+//sf::Sprite groundSprite;
 
 //assets des menus
 

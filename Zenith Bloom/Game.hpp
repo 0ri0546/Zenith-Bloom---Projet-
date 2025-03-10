@@ -15,11 +15,12 @@ public:
 private:
 	sf::RenderWindow window;
 	Player player;
+	//Player player2;
 	
 	sf::View view;
 	std::vector<Platform> platforms;
 
-	void addPlatform(float x, float y);
+	void addPlatform(float x, float y, float width, float height);
 	void processEvents();
 	void update();
 	void render();

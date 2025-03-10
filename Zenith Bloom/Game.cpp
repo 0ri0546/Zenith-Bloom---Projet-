@@ -7,14 +7,17 @@ Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), "Zenith Bloom") {
 
 }
 
-void Game::addPlatform(float x, float y) {
-	platforms.push_back(Platform(x, y));
+void Game::addPlatform(float x, float y, float width, float height) {
+	Platform temp(x, y, width, height);
+	platforms.push_back(temp);
+	 
 }
 
 void Game::run() {
 	Assets assets();
-	addPlatform(0, 550, 800, 20);
-	addPlatform(300, 400, 500, 20);
+	addPlatform(0, 550, 40, 40);
+	//addPlatform(60, 550, 40, 40);
+	addPlatform(0, 400, 200, 20);
 	while (window.isOpen()) {
 		processEvents();
 		update();

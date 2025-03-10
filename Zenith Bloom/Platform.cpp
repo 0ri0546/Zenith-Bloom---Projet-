@@ -1,17 +1,17 @@
 #include "Platform.hpp"
 
-Platform::Platform(float x, float y)
+Platform::Platform(float x, float y, float width, float height)
 {
-	spritePlatforme.setTexture(platformTexture);
-	spritePlatforme.setScale(scalePlateform, scalePlateform);
-	spritePlatforme.setPosition(x, y);
+	Assets assets;
+	//assets.resize(Shared::groundSprite, width, height);
+	spritePlatform.setTexture(Shared::groundTexture);
+	assets.resize(spritePlatform, width, height);
+	
+	spritePlatform.setPosition(x, y);
 };
 
-void Platform::addPlatform(float x, float y) {
-	
-	spritePlatforme.setPosition(x, y);
-}
+
  
 sf::Sprite Platform::getSprite() const {
-	return spritePlatforme;
+	return spritePlatform;
 }
