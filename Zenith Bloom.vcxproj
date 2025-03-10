@@ -152,7 +152,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Game.cpp" />
+    <ClCompile Include="src\entities\ennemy.cpp" />
     <ClCompile Include="src\entities\Entity.cpp" />
+    <ClCompile Include="src\entities\ManagerEnnemy.cpp" />
     <ClCompile Include="src\entities\Player.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\map\Map.cpp" />
@@ -162,12 +164,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp" />
+    <ClInclude Include="src\entities\ennemy.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />
+    <ClInclude Include="src\entities\ManagerEnnemy.hpp" />
     <ClInclude Include="src\entities\Player.hpp" />
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
     <ClInclude Include="src\systems\Datas.hpp" />
+    <ClInclude Include="src\systems\GESTION TEXTURE.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -63,6 +63,12 @@
     <ClCompile Include="src\map\Map.cpp">
       <Filter>Fichiers sources\Map</Filter>
     </ClCompile>
+    <ClCompile Include="src\entities\ennemy.cpp">
+      <Filter>Fichiers sources\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\ManagerEnnemy.cpp">
+      <Filter>Fichiers sources\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -85,6 +91,15 @@
     </ClInclude>
     <ClInclude Include="src\map\Map.hpp">
       <Filter>Fichiers d%27en-tête\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\ennemy.hpp">
+      <Filter>Fichiers d%27en-tête\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\ManagerEnnemy.hpp">
+      <Filter>Fichiers d%27en-tête\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\GESTION TEXTURE.hpp">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
