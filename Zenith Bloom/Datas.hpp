@@ -16,13 +16,12 @@ public:
 
 	//assets joueur
 	static sf::Texture playerTexture;
-	static sf::Sprite playerSprite;
+	
 
 	static sf::Texture smokeTexture;
-	static sf::Sprite smokeSprite;
+	
 
 	static sf::Texture swordTexture;
-	static sf::Sprite swordSprite;
 
 	//assets map
 	static sf::Texture groundTexture; 

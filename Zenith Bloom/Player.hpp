@@ -24,6 +24,10 @@ public:
 	sf::RectangleShape getShapeHUDEnergy() const;
 	sf::RectangleShape getShapeFillEnergy() const;
 
+	sf::Sprite swordSprite;
+	sf::Sprite smokeSprite;
+	sf::Sprite playerSprite;
+
 private:
 	sf::RectangleShape shapeEnergy, shapeFillEnergy;
 	sf::Clock attackClock;
