@@ -5,6 +5,7 @@
 #include "Datas.hpp"
 #include "Player.hpp"
 #include "Platform.hpp"
+#include "Map.hpp"
 
 class Game {
 public:
@@ -17,6 +18,8 @@ private:
 	Platform platform;
 	sf::View view;
 	std::vector<Platform> platforms;
+	Map gamemap;
+
 
 	void addPlatform(float x, float y, float width, float height);
 	void processEvents();

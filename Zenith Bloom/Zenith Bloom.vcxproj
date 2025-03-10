@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\orio6\Documents\SFML-2.6.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\orio6\Documents\SFML-2.6.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SFML-2.6.2\include;C:\Users\orio6\Documents\SFML-2.6.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SFML-2.6.2\lib;C:\Users\orio6\Documents\SFML-2.6.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -134,12 +134,14 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Datas.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Map.hpp" />
     <ClInclude Include="Platform.hpp" />
     <ClInclude Include="Player.hpp" />
   </ItemGroup>
