@@ -8,7 +8,7 @@ using namespace std;
 using namespace sf;
 
 class Map
-{
+{ 
 private:
 
 	int gridCellSize = 40;
