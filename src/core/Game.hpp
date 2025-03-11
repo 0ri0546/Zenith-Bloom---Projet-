@@ -35,7 +35,7 @@ private:
 
 	void addPlatform(float x, float y, float width, float height);
 	void processEvents();
-	void update();
+	void update(float deltaTime);
 	void render();
 	void handleState(const sf::Event& event);
 

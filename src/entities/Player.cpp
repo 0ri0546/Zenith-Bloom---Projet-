@@ -16,7 +16,7 @@ Player::Player() {
 	jumpCount = maxJumps;
 	canJump = true;
 
-	lastDepIsLeft = true;
+	lastDepIsLeft = false;
 
 	energy = 100.f;
 	maxJetpackEnergy = 100.f;
@@ -34,27 +34,26 @@ Player::Player() {
 	hp = 100;
 }
 
-void Player::update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view) {
+void Player::update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view, float deltaTime) {
 	//reste à faire :
 	//la fonction Player::boost() "le cyborg peut utiliser ses réacteurs pour se propulser en avant, ce qui consommera 15 points d'energie"
 	//afficher les HUD (vie (coeurs ?), progression dans le niveau, etc...)
 
 	//border();
 	collide(platforms);
-	jump();
 	//useJetpack();
-	deplacement();
+	jump();
+	deplacement(deltaTime);
 	attack();
 	//rangedAttack(window);
 	//std::cout << "Nombre de projectiles : " << projectiles.size() << std::endl;
 
 	updateHUDEnergy(view);
-	std::cout << "energie : " << energy << std::endl;
+	std::cout << "deltatime : " << deltaTime << std::endl;
 }
 
 void Player::jump() {
 	//reste à faire :
-	//ajouter le systeme de saut plus haut quand on maintient la touche space enfoncée
 
 	if (!isOnGround) {
 		velocityY += gravity;
@@ -63,14 +62,40 @@ void Player::jump() {
 		jumpCount = maxJumps;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && jumpCount > 0 && canJump) {
-		velocityY = -10.0f;
-		jumpCount--;
-		canJump = false;
-		if (jumpCount == 0) {
-			energy -= energyConsumption;
+	if (sf::Joystick::isConnected(0)) {
+		if (sf::Joystick::isButtonPressed(0, 0) && jumpCount > 0 && canJump) {
+			velocityY = -10.0f;
+			jumpCount--;
+			canJump = false;
+			if (jumpCount == 0) {
+				energy -= energyConsumption;
+			}
+		}
+		if (!sf::Joystick::isButtonPressed(0, 0)) {
+			canJump = true;
+			if (energy < maxJetpackEnergy) {
+				energy += energyRecharge;
+			}
 		}
 	}
+	else {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && jumpCount > 0 && canJump) {
+			velocityY = -10.0f;
+			jumpCount--;
+			canJump = false;
+			if (jumpCount == 0) {
+				energy -= energyConsumption;
+			}
+		}
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			canJump = true;
+			if (energy < maxJetpackEnergy) {
+				energy += energyRecharge;
+			}
+		}
+	}
+
+	playerSprite.move(0, velocityY);
 
 	if (jumpCount == 0) { //pour la fumée
 		if (lastDepIsLeft) {
@@ -83,15 +108,6 @@ void Player::jump() {
 	else {
 		smokeSprite.setPosition(9999, 9999);
 	}
-
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		canJump = true;
-		if (energy < maxJetpackEnergy) {
-			energy += energyRecharge;
-		}
-	}
-
-	playerSprite.move(0, velocityY);
 }
 
 void Player::collide(const std::vector<Platform>& platforms) { //collision joueur/platforms
@@ -132,35 +148,54 @@ void Player::collide(const std::vector<Platform>& platforms) { //collision joueu
 	playerSprite.getGlobalBounds().width;
 }
 
-void Player::deplacement() {
-	const float acceleration = 1.0f;
-	const float friction = 0.1f;
-	const float maxSpeed = 10.0f;
+void Player::deplacement(float deltaTime) {
+	deltaTime = std::min(deltaTime, 0.1f);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		velocityX += acceleration;
-		lastDepIsLeft = false;
+	const float acceleration = 1000.0f;
+	const float friction = 1000.0f;
+	const float maxSpeed = 700.0f; 
+	float test = maxSpeed / 2;
+
+	if (sf::Joystick::isConnected(0)) {
+		if (sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 50) {
+			velocityX += maxSpeed;
+			lastDepIsLeft = false;
+		}
+		if (sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -50) {
+			velocityX -= maxSpeed;
+			lastDepIsLeft = true;
+		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-		velocityX -= acceleration;
-		lastDepIsLeft = true;
+	else {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			velocityX += maxSpeed;
+			lastDepIsLeft = false;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+			velocityX -= maxSpeed;
+			lastDepIsLeft = true;
+		}
 	}
 
 	if (velocityX > maxSpeed) velocityX = maxSpeed;
 	if (velocityX < -maxSpeed) velocityX = -maxSpeed;
 
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::D) &&
+		!sf::Keyboard::isKeyPressed(sf::Keyboard::Q) &&
+		sf::Joystick::getAxisPosition(0, sf::Joystick::X) < 50 &&
+		sf::Joystick::getAxisPosition(0, sf::Joystick::X) > -50) {
+
 		if (velocityX > 0) {
-			velocityX -= friction;
-			if (velocityX < 0) velocityX = 0; 
+			velocityX -= friction * deltaTime;
+			if (velocityX < 0) velocityX = 0;
 		}
 		else if (velocityX < 0) {
-			velocityX += friction;
+			velocityX += friction * deltaTime;
 			if (velocityX > 0) velocityX = 0;
 		}
 	}
 
-	playerSprite.move(velocityX, 0);
+	playerSprite.move(velocityX * deltaTime, 0);
 }
 
 void Player::border() {
@@ -184,12 +219,22 @@ float Player::attack() {
 	}
 
 	if (attackClock.getElapsedTime().asSeconds() >= 0.5f) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && energy > 5.0) {
-			shortRangeDamage = damage;
-			
-			energy -= 5.0;
-			attackClock.restart();
-			attackDurationClock.restart();
+
+		if (sf::Joystick::isConnected(0)) {
+			if (sf::Joystick::isButtonPressed(0, 2) && energy > 5.0) {
+				shortRangeDamage = damage;
+				energy -= 5.0;
+				attackClock.restart();
+				attackDurationClock.restart();
+			}
+		}
+		else {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && energy > 5.0) {
+				shortRangeDamage = damage;
+				energy -= 5.0;
+				attackClock.restart();
+				attackDurationClock.restart();
+			}
 		}
 	}
 

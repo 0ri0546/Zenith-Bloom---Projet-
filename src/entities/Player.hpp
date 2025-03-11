@@ -9,9 +9,9 @@
 class Player : public Entity {
 public:
 	Player();
-	void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view) override;
+	void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view, float deltaTime) override;
 	void jump();
-	void deplacement();
+	void deplacement(float deltaTime);
 	void border();
 	void collide(const std::vector<Platform>& platforms);
 	float attack();
@@ -37,6 +37,7 @@ private:
 	float gravity;
 	bool isOnGround;
 	int jumpCount;
+	float jumpTime = 0.0f;
 	const int maxJumps = 2;
 	bool canJump;
 	bool lastDepIsLeft;

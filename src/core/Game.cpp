@@ -17,9 +17,11 @@ void Game::run() {
 	//addPlatform(0, 550, 40, 40);
 	//addPlatform(60, 550, 40, 40);
 	addPlatform(-200, 400, 2000, 20);
+	sf::Clock clock;
 	while (window.isOpen()) {
+		float deltaTime = clock.restart().asSeconds();
 		processEvents();
-		update();
+		update(deltaTime);
 		render();
 	}
 }
@@ -45,10 +47,10 @@ void Game::processEvents() {
 	}
 }
 
-void Game::update() {
+void Game::update(float deltaTime) {
 	switch (currentState) {
 	case GameState::PLAYING:
-		player.update(platforms, window, view);
+		player.update(platforms, window, view, deltaTime);
 		view.setCenter(player.getShape().getPosition());
 		break;
 	default:

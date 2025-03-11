@@ -8,7 +8,7 @@
 
 class Entity {
 public:
-	virtual void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view) = 0;
+	virtual void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view, float deltaTime) = 0;
 };
 
 #endif
