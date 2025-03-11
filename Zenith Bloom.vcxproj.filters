@@ -43,6 +43,12 @@
     <Filter Include="Fichiers d%27en-tête\Hud">
       <UniqueIdentifier>{e15debec-16a5-445e-89d4-8941a047e890}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Systems\A%2a">
+      <UniqueIdentifier>{a8cfb3c0-2afa-42c6-a0a0-4bd95dc7bc05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Systems\A%2a">
+      <UniqueIdentifier>{91db1366-850a-4ff3-88be-b48ee75703bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -69,7 +75,7 @@
     <ClCompile Include="src\map\Map.cpp">
       <Filter>Fichiers sources\Map</Filter>
     </ClCompile>
-    <ClCompile Include="src\entities\ennemy.cpp">
+    <ClCompile Include="src\entities\FSM.cpp">
       <Filter>Fichiers sources\Entities</Filter>
     </ClCompile>
     <ClCompile Include="src\entities\ManagerEnnemy.cpp">
@@ -92,6 +98,15 @@
     </ClCompile>
     <ClCompile Include="src\hud\menu\Button.cpp">
       <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\Node.cpp">
+      <Filter>Fichiers sources\Systems\A%2a</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\pathfinding.cpp">
+      <Filter>Fichiers sources\Systems\A%2a</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\grid.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,7 +131,7 @@
     <ClInclude Include="src\map\Map.hpp">
       <Filter>Fichiers d%27en-tête\Map</Filter>
     </ClInclude>
-    <ClInclude Include="src\entities\ennemy.hpp">
+    <ClInclude Include="src\entities\FSM.hpp">
       <Filter>Fichiers d%27en-tête\Entities</Filter>
     </ClInclude>
     <ClInclude Include="src\entities\ManagerEnnemy.hpp">
@@ -142,6 +157,15 @@
     </ClInclude>
     <ClInclude Include="src\hud\menu\Button.hpp">
       <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\pathfinfing.hpp">
+      <Filter>Fichiers d%27en-tête\Systems\A%2a</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\Node.hpp">
+      <Filter>Fichiers d%27en-tête\Systems\A%2a</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\grid.hpp">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
