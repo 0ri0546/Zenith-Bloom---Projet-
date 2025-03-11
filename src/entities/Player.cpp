@@ -36,7 +36,6 @@ Player::Player() {
 
 void Player::update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view, float deltaTime) {
 	//reste à faire :
-	//la fonction Player::boost() "le cyborg peut utiliser ses réacteurs pour se propulser en avant, ce qui consommera 15 points d'energie"
 	//afficher les HUD (vie (coeurs ?), progression dans le niveau, etc...)
 
 	//border();
@@ -137,10 +136,10 @@ void Player::collide(const std::vector<Platform>& platforms) { //collision joueu
 				velocityY = 0;
 				playerSprite.setPosition(playerSprite.getPosition().x, platformBottom);
 			}
-			else if (playerRight > platformLeft && playerLeft < platformLeft && velocityY >= 0) { //gauche
+			else if (playerRight > platformLeft && playerLeft < platformLeft) { //gauche
 				playerSprite.setPosition(platformLeft - playerBounds.width, playerSprite.getPosition().y);
 			}
-			else if (playerLeft < platformRight && playerRight > platformRight && velocityY >= 0) { //droite
+			else if (playerLeft < platformRight && playerRight > platformRight) { //droite
 				playerSprite.setPosition(platformRight, playerSprite.getPosition().y);
 			}
 		}
@@ -200,7 +199,6 @@ void Player::deplacement(float deltaTime) {
 
 void Player::border() {
 	//reste à faire :
-	//ajuster selon nos besoins
 	if (playerSprite.getPosition().x <= 0) {
 		playerSprite.setPosition(0, playerSprite.getPosition().y);
 	}

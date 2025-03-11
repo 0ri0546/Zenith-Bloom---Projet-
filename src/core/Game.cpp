@@ -20,6 +20,7 @@ void Game::run() {
 	//addPlatform(0, 550, 40, 40);
 	//addPlatform(60, 550, 40, 40);
 	addPlatform(-200, 400, 2000, 20);
+	addPlatform(200, 0, 200, 500);
 	sf::Clock clock;
 	while (window.isOpen()) {
 		float deltaTime = clock.restart().asSeconds();
