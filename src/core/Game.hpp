@@ -7,7 +7,9 @@
 #include "../systems/AssetLoader.hpp"
 #include "../map/Map.hpp"
 #include "../hud/menu/MainMenu.hpp"
-#include "../entities/ennemy.hpp"
+#include "../entities/FSM.hpp"
+#include "../systems/grid.hpp"
+
 class Game {
 public:
 	Game();
@@ -28,6 +30,8 @@ private:
 	Player player;
 	//Player player2;
 	Ennemy ennemy;
+	Grid grid;
+	//Grid grid = Grid(gamemap);
 
 	sf::View view;
 	std::vector<Platform> platforms;

@@ -1,9 +1,12 @@
 #include "Game.hpp"
 
 Game::Game() : window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), "Zenith Bloom"), currentState(GameState::MAIN_MENU) {
+	gamemap.loadMap(1);
+	
 	window.setFramerateLimit(60);
 	view.setSize(window.getSize().x, window.getSize().y);
 	view.setCenter(player.getShape().getPosition());
+	grid.loadGrid(gamemap);
 }
 
 void Game::addPlatform(float x, float y, float width, float height) {
@@ -59,22 +62,25 @@ void Game::update(float deltaTime) {
 }
 
 void Game::render() {
-	window.clear(sf::Color::White);
+	window.clear(sf::Color::Blue);
 	
 	switch (currentState) {
 	case GameState::MAIN_MENU:
 		mainMenu.render(window);
 		break;
 	case GameState::PLAYING:
+		
+		
+		gamemap.draw(window);
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
 		window.draw(player.getShapeSmoke());
 		window.draw(player.getShapeHUDEnergy());
 		window.draw(player.getShapeFillEnergy());
-
-		//window.draw(ennemy.getSprite());
+		
+		
 		ennemy.runEnnemy(player, window);
-
+		
 		for (auto& platform : platforms) {
 			window.draw(platform.getSprite());
 		}

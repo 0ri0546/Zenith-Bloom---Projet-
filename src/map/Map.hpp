@@ -11,8 +11,10 @@ class Map
 {
 private:
 
+	int gridCellSize = 40;
 	vector<vector<char>> map;
-
+	
+	vector<sf::RectangleShape> recTab;
 public:
 	Map();
 	~Map();

@@ -17,6 +17,11 @@ vector<vector<char>> Map::getMap()
 
 void Map::draw(RenderWindow& window)
 {
+	for (auto grid : recTab)
+	{
+		window.draw(grid);
+		
+	}
 }
 
 void Map::loadMap(int mapNum)
@@ -67,11 +72,30 @@ void Map::loadMap(int mapNum)
             }
 
             row.push_back(tileCode[0]);
+
+
+
+
+
             if (tileValue == 05)
             {
-                /*cout << "block 05" << endl;*/
+
+                recTab.push_back(sf::RectangleShape(sf::Vector2f(gridCellSize, gridCellSize)));
+                recTab.back().setFillColor(sf::Color::White);
+                recTab.back().setPosition( i / 2 * gridCellSize, map.size() * gridCellSize);
+                
             }
+            else
+            {
+                recTab.push_back(sf::RectangleShape(sf::Vector2f(gridCellSize, gridCellSize)));
+                recTab.back().setFillColor(sf::Color::Black);
+                recTab.back().setPosition(i / 2 * gridCellSize, map.size() * gridCellSize);
+            }
+
+
+
+        }
             map.push_back(row);
         }
+		 
     }
-}
