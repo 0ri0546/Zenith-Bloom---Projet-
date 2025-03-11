@@ -13,6 +13,7 @@ Ennemy::Ennemy()
 	detectionCircle.setRadius(radiusDetection);
 	detectionCircle.setOrigin(radiusDetection, radiusDetection);
 	detectionCircle.setFillColor(sf::Color::Black);
+
 }
 
 sf::Sprite Ennemy::getSprite() const

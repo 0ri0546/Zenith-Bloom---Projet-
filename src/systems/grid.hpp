@@ -11,15 +11,13 @@ class Grid {
 private: 
 	
 
-	vector<vector<vector<int>>> grid; 
-	//Map map; 
+
+public : 
 
 	int hauteur;
 	int largeur;
 
-public : 
-
-
+	vector<vector<int>> gridList;
 	
 	Grid();
 	void draw(sf::RenderWindow& window, Map& map);

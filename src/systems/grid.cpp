@@ -17,5 +17,5 @@ void Grid::loadGrid(Map& map) {
 	cout << hauteur;
 	largeur = map.getMap()[0].size();
 
-	grid = vector<vector<vector<int>>>(hauteur, vector<vector<int>>(largeur, vector<int>(largeur, 0)));
+	gridList = vector<vector<vector<int>>>(hauteur, vector<vector<int>>(largeur, vector<int>(largeur, 0)));
 }
