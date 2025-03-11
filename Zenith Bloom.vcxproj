@@ -161,7 +161,9 @@
     <ClCompile Include="src\hud\menu\LevelSelectorMenu.cpp" />
     <ClCompile Include="src\hud\menu\MainMenu.cpp" />
     <ClCompile Include="src\hud\menu\Menu.cpp" />
+    <ClCompile Include="src\hud\menu\OptionsMenu.cpp" />
     <ClCompile Include="src\hud\menu\PauseMenu.cpp" />
+    <ClCompile Include="src\hud\menu\VideoMenu.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\map\Map.cpp" />
     <ClCompile Include="src\map\Platform.cpp" />
@@ -179,7 +181,9 @@
     <ClInclude Include="src\hud\menu\LevelSelectorMenu.hpp" />
     <ClInclude Include="src\hud\menu\MainMenu.hpp" />
     <ClInclude Include="src\hud\menu\Menu.hpp" />
+    <ClInclude Include="src\hud\menu\OptionsMenu.hpp" />
     <ClInclude Include="src\hud\menu\PauseMenu.hpp" />
+    <ClInclude Include="src\hud\menu\VideoMenu.hpp" />
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />

@@ -93,6 +93,12 @@
     <ClCompile Include="src\hud\menu\Button.cpp">
       <Filter>Fichiers sources\Hud</Filter>
     </ClCompile>
+    <ClCompile Include="src\hud\menu\OptionsMenu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\VideoMenu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -141,6 +147,12 @@
       <Filter>Fichiers d%27en-tête\Hud</Filter>
     </ClInclude>
     <ClInclude Include="src\hud\menu\Button.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\OptionsMenu.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\VideoMenu.hpp">
       <Filter>Fichiers d%27en-tête\Hud</Filter>
     </ClInclude>
   </ItemGroup>

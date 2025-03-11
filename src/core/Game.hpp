@@ -7,6 +7,10 @@
 #include "../systems/AssetLoader.hpp"
 #include "../map/Map.hpp"
 #include "../hud/menu/MainMenu.hpp"
+#include "../entities/ennemy.hpp"
+#include "../hud/menu/PauseMenu.hpp"
+#include "../hud/menu/OptionsMenu.hpp"
+#include "../hud/menu/VideoMenu.hpp"
 
 class Game {
 public:
@@ -19,6 +23,7 @@ public:
 		LEVEL_SELECTOR_MENU,
 		PAUSE_MENU,
 		OPTIONS_MENU,
+		VIDEO_MENU,
 		GAMEOVER_MENU,
 		VICTORY_MENU,
 	};
@@ -32,14 +37,22 @@ private:
 	std::vector<Platform> platforms;
 	Map gamemap;
 
+	bool isRunning;
+	bool isGamePaused;
+
 	void addPlatform(float x, float y, float width, float height);
+	void createWindow();
 	void processEvents();
 	void update();
 	void render();
 	void handleState(const sf::Event& event);
+	void handleKeyboardInput(const sf::Event& event);
 
 	GameState currentState;
 	MainMenu mainMenu;
+	PauseMenu pauseMenu;
+	OptionsMenu optionsMenu;
+	VideoMenu videoMenu;
 };
 
 #endif

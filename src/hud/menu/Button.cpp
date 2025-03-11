@@ -1,6 +1,6 @@
 #include "Button.hpp"
 
-Button::Button(const std::string& label, sf::Font& font, sf::Vector2f position, sf::Vector2f size, std::function<void()> callback) : onClick(callback) {
+Button::Button(int id, const std::string& label, sf::Font& font, sf::Vector2f position, sf::Vector2f size, std::function<void()> callback) : id(id), onClick(callback), isHovered(false) {
     shape.setSize(size);
     shape.setPosition(position);
     shape.setFillColor(sf::Color::Transparent);
@@ -23,20 +23,20 @@ void Button::handleMouseHover(const sf::Vector2i& mousePos) {
     isHovered = shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
 
     if (isHovered && !wasHovered) {
-        text.setFillColor(sf::Color(200, 200, 200));
+        text.setFillColor(sf::Color(0, 255, 50));
     }
     else if (!isHovered && wasHovered) {
         text.setFillColor(sf::Color::White);
     }
 }
 
-bool Button::handleMouseClick(const sf::Vector2i& mousePos) {
+int Button::handleMouseClick(const sf::Vector2i& mousePos) {
     if (shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
         onClick();
         text.setFillColor(sf::Color(150, 150, 150));
-        return true;
+        return id;
     }
-    return false;
+    return 0;
 }
 
 void Button::render(sf::RenderWindow& window) {
