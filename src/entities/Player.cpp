@@ -48,7 +48,7 @@ void Player::update(const std::vector<Platform>& platforms, sf::RenderWindow& wi
 	//std::cout << "Nombre de projectiles : " << projectiles.size() << std::endl;
 
 	updateHUDEnergy(view);
-	std::cout << "deltatime : " << deltaTime << std::endl;
+	//cout << "deltatime : " << deltaTime << std::endl;
 }
 
 void Player::jump() {

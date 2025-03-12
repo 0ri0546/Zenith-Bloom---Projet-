@@ -8,7 +8,8 @@
 #include "../map/Map.hpp"
 #include "../hud/menu/MainMenu.hpp"
 #include "../entities/FSM.hpp"
-#include "../systems/grid.hpp"
+//#include "../systems/grid.hpp"
+//#include "../systems/pathfinfing.hpp"
 
 class Game {
 public:
@@ -29,14 +30,16 @@ private:
 	sf::RenderWindow window;
 	Player player;
 	//Player player2;
-	Ennemy ennemy;
-	Grid grid;
+	//Ennemy ennemy;
+	//Grid grid;
+	
 	//Grid grid = Grid(gamemap);
+	
 
 	sf::View view;
 	std::vector<Platform> platforms;
 	Map gamemap;
-
+	Ennemy ennemy;
 	void addPlatform(float x, float y, float width, float height);
 	void processEvents();
 	void update(float deltaTime);

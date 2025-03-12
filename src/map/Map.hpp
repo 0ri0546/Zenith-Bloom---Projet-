@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "../entities/FSM.hpp"
 
 using namespace std;
 using namespace sf;
@@ -11,11 +12,12 @@ class Map
 { 
 private:
 
-	int gridCellSize = 40;
+	int gridCellSize = 240;
 	vector<vector<char>> map;
 	
 	vector<sf::RectangleShape> recTab;
 public:
+	
 	Map();
 	~Map();
 
@@ -23,7 +25,7 @@ public:
 
 	void draw(RenderWindow& window);
 
-	void loadMap(int mapNum);
+	void loadMap(int mapNum, Ennemy& ennemy);
 };
 
 

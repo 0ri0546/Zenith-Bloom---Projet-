@@ -3,7 +3,8 @@
 
 #include "Entity.hpp"
 #include "../entities/Player.hpp"
-
+//#include "../systems/pathfinfing.hpp"
+//#include "../systems/grid.hpp"
 
 enum ennemyState {
 	PATROL,
@@ -15,17 +16,19 @@ enum ennemyState {
 class Ennemy {
 
 public : 
-	Ennemy(); 
+	Ennemy();
 
 	sf::Sprite getSprite() const;
 
-	void patrol(Player& player);
+	void patrol(Player& player, float deltaTime);
 	void chase(Player& player);
-	/*void seachPlayer();
-	void die();
-	void draw(sf::RenderWindow& window);*/
+	void addEnnemy(float x, float y);
 
-	void runEnnemy(Player& player, sf::RenderWindow& window);
+	/*void seachPlayer();
+	void die();*/
+	void draw(sf::RenderWindow& window);
+
+	void runEnnemy(Player& player, sf::RenderWindow& window, float deltaTime);
 	Assets assets;
 
 	ennemyState currentState;
@@ -33,15 +36,18 @@ public :
 private : 
 
 	
-
-
+	size_t pathIndex = 0;
 	int life = 3;
-	float radiusDetection = 100.f;
-	float searchTime;
-	float attackCooldown;
+	float radiusDetection = 200.f;
+	vector<Ennemy> ennemies;
+	vector<sf::Sprite> spritEnnemies;
+	vector<sf::CircleShape> detectionCircles;
+	/*float searchTime;
+	float attackCooldown;*/
 
 	sf::Sprite spriteEnnemy;
-	sf::CircleShape detectionCircle;
+	
+	//sf::CircleShape detectionCircle;
 	
 	
 	float scaleEnnemy = 1; 
