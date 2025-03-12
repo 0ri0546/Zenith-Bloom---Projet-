@@ -170,7 +170,7 @@
     <ClInclude Include="src\systems\grid.hpp">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="BouncingTitle.hpp">
+    <ClInclude Include="src\systems\BouncingTitle.hpp">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
   </ItemGroup>

@@ -71,13 +71,14 @@ void BouncingTitle::update(float deltaTime) {
         if (blinkingTimer.getElapsedTime().asSeconds() > 0.5f) { // text press A/Enter : clignotement
             float alpha = pressKeyText.getFillColor().a == 255 ? 0 : 255;
             pressKeyText.setFillColor(sf::Color(255, 255, 255, alpha));
+            canSkip = true;
             blinkingTimer.restart();
         }
     }
 }
 
 void BouncingTitle::handleInput(bool& gameStarted) {
-    if (isWaitingForInput && (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
+    if (canSkip && (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
         (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 1)))) {
         gameStarted = true;
     }
@@ -91,4 +92,19 @@ void BouncingTitle::draw(sf::RenderWindow& window) {
     if (timer.getElapsedTime().asSeconds() > 2.0f) {
         window.draw(pressKeyText);
     }
+}
+
+bool BouncingTitle::fallingText(float deltaTime) {
+    velocityY += gravity * deltaTime;
+    titleText.move(0, velocityY * deltaTime);
+    instructionText.move(0, velocityY * deltaTime);
+    pressKeyText.move(0, velocityY * deltaTime);
+
+    if (pressKeyText.getPosition().y >= Config::WINDOW_HEIGHT + 100) {
+        titleText.setPosition(0, 1200);
+        instructionText.move(0, 1200);
+        pressKeyText.move(0, 1200);
+        return true;
+    }
+    return false;
 }

@@ -1,13 +1,14 @@
 #include "Game.hpp"
 
 Game::Game() : window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), "Zenith Bloom"), currentState(GameState::TITLE_MENU), title("Zenith Bloom", Shared::font) {
-	gamemap.loadMap(1);
+	//gamemap.loadMap(1); //pour l'instant ça fait bugger les collisions
 	
 	window.setFramerateLimit(60);
 	view.setSize(window.getSize().x, window.getSize().y);
 	view.setCenter(player.getShape().getPosition());
-	grid.loadGrid(gamemap);
+	//grid.loadGrid(gamemap);
 
+	textFall = false;
 }
 
 void Game::addPlatform(float x, float y, float width, float height) {
@@ -25,13 +26,13 @@ void Game::run() {
 	sf::Clock clock;
 	while (window.isOpen()) {
 		float deltaTime = clock.restart().asSeconds();
-		processEvents();
+		processEvents(deltaTime);
 		update(deltaTime);
 		render();
 	}
 }
 
-void Game::processEvents() {
+void Game::processEvents(float deltaTime) {
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) {
@@ -40,7 +41,7 @@ void Game::processEvents() {
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
 			window.close();
 		}
-		handleState(event);
+		handleState(event, deltaTime);
 
 		switch (currentState) {
 		case GameState::MAIN_MENU:
@@ -56,6 +57,11 @@ void Game::update(float deltaTime) {
 	switch (currentState) {
 	case GameState::TITLE_MENU:
 		title.update(deltaTime);
+		if (textFall) {
+			if (title.fallingText(deltaTime)) {
+				currentState = GameState::MAIN_MENU;
+			}
+		}
 		break;
 	case GameState::MAIN_MENU:
 		break;
@@ -68,7 +74,6 @@ void Game::update(float deltaTime) {
 	}
 }
 
-
 void Game::render() {
 	window.clear(sf::Color::Blue);
 
@@ -76,6 +81,7 @@ void Game::render() {
 	case GameState::TITLE_MENU:
 		title.draw(window);
 		break;
+
 	case GameState::MAIN_MENU:
 		mainMenu.render(window);
 		break;
@@ -104,13 +110,18 @@ void Game::render() {
 	window.display();
 }
 
-
-void Game::handleState(const sf::Event& event) {
+void Game::handleState(const sf::Event& event, float deltaTime) {
 	switch (currentState) {
 	case GameState::TITLE_MENU:
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
-			currentState = GameState::MAIN_MENU;
+		if (title.canSkip) {
+			if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 1))) {
+				textFall = true;
+			}
+			else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+				textFall = true;
+			}
 		}
+		
 		break;
 	case GameState::MAIN_MENU:
 		if (mainMenu.handleInput(window, event) == 1) {
@@ -122,12 +133,3 @@ void Game::handleState(const sf::Event& event) {
 	}
 }
 
-
-void Game::introText(sf::RenderWindow& window, float deltaTime) {
-	title.update(deltaTime);
-	title.handleInput(gameStarted);
-
-	if (gameStarted) {
-		currentState = GameState::PLAYING; 
-	}
-}

@@ -41,16 +41,16 @@ private:
 	Map gamemap;
 
 	void addPlatform(float x, float y, float width, float height);
-	void processEvents();
+	void processEvents(float deltaTime);
 	void update(float deltaTime);
 	void render();
-	void handleState(const sf::Event& event);
-	void introText(sf::RenderWindow& window, float deltaTime);
+	void handleState(const sf::Event& event, float deltaTime);
 	GameState currentState;
 	MainMenu mainMenu;
 
 	BouncingTitle title;
 	bool gameStarted = false;
+	bool textFall;
 };
 
 #endif

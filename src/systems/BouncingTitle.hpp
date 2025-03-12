@@ -9,6 +9,8 @@ public:
     void update(float deltaTime);
     void handleInput(bool& gameStarted);
     void draw(sf::RenderWindow& window);
+    bool fallingText(float deltaTime);
+    bool canSkip = false;
 
 private:
     sf::Text titleText, pressKeyText;

@@ -173,7 +173,6 @@
     <ClCompile Include="src\systems\pathfinding.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BouncingTitle.hpp" />
     <ClInclude Include="src\core\Game.hpp" />
     <ClInclude Include="src\entities\FSM.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />
@@ -188,6 +187,7 @@
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
+    <ClInclude Include="src\systems\BouncingTitle.hpp" />
     <ClInclude Include="src\systems\Datas.hpp" />
     <ClInclude Include="src\systems\GESTION TEXTURE.hpp" />
     <ClInclude Include="src\systems\grid.hpp" />

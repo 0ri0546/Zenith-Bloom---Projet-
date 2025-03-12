@@ -96,6 +96,6 @@ void Map::loadMap(int mapNum)
 
         }
             map.push_back(row);
-        }
-		 
     }
+		 
+}
