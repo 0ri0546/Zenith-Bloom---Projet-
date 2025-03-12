@@ -166,6 +166,7 @@
     <ClCompile Include="src\map\Map.cpp" />
     <ClCompile Include="src\map\Platform.cpp" />
     <ClCompile Include="src\systems\AssetLoader.cpp" />
+    <ClCompile Include="src\systems\BouncingTitle.cpp" />
     <ClCompile Include="src\systems\Datas.cpp" />
     <ClCompile Include="src\systems\grid.cpp" />
     <ClCompile Include="src\systems\Node.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
+    <ClInclude Include="src\systems\BouncingTitle.hpp" />
     <ClInclude Include="src\systems\Datas.hpp" />
     <ClInclude Include="src\systems\GESTION TEXTURE.hpp" />
     <ClInclude Include="src\systems\grid.hpp" />

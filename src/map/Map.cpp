@@ -103,6 +103,6 @@ void Map::loadMap(int mapNum, Ennemy& ennemy)
 
         }
             map.push_back(row);
-        }
-		 
     }
+		 
+}
