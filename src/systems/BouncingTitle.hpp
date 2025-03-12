@@ -17,7 +17,7 @@ private:
     sf::Text instructionText;
     float velocityY = 0.f;
     float gravity = 980.f;
-    float bounceDamping = 0.7f;
+    float bounceDamping = 0.5f;
     bool isWaitingForInput = false;
     bool showInstruction = false;
     float instructionAlpha = 0.f;

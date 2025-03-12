@@ -6,28 +6,32 @@ BouncingTitle::BouncingTitle(const std::string& title, sf::Font& font) {
     titleText.setCharacterSize(150);
     titleText.setFillColor(sf::Color::White);
     titleText.setStyle(sf::Text::Bold);
+    titleText.setOutlineColor(sf::Color::Black);
+    titleText.setOutlineThickness(5);
 
     sf::FloatRect textBounds = titleText.getLocalBounds();
     titleText.setOrigin(textBounds.width / 2, textBounds.height / 2);
-    titleText.setPosition(Config::WINDOW_WIDTH / 2, Config::WINDOW_HEIGHT / 5);
+    titleText.setPosition(Config::WINDOW_WIDTH / 2, -textBounds.height);
 
     instructionText.setFont(font); //text du studio
     instructionText.setString("By SolarSeed Studio");
     instructionText.setCharacterSize(30);
     instructionText.setFillColor(sf::Color(255, 255, 255, 0));
     instructionText.setStyle(sf::Text::Bold);
-    sf::FloatRect instrBounds = instructionText.getLocalBounds(); 
+    sf::FloatRect instrBounds = instructionText.getLocalBounds();
     instructionText.setOrigin(instrBounds.width / 2, instrBounds.height / 2);
     instructionText.setPosition(Config::WINDOW_WIDTH / 2, Config::WINDOW_HEIGHT * 3 / 4);
 
     sf::FloatRect pressKeyBounds = pressKeyText.getLocalBounds(); // text press A/Enter
     pressKeyText.setOrigin(pressKeyBounds.width / 2, pressKeyBounds.height / 2);
     pressKeyText.setFont(font);
-    pressKeyText.setCharacterSize(30);
+    pressKeyText.setCharacterSize(50);
     pressKeyText.setFillColor(sf::Color::White);
     pressKeyText.setStyle(sf::Text::Bold);
     pressKeyText.setRotation(-20);
-    pressKeyText.setPosition(titleText.getPosition().x + 360, Config::WINDOW_HEIGHT / 2 + 30);
+    pressKeyText.setOutlineColor(sf::Color::Black);
+    pressKeyText.setOutlineThickness(4);
+    pressKeyText.setPosition(textBounds.width + 400, Config::WINDOW_HEIGHT / 2 + 20);
 
     timer.restart();
     blinkingTimer.restart();
@@ -55,7 +59,7 @@ void BouncingTitle::update(float deltaTime) {
     }
 
     if (showInstruction && instructionAlpha < 255) { //text du studio : fondu
-        instructionAlpha += 255 * deltaTime; 
+        instructionAlpha += 255 * deltaTime;
         if (instructionAlpha > 255) instructionAlpha = 255;
         instructionText.setFillColor(sf::Color(255, 255, 255, instructionAlpha));
     }
@@ -71,6 +75,7 @@ void BouncingTitle::update(float deltaTime) {
         if (blinkingTimer.getElapsedTime().asSeconds() > 0.5f) { // text press A/Enter : clignotement
             float alpha = pressKeyText.getFillColor().a == 255 ? 0 : 255;
             pressKeyText.setFillColor(sf::Color(255, 255, 255, alpha));
+            pressKeyText.setOutlineColor(sf::Color(0, 0, 0, alpha));
             canSkip = true;
             blinkingTimer.restart();
         }
@@ -100,7 +105,7 @@ bool BouncingTitle::fallingText(float deltaTime) {
     instructionText.move(0, velocityY * deltaTime);
     pressKeyText.move(0, velocityY * deltaTime);
 
-    if (pressKeyText.getPosition().y >= Config::WINDOW_HEIGHT + 100) {
+    if (titleText.getPosition().y >= Config::WINDOW_HEIGHT + 100) {
         titleText.setPosition(0, 1200);
         instructionText.move(0, 1200);
         pressKeyText.move(0, 1200);
