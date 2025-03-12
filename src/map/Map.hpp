@@ -22,10 +22,11 @@ public:
 	~Map();
 
 	vector<vector<char>> getMap();
+	vector<Ennemy> ennemies;
 
 	void draw(RenderWindow& window);
 
-	void loadMap(int mapNum, Ennemy& ennemy);
+	void loadMap(int mapNum, vector<Ennemy>& ennemies);
 };
 
 

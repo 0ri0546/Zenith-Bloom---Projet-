@@ -7,7 +7,7 @@ Ennemy::Ennemy()
 	assets.resize(spriteEnnemy, 100, 100);
 	spriteEnnemy.setOrigin(spriteEnnemy.getLocalBounds().width / 2, spriteEnnemy.getLocalBounds().height / 2);
 
-	spriteEnnemy.setPosition(200, 300);
+	//spriteEnnemy.setPosition(200, 300);
 	
 	currentState = CHASE;
 
@@ -38,11 +38,21 @@ void Ennemy::patrol(Player& player, float deltaTime)
 	}
 	*/
 	
-	if (player.getShape().getPosition().x - spriteEnnemy.getPosition().x < radiusDetection && player.getShape().getPosition().y - spriteEnnemy.getPosition().y < radiusDetection) {
+	/*if (abs(player.getShape().getPosition().x - spriteEnnemy.getPosition().x < radiusDetection) && abs(player.getShape().getPosition().y - spriteEnnemy.getPosition().y < radiusDetection)) {
 		currentState = CHASE;
 	}
 	else {
 		currentState = PATROL;
+
+
+	}*/
+	for (auto& detectionCircles : detectionCircles) {
+		if (player.getShape().getGlobalBounds().intersects(detectionCircles.getGlobalBounds())) {
+			currentState = CHASE;
+		}
+		else {
+			currentState = PATROL;
+		}
 	}
 }
 
@@ -65,22 +75,33 @@ void Ennemy::chase(Player& player)
 
 		spritEnnemies.move(direction);
 	}
-	if (player.getShape().getPosition().x - spriteEnnemy.getPosition().x > radiusDetection && player.getShape().getPosition().y - spriteEnnemy.getPosition().y > radiusDetection) {
-		currentState = PATROL;
+
+	for (auto& detectionCircles : detectionCircles) {
+		if (player.getShape().getGlobalBounds().intersects(detectionCircles.getGlobalBounds())) {
+			currentState = CHASE;
+		}
+		else {
+			currentState = PATROL;
+		}
 	}
-	else {
-		currentState = CHASE;
-	}
+	
 
 }
 
-void Ennemy::addEnnemy(float x, float y)
+void Ennemy::addEnnemy(float x, float y, vector<Ennemy>& ennemies)
 {
 	//sf::CircleShape detectionCircle;
-	spriteEnnemy.setPosition(x, y);
+	
+	Ennemy newEnnemy;
+	
+	newEnnemy.spriteEnnemy.setPosition(x, y);
+
 	ennemies.push_back(*this);
+	
+	
 	//detectionCircles.push_back(*this);
-	cout << "ennemy added" << endl;
+	//cout << "ennemy added" << endl;
+
     spritEnnemies.push_back(spriteEnnemy);
 
 
@@ -118,13 +139,13 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, float deltaTime
 
 		for (auto& spritEnnemies : spritEnnemies) {
 
-			detectionCircles.setPosition(spritEnnemies.getPosition());
+			//detectionCircles.setPosition(spritEnnemies.getPosition());
 			//detectionCircles.setOrigin(spritEnnemies.getOrigin());
 
 		}
 	}
 	
-	cout << currentState << endl;
+	//cout << currentState << endl;
 
 	//detectionCircle.setPosition(spriteEnnemy.getPosition());
 	

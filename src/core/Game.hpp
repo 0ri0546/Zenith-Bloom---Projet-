@@ -41,7 +41,7 @@ private:
 	sf::View view;
 	std::vector<Platform> platforms;
 	Map gamemap;
-	Ennemy ennemy;
+	vector<Ennemy> ennemies;
 	void addPlatform(float x, float y, float width, float height);
 	void processEvents(float deltaTime);
 	void update(float deltaTime);

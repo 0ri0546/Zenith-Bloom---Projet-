@@ -22,7 +22,7 @@ public :
 
 	void patrol(Player& player, float deltaTime);
 	void chase(Player& player);
-	void addEnnemy(float x, float y);
+	void addEnnemy(float x, float y, vector<Ennemy>& ennemies);
 
 	/*void seachPlayer();
 	void die();*/

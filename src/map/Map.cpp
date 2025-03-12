@@ -24,7 +24,7 @@ void Map::draw(RenderWindow& window)
 	}
 }
 
-void Map::loadMap(int mapNum, Ennemy& ennemy)
+void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
 {
     
     map.clear();
@@ -88,8 +88,8 @@ void Map::loadMap(int mapNum, Ennemy& ennemy)
             }
             else if(tileValue == 04)
             {
-				
-				ennemy.addEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                Ennemy newEnnemy;
+                newEnnemy.addEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize, ennemies);
                 
             }
             else

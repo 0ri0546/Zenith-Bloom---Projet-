@@ -3,7 +3,7 @@
 Game::Game() : window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), "Zenith Bloom"), currentState(GameState::TITLE_MENU), title("Zenith Bloom", Shared::font) {
 	//gamemap.loadMap(1); //pour l'instant ça fait bugger les collisions
 	
-	gamemap.loadMap(1, ennemy);
+	gamemap.loadMap(1, ennemies);
 	
 	window.setFramerateLimit(60);
 	view.setSize(window.getSize().x, window.getSize().y);
@@ -31,7 +31,9 @@ void Game::run() {
 		float deltaTime = clock.restart().asSeconds();
 		processEvents(deltaTime);
 		update(deltaTime);
-		ennemy.runEnnemy(player, window, deltaTime);
+		for (auto& ennemy : ennemies) {
+			ennemy.runEnnemy(player, window, deltaTime);
+		}
 		render();
 	}
 }
@@ -80,7 +82,7 @@ void Game::update(float deltaTime) {
 
 void Game::render() {
 	window.clear(sf::Color::Blue);
-
+	currentState = GameState::PLAYING;
 	switch (currentState) {
 	case GameState::TITLE_MENU:
 		title.draw(window);
@@ -100,9 +102,11 @@ void Game::render() {
 		window.draw(player.getShapeHUDEnergy());
 		window.draw(player.getShapeFillEnergy());
 		
-		ennemy.draw(window);
+		for (auto& ennemy : ennemies) {
+			window.draw(ennemy.getSprite());
+		}
 			//ennemy.runEnnemy(player, window, grid, TimeAstar);
-			
+		cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
 		
 		for (auto& platform : platforms) {
 			window.draw(platform.getSprite());
