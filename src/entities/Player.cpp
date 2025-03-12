@@ -1,7 +1,6 @@
 #include "Player.hpp"
 
 Player::Player() {
-	Assets assets;
 	playerSprite.setTexture(Shared::playerTexture);
 	smokeSprite.setTexture(Shared::smokeTexture);
 	swordSprite.setTexture(Shared::swordTexture);
@@ -49,6 +48,11 @@ void Player::update(const std::vector<Platform>& platforms, sf::RenderWindow& wi
 
 	updateHUDEnergy(view);
 	std::cout << "deltatime : " << deltaTime << std::endl;
+
+	updateProjectiles(deltaTime, window);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 5)) {
+		rangedAttack();
+	}
 }
 
 void Player::jump() {
@@ -255,7 +259,28 @@ void Player::updateHUDEnergy(sf::View& view) {
 
 	shapeEnergy.setPosition(hudX, hudY);
 	shapeFillEnergy.setPosition(hudX, hudY);
+}
 
+void Player::rangedAttack() {
+	if (rangedAttackClock.getElapsedTime().asSeconds() >= 0.3f && energy > 10.0f) {
+		sf::Vector2f spawnPos = playerSprite.getPosition();
+		spawnPos.x += lastDepIsLeft ? -20 : playerSprite.getGlobalBounds().width;
+
+		Projectile newProjectile(Shared::projectileTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
+		newProjectile.resize(20, 20);
+
+		projectiles.push_back(newProjectile);
+
+		energy -= 10.0f;
+		rangedAttackClock.restart();
+	}
+}
+
+void Player::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
+	for (auto it = projectiles.begin(); it != projectiles.end();) {
+		it->update(deltaTime);
+		++it;
+	}
 }
 
 sf::Sprite Player::getShape() const {
@@ -276,4 +301,11 @@ sf::RectangleShape Player::getShapeHUDEnergy() const {
 
 sf::RectangleShape Player::getShapeFillEnergy() const {
 	return shapeFillEnergy;
+}
+std::vector<Projectile> Player::getProj() const {
+	return projectiles;
+}
+
+sf::Sprite Player::getProjShape(Projectile& proj) const {
+	return proj.getSprite();
 }
