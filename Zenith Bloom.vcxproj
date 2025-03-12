@@ -166,12 +166,14 @@
     <ClCompile Include="src\map\Map.cpp" />
     <ClCompile Include="src\map\Platform.cpp" />
     <ClCompile Include="src\systems\AssetLoader.cpp" />
+    <ClCompile Include="src\systems\BouncingTitle.cpp" />
     <ClCompile Include="src\systems\Datas.cpp" />
     <ClCompile Include="src\systems\grid.cpp" />
     <ClCompile Include="src\systems\Node.cpp" />
     <ClCompile Include="src\systems\pathfinding.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BouncingTitle.hpp" />
     <ClInclude Include="src\core\Game.hpp" />
     <ClInclude Include="src\entities\FSM.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />

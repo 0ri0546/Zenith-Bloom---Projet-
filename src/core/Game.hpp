@@ -1,5 +1,6 @@
 #ifndef GAME_HPP
 #define GAME_HPP
+#pragma once
 
 #include "../systems/Datas.hpp"
 #include "../entities/Player.hpp"
@@ -9,6 +10,7 @@
 #include "../hud/menu/MainMenu.hpp"
 #include "../entities/FSM.hpp"
 #include "../systems/grid.hpp"
+#include "../systems/BouncingTitle.hpp"
 
 class Game {
 public:
@@ -23,6 +25,7 @@ public:
 		OPTIONS_MENU,
 		GAMEOVER_MENU,
 		VICTORY_MENU,
+		TITLE_MENU
 	};
 
 private:
@@ -42,9 +45,12 @@ private:
 	void update(float deltaTime);
 	void render();
 	void handleState(const sf::Event& event);
-
+	void introText(sf::RenderWindow& window, float deltaTime);
 	GameState currentState;
 	MainMenu mainMenu;
+
+	BouncingTitle title;
+	bool gameStarted = false;
 };
 
 #endif

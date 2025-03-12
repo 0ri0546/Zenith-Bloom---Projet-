@@ -1,12 +1,13 @@
 #include "Game.hpp"
 
-Game::Game() : window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), "Zenith Bloom"), currentState(GameState::MAIN_MENU) {
+Game::Game() : window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), "Zenith Bloom"), currentState(GameState::TITLE_MENU), title("Zenith Bloom", Shared::font) {
 	gamemap.loadMap(1);
 	
 	window.setFramerateLimit(60);
 	view.setSize(window.getSize().x, window.getSize().y);
 	view.setCenter(player.getShape().getPosition());
 	grid.loadGrid(gamemap);
+
 }
 
 void Game::addPlatform(float x, float y, float width, float height) {
@@ -20,7 +21,7 @@ void Game::run() {
 	//addPlatform(0, 550, 40, 40);
 	//addPlatform(60, 550, 40, 40);
 	addPlatform(-200, 400, 2000, 20);
-	addPlatform(200, 0, 200, 500);
+	addPlatform(700, 0, 200, 500);
 	sf::Clock clock;
 	while (window.isOpen()) {
 		float deltaTime = clock.restart().asSeconds();
@@ -53,6 +54,11 @@ void Game::processEvents() {
 
 void Game::update(float deltaTime) {
 	switch (currentState) {
+	case GameState::TITLE_MENU:
+		title.update(deltaTime);
+		break;
+	case GameState::MAIN_MENU:
+		break;
 	case GameState::PLAYING:
 		player.update(platforms, window, view, deltaTime);
 		view.setCenter(player.getShape().getPosition());
@@ -62,32 +68,35 @@ void Game::update(float deltaTime) {
 	}
 }
 
+
 void Game::render() {
 	window.clear(sf::Color::Blue);
-	
+
 	switch (currentState) {
+	case GameState::TITLE_MENU:
+		title.draw(window);
+		break;
 	case GameState::MAIN_MENU:
 		mainMenu.render(window);
 		break;
+
 	case GameState::PLAYING:
-		
-		
+		window.setView(view);
+
 		gamemap.draw(window);
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
 		window.draw(player.getShapeSmoke());
 		window.draw(player.getShapeHUDEnergy());
 		window.draw(player.getShapeFillEnergy());
-		
-		
+
 		ennemy.runEnnemy(player, window);
-		
+
 		for (auto& platform : platforms) {
 			window.draw(platform.getSprite());
 		}
-
-		window.setView(view);
 		break;
+
 	default:
 		break;
 	}
@@ -95,15 +104,30 @@ void Game::render() {
 	window.display();
 }
 
+
 void Game::handleState(const sf::Event& event) {
 	switch (currentState) {
+	case GameState::TITLE_MENU:
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+			currentState = GameState::MAIN_MENU;
+		}
+		break;
 	case GameState::MAIN_MENU:
-		// Quand l'utilisateur choisit "Jouer"
 		if (mainMenu.handleInput(window, event) == 1) {
 			currentState = GameState::PLAYING;
 		}
 		break;
 	default:
 		break;
+	}
+}
+
+
+void Game::introText(sf::RenderWindow& window, float deltaTime) {
+	title.update(deltaTime);
+	title.handleInput(gameStarted);
+
+	if (gameStarted) {
+		currentState = GameState::PLAYING; 
 	}
 }

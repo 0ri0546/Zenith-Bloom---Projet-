@@ -108,6 +108,9 @@
     <ClCompile Include="src\systems\grid.cpp">
       <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="src\systems\BouncingTitle.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -165,6 +168,9 @@
       <Filter>Fichiers d%27en-tête\Systems\A%2a</Filter>
     </ClInclude>
     <ClInclude Include="src\systems\grid.hpp">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="BouncingTitle.hpp">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
   </ItemGroup>
