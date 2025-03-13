@@ -44,6 +44,7 @@ private :
 	 float speed;
 
 	bool stop = false;
+	bool isWakable = true;
 	vector<sf::Sprite> spritEnnemies;
 	vector<sf::CircleShape> detectionCircles;
 	sf::Vector2f moveForCol; 
