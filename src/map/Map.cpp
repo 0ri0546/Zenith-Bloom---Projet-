@@ -24,7 +24,7 @@ void Map::draw(RenderWindow& window)
 	}
 }
 
-void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
+void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window)
 {
     
     map.clear();
@@ -91,7 +91,10 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
             {
                 Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                 ennemies.push_back(newEnnemy);
-                
+				newEnnemy.runEnnemy(player, window);
+                recTab.push_back(sf::RectangleShape(sf::Vector2f(gridCellSize, gridCellSize)));
+                recTab.back().setFillColor(sf::Color::White);
+                recTab.back().setPosition(i / 2 * gridCellSize, map.size() * gridCellSize);
                 
             }
             else

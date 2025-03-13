@@ -20,14 +20,14 @@ public :
 
 	sf::Sprite getSprite() const;
 
-	void patrol(Player& player, float deltaTime);
+	void patrol(Player& player);
 	void chase(Player& player);
 
 	/*void seachPlayer();
 	void die();*/
 	void draw(sf::RenderWindow& window);
 
-	void runEnnemy(Player& player, sf::RenderWindow& window, float deltaTime);
+	void runEnnemy(Player& player, sf::RenderWindow& window);
 	Assets assets;
 
 	ennemyState currentState;

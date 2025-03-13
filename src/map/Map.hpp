@@ -25,7 +25,7 @@ public:
 
 	void draw(RenderWindow& window);
 
-	void loadMap(int mapNum, vector<Ennemy>& ennemies);
+	void loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window);
 };
 
 
