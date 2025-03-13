@@ -15,6 +15,13 @@ void Projectile::update(float deltaTime) {
     sprite.move(velocity.x * deltaTime, velocityY * deltaTime);
 }
 
+void Projectile::updateShootEnnemy(float deltaTime, vector<Ennemy>& ennemie)
+{
+    for (auto ennemy : ennemie) {
+        sprite.move(ennemy.getSprite().getPosition().x, ennemy.getSprite().getPosition().x);
+    }
+}
+
 void Projectile::resize(float width, float height) {
     sprite.setScale(width / sprite.getGlobalBounds().width, height / sprite.getGlobalBounds().height);
 }

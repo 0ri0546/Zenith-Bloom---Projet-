@@ -1,4 +1,4 @@
-#include "FSM.hpp"
+#include "../entities/FSM.hpp"
 
 Ennemy::Ennemy(unsigned long long x, unsigned long long y) : x(x), y(y)
 {
@@ -60,7 +60,7 @@ void Ennemy::patrol(Player& player)
 
 
 
-void Ennemy::chase(Player& player)
+void Ennemy::chase(Player& player, vector<Ennemy>& ennemies)
 {
 	//cout << "chase" << endl;
 	speed = 1;
@@ -73,7 +73,7 @@ void Ennemy::chase(Player& player)
 		spriteEnnemy.move(direction);
 	//}
 		
-	
+		shoot(player, ennemies);
 
 
 		/*if (player.getShape().getGlobalBounds().intersects(spritEnnemies.getGlobalBounds())) {
@@ -164,7 +164,7 @@ void Ennemy::colEnnemyToEnnemy(vector<Ennemy>& ennemies)
 	}
 }
 
-void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies)
+void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, float deltaTime)
 {
 	colEnnemyToEnnemy(ennemies);
 	//cout << "runEnnemy" << endl;
@@ -176,7 +176,8 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projecti
 	case SEARCH:
 		break;
 	case CHASE:
-		chase(player);
+		chase(player, ennemies);
+		//updateShoot(deltaTime, window, ennemies);
 		break;
 	case DEAD:
 		break;
@@ -209,13 +210,50 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projecti
 
 
 
-void Ennemy::draw(sf::RenderWindow& window)
+void Ennemy::shoot(Player& player, vector<Ennemy>& ennemies)
 {
-	for (auto& detectionCircles : detectionCircles) {
-		window.draw(detectionCircles);
-	}
-	for (auto& spritEnnemies : spritEnnemies){
+	bool lastDepIsLeft = false;
+	for (size_t i = 0; i < ennemies.size(); i++) {
 
-		window.draw(spritEnnemies);
+		if (rangedAttackClock.getElapsedTime().asSeconds() >= 2.f) {
+			sf::Vector2f spawnPos = ennemies[i].getSprite().getPosition();
+			//spawnPos.x += lastDepIsLeft ? -20 : spriteEnnemy.getGlobalBounds().width;
+
+			Projectile newProjectile(Shared::projectileTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
+			newProjectile.resize(20, 20);
+
+			projectiles.push_back(newProjectile);
+
+
+			rangedAttackClock.restart();
+		}
+
 	}
 }
+
+void Ennemy::updateShoot(float deltaTime, sf::RenderWindow& window, vector<Ennemy>& ennemies)
+{
+	for (auto it = projectiles.begin(); it != projectiles.end();) {
+		it->update(deltaTime);
+		++it;
+	}
+}
+
+std::vector<Projectile> Ennemy::getProj() const {
+	return projectiles;
+}
+
+sf::Sprite Ennemy::getProjShape(Projectile& proj) const {
+	return proj.getSprite();
+}
+
+//void Ennemy::draw(sf::RenderWindow& window)
+//{
+//	for (auto& detectionCircles : detectionCircles) {
+//		window.draw(detectionCircles);
+//	}
+//	for (auto& spritEnnemies : spritEnnemies){
+//
+//		window.draw(spritEnnemies);
+//	}
+//}

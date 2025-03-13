@@ -32,7 +32,7 @@ void Game::run() {
 		processEvents(deltaTime);
 		update(deltaTime);
 		for (auto& ennemy : ennemies) {
-			ennemy.runEnnemy(player, window, player.projectiles, ennemies);
+			ennemy.runEnnemy(player, window, player.projectiles, ennemies, deltaTime);
 		}
 
 		
@@ -136,6 +136,29 @@ void Game::render() {
 				++it;
 			}
 		}
+
+		for (auto ennemy : ennemies) {
+			for (auto proj : ennemy.getProj()) {
+				window.draw(ennemy.getProjShape(proj));
+			}
+			for (auto it = ennemy.projectiles.begin(); it != ennemy.projectiles.end();) {
+				bool erased = false;
+
+				for (auto& platform : platforms) {
+					if (it->getBounds().intersects(platform.getSprite().getGlobalBounds())) {
+						it = ennemy.projectiles.erase(it);
+						erased = true;
+						break;
+					}
+				}
+
+				if (!erased) {
+					++it;
+				}
+			}
+		}
+
+
 
 		window.setView(view);
 		break;
