@@ -23,3 +23,5 @@ bin/
 # Dossiers temporaires
 tmp/
 obj/
+/src/core/Game.cpp
+/.gitignore

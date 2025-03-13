@@ -14,6 +14,10 @@ vector<vector<char>> Map::getMap()
 {
     return map;
 }
+vector<unique_ptr<Tiles>>& Map::getTiles()
+{
+    return tiles;
+}
 
 void Map::draw(RenderWindow& window)
 {
@@ -22,12 +26,18 @@ void Map::draw(RenderWindow& window)
 		window.draw(grid);
 		
 	}
+    for (auto& tile : tiles)
+    {
+        tile->draw(window);
+    }
 }
 
 void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window)
 {
     
     map.clear();
+    tiles.clear();
+
     string path = "assets/maps/map" + to_string(mapNum) + ".txt";
 
     ifstream file(path);
@@ -76,38 +86,16 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::Rend
 
 
 
+            if (tileValue < 10) {
 
-
-            if (tileValue == 05)
-            {
-
-                recTab.push_back(sf::RectangleShape(sf::Vector2f(gridCellSize, gridCellSize)));
-                recTab.back().setFillColor(sf::Color::Black);
-                recTab.back().setPosition( i / 2 * gridCellSize, map.size() * gridCellSize);
-                
-                
+                tiles.push_back(make_unique<Tiles>(i / 2 * gridCellSize, map.size() * gridCellSize, tileValue));
             }
-            else if(tileValue == 04)
+            if (tileValue == 01)
             {
                 Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                 ennemies.push_back(newEnnemy);
-				
-                recTab.push_back(sf::RectangleShape(sf::Vector2f(gridCellSize, gridCellSize)));
-                recTab.back().setFillColor(sf::Color::Black);
-                recTab.back().setPosition(i / 2 * gridCellSize, map.size() * gridCellSize);
-                
             }
-            else
-            {
-                recTab.push_back(sf::RectangleShape(sf::Vector2f(gridCellSize, gridCellSize)));
-                recTab.back().setFillColor(sf::Color::Black);
-                recTab.back().setPosition(i / 2 * gridCellSize, map.size() * gridCellSize);
-            }
-
-
-
         }
             map.push_back(row);
     }
-		 
 }

@@ -166,6 +166,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\map\Map.cpp" />
     <ClCompile Include="src\map\Platform.cpp" />
+    <ClCompile Include="src\map\Tiles.cpp" />
     <ClCompile Include="src\systems\AssetLoader.cpp" />
     <ClCompile Include="src\systems\BouncingTitle.cpp" />
     <ClCompile Include="src\systems\Datas.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\hud\menu\PauseMenu.hpp" />
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
+    <ClInclude Include="src\map\Tiles.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
     <ClInclude Include="src\systems\BouncingTitle.hpp" />
     <ClInclude Include="src\systems\Datas.hpp" />
