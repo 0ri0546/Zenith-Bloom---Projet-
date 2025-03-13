@@ -106,11 +106,11 @@ void Game::render() {
 			window.draw(ennemy.getSprite());
 		}
 			//ennemy.runEnnemy(player, window, grid, TimeAstar);
-		cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
+		//cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
 
 		for (int i = 0; i < ennemies.size(); i++)
 		{
-			std::cout << ennemies[i].getSprite().getPosition().x << ", " << ennemies[i].getSprite().getPosition().x << std::endl;
+			//std::cout << ennemies[i].getSprite().getPosition().x << ", " << ennemies[i].getSprite().getPosition().x << std::endl;
 		}
 		
 		for (auto& platform : platforms) {

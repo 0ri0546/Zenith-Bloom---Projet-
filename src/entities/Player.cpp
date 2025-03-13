@@ -47,7 +47,7 @@ void Player::update(const std::vector<Platform>& platforms, sf::RenderWindow& wi
 	//std::cout << "Nombre de projectiles : " << projectiles.size() << std::endl;
 
 	updateHUDEnergy(view);
-	std::cout << "deltatime : " << deltaTime << std::endl;
+	//std::cout << "deltatime : " << deltaTime << std::endl;
 
 	updateProjectiles(deltaTime, window);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 5)) {
