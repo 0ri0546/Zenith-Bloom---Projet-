@@ -31,9 +31,6 @@ void Game::run() {
 		float deltaTime = clock.restart().asSeconds();
 		processEvents(deltaTime);
 		update(deltaTime);
-		for (auto& ennemy : ennemies) {
-			ennemy.runEnnemy(player, window, deltaTime);
-		}
 		render();
 	}
 }
@@ -73,6 +70,9 @@ void Game::update(float deltaTime) {
 		break;
 	case GameState::PLAYING:
 		player.update(platforms, window, view, deltaTime);
+		for (auto& ennemy : ennemies) {
+			ennemy.runEnnemy(player, window, deltaTime);
+		}
 		view.setCenter(player.getShape().getPosition());
 		break;
 	default:
