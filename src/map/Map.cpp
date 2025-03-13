@@ -90,7 +90,7 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
 
                 tiles.push_back(make_unique<Tiles>(i / 2 * gridCellSize, map.size() * gridCellSize, tileValue));
             }
-            else if (tileValue == 15)
+            if (tileValue == 01)
             {
                 Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                 ennemies.push_back(newEnnemy);
