@@ -135,7 +135,7 @@ void Game::render() {
 			}
 		}
 
-
+		window.setView(view);
 		break;
 
 	default:
