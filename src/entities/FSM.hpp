@@ -24,7 +24,7 @@ public :
 	void chase(Player& player);
 
 	void collision(Player& player, vector<Projectile>& projectile, vector<Ennemy>& ennemies);
-	
+	void colEnnemyToEnnemy(vector<Ennemy>& ennemies);
 
 	/*void seachPlayer();
 	void die();*/
@@ -41,11 +41,12 @@ private :
 	size_t pathIndex = 0;
 	int life = 3;
 	float radiusDetection = 200.f;
-	
+	 float speed;
 
 	bool stop = false;
 	vector<sf::Sprite> spritEnnemies;
 	vector<sf::CircleShape> detectionCircles;
+	sf::Vector2f moveForCol; 
 	/*float searchTime;
 	float attackCooldown;*/
 

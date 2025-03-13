@@ -62,15 +62,18 @@ void Ennemy::patrol(Player& player)
 
 void Ennemy::chase(Player& player)
 {
-	cout << "chase" << endl;
-	const float speed = 1; 
-	
-	sf::Vector2f direction(
-		speed * copysign(1.0f, player.getShape().getPosition().x - spriteEnnemy.getPosition().x),
-		speed * copysign(1.0f, player.getShape().getPosition().y - spriteEnnemy.getPosition().y));
-		
+	//cout << "chase" << endl;
+	speed = 1;
+	if (stop == false) {
+		sf::Vector2f direction(
+			speed * copysign(1.0f, player.getShape().getPosition().x - spriteEnnemy.getPosition().x),
+			speed * copysign(1.0f, player.getShape().getPosition().y - spriteEnnemy.getPosition().y));
 
+		moveForCol = direction;
 		spriteEnnemy.move(direction);
+	}
+		
+	
 
 
 		/*if (player.getShape().getGlobalBounds().intersects(spritEnnemies.getGlobalBounds())) {
@@ -123,8 +126,39 @@ void Ennemy::collision(Player& player, vector<Projectile>& projectile, vector<En
 		}
 	}
 
-	cout << ennemies.size() << endl;
+	//cout << ennemies.size() << endl;
 
+}
+
+void Ennemy::colEnnemyToEnnemy(vector<Ennemy>& ennemies)
+{
+	for (int i = 0; i < ennemies.size(); i++) {
+		for (int j = 0; j < ennemies.size(); j++) {
+
+			sf::Vector2f nextPos = ennemies[i].getSprite().getPosition() + moveForCol;
+
+
+			if (ennemies[i].getSprite().getGlobalBounds().intersects(ennemies[j].getSprite().getGlobalBounds()) && ennemies[i].getSprite().getPosition() != ennemies[j].getSprite().getPosition()) {
+				
+				stop = true; 
+				//ennemies[i].getSprite().getPosition() + moveForCol;
+
+
+				/*speed = -1;
+				ennemies[i].getSprite().move(-moveForCol);
+				ennemies[j].getSprite().move(-moveForCol);*/
+				cout << "ennemie fait des bébé \n";
+
+
+				ennemies[j].getSprite().move(moveForCol);
+				break; 
+			}
+			else {
+				stop = false;
+			}
+			
+		}
+	}
 }
 
 
@@ -132,8 +166,8 @@ void Ennemy::collision(Player& player, vector<Projectile>& projectile, vector<En
 
 void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies)
 {
-
-	cout << "runEnnemy" << endl;
+	colEnnemyToEnnemy(ennemies);
+	//cout << "runEnnemy" << endl;
 	switch (currentState)
 	{
 	case PATROL:
@@ -163,6 +197,7 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projecti
 		}
 	}
 	collision(player, projectile, ennemies);
+	colEnnemyToEnnemy(ennemies);
 	//cout << currentState << endl;
 
 	//detectionCircle.setPosition(spriteEnnemy.getPosition());
