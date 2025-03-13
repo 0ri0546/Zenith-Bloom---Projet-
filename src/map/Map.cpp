@@ -89,33 +89,6 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
             if(tileValue < 10){
 
                 tiles.push_back(make_unique<Tiles>(i / 2 * gridCellSize, map.size() * gridCellSize, tileValue));}
-
-            if (tileValue == 05)
-            {
-                
-
-                recTab.push_back(sf::RectangleShape(sf::Vector2f(gridCellSize, gridCellSize)));
-                recTab.back().setFillColor(sf::Color::White);
-                recTab.back().setPosition( i / 2 * gridCellSize, map.size() * gridCellSize);
-                
-                
-            }
-            else if(tileValue == 04)
-            {
-                Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
-                ennemies.push_back(newEnnemy);
-                
-                
-            }
-            else
-            {
-                recTab.push_back(sf::RectangleShape(sf::Vector2f(gridCellSize, gridCellSize)));
-                recTab.back().setFillColor(sf::Color::Black);
-                recTab.back().setPosition(i / 2 * gridCellSize, map.size() * gridCellSize);
-            }
-
-
-
         }
             map.push_back(row);
     }
