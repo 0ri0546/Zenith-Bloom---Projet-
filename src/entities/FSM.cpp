@@ -93,9 +93,44 @@ void Ennemy::chase(Player& player)
 
 }
 
+void Ennemy::collision(Player& player, vector<Projectile>& projectile, vector<Ennemy>& ennemies)
+{
+	for (auto proj : projectile) {
+		if (player.getProjShape(proj).getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
+			currentState = DEAD;
+			
+			for (int i = 0; i < projectile.size(); i++) {
+
+				if (proj.getSprite().getPosition() == projectile[i].getSprite().getPosition()) {
+					projectile.erase(projectile.begin() + i);
+				}
+			}
+
+			//projectile.erase(projectile.begin());
+			
+		}
+	}
+	
+	if (player.getShapeAtk().getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
+		currentState = DEAD;
+	}
 
 
-void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window)
+
+	for (int i = 0; i < ennemies.size(); i++) {
+		if (ennemies[i].currentState == DEAD){
+			ennemies.erase(ennemies.begin()+i);
+		}
+	}
+
+	cout << ennemies.size() << endl;
+
+}
+
+
+
+
+void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies)
 {
 
 	cout << "runEnnemy" << endl;
@@ -127,7 +162,7 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window)
 
 		}
 	}
-	
+	collision(player, projectile, ennemies);
 	//cout << currentState << endl;
 
 	//detectionCircle.setPosition(spriteEnnemy.getPosition());

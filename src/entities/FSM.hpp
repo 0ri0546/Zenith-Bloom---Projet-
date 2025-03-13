@@ -23,11 +23,14 @@ public :
 	void patrol(Player& player);
 	void chase(Player& player);
 
+	void collision(Player& player, vector<Projectile>& projectile, vector<Ennemy>& ennemies);
+	
+
 	/*void seachPlayer();
 	void die();*/
 	void draw(sf::RenderWindow& window);
 
-	void runEnnemy(Player& player, sf::RenderWindow& window);
+	void runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies);
 	Assets assets;
 
 	ennemyState currentState;
@@ -38,7 +41,9 @@ private :
 	size_t pathIndex = 0;
 	int life = 3;
 	float radiusDetection = 200.f;
-	vector<Ennemy> ennemies;
+	
+
+	bool stop = false;
 	vector<sf::Sprite> spritEnnemies;
 	vector<sf::CircleShape> detectionCircles;
 	/*float searchTime;

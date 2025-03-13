@@ -32,7 +32,7 @@ void Game::run() {
 		processEvents(deltaTime);
 		update(deltaTime);
 		for (auto& ennemy : ennemies) {
-			ennemy.runEnnemy(player, window);
+			ennemy.runEnnemy(player, window, player.projectiles, ennemies);
 		}
 
 		
