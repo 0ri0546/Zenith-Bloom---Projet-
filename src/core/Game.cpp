@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), "Zenith Bloom"), currentState(GameState::TITLE_MENU), title("Zenith Bloom", Shared::font) {
+Game::Game() : window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), "Zenith Bloom"), currentState(GameState::PLAYING), title("Zenith Bloom", Shared::font) {
 	//gamemap.loadMap(1); //pour l'instant ça fait bugger les collisions
 	
 	gamemap.loadMap(1, ennemies, player, window);
@@ -118,6 +118,25 @@ void Game::render() {
 		for (auto& platform : platforms) {
 			window.draw(platform.getSprite());
 		}
+		for (auto proj : player.getProj()) {
+			window.draw(player.getProjShape(proj));
+		}
+		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
+			bool erased = false;
+
+			for (auto& platform : platforms) {
+				if (it->getBounds().intersects(platform.getSprite().getGlobalBounds())) {
+					it = player.projectiles.erase(it);
+					erased = true;
+					break;
+				}
+			}
+
+			if (!erased) {
+				++it;
+			}
+		}
+
 		window.setView(view);
 		break;
 

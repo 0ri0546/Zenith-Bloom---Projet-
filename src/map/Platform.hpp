@@ -10,7 +10,6 @@ public:
 	
 
 	Platform(float x, float y, float width, float height);
-	
 	sf::Sprite getSprite() const;
 
 	Assets assets;

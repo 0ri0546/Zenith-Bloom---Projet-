@@ -24,6 +24,8 @@ public:
 
 	static sf::Texture swordTexture;
 
+	static sf::Texture projectileTexture;
+
 	// assets ennemy
 	static sf::Texture ennemyTexture;
 
