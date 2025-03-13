@@ -3,7 +3,7 @@
 Game::Game() : window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), "Zenith Bloom"), currentState(GameState::PLAYING), title("Zenith Bloom", Shared::font) {
 	//gamemap.loadMap(1); //pour l'instant ça fait bugger les collisions
 	
-	gamemap.loadMap(1, ennemies);
+	gamemap.loadMap(1, ennemies, player, window);
 	
 	window.setFramerateLimit(60);
 	view.setSize(window.getSize().x, window.getSize().y);

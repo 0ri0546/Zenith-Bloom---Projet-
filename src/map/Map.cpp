@@ -32,7 +32,7 @@ void Map::draw(RenderWindow& window)
     }
 }
 
-void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
+void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window)
 {
     
     map.clear();
