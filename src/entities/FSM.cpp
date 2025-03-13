@@ -64,14 +64,14 @@ void Ennemy::chase(Player& player)
 {
 	//cout << "chase" << endl;
 	speed = 1;
-	if (stop == false) {
+	//if (stop == false) {
 		sf::Vector2f direction(
 			speed * copysign(1.0f, player.getShape().getPosition().x - spriteEnnemy.getPosition().x),
 			speed * copysign(1.0f, player.getShape().getPosition().y - spriteEnnemy.getPosition().y));
 
 		moveForCol = direction;
 		spriteEnnemy.move(direction);
-	}
+	//}
 		
 	
 
@@ -132,6 +132,8 @@ void Ennemy::collision(Player& player, vector<Projectile>& projectile, vector<En
 
 void Ennemy::colEnnemyToEnnemy(vector<Ennemy>& ennemies)
 {
+
+	
 	for (int i = 0; i < ennemies.size(); i++) {
 		for (int j = ennemies.size(); j > 0; j--) {
 
@@ -144,7 +146,7 @@ void Ennemy::colEnnemyToEnnemy(vector<Ennemy>& ennemies)
 				break;
 			}
 			else {
-				stop = false;
+				isWakable = true;
 			}
 
 			//if (ennemies[i].getSprite().getGlobalBounds().intersects(ennemies[j].getSprite().getGlobalBounds()) && ennemies[i].getSprite().getPosition() != ennemies[j].getSprite().getPosition()) {
