@@ -14,6 +14,7 @@ sf::Texture Shared::ennemyTexture;
 
 //assets des tiles
 sf::Texture Shared::groundTexture;
+sf::Texture Shared::floorTexture;
 
 //sf::Sprite groundSprite;
 

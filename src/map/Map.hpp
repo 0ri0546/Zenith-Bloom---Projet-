@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "../entities/FSM.hpp"
+#include "Tiles.hpp"
 
 using namespace std;
 using namespace sf;
@@ -12,17 +13,18 @@ class Map
 { 
 private:
 
-	int gridCellSize = 240;
+	int gridCellSize = 120;
 	vector<vector<char>> map;
 	
 	vector<sf::RectangleShape> recTab;
+	vector<unique_ptr<Tiles>> tiles;
 public:
 	
 	Map();
 	~Map();
 
 	vector<vector<char>> getMap();
-
+	vector<unique_ptr<Tiles>>& getTiles();
 	void draw(RenderWindow& window);
 
 	void loadMap(int mapNum, vector<Ennemy>& ennemies);

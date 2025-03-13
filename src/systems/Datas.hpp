@@ -31,6 +31,7 @@ public:
 
 	//assets map
 	static sf::Texture groundTexture; 
+	static sf::Texture floorTexture; 
 	//static sf::Sprite groundSprite; 
 
 };
