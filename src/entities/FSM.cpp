@@ -1,18 +1,16 @@
 #include "FSM.hpp"
 
-Ennemy::Ennemy()
+Ennemy::Ennemy(unsigned long long x, unsigned long long y) : x(x), y(y)
 {
 
 	spriteEnnemy.setTexture(Shared::ennemyTexture);
 	assets.resize(spriteEnnemy, 100, 100);
 	spriteEnnemy.setOrigin(spriteEnnemy.getLocalBounds().width / 2, spriteEnnemy.getLocalBounds().height / 2);
 
-	spriteEnnemy.setPosition(250, 50);
+	spriteEnnemy.setPosition(x, y);
 	
-	currentState = PATROL;
-	detectionCircle.setRadius(radiusDetection);
-	detectionCircle.setOrigin(radiusDetection, radiusDetection);
-	detectionCircle.setFillColor(sf::Color::Black);
+	currentState = CHASE;
+
 }
 
 sf::Sprite Ennemy::getSprite() const
@@ -20,65 +18,83 @@ sf::Sprite Ennemy::getSprite() const
 	return spriteEnnemy;
 }
 
-void Ennemy::patrol(Player& player)
+void Ennemy::patrol(Player& player, float deltaTime)
 {
-	const float speed = 2;
-	static int currentWaypoint = 0;
-	static sf::Vector2f waypoints[2] = { sf::Vector2f(0,400), sf::Vector2f(400, 400) };
-	sf::Vector2f target = waypoints[currentWaypoint];
 
-
-	sf::Vector2f diretion(
-		speed * copysign(1.0f, target.x - spriteEnnemy.getPosition().x),
-		speed * copysign(1.0f, target.y - spriteEnnemy.getPosition().y)
-	);
-	//currentWaypoint = (currentWaypoint + 1) % 2;
-	spriteEnnemy.move(diretion);
-
-	/*if (spriteEnnemy.getPosition()) {
-		 
-	}*/
-	{
+	
+	
+	/*{
 		currentWaypoint = (currentWaypoint + 1) % 2;
-	}
-	if (player.getShape().getPosition().x - spriteEnnemy.getPosition().x < radiusDetection || player.getShape().getPosition().y - spriteEnnemy.getPosition().y < radiusDetection) {
+	}*/
+	/*if (player.getShape().getPosition().x - spriteEnnemy.getPosition().x < radiusDetection || player.getShape().getPosition().y - spriteEnnemy.getPosition().y < radiusDetection) {
 		currentState = CHASE;
 	}
 	else {
 		currentState = PATROL;
 
 	}
+	*/
+	
+	/*if (abs(player.getShape().getPosition().x - spriteEnnemy.getPosition().x < radiusDetection) && abs(player.getShape().getPosition().y - spriteEnnemy.getPosition().y < radiusDetection)) {
+		currentState = CHASE;
+	}
+	else {
+		currentState = PATROL;
+
+
+	}*/
+	for (auto& detectionCircles : detectionCircles) {
+		if (player.getShape().getGlobalBounds().intersects(detectionCircles.getGlobalBounds())) {
+			currentState = CHASE;
+		}
+		else {
+			currentState = PATROL;
+		}
+	}
 }
+
+
+
+
+
+
+
 
 void Ennemy::chase(Player& player)
 {
 
 	const float speed = 2; 
+	for (auto& spritEnnemies : spritEnnemies) {
+		sf::Vector2f direction(
+			speed * copysign(1.0f, player.getShape().getPosition().x - spritEnnemies.getPosition().x),
+			speed * copysign(1.0f, player.getShape().getPosition().y - spritEnnemies.getPosition().y)
+		);
 
-	sf::Vector2f direction(
-		speed * copysign(1.0f, player.getShape().getPosition().x - spriteEnnemy.getPosition().x),
-		speed * copysign(1.0f, player.getShape().getPosition().y - spriteEnnemy.getPosition().y)
-	);
-
-	spriteEnnemy.move(direction);
-
-	if (player.getShape().getPosition().x - spriteEnnemy.getPosition().x > radiusDetection || player.getShape().getPosition().y - spriteEnnemy.getPosition().y > radiusDetection) {
-		currentState = PATROL;
+		spritEnnemies.move(direction);
 	}
+
+	for (auto& detectionCircles : detectionCircles) {
+		if (player.getShape().getGlobalBounds().intersects(detectionCircles.getGlobalBounds())) {
+			currentState = CHASE;
+		}
+		else {
+			currentState = PATROL;
+		}
+	}
+	
 
 }
 
 
 
-
-void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window)
+void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, float deltaTime)
 {
 
 
 	switch (currentState)
 	{
 	case PATROL:
-		patrol(player);
+		patrol(player, deltaTime);
 		break;
 	case SEARCH:
 		break;
@@ -90,9 +106,38 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window)
 	}
 	
 	//detectionCircle.setRadius(radiusDetection);
-	detectionCircle.setPosition(spriteEnnemy.getPosition());
+	for (auto& detectionCircles : detectionCircles) {
+
+		detectionCircles.setRadius(radiusDetection);
+		detectionCircles.setOrigin(radiusDetection, radiusDetection);
+		detectionCircles.setFillColor(sf::Color::Black);
+
+		for (auto& spritEnnemies : spritEnnemies) {
+
+			//detectionCircles.setPosition(spritEnnemies.getPosition());
+			//detectionCircles.setOrigin(spritEnnemies.getOrigin());
+
+		}
+	}
+	
+	//cout << currentState << endl;
+
+	//detectionCircle.setPosition(spriteEnnemy.getPosition());
 	
 
-	window.draw(detectionCircle);
-	window.draw(spriteEnnemy);
+	/*window.draw(detectionCircle);
+	window.draw(spriteEnnemy);*/
+}
+
+
+
+void Ennemy::draw(sf::RenderWindow& window)
+{
+	for (auto& detectionCircles : detectionCircles) {
+		window.draw(detectionCircles);
+	}
+	for (auto& spritEnnemies : spritEnnemies){
+
+		window.draw(spritEnnemies);
+	}
 }

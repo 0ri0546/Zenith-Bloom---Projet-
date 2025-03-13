@@ -24,8 +24,9 @@ void Map::draw(RenderWindow& window)
 	}
 }
 
-void Map::loadMap(int mapNum)
+void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
 {
+    
     map.clear();
     string path = "assets/maps/map" + to_string(mapNum) + ".txt";
 
@@ -83,6 +84,14 @@ void Map::loadMap(int mapNum)
                 recTab.push_back(sf::RectangleShape(sf::Vector2f(gridCellSize, gridCellSize)));
                 recTab.back().setFillColor(sf::Color::White);
                 recTab.back().setPosition( i / 2 * gridCellSize, map.size() * gridCellSize);
+                
+                
+            }
+            else if(tileValue == 04)
+            {
+                Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                ennemies.push_back(newEnnemy);
+                
                 
             }
             else

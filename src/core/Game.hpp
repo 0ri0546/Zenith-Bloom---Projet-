@@ -32,14 +32,16 @@ private:
 	sf::RenderWindow window;
 	Player player;
 	//Player player2;
-	Ennemy ennemy;
-	Grid grid;
+	//Ennemy ennemy;
+	//Grid grid;
+	
 	//Grid grid = Grid(gamemap);
+	
 
 	sf::View view;
 	std::vector<Platform> platforms;
 	Map gamemap;
-
+	vector<Ennemy> ennemies;
 	void addPlatform(float x, float y, float width, float height);
 	void processEvents(float deltaTime);
 	void update(float deltaTime);
