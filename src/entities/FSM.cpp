@@ -88,6 +88,7 @@ void Ennemy::chase(Player& player)
 
 }
 
+
 void Ennemy::addEnnemy(float x, float y, vector<Ennemy>& ennemies)
 {
 	//sf::CircleShape detectionCircle;
@@ -100,7 +101,8 @@ void Ennemy::addEnnemy(float x, float y, vector<Ennemy>& ennemies)
 	
 	
 	//detectionCircles.push_back(*this);
-	//cout << "ennemy added" << endl;
+	cout <<"x: "<< newEnnemy.spriteEnnemy.getPosition().x << endl;
+	cout <<"y: "<<newEnnemy.spriteEnnemy.getPosition().y << endl;
 
     spritEnnemies.push_back(spriteEnnemy);
 

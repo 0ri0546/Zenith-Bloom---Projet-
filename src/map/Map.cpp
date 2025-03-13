@@ -90,7 +90,7 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
             {
                 Ennemy newEnnemy;
                 newEnnemy.addEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize, ennemies);
-                
+                 
             }
             else
             {
