@@ -85,11 +85,13 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
                 recTab.back().setFillColor(sf::Color::White);
                 recTab.back().setPosition( i / 2 * gridCellSize, map.size() * gridCellSize);
                 
+                
             }
             else if(tileValue == 04)
             {
-                Ennemy newEnnemy;
-                newEnnemy.addEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize, ennemies);
+                Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                ennemies.push_back(newEnnemy);
+                
                 
             }
             else

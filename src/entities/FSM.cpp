@@ -1,19 +1,16 @@
 #include "FSM.hpp"
 
-Ennemy::Ennemy()
+Ennemy::Ennemy(unsigned long long x, unsigned long long y) : x(x), y(y)
 {
 
 	spriteEnnemy.setTexture(Shared::ennemyTexture);
 	assets.resize(spriteEnnemy, 100, 100);
 	spriteEnnemy.setOrigin(spriteEnnemy.getLocalBounds().width / 2, spriteEnnemy.getLocalBounds().height / 2);
 
-	//spriteEnnemy.setPosition(200, 300);
+	spriteEnnemy.setPosition(x, y);
 	
 	currentState = CHASE;
 
-
-	
-	
 }
 
 sf::Sprite Ennemy::getSprite() const
@@ -88,28 +85,6 @@ void Ennemy::chase(Player& player)
 
 }
 
-void Ennemy::addEnnemy(float x, float y, vector<Ennemy>& ennemies)
-{
-	//sf::CircleShape detectionCircle;
-	
-	Ennemy newEnnemy;
-	
-	newEnnemy.spriteEnnemy.setPosition(x, y);
-
-	ennemies.push_back(*this);
-	
-	
-	//detectionCircles.push_back(*this);
-	//cout << "ennemy added" << endl;
-
-    spritEnnemies.push_back(spriteEnnemy);
-
-
-	//detectionCircles.push_back(detectionCircle);
-
-
-	
-}
 
 
 void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, float deltaTime)

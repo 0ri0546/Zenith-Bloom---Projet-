@@ -22,7 +22,6 @@ public:
 	~Map();
 
 	vector<vector<char>> getMap();
-	vector<Ennemy> ennemies;
 
 	void draw(RenderWindow& window);
 
