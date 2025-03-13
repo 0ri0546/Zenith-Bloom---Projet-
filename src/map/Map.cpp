@@ -86,11 +86,16 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
 
 
 
-            if(tileValue < 10){
+            if (tileValue < 10) {
 
-                tiles.push_back(make_unique<Tiles>(i / 2 * gridCellSize, map.size() * gridCellSize, tileValue));}
+                tiles.push_back(make_unique<Tiles>(i / 2 * gridCellSize, map.size() * gridCellSize, tileValue));
+            }
+            else if (tileValue == 15)
+            {
+                Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                ennemies.push_back(newEnnemy);
+            }
         }
             map.push_back(row);
     }
-		 
 }
