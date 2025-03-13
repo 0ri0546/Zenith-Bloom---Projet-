@@ -93,7 +93,7 @@ void Game::render() {
 		break;
 
 	case GameState::PLAYING:
-		window.setView(view);
+		
 
 		gamemap.draw(window);
 		window.draw(player.getShape());
@@ -107,10 +107,16 @@ void Game::render() {
 		}
 			//ennemy.runEnnemy(player, window, grid, TimeAstar);
 		cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
+
+		for (int i = 0; i < ennemies.size(); i++)
+		{
+			std::cout << ennemies[i].getSprite().getPosition().x << ", " << ennemies[i].getSprite().getPosition().x << std::endl;
+		}
 		
 		for (auto& platform : platforms) {
 			window.draw(platform.getSprite());
 		}
+		window.setView(view);
 		break;
 
 	default:
