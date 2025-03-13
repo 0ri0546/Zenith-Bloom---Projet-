@@ -71,7 +71,7 @@ void Game::update(float deltaTime) {
 	case GameState::PLAYING:
 		player.update(platforms, window, view, deltaTime);
 		for (auto& ennemy : ennemies) {
-			ennemy.runEnnemy(player, window, player.projectiles, ennemies);
+			ennemy.runEnnemy(player, window, player.projectiles, ennemies, deltaTime);
 		}
 		view.setCenter(player.getShape().getPosition());
 		break;
@@ -119,6 +119,12 @@ void Game::render() {
 		for (auto proj : player.getProj()) {
 			window.draw(player.getProjShape(proj));
 		}
+		for (auto ennemy : ennemies) {
+			for (auto proj : ennemy.getProj()) {
+				window.draw(ennemy.getProjShape(proj));
+			}
+		}
+		
 		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
 			bool erased = false;
 

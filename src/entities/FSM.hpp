@@ -3,8 +3,7 @@
 
 #include "Entity.hpp"
 #include "../entities/Player.hpp"
-//#include "../systems/pathfinfing.hpp"
-//#include "../systems/grid.hpp"
+#include "Projectile.hpp"
 
 enum ennemyState {
 	PATROL,
@@ -18,60 +17,45 @@ class Ennemy {
 public : 
 	Ennemy(unsigned long long x, unsigned long long y);
 
-	sf::Sprite getSprite() const;
-
 	void patrol(Player& player);
 	void chase(Player& player);
-
 	void collision(Player& player, vector<Projectile>& projectile, vector<Ennemy>& ennemies);
 	void colEnnemyToEnnemy(vector<Ennemy>& ennemies);
-
-	/*void seachPlayer();
-	void die();*/
 	void draw(sf::RenderWindow& window);
+	void runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, float deltaTime);
+	void rangedAttack();
+	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 
-	void runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies);
-	Assets assets;
-
-	ennemyState currentState;
+	sf::Sprite getSprite() const;
+	std::vector<Projectile> getProj() const;
+	sf::Sprite getProjShape(Projectile& proj) const;
 
 private : 
+	ennemyState currentState;
+	Assets assets;
+	sf::Clock rangedAttackClock;
 
-	
-	size_t pathIndex = 0;
+	std::vector<Projectile> projectiles;
+	vector<sf::Sprite> spritEnnemies;
+	vector<sf::CircleShape> detectionCircles;
+	sf::Vector2f moveForCol;
+
+	size_t pathIndex;
 	int life = 3;
 	float radiusDetection = 200.f;
-	 float speed;
+	float speed;
 
 	bool stop = false;
 	bool isWakable = true;
-	vector<sf::Sprite> spritEnnemies;
-	vector<sf::CircleShape> detectionCircles;
-	sf::Vector2f moveForCol; 
 	/*float searchTime;
 	float attackCooldown;*/
 
-	sf::Sprite spriteEnnemy;
-	
-	//sf::CircleShape detectionCircle;
-	
 	float x, y;
 	float scaleEnnemy = 1; 
+	bool lastDepIsLeft;
 
-	
-
+	sf::Sprite spriteEnnemy;
+	//sf::CircleShape detectionCircle;
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif
