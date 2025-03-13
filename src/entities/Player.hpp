@@ -6,15 +6,17 @@
 #include "../systems/AssetLoader.hpp"
 #include "Entity.hpp"
 #include "Projectile.hpp"
+#include "../map/Map.hpp"
 
 class Player : public Entity {
 public:
+
 	Player();
 	void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view, float deltaTime) override;
 	void jump();
 	void deplacement(float deltaTime);
 	void border();
-	void collide(const std::vector<Platform>& platforms);
+	void collide(Map& map);
 	float attack();
 	void updateHUDEnergy(sf::View& view);
 
@@ -33,6 +35,7 @@ public:
 	sf::Sprite smokeSprite;
 	sf::Sprite playerSprite;
 	std::vector<Projectile> projectiles;
+	sf::Vector2f lastpos;
 
 private:
 	sf::RectangleShape shapeEnergy, shapeFillEnergy;

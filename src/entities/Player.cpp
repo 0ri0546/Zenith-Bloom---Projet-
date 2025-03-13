@@ -113,42 +113,12 @@ void Player::jump() {
 	}
 }
 
-void Player::collide(const std::vector<Platform>& platforms) { //collision joueur/platforms
+void Player::collide(Map& map) { //collision joueur/platforms
 	isOnGround = false;
-
-	for (const auto& platform : platforms) {
-		if (playerSprite.getGlobalBounds().intersects(platform.getSprite().getGlobalBounds())) {
-			sf::FloatRect playerBounds = playerSprite.getGlobalBounds();
-			sf::FloatRect platformBounds = platform.getSprite().getGlobalBounds();
-
-			float playerLeft = playerBounds.left;
-			float playerRight = playerBounds.left + playerBounds.width;
-			float playerTop = playerBounds.top;
-			float playerBottom = playerBounds.top + playerBounds.height;
-
-			float platformLeft = platformBounds.left;
-			float platformRight = platformBounds.left + platformBounds.width;
-			float platformTop = platformBounds.top;
-			float platformBottom = platformBounds.top + platformBounds.height;
-
-			if (velocityY > 0 && playerBottom > platformTop && playerTop < platformTop) { //bas
-				isOnGround = true;
-				velocityY = 0;
-				playerSprite.setPosition(playerSprite.getPosition().x, platformTop - playerSprite.getGlobalBounds().height);
-			}
-			else if (velocityY < 0 && playerTop < platformBottom && playerBottom > platformBottom) { //haut
-				velocityY = 0;
-				playerSprite.setPosition(playerSprite.getPosition().x, platformBottom);
-			}
-			else if (playerRight > platformLeft && playerLeft < platformLeft) { //gauche
-				playerSprite.setPosition(platformLeft - playerBounds.width, playerSprite.getPosition().y);
-			}
-			else if (playerLeft < platformRight && playerRight > platformRight) { //droite
-				playerSprite.setPosition(platformRight, playerSprite.getPosition().y);
-			}
-		}
+	lastpos = playerSprite.getPosition();
+	if (map.collideTiles(playerSprite.getGlobalBounds())) {
+		
 	}
-	playerSprite.getGlobalBounds().width;
 }
 
 void Player::deplacement(float deltaTime) {
