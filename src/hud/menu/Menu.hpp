@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Button.hpp"
+#include "Slider.hpp"
 #include "../../systems/Datas.hpp"
 
 class Menu {

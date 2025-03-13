@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : isRunning(false), currentState(GameState::MAIN_MENU), optionsMenu(OptionsMenu::MenuList::MAIN_MENU) {
+Game::Game() : isRunning(false), currentState(GameState::MAIN_MENU), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU) {
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	view.setCenter(player.getShape().getPosition());
@@ -41,6 +41,12 @@ void Game::processEvents() {
 		case GameState::VIDEO_MENU:
 			videoMenu.handleInput(window, event);
 			break;
+		case GameState::SOUND_MENU:
+			soundMenu.handleInput(window, event);
+			break;
+		case GameState::CONTROL_MENU:
+			controlMenu.handleInput(window, event);
+			break;
 		default:
 			break;
 		}
@@ -54,7 +60,7 @@ void Game::update() {
 		view.setCenter(player.getShape().getPosition());
 		break;
 	default:
-		view.setCenter(Config::WINDOW_WIDTH / 2, Config::WINDOW_HEIGHT / 2);
+		view.setCenter(static_cast<float>(Config::WINDOW_WIDTH) / 2.f, static_cast<float>(Config::WINDOW_HEIGHT) / 2.f);
 		window.setView(view);
 		break;
 	}
@@ -88,6 +94,14 @@ void Game::render() {
 		break;
 	case GameState::VIDEO_MENU:
 		videoMenu.render(window);
+		videoMenu.renderSlider(window);
+		break;
+	case GameState::SOUND_MENU:
+		soundMenu.render(window);
+		soundMenu.renderSliders(window);
+		break;
+	case GameState::CONTROL_MENU:
+		controlMenu.render(window);
 		break;
 	default:
 		break;
@@ -137,7 +151,7 @@ void Game::handleState(const sf::Event& event) {
 		break;
 	}
 	case GameState::OPTIONS_MENU: {
-		int result = pauseMenu.handleInput(window, event);
+		int result = optionsMenu.handleInput(window, event);
 		if (result == 1) { // Retour
 			if (optionsMenu.lastMenu == OptionsMenu::MenuList::MAIN_MENU) {
 				currentState = GameState::MAIN_MENU;
@@ -150,10 +164,10 @@ void Game::handleState(const sf::Event& event) {
 			currentState = GameState::VIDEO_MENU;
 		}
 		else if (result == 3) { // Son
-
+			currentState = GameState::SOUND_MENU;
 		}
 		else if (result == 4) { // Controles
-
+			currentState = GameState::CONTROL_MENU;
 		}
 		break;
 	}
@@ -165,6 +179,23 @@ void Game::handleState(const sf::Event& event) {
 		else if (result == 2) { // Plein Ecran
 			videoMenu.toggleFullscreen(window);
 			window.setView(sf::View(sf::FloatRect(0.f, 0.f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y))));
+		}
+		else if (result == 3) { // VSync
+			videoMenu.toggleVSync(window);
+		}
+		break;
+	}
+	case GameState::SOUND_MENU: {
+		int result = soundMenu.handleInput(window, event);
+		if (result == 1) { // Retour
+			currentState = GameState::OPTIONS_MENU;
+		}
+		break;
+	}
+	case GameState::CONTROL_MENU: {
+		int result = controlMenu.handleInput(window, event);
+		if (result == 1) { // Retour
+			currentState = GameState::OPTIONS_MENU;
 		}
 		break;
 	}
@@ -184,9 +215,20 @@ void Game::handleKeyboardInput(const sf::Event& event) {
 				currentState = GameState::PLAYING;
 				isGamePaused = false;
 			}
+			else if (currentState == GameState::OPTIONS_MENU && optionsMenu.lastMenu == OptionsMenu::MenuList::MAIN_MENU) {
+				currentState = GameState::MAIN_MENU;
+			}
 			else if (currentState == GameState::OPTIONS_MENU && optionsMenu.lastMenu == OptionsMenu::MenuList::PAUSE_MENU) {
-				currentState = GameState::PLAYING;
-				isGamePaused = false;
+				currentState = GameState::PAUSE_MENU;
+			}
+			else if (currentState == GameState::VIDEO_MENU) {
+				currentState = GameState::OPTIONS_MENU;
+			}
+			else if (currentState == GameState::SOUND_MENU) {
+				currentState = GameState::OPTIONS_MENU;
+			}
+			else if (currentState == GameState::CONTROL_MENU) {
+				currentState = GameState::OPTIONS_MENU;
 			}
 		}
 	}

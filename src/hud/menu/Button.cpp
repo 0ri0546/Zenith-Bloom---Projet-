@@ -1,6 +1,7 @@
 #include "Button.hpp"
 
-Button::Button(int id, const std::string& label, sf::Font& font, sf::Vector2f position, sf::Vector2f size, std::function<void()> callback) : id(id), onClick(callback), isHovered(false) {
+Button::Button(int id, const std::string& label, const std::string& label2, sf::Font& font, sf::Vector2f position, sf::Vector2f size, std::function<void()> callback)
+    : id(id), onClick(callback), isHovered(false), originalText(label2) {
     shape.setSize(size);
     shape.setPosition(position);
     shape.setFillColor(sf::Color::Transparent);
@@ -17,6 +18,7 @@ Button::Button(int id, const std::string& label, sf::Font& font, sf::Vector2f po
     sf::FloatRect textBounds = text.getLocalBounds();
     text.setPosition(position.x + (size.x - textBounds.width) / 2.f, position.y + (size.y - textBounds.height) / 2.f - textBounds.top);
 }
+
 
 void Button::handleMouseHover(const sf::Vector2i& mousePos) {
     bool wasHovered = isHovered;
@@ -42,4 +44,10 @@ int Button::handleMouseClick(const sf::Vector2i& mousePos) {
 void Button::render(sf::RenderWindow& window) {
     window.draw(shape);
     window.draw(text);
+}
+
+void Button::setText(const std::string& label) {
+    text.setString(label);
+    sf::FloatRect textBounds = text.getLocalBounds();
+    text.setPosition(shape.getPosition().x + (shape.getSize().x - textBounds.width) / 2.f, shape.getPosition().y + (shape.getSize().y - textBounds.height) / 2.f - textBounds.top);
 }

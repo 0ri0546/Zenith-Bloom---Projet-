@@ -6,11 +6,13 @@
 #include "../map/Platform.hpp"
 #include "../systems/AssetLoader.hpp"
 #include "../map/Map.hpp"
-#include "../hud/menu/MainMenu.hpp"
 #include "../entities/ennemy.hpp"
+#include "../hud/menu/MainMenu.hpp"
 #include "../hud/menu/PauseMenu.hpp"
 #include "../hud/menu/OptionsMenu.hpp"
 #include "../hud/menu/VideoMenu.hpp"
+#include "../hud/menu/SoundMenu.hpp"
+#include "../hud/menu/ControlMenu.hpp"
 
 class Game {
 public:
@@ -24,6 +26,8 @@ public:
 		PAUSE_MENU,
 		OPTIONS_MENU,
 		VIDEO_MENU,
+		SOUND_MENU,
+		CONTROL_MENU,
 		GAMEOVER_MENU,
 		VICTORY_MENU,
 	};
@@ -31,7 +35,6 @@ public:
 private:
 	sf::RenderWindow window;
 	Player player;
-	//Player player2;
 	
 	sf::View view;
 	std::vector<Platform> platforms;
@@ -53,6 +56,8 @@ private:
 	PauseMenu pauseMenu;
 	OptionsMenu optionsMenu;
 	VideoMenu videoMenu;
+	SoundMenu soundMenu;
+	ControlMenu controlMenu;
 };
 
 #endif

@@ -2,11 +2,11 @@
 #include <iostream>
 
 void MainMenu::initButtons() {
-    buttons.emplace_back(1, "Jouer", font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 200), sf::Vector2f(200, 50), []() {});
+    buttons.emplace_back(1, "Jouer", "Jouer", font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 200), sf::Vector2f(200, 50), []() {});
 
-    buttons.emplace_back(2, "Options", font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 300), sf::Vector2f(200, 50), []() {});
+    buttons.emplace_back(2, "Options", "Options", font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 300), sf::Vector2f(200, 50), []() {});
 
-    buttons.emplace_back(3, "Quitter", font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 400), sf::Vector2f(200, 50), []() {});
+    buttons.emplace_back(3, "Quitter", "Quitter", font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 400), sf::Vector2f(200, 50), []() {});
 }
 
 MainMenu::MainMenu() : Menu() {
