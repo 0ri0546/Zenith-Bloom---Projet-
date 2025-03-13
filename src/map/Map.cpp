@@ -94,3 +94,12 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies)
     }
 		 
 }
+
+bool Map::collideTiles(sf::FloatRect hitbox) {
+    for (auto& tile : tiles) {
+        if (hitbox.intersects(tile->getSprite().getGlobalBounds())) {
+            return true;
+        }
+    }
+    return false;
+}

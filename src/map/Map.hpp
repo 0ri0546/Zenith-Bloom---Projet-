@@ -28,6 +28,7 @@ public:
 	void draw(RenderWindow& window);
 
 	void loadMap(int mapNum, vector<Ennemy>& ennemies);
+	bool collideTiles(sf::FloatRect);
 };
 
 
