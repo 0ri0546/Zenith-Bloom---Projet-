@@ -114,6 +114,19 @@ void Ennemy::collision(Player& player, vector<Projectile>& projectile, vector<En
 		}
 	}
 	
+	if (player.getShape().getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) { //quand les ennemis sont sur le joueur, pour ne pas qu'ils tremblent
+		sf::Vector2f direction = spriteEnnemy.getPosition() - player.getShape().getPosition();
+		float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
+		float minDistance = 50.0f;
+		float pushForce = 1.f;
+
+		if (distance < minDistance && distance > 5.0f) {
+			direction /= distance;
+			spriteEnnemy.move(direction * pushForce);
+		}
+	}
+
+
 	if (player.getShapeAtk().getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
 		currentState = DEAD;
 	}
@@ -132,48 +145,24 @@ void Ennemy::collision(Player& player, vector<Projectile>& projectile, vector<En
 
 void Ennemy::colEnnemyToEnnemy(vector<Ennemy>& ennemies)
 {
+	for (size_t i = 0; i < ennemies.size(); i++) {
+		for (size_t j = i + 1; j < ennemies.size(); j++) {
 
-	
-	for (int i = 0; i < ennemies.size(); i++) {
-		for (int j = ennemies.size(); j > 0; j--) {
+			if (ennemies[i].getSprite().getGlobalBounds().intersects(ennemies[j].getSprite().getGlobalBounds())) {
+				sf::Vector2f direction = ennemies[i].getSprite().getPosition() - ennemies[j].getSprite().getPosition();
+				float length = sqrt(direction.x * direction.x + direction.y * direction.y);
 
-			sf::Vector2f nextPos = ennemies[i].getSprite().getPosition() + moveForCol;
+				if (length != 0) {
+					direction /= length;
 
-			if (nextPos.x > ennemies[j].getSprite().getPosition().x && nextPos.x < ennemies[j].getSprite().getPosition().x + ennemies[j].getSprite().getGlobalBounds().width)
-			{
-				stop = true;
-				cout << "ennemie fait des bebe \n";
-				break;
+					float reboundForce = 0.5f; 
+					ennemies[i].spriteEnnemy.move(direction * reboundForce);
+					ennemies[j].spriteEnnemy.move(-direction * reboundForce);
+				}
 			}
-			else {
-				isWakable = true;
-			}
-
-			//if (ennemies[i].getSprite().getGlobalBounds().intersects(ennemies[j].getSprite().getGlobalBounds()) && ennemies[i].getSprite().getPosition() != ennemies[j].getSprite().getPosition()) {
-			//	
-			//	stop = true; 
-			//	//ennemies[i].getSprite().getPosition() + moveForCol;
-
-
-			//	/*speed = -1;
-			//	ennemies[i].getSprite().move(-moveForCol);
-			//	ennemies[j].getSprite().move(-moveForCol);*/
-			//	cout << "ennemie fait des bébé \n";
-
-
-			//	ennemies[j].getSprite().move(moveForCol);
-			//	break; 
-			//}
-			//else {
-			//	stop = false;
-			//}
-			
 		}
 	}
 }
-
-
-
 
 void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies)
 {
