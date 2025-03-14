@@ -73,7 +73,7 @@ void Game::update(float deltaTime) {
 	case GameState::MAIN_MENU:
 		break;
 	case GameState::PLAYING:
-		player.update(platforms, window, view, deltaTime);
+		player.update(gamemap.getTiles(), window, view, deltaTime);
 		for (auto& ennemy : ennemies) {
 			ennemy.runEnnemy(player, window, player.projectiles, ennemies, platforms, deltaTime);
 		}

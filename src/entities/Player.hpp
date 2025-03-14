@@ -2,19 +2,19 @@
 #define PLAYER_HPP
 
 #include "../systems/Datas.hpp"
-#include "../map/Platform.hpp"
 #include "../systems/AssetLoader.hpp"
 #include "Entity.hpp"
 #include "Projectile.hpp"
+#include "../map/Tiles.hpp"
 
 class Player : public Entity {
 public:
 	Player();
-	void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view, float deltaTime) override;
+	void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) override;
 	void jump();
 	void deplacement(float deltaTime);
 	void border();
-	void collide(const std::vector<Platform>& platforms);
+	void collide(const std::vector<std::unique_ptr<Tiles>>& tiles);
 	float attack();
 	void updateHUDEnergy(sf::View& view);
 
