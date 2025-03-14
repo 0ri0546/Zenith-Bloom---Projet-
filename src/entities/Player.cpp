@@ -19,7 +19,7 @@ Player::Player() {
 	hangedToWallsLeft = false;
 	hangedToWallsRight = false;
 	depX = 0;
-	bounce = 100.f;
+	bounce = 1000.f;
 	jumpTime = 0.f;
 	velocityX = 0.f;
 
@@ -74,8 +74,7 @@ void Player::jump(float deltaTime) {
 		jumpCount = maxJumps;
 	}
 
-	if (hangedToWallsLeft || hangedToWallsRight)
-	{
+	if (hangedToWallsLeft || hangedToWallsRight) {
 		jumpCount--;
 	}
 
@@ -90,23 +89,9 @@ void Player::jump(float deltaTime) {
 		}
 		if (!sf::Joystick::isButtonPressed(0, 0)) {
 			canJump = true;
-			if (hangedToWallsLeft) {
-				depX -= bounce;
-				lastDepIsLeft = false;
-			}
-			else if (hangedToWallsRight) {
-				depX += bounce;
-				lastDepIsLeft = true;
-			}
 			if (energy < maxJetpackEnergy) {
 				energy += energyRecharge;
 			}
-		}
-		if (depX > 0) {
-			depX -= gravity;
-		}
-		else if (depX < 0) {
-			depX += gravity;
 		}
 	}
 	else {
@@ -125,8 +110,7 @@ void Player::jump(float deltaTime) {
 			}
 		}
 	}
-
-	playerSprite.move(depX, velocityY);
+	playerSprite.move(0, velocityY);
 	
 	if (jumpCount == 0) { //pour la fumée
 		if (lastDepIsLeft) {
@@ -168,14 +152,14 @@ void Player::collide(const std::vector<std::unique_ptr<Tiles>>& tiles) {
 			}
 			else if (playerRight > platformLeft && playerLeft < platformLeft) { // gauche
 				playerSprite.setPosition(platformLeft - playerBounds.width, playerSprite.getPosition().y);
-				if (sf::Joystick::isButtonPressed(0, 0)) {
+				if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 					hangedToWallsLeft = true;
 				}
 				
 			}
 			else if (playerLeft < platformRight && playerRight > platformRight) { // droite
 				playerSprite.setPosition(platformRight, playerSprite.getPosition().y);
-				if (sf::Joystick::isButtonPressed(0, 0)) {
+				if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 					hangedToWallsRight = true;
 				}
 				
