@@ -19,3 +19,21 @@ sf::Texture Shared::floorTexture;
 //sf::Sprite groundSprite;
 
 //assets des menus
+
+namespace Keybind {
+    static std::unordered_map<Action, sf::Keyboard::Key> keyBindings = {
+        {Action::MoveRight, sf::Keyboard::D},
+        {Action::MoveLeft, sf::Keyboard::Q},
+        {Action::Jump, sf::Keyboard::Space},
+        {Action::VitalSeed, sf::Keyboard::T},
+        {Action::Repair, sf::Keyboard::R}
+    };
+
+    void setKey(Action action, sf::Keyboard::Key key) {
+        keyBindings[action] = key;
+    }
+
+    sf::Keyboard::Key getKey(Action action) {
+        return keyBindings[action];
+    }
+}

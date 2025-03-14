@@ -4,10 +4,24 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
+#include <unordered_map>
 
 namespace Config {
-	const static int WINDOW_WIDTH = 1920; // 800
-	const static int WINDOW_HEIGHT = 1080; // 800
+	static int WINDOW_WIDTH = 1920; // 800
+	static int WINDOW_HEIGHT = 1080; // 800
+}
+
+namespace Keybind {
+	enum class Action {
+		MoveRight,
+		MoveLeft,
+		Jump,
+		VitalSeed,
+		Repair
+	};
+
+	void setKey(Action action, sf::Keyboard::Key key);
+	sf::Keyboard::Key getKey(Action action);
 }
 
 class Shared {
