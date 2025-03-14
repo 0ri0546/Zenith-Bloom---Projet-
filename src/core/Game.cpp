@@ -31,11 +31,6 @@ void Game::run() {
 		float deltaTime = clock.restart().asSeconds();
 		processEvents(deltaTime);
 		update(deltaTime);
-		for (auto& ennemy : ennemies) {
-			ennemy.runEnnemy(player, window, player.projectiles, ennemies, deltaTime);
-		}
-
-		
 		render();
 	}
 }
@@ -75,6 +70,9 @@ void Game::update(float deltaTime) {
 		break;
 	case GameState::PLAYING:
 		player.update(platforms, window, view, deltaTime);
+		for (auto& ennemy : ennemies) {
+			ennemy.runEnnemy(player, window, player.projectiles, ennemies, deltaTime);
+		}
 		view.setCenter(player.getShape().getPosition());
 		break;
 	default:
@@ -121,6 +119,12 @@ void Game::render() {
 		for (auto proj : player.getProj()) {
 			window.draw(player.getProjShape(proj));
 		}
+		for (auto ennemy : ennemies) {
+			for (auto proj : ennemy.getProj()) {
+				window.draw(ennemy.getProjShape(proj));
+			}
+		}
+		
 		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
 			bool erased = false;
 
@@ -136,29 +140,6 @@ void Game::render() {
 				++it;
 			}
 		}
-
-		for (auto ennemy : ennemies) {
-			for (auto proj : ennemy.getProj()) {
-				window.draw(ennemy.getProjShape(proj));
-			}
-			for (auto it = ennemy.projectiles.begin(); it != ennemy.projectiles.end();) {
-				bool erased = false;
-
-				for (auto& platform : platforms) {
-					if (it->getBounds().intersects(platform.getSprite().getGlobalBounds())) {
-						it = ennemy.projectiles.erase(it);
-						erased = true;
-						break;
-					}
-				}
-
-				if (!erased) {
-					++it;
-				}
-			}
-		}
-
-
 
 		window.setView(view);
 		break;
