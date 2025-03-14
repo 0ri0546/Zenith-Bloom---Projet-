@@ -25,7 +25,6 @@ namespace Keybind {
         {Action::MoveRight, sf::Keyboard::D},
         {Action::MoveLeft, sf::Keyboard::Q},
         {Action::Jump, sf::Keyboard::Space},
-        {Action::Boost, sf::Keyboard::LShift},
         {Action::VitalSeed, sf::Keyboard::T},
         {Action::Repair, sf::Keyboard::R}
     };

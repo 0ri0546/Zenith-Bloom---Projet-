@@ -44,12 +44,12 @@ std::string keyToString(sf::Keyboard::Key key) {
     case sf::Keyboard::Enter: return "Entrer";
     case sf::Keyboard::BackSpace: return "Retour";
     case sf::Keyboard::Tab: return "Tab";
-    case sf::Keyboard::LShift: return "L Maj";
-    case sf::Keyboard::RShift: return "R Maj";
-    case sf::Keyboard::LControl: return "L Controle";
-    case sf::Keyboard::RControl: return "R Controle";
-    case sf::Keyboard::LAlt: return "L Alt";
-    case sf::Keyboard::RAlt: return "R Alt";
+    case sf::Keyboard::LShift: return "Maj Gauche";
+    case sf::Keyboard::RShift: return "Maj Droite";
+    case sf::Keyboard::LControl: return "Controle Gauche";
+    case sf::Keyboard::RControl: return "Controle Droite";
+    case sf::Keyboard::LAlt: return "Alt Gauche";
+    case sf::Keyboard::RAlt: return "Alt Droite";
     default: return "Unknown";
     }
 }
@@ -60,7 +60,6 @@ ControlMenu::ControlMenu() : Menu(), waitingForKey(false), buttonWaitingForKey(n
     moveRightKey = Keybind::getKey(Keybind::Action::MoveRight);
     moveLeftKey = Keybind::getKey(Keybind::Action::MoveLeft);
     jumpKey = Keybind::getKey(Keybind::Action::Jump);
-    boostKey = Keybind::getKey(Keybind::Action::Boost);
     vitalSeedKey = Keybind::getKey(Keybind::Action::VitalSeed);
     repairKey = Keybind::getKey(Keybind::Action::Repair);
 }
@@ -69,7 +68,6 @@ ControlMenu::~ControlMenu() {
     delete moveRightButton;
     delete moveLeftButton;
     delete jumpButton;
-    delete boostButton;
     delete vitalSeedButton;
     delete repairButton;
 }
@@ -81,7 +79,7 @@ void ControlMenu::initButtons() {
     float centerX = windowWidth / 2.f;
 
     float verticalSpacing = 100.f;
-    float startY = 150.f;
+    float startY = 200.f;
 
     Button* backButton = new Button(1, "Retour", "Retour", font, sf::Vector2f(centerX - 150, startY), sf::Vector2f(300, 50), [this]() {});
     buttons.push_back(backButton);
@@ -98,15 +96,11 @@ void ControlMenu::initButtons() {
         buttonWaitingForKey = jumpButton;
         waitingForKey = true;
         });
-    boostButton = new Button(5, "Boost = Maj", "Boost", font, sf::Vector2f(centerX - 150, startY + 4 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
-        buttonWaitingForKey = boostButton;
-        waitingForKey = true;
-        });
-    vitalSeedButton = new Button(6, "Graine vitale = T", "Graine vitale", font, sf::Vector2f(centerX - 150, startY + 5 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
+    vitalSeedButton = new Button(5, "Graine vitale = T", "Graine vitale", font, sf::Vector2f(centerX - 150, startY + 4 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
         buttonWaitingForKey = vitalSeedButton;
         waitingForKey = true;
         });
-    repairButton = new Button(7, "Réparation = R", "Réparation", font, sf::Vector2f(centerX - 150, startY + 6 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
+    repairButton = new Button(6, "Réparation = R", "Réparation", font, sf::Vector2f(centerX - 150, startY + 5 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
         buttonWaitingForKey = repairButton;
         waitingForKey = true;
         });
@@ -114,7 +108,6 @@ void ControlMenu::initButtons() {
     buttons.push_back(moveRightButton);
     buttons.push_back(moveLeftButton);
     buttons.push_back(jumpButton);
-    buttons.push_back(boostButton);
     buttons.push_back(vitalSeedButton);
     buttons.push_back(repairButton);
 }
@@ -122,26 +115,34 @@ void ControlMenu::initButtons() {
 int ControlMenu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
+    static bool newClick = false;
+
     if (waitingForKey) {
         if (event.type == sf::Event::KeyPressed) {
             setKeyBinding(event.key.code);
             buttonWaitingForKey->setText(buttonWaitingForKey->getOriginalText() + " : " + keyToString(event.key.code));
             waitingForKey = false;
+            newClick = true;
         }
     }
     else {
-        if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left && newClick) {
+            newClick = false;
+
             for (auto& button : buttons) {
                 int buttonResult = button->handleMouseClick(mousePos);
                 if (buttonResult != 0) {
-                    if (buttonResult >= 2 && buttonResult <= 7) {
+                    if (buttonResult >= 2 && buttonResult <= 6) {
                         buttonWaitingForKey = button;
-                        button->setText("Appuyez sur une touche...");
+                        buttonWaitingForKey->setText("Appuyez sur une touche...");
                         waitingForKey = true;
                     }
                     return buttonResult;
                 }
             }
+        }
+        if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+            newClick = true;
         }
     }
 
@@ -153,22 +154,11 @@ int ControlMenu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
 }
 
 void ControlMenu::render(sf::RenderWindow& window) {
-    renderKeyBindings(window);
-
     window.clear();
     window.draw(backgroundSprite);
     for (auto& button : buttons) {
         button->render(window);
     }
-}
-
-void ControlMenu::renderKeyBindings(sf::RenderWindow& window) {
-    moveRightButton->setText("Aller à droite : " + keyToString(moveRightKey));
-    moveLeftButton->setText("Aller à gauche : " + keyToString(moveLeftKey));
-    jumpButton->setText("Sauter : " + keyToString(jumpKey));
-    boostButton->setText("Boost : " + keyToString(boostKey));
-    vitalSeedButton->setText("Graine vitale : " + keyToString(vitalSeedKey));
-    repairButton->setText("Réparation : " + keyToString(repairKey));
 }
 
 void ControlMenu::setKeyBinding(sf::Keyboard::Key key) {
@@ -186,11 +176,6 @@ void ControlMenu::setKeyBinding(sf::Keyboard::Key key) {
         jumpKey = key;
         buttonWaitingForKey->setText("Sauter : " + keyToString(jumpKey));
         Keybind::setKey(Keybind::Action::Jump, jumpKey);
-    }
-    else if (buttonWaitingForKey == boostButton) {
-        boostKey = key;
-        buttonWaitingForKey->setText("Boost : " + keyToString(boostKey));
-        Keybind::setKey(Keybind::Action::Boost, boostKey);
     }
     else if (buttonWaitingForKey == vitalSeedButton) {
         vitalSeedKey = key;

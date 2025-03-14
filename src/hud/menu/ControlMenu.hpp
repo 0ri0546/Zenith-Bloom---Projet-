@@ -14,14 +14,12 @@ private:
     Button* moveRightButton;
     Button* moveLeftButton;
     Button* jumpButton;
-    Button* boostButton;
     Button* vitalSeedButton;
     Button* repairButton;
 
     sf::Keyboard::Key moveRightKey;
     sf::Keyboard::Key moveLeftKey;
     sf::Keyboard::Key jumpKey;
-    sf::Keyboard::Key boostKey;
     sf::Keyboard::Key vitalSeedKey;
     sf::Keyboard::Key repairKey;
 
@@ -37,7 +35,6 @@ public:
 
     int handleInput(sf::RenderWindow& window, const sf::Event& event) override;
     void render(sf::RenderWindow& window) override;
-    void renderKeyBindings(sf::RenderWindow& window);
 };
 
 #endif // CONTROL_MENU_HPP

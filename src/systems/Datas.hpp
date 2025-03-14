@@ -16,7 +16,6 @@ namespace Keybind {
 		MoveRight,
 		MoveLeft,
 		Jump,
-		Boost,
 		VitalSeed,
 		Repair
 	};
