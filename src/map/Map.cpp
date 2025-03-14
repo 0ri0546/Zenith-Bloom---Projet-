@@ -14,7 +14,7 @@ vector<vector<char>> Map::getMap()
 {
     return map;
 }
-vector<unique_ptr<Tiles>>& Map::getTiles()
+ vector<unique_ptr<Tiles>>& Map::getTiles()
 {
     return tiles;
 }
