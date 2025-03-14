@@ -23,7 +23,11 @@ void Game::run() {
 	//Assets assets();
 	//addPlatform(0, 550, 40, 40);
 	//addPlatform(60, 550, 40, 40);
-	addPlatform(-200, 400, 2000, 20);
+	addPlatform(700, 200, 500, 50);
+	addPlatform(-200, 400, 2000, 50);
+	addPlatform(-400, 600, 3000, 50);
+	addPlatform(-200, 200, 500, 50);
+	//addPlatform(700, 100, 500, 20);
 	//addPlatform(200, 0, 200, 500);
 	sf::Clock clock;
 	
@@ -71,7 +75,7 @@ void Game::update(float deltaTime) {
 	case GameState::PLAYING:
 		player.update(gamemap.getTiles(), window, view, deltaTime);
 		for (auto& ennemy : ennemies) {
-			ennemy.runEnnemy(player, window, player.projectiles, ennemies, deltaTime);
+			ennemy.runEnnemy(player, window, player.projectiles, ennemies, platforms, deltaTime);
 		}
 		view.setCenter(player.getShape().getPosition());
 		break;
@@ -82,7 +86,7 @@ void Game::update(float deltaTime) {
 
 void Game::render() {
 	window.clear(sf::Color::Blue);
-	currentState = GameState::PLAYING;
+	
 	switch (currentState) {
 	case GameState::TITLE_MENU:
 		title.draw(window);
