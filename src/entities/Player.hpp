@@ -10,6 +10,7 @@
 class Player : public Entity {
 public:
 	Player();
+	~Player();
 	void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) override;
 	void jump();
 	void deplacement(float deltaTime);

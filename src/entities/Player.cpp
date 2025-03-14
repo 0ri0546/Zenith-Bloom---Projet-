@@ -1,6 +1,8 @@
 #include "Player.hpp"
 
 Player::Player() {
+	playerSprite.setPosition(sf::Vector2f(400, 0));
+
 	playerSprite.setTexture(Shared::playerTexture);
 	smokeSprite.setTexture(Shared::smokeTexture);
 	swordSprite.setTexture(Shared::swordTexture);
@@ -307,4 +309,8 @@ std::vector<Projectile> Player::getProj() const {
 
 sf::Sprite Player::getProjShape(Projectile& proj) const {
 	return proj.getSprite();
+}
+
+Player::~Player() {
+	projectiles.clear();
 }

@@ -33,3 +33,5 @@ sf::FloatRect Projectile::getBounds() const {
 sf::Sprite Projectile::getSprite() const {
     return sprite;
 }
+
+Projectile::~Projectile() {}

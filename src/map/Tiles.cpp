@@ -36,8 +36,3 @@ Tiles::~Tiles() {}
 sf::Vector2f Tiles::getPos() const { return sf::Vector2f(x, y); }
 
 sf::Sprite Tiles::getSprite() const { return sprite; }
-
-void Tiles::draw(sf::RenderWindow& window)
-{
-	window.draw(sprite);
-}

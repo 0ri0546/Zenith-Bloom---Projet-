@@ -19,18 +19,6 @@ vector<vector<char>> Map::getMap()
     return tiles;
 }
 
-void Map::draw(RenderWindow& window)
-{
-	for (auto grid : recTab)
-	{
-		window.draw(grid);
-		
-	}
-    for (auto& tile : tiles)
-    {
-        tile->draw(window);
-    }
-}
 
 void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window)
 {

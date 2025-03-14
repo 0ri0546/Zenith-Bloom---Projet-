@@ -20,7 +20,6 @@ private:
 public:
 	Tiles(float x, float y, int type);
 	~Tiles();
-	void draw(sf::RenderWindow& window);
 	sf::Vector2f getPos() const ;
 	sf::Sprite getSprite() const;
 };
