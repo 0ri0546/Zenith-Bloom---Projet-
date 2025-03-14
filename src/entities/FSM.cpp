@@ -52,7 +52,10 @@ void Ennemy::chase(Player& player) {
 		speed * copysign(0.0f, velocityY + spriteEnnemy.getPosition().y));
 
 	moveForCol = direction;
-	spriteEnnemy.move(direction);
+	if(onTheGround)
+		spriteEnnemy.move(direction.x, 0);
+	else
+		spriteEnnemy.move(direction);
 
 	if (direction.x < 0) {
 		lastDepIsLeft = true;
@@ -83,7 +86,10 @@ void Ennemy::collision(Player& player, vector<Projectile>& projectile, vector<En
 
 		if (distance < minDistance && distance > 5.0f) {
 			direction /= distance;
-			spriteEnnemy.move(direction * pushForce);
+			if (onTheGround)
+				spriteEnnemy.move(direction.x * pushForce, 0);
+			else
+				spriteEnnemy.move(direction * pushForce);
 		}
 	}
 
@@ -125,7 +131,10 @@ void Ennemy::colEnnemyToPlayer(Player& player, vector<Ennemy>& ennemies) {
 			if (length != 0) {
 				direction /= length;
 				float reboundForce = 0.5f;
-				spriteEnnemy.move(direction * reboundForce);
+				if (onTheGround)
+					spriteEnnemy.move(direction.x * reboundForce, 0);
+				//else
+				//	spriteEnnemy.move(direction * reboundForce);
 				player.playerSprite.move(-direction * reboundForce);
 			}
 		}
@@ -138,12 +147,11 @@ void Ennemy::colEnnemyToPlayer(Player& player, vector<Ennemy>& ennemies) {
 
 
 
-void Ennemy::colEnnemiToGround(vector<Ennemy>& ennemies, vector<Platform>& platforms)
+void Ennemy::colEnnemiToGround(vector<Ennemy>& ennemies, vector<unique_ptr<Tiles>>& tiles)
 {
-	for (auto& platform : platforms) {
+	for (auto& tile : tiles) {
 		
-			if (spriteEnnemy.getGlobalBounds().intersects(platform.getSprite().getGlobalBounds())) {
-				
+			if (spriteEnnemy.getGlobalBounds().intersects(tile->getSprite().getGlobalBounds())) {
 				onTheGround = true;
 				
 				break;
@@ -159,9 +167,9 @@ void Ennemy::colEnnemiToGround(vector<Ennemy>& ennemies, vector<Platform>& platf
 
 
 
-void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, vector<Platform>& platforms, float deltaTime) {
+void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, vector<unique_ptr<Tiles>>& tiles, float deltaTime) {
 
-	colEnnemiToGround(ennemies, platforms);
+	colEnnemiToGround(ennemies, tiles);
 
 	if (!onTheGround) {
 		velocityY += gravity;

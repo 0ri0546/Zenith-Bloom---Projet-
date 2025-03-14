@@ -4,7 +4,7 @@
 #include "Entity.hpp"
 #include "../entities/Player.hpp"
 #include "Projectile.hpp"
-
+#include "../map/Platform.hpp"
 
 enum ennemyState {
 	PATROL,
@@ -24,11 +24,11 @@ public :
 	void collision(Player& player, vector<Projectile>& projectile, vector<Ennemy>& ennemies);
 	void colEnnemyToEnnemy(vector<Ennemy>& ennemies);
 	void colEnnemyToPlayer(Player& player, vector<Ennemy>& ennemies);
-	void colEnnemiToGround(vector<Ennemy>& ennemies, vector<Platform>& platforms);
+	void colEnnemiToGround(vector<Ennemy>& ennemies, vector<unique_ptr<Tiles>>& tiles);
 	
 
 	void draw(sf::RenderWindow& window);
-	void runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, vector<Platform>& platforms, float deltaTime);
+	void runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, vector<unique_ptr<Tiles>>& tiles, float deltaTime);
 	
 	
 	void rangedAttack();
