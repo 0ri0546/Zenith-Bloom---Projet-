@@ -157,6 +157,7 @@
     <ClCompile Include="src\entities\ManagerEnnemy.cpp" />
     <ClCompile Include="src\entities\Player.cpp" />
     <ClCompile Include="src\entities\Projectile.cpp" />
+    <ClCompile Include="src\hud\menu\BouncingTitle.cpp" />
     <ClCompile Include="src\hud\menu\Button.cpp" />
     <ClCompile Include="src\hud\menu\ControlMenu.cpp" />
     <ClCompile Include="src\hud\menu\GameOverMenu.cpp" />
@@ -173,7 +174,6 @@
     <ClCompile Include="src\map\Platform.cpp" />
     <ClCompile Include="src\map\Tiles.cpp" />
     <ClCompile Include="src\systems\AssetLoader.cpp" />
-    <ClCompile Include="src\systems\BouncingTitle.cpp" />
     <ClCompile Include="src\systems\AudioSystem.cpp" />
     <ClCompile Include="src\systems\Datas.cpp" />
     <ClCompile Include="src\systems\grid.cpp" />
@@ -187,6 +187,7 @@
     <ClInclude Include="src\entities\ManagerEnnemy.hpp" />
     <ClInclude Include="src\entities\Player.hpp" />
     <ClInclude Include="src\entities\Projectile.hpp" />
+    <ClInclude Include="src\hud\menu\BouncingTitle.hpp" />
     <ClInclude Include="src\hud\menu\Button.hpp" />
     <ClInclude Include="src\hud\menu\ControlMenu.hpp" />
     <ClInclude Include="src\hud\menu\GameOverMenu.hpp" />
@@ -202,7 +203,6 @@
     <ClInclude Include="src\map\Platform.hpp" />
     <ClInclude Include="src\map\Tiles.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
-    <ClInclude Include="src\systems\BouncingTitle.hpp" />
     <ClInclude Include="src\systems\AudioSystem.hpp" />
     <ClInclude Include="src\systems\Datas.hpp" />
     <ClInclude Include="src\systems\GESTION TEXTURE.hpp" />

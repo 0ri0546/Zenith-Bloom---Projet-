@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : isRunning(false), currentState(GameState::MAIN_MENU), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU) {
+Game::Game() : isRunning(false), currentState(GameState::MAIN_MENU), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font) {
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
@@ -22,6 +22,7 @@ void Game::createWindow() {
 	window.setFramerateLimit(60);
 	window.setVerticalSyncEnabled(true);
 	isRunning = true;
+}
 
 void Game::processEvents(float deltaTime) {
 	sf::Event event;
@@ -85,7 +86,6 @@ void Game::update(float deltaTime) {
 
 void Game::render() {
 	window.clear(sf::Color::Blue);
-	currentState = GameState::PLAYING;
 	switch (currentState) {
 	case GameState::TITLE_MENU:
 		title.draw(window);
@@ -180,7 +180,7 @@ void Game::run() {
 	//addPlatform(200, 0, 200, 500);
 	sf::Clock clock;
 	
-	while (window.isOpen()) {
+	while (isRunning) {
 		float deltaTime = clock.restart().asSeconds();
 		processEvents(deltaTime);
 		update(deltaTime);

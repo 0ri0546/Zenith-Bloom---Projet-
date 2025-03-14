@@ -7,7 +7,6 @@
 #include "../map/Platform.hpp"
 #include "../systems/AssetLoader.hpp"
 #include "../map/Map.hpp"
-#include "../entities/ennemy.hpp"
 #include "../hud/menu/MainMenu.hpp"
 #include "../hud/menu/PauseMenu.hpp"
 #include "../hud/menu/OptionsMenu.hpp"
@@ -16,7 +15,7 @@
 #include "../hud/menu/ControlMenu.hpp"
 #include "../entities/FSM.hpp"
 #include "../systems/grid.hpp"
-#include "../systems/BouncingTitle.hpp"
+#include "../hud/menu/BouncingTitle.hpp"
 
 class Game {
 public:
