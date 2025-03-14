@@ -157,17 +157,21 @@
     <ClCompile Include="src\entities\ManagerEnnemy.cpp" />
     <ClCompile Include="src\entities\Player.cpp" />
     <ClCompile Include="src\hud\menu\Button.cpp" />
+    <ClCompile Include="src\hud\menu\ControlMenu.cpp" />
     <ClCompile Include="src\hud\menu\GameOverMenu.cpp" />
     <ClCompile Include="src\hud\menu\LevelSelectorMenu.cpp" />
     <ClCompile Include="src\hud\menu\MainMenu.cpp" />
     <ClCompile Include="src\hud\menu\Menu.cpp" />
     <ClCompile Include="src\hud\menu\OptionsMenu.cpp" />
     <ClCompile Include="src\hud\menu\PauseMenu.cpp" />
+    <ClCompile Include="src\hud\menu\Slider.cpp" />
+    <ClCompile Include="src\hud\menu\SoundMenu.cpp" />
     <ClCompile Include="src\hud\menu\VideoMenu.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\map\Map.cpp" />
     <ClCompile Include="src\map\Platform.cpp" />
     <ClCompile Include="src\systems\AssetLoader.cpp" />
+    <ClCompile Include="src\systems\AudioSystem.cpp" />
     <ClCompile Include="src\systems\Datas.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,16 +181,20 @@
     <ClInclude Include="src\entities\ManagerEnnemy.hpp" />
     <ClInclude Include="src\entities\Player.hpp" />
     <ClInclude Include="src\hud\menu\Button.hpp" />
+    <ClInclude Include="src\hud\menu\ControlMenu.hpp" />
     <ClInclude Include="src\hud\menu\GameOverMenu.hpp" />
     <ClInclude Include="src\hud\menu\LevelSelectorMenu.hpp" />
     <ClInclude Include="src\hud\menu\MainMenu.hpp" />
     <ClInclude Include="src\hud\menu\Menu.hpp" />
     <ClInclude Include="src\hud\menu\OptionsMenu.hpp" />
     <ClInclude Include="src\hud\menu\PauseMenu.hpp" />
+    <ClInclude Include="src\hud\menu\Slider.hpp" />
+    <ClInclude Include="src\hud\menu\SoundMenu.hpp" />
     <ClInclude Include="src\hud\menu\VideoMenu.hpp" />
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
+    <ClInclude Include="src\systems\AudioSystem.hpp" />
     <ClInclude Include="src\systems\Datas.hpp" />
     <ClInclude Include="src\systems\GESTION TEXTURE.hpp" />
   </ItemGroup>

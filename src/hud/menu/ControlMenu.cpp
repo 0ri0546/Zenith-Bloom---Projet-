@@ -54,15 +54,6 @@ std::string keyToString(sf::Keyboard::Key key) {
     }
 }
 
-std::string mouseToString(sf::Mouse::Button button) {
-    switch (button) {
-    case sf::Mouse::Left: return "Clic gauche";
-    case sf::Mouse::Right: return "Clic droit";
-    case sf::Mouse::Middle: return "Clic milieu";
-    default: return "Bouton inconnu";
-    }
-}
-
 ControlMenu::ControlMenu() : Menu(), waitingForKey(false), buttonWaitingForKey(nullptr) {
     initButtons();
 
@@ -70,8 +61,6 @@ ControlMenu::ControlMenu() : Menu(), waitingForKey(false), buttonWaitingForKey(n
     moveLeftKey = sf::Keyboard::Q;
     jumpKey = sf::Keyboard::Space;
     boostKey = sf::Keyboard::LShift;
-    meleeAttackKey = sf::Keyboard::Left;
-    energyProjectileKey = sf::Keyboard::Right;
     vitalSeedKey = sf::Keyboard::T;
     repairKey = sf::Keyboard::R;
 }
@@ -81,8 +70,6 @@ ControlMenu::~ControlMenu() {
     delete moveLeftButton;
     delete jumpButton;
     delete boostButton;
-    delete meleeAttackButton;
-    delete energyProjectileButton;
     delete vitalSeedButton;
     delete repairButton;
     delete saveButton;
@@ -116,23 +103,15 @@ void ControlMenu::initButtons() {
         buttonWaitingForKey = boostButton;
         waitingForKey = true;
         });
-    meleeAttackButton = new Button(6, "Attaque de mêlée", "Attaque de mêlée", font, sf::Vector2f(centerX - 150, startY + 5 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
-        buttonWaitingForKey = meleeAttackButton;
-        waitingForKey = true;
-        });
-    energyProjectileButton = new Button(7, "Projectile énergétique", "Projectile énergétique", font, sf::Vector2f(centerX - 150, startY + 6 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
-        buttonWaitingForKey = energyProjectileButton;
-        waitingForKey = true;
-        });
-    vitalSeedButton = new Button(8, "Graine vitale = T", "Graine vitale", font, sf::Vector2f(centerX - 150, startY + 7 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
+    vitalSeedButton = new Button(8, "Graine vitale = T", "Graine vitale", font, sf::Vector2f(centerX - 150, startY + 5 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
         buttonWaitingForKey = vitalSeedButton;
         waitingForKey = true;
         });
-    repairButton = new Button(9, "Réparation = R", "Réparation", font, sf::Vector2f(centerX - 150, startY + 8 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
+    repairButton = new Button(9, "Réparation = R", "Réparation", font, sf::Vector2f(centerX - 150, startY + 6 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
         buttonWaitingForKey = repairButton;
         waitingForKey = true;
         });
-    saveButton = new Button(10, "Sauvegarder les contrôles", "Sauvegarder les contrôles", font, sf::Vector2f(centerX - 150, startY + 9 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
+    saveButton = new Button(10, "Sauvegarder les contrôles", "Sauvegarder les contrôles", font, sf::Vector2f(centerX - 150, startY + 7 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
         std::cout << "Les contrôles ont été sauvegardés !" << std::endl;
         });
 
@@ -140,8 +119,6 @@ void ControlMenu::initButtons() {
     buttons.push_back(*moveLeftButton);
     buttons.push_back(*jumpButton);
     buttons.push_back(*boostButton);
-    buttons.push_back(*meleeAttackButton);
-    buttons.push_back(*energyProjectileButton);
     buttons.push_back(*vitalSeedButton);
     buttons.push_back(*repairButton);
     buttons.push_back(*saveButton);
@@ -150,21 +127,11 @@ void ControlMenu::initButtons() {
 int ControlMenu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-    // Si on attend une nouvelle touche ou un bouton de souris
     if (waitingForKey) {
         if (event.type == sf::Event::KeyPressed) {
             setKeyBinding(event.key.code);
             buttonWaitingForKey->setText(buttonWaitingForKey->getOriginalText() + " : " + keyToString(event.key.code));
             waitingForKey = false;
-        }
-        else if (event.type == sf::Event::MouseButtonPressed) {
-            if (event.mouseButton.button == sf::Mouse::Left ||
-                event.mouseButton.button == sf::Mouse::Right ||
-                event.mouseButton.button == sf::Mouse::Middle) {
-                // Bind une touche de souris après avoir cliqué
-                buttonWaitingForKey->setText(buttonWaitingForKey->getOriginalText() + " : " + mouseToString(event.mouseButton.button));
-                waitingForKey = false;
-            }
         }
     }
     else {
@@ -172,19 +139,17 @@ int ControlMenu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
             for (auto& button : buttons) {
                 int buttonResult = button.handleMouseClick(mousePos);
                 if (buttonResult != 0) {
-                    // Seulement lorsque le bouton spécifique est cliqué, entrer en mode "attente de saisie"
-                    if (buttonResult >= 2 && buttonResult <= 9) {
+                    if (buttonResult >= 2 && buttonResult <= 7) {
                         buttonWaitingForKey = &button;
                         button.setText("Appuyez sur une touche...");
                         waitingForKey = true;
                     }
-                    return buttonResult;  // Retournons l'action du bouton
+                    return buttonResult;
                 }
             }
         }
     }
 
-    // Gérer l'effet de survol de la souris
     for (auto& button : buttons) {
         button.handleMouseHover(mousePos);
     }
@@ -207,8 +172,6 @@ void ControlMenu::renderKeyBindings(sf::RenderWindow& window) {
     moveLeftButton->setText("Aller à gauche : " + keyToString(moveLeftKey));
     jumpButton->setText("Sauter : " + keyToString(jumpKey));
     boostButton->setText("Boost : " + keyToString(boostKey));
-    meleeAttackButton->setText("Attaque de mêlée : " + keyToString(meleeAttackKey));
-    energyProjectileButton->setText("Projectile énergétique : " + keyToString(energyProjectileKey));
     vitalSeedButton->setText("Graine vitale : " + keyToString(vitalSeedKey));
     repairButton->setText("Réparation : " + keyToString(repairKey));
 }
@@ -229,14 +192,6 @@ void ControlMenu::setKeyBinding(sf::Keyboard::Key key) {
     else if (buttonWaitingForKey == boostButton) {
         boostKey = key;
         buttonWaitingForKey->setText("Boost : " + keyToString(boostKey));
-    }
-    else if (buttonWaitingForKey == meleeAttackButton) {
-        meleeAttackKey = key;
-        buttonWaitingForKey->setText("Attaque de mêlée : " + keyToString(meleeAttackKey));
-    }
-    else if (buttonWaitingForKey == energyProjectileButton) {
-        energyProjectileKey = key;
-        buttonWaitingForKey->setText("Projectile énergétique : " + keyToString(energyProjectileKey));
     }
     else if (buttonWaitingForKey == vitalSeedButton) {
         vitalSeedKey = key;
