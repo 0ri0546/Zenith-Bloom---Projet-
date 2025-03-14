@@ -10,22 +10,18 @@
 
 class ControlMenu : public Menu {
 private:
+    std::vector<Button*> buttons;
     Button* moveRightButton;
     Button* moveLeftButton;
     Button* jumpButton;
     Button* boostButton;
-    Button* meleeAttackButton;
-    Button* energyProjectileButton;
     Button* vitalSeedButton;
     Button* repairButton;
-    Button* saveButton;
 
     sf::Keyboard::Key moveRightKey;
     sf::Keyboard::Key moveLeftKey;
     sf::Keyboard::Key jumpKey;
     sf::Keyboard::Key boostKey;
-    sf::Keyboard::Key meleeAttackKey;
-    sf::Keyboard::Key energyProjectileKey;
     sf::Keyboard::Key vitalSeedKey;
     sf::Keyboard::Key repairKey;
 

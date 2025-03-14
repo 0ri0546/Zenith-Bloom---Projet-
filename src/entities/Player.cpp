@@ -50,7 +50,7 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 	//std::cout << "deltatime : " << deltaTime << std::endl;
 
 	updateProjectiles(deltaTime, window);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 5)) {
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 5)) {
 		rangedAttack();
 	}
 }
@@ -82,7 +82,7 @@ void Player::jump() {
 		}
 	}
 	else {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && jumpCount > 0 && canJump) {
+		if (sf::Keyboard::isKeyPressed(Keybind::getKey(Keybind::Action::Jump)) && jumpCount > 0 && canJump) {
 			velocityY = -10.0f;
 			jumpCount--;
 			canJump = false;
@@ -90,7 +90,7 @@ void Player::jump() {
 				energy -= energyConsumption;
 			}
 		}
-		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+		if (!sf::Keyboard::isKeyPressed(Keybind::getKey(Keybind::Action::Jump))) {
 			canJump = true;
 			if (energy < maxJetpackEnergy) {
 				energy += energyRecharge;
@@ -169,11 +169,11 @@ void Player::deplacement(float deltaTime) {
 		}
 	}
 	else {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		if (sf::Keyboard::isKeyPressed(Keybind::getKey(Keybind::Action::MoveRight))) {
 			velocityX += maxSpeed;
 			lastDepIsLeft = false;
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+		if (sf::Keyboard::isKeyPressed(Keybind::getKey(Keybind::Action::MoveLeft))) {
 			velocityX -= maxSpeed;
 			lastDepIsLeft = true;
 		}
@@ -182,8 +182,8 @@ void Player::deplacement(float deltaTime) {
 	if (velocityX > maxSpeed) velocityX = maxSpeed;
 	if (velocityX < -maxSpeed) velocityX = -maxSpeed;
 
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::D) &&
-		!sf::Keyboard::isKeyPressed(sf::Keyboard::Q) &&
+	if (!sf::Keyboard::isKeyPressed(Keybind::getKey(Keybind::Action::MoveRight)) &&
+		!sf::Keyboard::isKeyPressed(Keybind::getKey(Keybind::Action::MoveLeft)) &&
 		sf::Joystick::getAxisPosition(0, sf::Joystick::X) < 50 &&
 		sf::Joystick::getAxisPosition(0, sf::Joystick::X) > -50) {
 
@@ -230,7 +230,7 @@ float Player::attack() {
 			}
 		}
 		else {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && energy > 5.0) {
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && energy > 5.0) {
 				shortRangeDamage = damage;
 				energy -= 5.0;
 				attackClock.restart();

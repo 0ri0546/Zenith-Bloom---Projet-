@@ -57,12 +57,12 @@ std::string keyToString(sf::Keyboard::Key key) {
 ControlMenu::ControlMenu() : Menu(), waitingForKey(false), buttonWaitingForKey(nullptr) {
     initButtons();
 
-    moveRightKey = sf::Keyboard::D;
-    moveLeftKey = sf::Keyboard::Q;
-    jumpKey = sf::Keyboard::Space;
-    boostKey = sf::Keyboard::LShift;
-    vitalSeedKey = sf::Keyboard::T;
-    repairKey = sf::Keyboard::R;
+    moveRightKey = Keybind::getKey(Keybind::Action::MoveRight);
+    moveLeftKey = Keybind::getKey(Keybind::Action::MoveLeft);
+    jumpKey = Keybind::getKey(Keybind::Action::Jump);
+    boostKey = Keybind::getKey(Keybind::Action::Boost);
+    vitalSeedKey = Keybind::getKey(Keybind::Action::VitalSeed);
+    repairKey = Keybind::getKey(Keybind::Action::Repair);
 }
 
 ControlMenu::~ControlMenu() {
@@ -72,7 +72,6 @@ ControlMenu::~ControlMenu() {
     delete boostButton;
     delete vitalSeedButton;
     delete repairButton;
-    delete saveButton;
 }
 
 void ControlMenu::initButtons() {
@@ -82,10 +81,10 @@ void ControlMenu::initButtons() {
     float centerX = windowWidth / 2.f;
 
     float verticalSpacing = 100.f;
-    float startY = 50.f;
+    float startY = 150.f;
 
     Button* backButton = new Button(1, "Retour", "Retour", font, sf::Vector2f(centerX - 150, startY), sf::Vector2f(300, 50), [this]() {});
-    buttons.push_back(*backButton);
+    buttons.push_back(backButton);
 
     moveRightButton = new Button(2, "Aller à droite : D", "Aller à droite", font, sf::Vector2f(centerX - 150, startY + verticalSpacing), sf::Vector2f(300, 50), [this]() {
         buttonWaitingForKey = moveRightButton;
@@ -103,25 +102,21 @@ void ControlMenu::initButtons() {
         buttonWaitingForKey = boostButton;
         waitingForKey = true;
         });
-    vitalSeedButton = new Button(8, "Graine vitale = T", "Graine vitale", font, sf::Vector2f(centerX - 150, startY + 5 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
+    vitalSeedButton = new Button(6, "Graine vitale = T", "Graine vitale", font, sf::Vector2f(centerX - 150, startY + 5 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
         buttonWaitingForKey = vitalSeedButton;
         waitingForKey = true;
         });
-    repairButton = new Button(9, "Réparation = R", "Réparation", font, sf::Vector2f(centerX - 150, startY + 6 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
+    repairButton = new Button(7, "Réparation = R", "Réparation", font, sf::Vector2f(centerX - 150, startY + 6 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
         buttonWaitingForKey = repairButton;
         waitingForKey = true;
         });
-    saveButton = new Button(10, "Sauvegarder les contrôles", "Sauvegarder les contrôles", font, sf::Vector2f(centerX - 150, startY + 7 * verticalSpacing), sf::Vector2f(300, 50), [this]() {
-        std::cout << "Les contrôles ont été sauvegardés !" << std::endl;
-        });
 
-    buttons.push_back(*moveRightButton);
-    buttons.push_back(*moveLeftButton);
-    buttons.push_back(*jumpButton);
-    buttons.push_back(*boostButton);
-    buttons.push_back(*vitalSeedButton);
-    buttons.push_back(*repairButton);
-    buttons.push_back(*saveButton);
+    buttons.push_back(moveRightButton);
+    buttons.push_back(moveLeftButton);
+    buttons.push_back(jumpButton);
+    buttons.push_back(boostButton);
+    buttons.push_back(vitalSeedButton);
+    buttons.push_back(repairButton);
 }
 
 int ControlMenu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
@@ -137,11 +132,11 @@ int ControlMenu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
     else {
         if (event.type == sf::Event::MouseButtonPressed) {
             for (auto& button : buttons) {
-                int buttonResult = button.handleMouseClick(mousePos);
+                int buttonResult = button->handleMouseClick(mousePos);
                 if (buttonResult != 0) {
                     if (buttonResult >= 2 && buttonResult <= 7) {
-                        buttonWaitingForKey = &button;
-                        button.setText("Appuyez sur une touche...");
+                        buttonWaitingForKey = button;
+                        button->setText("Appuyez sur une touche...");
                         waitingForKey = true;
                     }
                     return buttonResult;
@@ -151,7 +146,7 @@ int ControlMenu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
     }
 
     for (auto& button : buttons) {
-        button.handleMouseHover(mousePos);
+        button->handleMouseHover(mousePos);
     }
 
     return 0;
@@ -163,7 +158,7 @@ void ControlMenu::render(sf::RenderWindow& window) {
     window.clear();
     window.draw(backgroundSprite);
     for (auto& button : buttons) {
-        button.render(window);
+        button->render(window);
     }
 }
 
@@ -180,35 +175,32 @@ void ControlMenu::setKeyBinding(sf::Keyboard::Key key) {
     if (buttonWaitingForKey == moveRightButton) {
         moveRightKey = key;
         buttonWaitingForKey->setText("Aller à droite : " + keyToString(moveRightKey));
+        Keybind::setKey(Keybind::Action::MoveRight, moveRightKey);
     }
     else if (buttonWaitingForKey == moveLeftButton) {
         moveLeftKey = key;
         buttonWaitingForKey->setText("Aller à gauche : " + keyToString(moveLeftKey));
+        Keybind::setKey(Keybind::Action::MoveLeft, moveLeftKey);
     }
     else if (buttonWaitingForKey == jumpButton) {
         jumpKey = key;
         buttonWaitingForKey->setText("Sauter : " + keyToString(jumpKey));
+        Keybind::setKey(Keybind::Action::Jump, jumpKey);
     }
     else if (buttonWaitingForKey == boostButton) {
         boostKey = key;
         buttonWaitingForKey->setText("Boost : " + keyToString(boostKey));
+        Keybind::setKey(Keybind::Action::Boost, boostKey);
     }
     else if (buttonWaitingForKey == vitalSeedButton) {
         vitalSeedKey = key;
         buttonWaitingForKey->setText("Graine vitale : " + keyToString(vitalSeedKey));
+        Keybind::setKey(Keybind::Action::VitalSeed, vitalSeedKey);
     }
     else if (buttonWaitingForKey == repairButton) {
         repairKey = key;
         buttonWaitingForKey->setText("Réparation : " + keyToString(repairKey));
-    }
-
-    if (buttonWaitingForKey == moveRightButton) {
-        moveRightKey = key;
-        buttonWaitingForKey->setText("Aller à droite : " + keyToString(moveRightKey));
-    }
-    else if (buttonWaitingForKey == moveLeftButton) {
-        moveLeftKey = key;
-        buttonWaitingForKey->setText("Aller à gauche : " + keyToString(moveLeftKey));
+        Keybind::setKey(Keybind::Action::Repair, repairKey);
     }
 
     waitingForKey = false;
