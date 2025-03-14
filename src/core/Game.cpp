@@ -3,7 +3,12 @@
 Game::Game() : isRunning(false), currentState(GameState::MAIN_MENU), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU) {
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
+	
+	gamemap.loadMap(1, ennemies, player, window);
 	view.setCenter(player.getShape().getPosition());
+	//grid.loadGrid(gamemap);
+
+	textFall = false;
 }
 
 void Game::addPlatform(float x, float y, float width, float height) {
@@ -17,16 +22,15 @@ void Game::createWindow() {
 	window.setFramerateLimit(60);
 	window.setVerticalSyncEnabled(true);
 	isRunning = true;
-}
 
-void Game::processEvents() {
+void Game::processEvents(float deltaTime) {
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 			isRunning = false;
 		}
 		handleKeyboardInput(event);
-		handleState(event);
+		handleState(event, deltaTime);
 
 		switch (currentState) {
 		case GameState::MAIN_MENU:
@@ -53,10 +57,23 @@ void Game::processEvents() {
 	}
 }
 
-void Game::update() {
+void Game::update(float deltaTime) {
 	switch (currentState) {
+	case GameState::TITLE_MENU:
+		title.update(deltaTime);
+		if (textFall) {
+			if (title.fallingText(deltaTime)) {
+				currentState = GameState::MAIN_MENU;
+			}
+		}
+		break;
+	case GameState::MAIN_MENU:
+		break;
 	case GameState::PLAYING:
-		player.update(platforms, window, view);
+		player.update(gamemap.getTiles(), window, view, deltaTime);
+		for (auto& ennemy : ennemies) {
+			ennemy.runEnnemy(player, window, player.projectiles, ennemies, deltaTime);
+		}
 		view.setCenter(player.getShape().getPosition());
 		break;
 	default:
@@ -67,21 +84,64 @@ void Game::update() {
 }
 
 void Game::render() {
-	window.clear(sf::Color::White);
-	
+	window.clear(sf::Color::Blue);
+	currentState = GameState::PLAYING;
 	switch (currentState) {
+	case GameState::TITLE_MENU:
+		title.draw(window);
+		break;
+
 	case GameState::MAIN_MENU:
 		mainMenu.render(window);
 		break;
+
 	case GameState::PLAYING:
+		
+
+		gamemap.draw(window);
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
 		window.draw(player.getShapeSmoke());
 		window.draw(player.getShapeHUDEnergy());
 		window.draw(player.getShapeFillEnergy());
+		
+		for (auto& ennemy : ennemies) {
+			window.draw(ennemy.getSprite());
+		}
+			//ennemy.runEnnemy(player, window, grid, TimeAstar);
+		//cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
 
+		for (int i = 0; i < ennemies.size(); i++)
+		{
+			//std::cout << ennemies[i].getSprite().getPosition().x << ", " << ennemies[i].getSprite().getPosition().x << std::endl;
+		}
+		
 		for (auto& platform : platforms) {
 			window.draw(platform.getSprite());
+		}
+		for (auto proj : player.getProj()) {
+			window.draw(player.getProjShape(proj));
+		}
+		for (auto ennemy : ennemies) {
+			for (auto proj : ennemy.getProj()) {
+				window.draw(ennemy.getProjShape(proj));
+			}
+		}
+		
+		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
+			bool erased = false;
+
+			for (auto& platform : platforms) {
+				if (it->getBounds().intersects(platform.getSprite().getGlobalBounds())) {
+					it = player.projectiles.erase(it);
+					erased = true;
+					break;
+				}
+			}
+
+			if (!erased) {
+				++it;
+			}
 		}
 
 		window.setView(view);
@@ -104,6 +164,7 @@ void Game::render() {
 		controlMenu.render(window);
 		break;
 	default:
+
 		break;
 	}
 
@@ -111,18 +172,38 @@ void Game::render() {
 }
 
 void Game::run() {
+	//gamemap.loadMap(1);
+	//Assets assets();
+	//addPlatform(0, 550, 40, 40);
+	//addPlatform(60, 550, 40, 40);
 	addPlatform(-200, 400, 2000, 20);
-	while (isRunning) {
-		processEvents();
-		update();
+	//addPlatform(200, 0, 200, 500);
+	sf::Clock clock;
+	
+	while (window.isOpen()) {
+		float deltaTime = clock.restart().asSeconds();
+		processEvents(deltaTime);
+		update(deltaTime);
 		render();
 	}
 }
 
-void Game::handleState(const sf::Event& event) {
+void Game::handleState(const sf::Event& event, float deltaTime) {
 	switch (currentState) {
+	case GameState::TITLE_MENU:
+		if (title.canSkip) {
+			if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 1))) {
+				textFall = true;
+			}
+			else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+				textFall = true;
+			}
+		}
+		
+		break;
 	case GameState::MAIN_MENU: {
 		int result = mainMenu.handleInput(window, event);
+		
 		if (result == 1) { // Jouer
 			currentState = GameState::PLAYING;
 		}

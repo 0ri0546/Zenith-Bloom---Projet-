@@ -24,8 +24,14 @@ public:
 
 	static sf::Texture swordTexture;
 
+	static sf::Texture projectileTexture;
+
+	// assets ennemy
+	static sf::Texture ennemyTexture;
+
 	//assets map
 	static sf::Texture groundTexture; 
+	static sf::Texture floorTexture; 
 	//static sf::Sprite groundSprite; 
 
 };

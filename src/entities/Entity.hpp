@@ -2,12 +2,13 @@
 #define ENTITY_HPP
 
 #include "../systems/Datas.hpp"
-#include "../map/Platform.hpp"
+#include "../map/Tiles.hpp"
 #include "../systems/AssetLoader.hpp"
+#include <cmath> 
 
 class Entity {
 public:
-	virtual void update(const std::vector<Platform>& platforms, sf::RenderWindow& window, sf::View& view) = 0;
+	virtual void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) = 0;
 };
 
 #endif

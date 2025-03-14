@@ -1,5 +1,6 @@
 #ifndef GAME_HPP
 #define GAME_HPP
+#pragma once
 
 #include "../systems/Datas.hpp"
 #include "../entities/Player.hpp"
@@ -13,6 +14,9 @@
 #include "../hud/menu/VideoMenu.hpp"
 #include "../hud/menu/SoundMenu.hpp"
 #include "../hud/menu/ControlMenu.hpp"
+#include "../entities/FSM.hpp"
+#include "../systems/grid.hpp"
+#include "../systems/BouncingTitle.hpp"
 
 class Game {
 public:
@@ -30,12 +34,19 @@ public:
 		CONTROL_MENU,
 		GAMEOVER_MENU,
 		VICTORY_MENU,
+		TITLE_MENU
 	};
 
 private:
 	sf::RenderWindow window;
 	Player player;
+	//Player player2;
+	//Ennemy ennemy;
+	//Grid grid;
 	
+	//Grid grid = Grid(gamemap);
+	
+
 	sf::View view;
 	std::vector<Platform> platforms;
 	Map gamemap;
@@ -43,12 +54,18 @@ private:
 	bool isRunning;
 	bool isGamePaused;
 
+	vector<Ennemy> ennemies;
+	
+	BouncingTitle title;
+	bool gameStarted = false;
+	bool textFall;
+	
 	void addPlatform(float x, float y, float width, float height);
 	void createWindow();
-	void processEvents();
-	void update();
+	void processEvents(float deltaTime);
+	void update(float deltaTime);
 	void render();
-	void handleState(const sf::Event& event);
+	void handleState(const sf::Event& event, float deltaTime);
 	void handleKeyboardInput(const sf::Event& event);
 
 	GameState currentState;

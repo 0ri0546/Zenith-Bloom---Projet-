@@ -14,14 +14,30 @@ vector<vector<char>> Map::getMap()
 {
     return map;
 }
+ vector<unique_ptr<Tiles>>& Map::getTiles()
+{
+    return tiles;
+}
 
 void Map::draw(RenderWindow& window)
 {
+	for (auto grid : recTab)
+	{
+		window.draw(grid);
+		
+	}
+    for (auto& tile : tiles)
+    {
+        tile->draw(window);
+    }
 }
 
-void Map::loadMap(int mapNum)
+void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window)
 {
+    
     map.clear();
+    tiles.clear();
+
     string path = "assets/maps/map" + to_string(mapNum) + ".txt";
 
     ifstream file(path);
@@ -67,11 +83,19 @@ void Map::loadMap(int mapNum)
             }
 
             row.push_back(tileCode[0]);
-            if (tileValue == 05)
-            {
-                cout << "block 05" << endl;
+
+
+
+            if (tileValue < 10) {
+
+                tiles.push_back(make_unique<Tiles>(i / 2 * gridCellSize, map.size() * gridCellSize, tileValue));
             }
-            map.push_back(row);
+            if (tileValue == 01)
+            {
+                Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                ennemies.push_back(newEnnemy);
+            }
         }
+            map.push_back(row);
     }
 }
