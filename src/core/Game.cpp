@@ -73,7 +73,7 @@ void Game::update(float deltaTime) {
 	case GameState::PLAYING:
 		player.update(gamemap.getTiles(), window, view, deltaTime);
 		for (auto& ennemy : ennemies) {
-			ennemy.runEnnemy(player, window, player.projectiles, ennemies, deltaTime);
+			ennemy.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
 		}
 		view.setCenter(player.getShape().getPosition());
 		break;
