@@ -22,6 +22,8 @@ public:
 	~Tiles();
 	sf::Vector2f getPos() const ;
 	sf::Sprite getSprite() const;
+
+	bool isPolluted;
 };
 
 #endif // !TILES_H

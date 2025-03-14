@@ -2,6 +2,7 @@
 
 Tiles::Tiles(float x, float y, int type)  : x(x), y(y), type(type){
 	sprite.setTexture(Shared::floorTexture);
+	isPolluted = false;
 	switch (type)
 	{
 	case(00):

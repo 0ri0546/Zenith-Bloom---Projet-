@@ -12,7 +12,7 @@ public:
 	Player();
 	~Player();
 	void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) override;
-	void jump();
+	void jump(float deltaTime);
 	void deplacement(float deltaTime);
 	void border();
 	void collide(const std::vector<std::unique_ptr<Tiles>>& tiles);
@@ -30,12 +30,13 @@ public:
 	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 
-	sf::Sprite swordSprite;
-	sf::Sprite smokeSprite;
-	sf::Sprite playerSprite;
+	
 	std::vector<Projectile> projectiles;
 
 private:
+	sf::Sprite swordSprite;
+	sf::Sprite smokeSprite;
+	sf::Sprite playerSprite;
 	sf::RectangleShape shapeEnergy, shapeFillEnergy;
 	sf::Clock attackClock;
 	sf::Clock attackDurationClock;
@@ -44,15 +45,19 @@ private:
 	Assets assets;
 
 	float velocityY;
-	float velocityX = 0;
+	float velocityX;
 	float gravity;
 	bool isOnGround;
 	int jumpCount;
-	float jumpTime = 0.0f;
+	float jumpTime;
 	const int maxJumps = 2;
 	bool canJump;
 	bool lastDepIsLeft;
-	int vie = 3;
+	int vie;
+	bool hangedToWallsLeft;
+	bool hangedToWallsRight;
+	float depX;
+	float bounce;
 
 	float energy;
 	float maxJetpackEnergy;

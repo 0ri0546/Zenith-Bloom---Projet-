@@ -123,25 +123,20 @@ void Ennemy::colEnnemyToEnnemy(vector<Ennemy>& ennemies) {
 void Ennemy::colEnnemyToPlayer(Player& player, vector<Ennemy>& ennemies) {
 	
 	//for (auto ennemy : ennemies) {
-		if (spriteEnnemy.getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
-			sf::Vector2f direction = spriteEnnemy.getPosition() - player.getShape().getPosition();
-			float length = sqrt(direction.x * direction.x + direction.y * direction.y);
-			if (length != 0) {
-				direction /= length;
-				float reboundForce = 0.5f;
-				if (onTheGround)
-					spriteEnnemy.move(direction.x * reboundForce, 0);
-				//else
-				//	spriteEnnemy.move(direction * reboundForce);
-				player.playerSprite.move(-direction * reboundForce);
-			}
+	if (spriteEnnemy.getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
+		sf::Vector2f direction = spriteEnnemy.getPosition() - player.getShape().getPosition();
+		float length = sqrt(direction.x * direction.x + direction.y * direction.y);
+		if (length != 0) {
+			direction /= length;
+			float reboundForce = 0.5f;
+			if (onTheGround)
+				spriteEnnemy.move(direction.x * reboundForce, 0);
+			//else
+			//	spriteEnnemy.move(direction * reboundForce);
+			player.getShape().move(-direction * reboundForce);
 		}
+	}
 }
-
-
-
-
-
 void Ennemy::colEnnemiToGround(vector<Ennemy>& ennemies, vector<unique_ptr<Tiles>>& tiles) {
 	for (auto& tile : tiles) {
 		if (spriteEnnemy.getGlobalBounds().intersects(tile->getSprite().getGlobalBounds())) {
