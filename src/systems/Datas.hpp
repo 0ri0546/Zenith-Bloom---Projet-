@@ -6,8 +6,8 @@
 #include <iostream>
 
 namespace Config {
-	const static int WINDOW_WIDTH = 1920; // 800
-	const static int WINDOW_HEIGHT = 1080; // 800
+	static int WINDOW_WIDTH = 1920; // 800
+	static int WINDOW_HEIGHT = 1080; // 800
 }
 
 class Shared {

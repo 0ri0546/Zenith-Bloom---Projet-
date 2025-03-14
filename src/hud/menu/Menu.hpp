@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Button.hpp"
+#include "Slider.hpp"
 #include "../../systems/Datas.hpp"
 
 class Menu {
@@ -10,8 +11,12 @@ protected:
     sf::Font font;
     std::vector<Button> buttons;
 
+    sf::Texture backgroundTexture;
+    sf::Sprite backgroundSprite;
+
     virtual void initButtons() = 0;
     void initFont();
+    void initBackground();
 
 public:
     Menu();

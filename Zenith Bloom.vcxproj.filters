@@ -117,6 +117,24 @@
     <ClCompile Include="src\map\Tiles.cpp">
       <Filter>Fichiers sources\Map</Filter>
     </ClCompile>
+    <ClCompile Include="src\hud\menu\OptionsMenu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\VideoMenu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\ControlMenu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\Slider.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\SoundMenu.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\AudioSystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -184,6 +202,24 @@
     </ClInclude>
     <ClInclude Include="src\map\Tiles.hpp">
       <Filter>Fichiers d%27en-tête\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\OptionsMenu.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\VideoMenu.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\ControlMenu.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\Slider.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\SoundMenu.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\AudioSystem.hpp">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
