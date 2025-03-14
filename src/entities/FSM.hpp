@@ -5,6 +5,7 @@
 #include "../entities/Player.hpp"
 #include "Projectile.hpp"
 
+
 enum ennemyState {
 	PATROL,
 	SEARCH,
@@ -19,10 +20,17 @@ public :
 
 	void patrol(Player& player);
 	void chase(Player& player);
+
+
 	void collision(Player& player, vector<Projectile>& projectile, vector<Ennemy>& ennemies);
 	void colEnnemyToEnnemy(vector<Ennemy>& ennemies);
+	void colEnnemiToGround(vector<Ennemy>& ennemies, vector<Platform>& platforms);
+	
+
 	void draw(sf::RenderWindow& window);
-	void runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, float deltaTime);
+	void runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, vector<Platform>& platforms, float deltaTime);
+	
+	
 	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 
@@ -31,6 +39,9 @@ public :
 	sf::Sprite getProjShape(Projectile& proj) const;
 
 private : 
+
+
+
 	ennemyState currentState;
 	Assets assets;
 	sf::Clock rangedAttackClock;
@@ -45,9 +56,12 @@ private :
 
 	float radiusDetection = 200.f;
 	float speed;
+	float gravity; 
+	float velocityY;
 
 	bool stop = false;
 	bool isWakable = true;
+	bool onTheGround = false; 
 	/*float searchTime;
 	float attackCooldown;*/
 

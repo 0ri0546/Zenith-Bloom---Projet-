@@ -9,6 +9,8 @@ Ennemy::Ennemy(unsigned long long x, unsigned long long y) : x(x), y(y) {
 	lastDepIsLeft = false;
 	speed = 0;
 	pathIndex = 0;
+	gravity = 0.5;
+	//velocityY = 0;
 }
 
 sf::Sprite Ennemy::getSprite() const {
@@ -42,10 +44,12 @@ void Ennemy::patrol(Player& player) {
 }
 
 void Ennemy::chase(Player& player) {
+
+
 	speed = 1;
 	sf::Vector2f direction(
 		speed * copysign(1.0f, player.getShape().getPosition().x - spriteEnnemy.getPosition().x),
-		speed * copysign(1.0f, player.getShape().getPosition().y - spriteEnnemy.getPosition().y));
+		speed * copysign(0.5f, velocityY - spriteEnnemy.getPosition().y));
 
 	moveForCol = direction;
 	spriteEnnemy.move(direction);
@@ -111,37 +115,74 @@ void Ennemy::colEnnemyToEnnemy(vector<Ennemy>& ennemies) {
 	}
 }
 
-void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, float deltaTime) {
-	colEnnemyToEnnemy(ennemies);
-	switch (currentState) {
-	case PATROL:
-		patrol(player);
-		break;
-	case SEARCH:
-		break;
-	case CHASE:
-		chase(player);
-		break;
-	case DEAD:
-		break;
-	}
-	
-	//detectionCircle.setRadius(radiusDetection);
-	for (auto& detectionCircles : detectionCircles) {
-		detectionCircles.setRadius(radiusDetection);
-		detectionCircles.setOrigin(radiusDetection, radiusDetection);
-		detectionCircles.setFillColor(sf::Color::Black);
 
-		/*for (auto& spritEnnemies : spritEnnemies) {
-			detectionCircles.setPosition(spritEnnemies.getPosition());
-			detectionCircles.setOrigin(spritEnnemies.getOrigin());
-		}*/
+void Ennemy::colEnnemiToGround(vector<Ennemy>& ennemies, vector<Platform>& platforms)
+{
+	for (auto& platform : platforms) {
+		/*for (auto ennemy : ennemies) {*/
+			if (spriteEnnemy.getGlobalBounds().intersects(platform.getSprite().getGlobalBounds())) {
+				
+				onTheGround = true;
+				//velocityY += 0.1;
+				break;
+			}
+			else {
+				onTheGround = false;
+				//break;
+			}
+			cout << onTheGround << "\n";
+		//}
 	}
-	collision(player, projectile, ennemies);
-	colEnnemyToEnnemy(ennemies);
-	updateProjectiles(deltaTime, window);
-	//detectionCircle.setPosition(spriteEnnemy.getPosition());
-	rangedAttack();
+}
+
+
+
+void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, vector<Platform>& platforms, float deltaTime) {
+
+	colEnnemiToGround(ennemies, platforms);
+
+	if (!onTheGround) {
+		velocityY += gravity; // Augmente la vitesse de chute progressivement
+		spriteEnnemy.move(0, velocityY);
+	}
+	else {
+		velocityY = 0; // On remet à 0 si l'ennemi est au sol
+	}
+
+	if (onTheGround) {
+		colEnnemyToEnnemy(ennemies);
+		//colEnnemiToGround(ennemies, platforms);
+
+		switch (currentState) {
+		case PATROL:
+			patrol(player);
+			break;
+		case SEARCH:
+			break;
+		case CHASE:
+			chase(player);
+			break;
+		case DEAD:
+			break;
+		}
+	}
+		//detectionCircle.setRadius(radiusDetection);
+		for (auto& detectionCircles : detectionCircles) {
+			detectionCircles.setRadius(radiusDetection);
+			detectionCircles.setOrigin(radiusDetection, radiusDetection);
+			detectionCircles.setFillColor(sf::Color::Black);
+
+			/*for (auto& spritEnnemies : spritEnnemies) {
+				detectionCircles.setPosition(spritEnnemies.getPosition());
+				detectionCircles.setOrigin(spritEnnemies.getOrigin());
+			}*/
+		}
+		collision(player, projectile, ennemies);
+		colEnnemyToEnnemy(ennemies);
+		updateProjectiles(deltaTime, window);
+		//detectionCircle.setPosition(spriteEnnemy.getPosition());
+		rangedAttack();
+	
 }
 
 void Ennemy::rangedAttack() {
@@ -163,8 +204,7 @@ void Ennemy::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
 	}
 }
 
-	}
-}
+
 
 void Ennemy::draw(sf::RenderWindow& window) {
 	for (auto& detectionCircles : detectionCircles) {
