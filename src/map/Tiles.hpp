@@ -14,7 +14,7 @@ class Tiles {
 private:
 	float x;
 	float y;
-
+	int size = 240;
 	int type;
 	sf::Sprite sprite;
 public:
