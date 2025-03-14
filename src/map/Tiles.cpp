@@ -4,6 +4,8 @@ Tiles::Tiles(float x, float y, int type)  : x(x), y(y), type(type){
 	sprite.setTexture(Shared::floorTexture);
 	switch (type)
 	{
+	case(00):
+		sprite.setTextureRect(sf::IntRect(11*240, 0, 12*240, 240)); break;
 	case(01):
 		sprite.setTextureRect(sf::IntRect(0, 0, 240, 240)); break;
 	case(02):
@@ -31,9 +33,9 @@ Tiles::Tiles(float x, float y, int type)  : x(x), y(y), type(type){
 
 Tiles::~Tiles() {}
 
-sf::Vector2f Tiles::getPos() { return sf::Vector2f(x, y); }
+sf::Vector2f Tiles::getPos() const { return sf::Vector2f(x, y); }
 
-sf::Sprite Tiles::getSprite() { return sprite; }
+sf::Sprite Tiles::getSprite() const { return sprite; }
 
 void Tiles::draw(sf::RenderWindow& window)
 {

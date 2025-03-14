@@ -114,6 +114,9 @@
     <ClCompile Include="src\entities\Projectile.cpp">
       <Filter>Fichiers sources\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\map\Tiles.cpp">
+      <Filter>Fichiers sources\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="src\entities\Projectile.hpp">
       <Filter>Fichiers d%27en-tête\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\map\Tiles.hpp">
+      <Filter>Fichiers d%27en-tête\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
