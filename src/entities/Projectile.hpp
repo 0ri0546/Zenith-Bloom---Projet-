@@ -15,7 +15,7 @@ private:
 
 public:
     Projectile(sf::Texture& texture, sf::Vector2f position, bool goingLeft);
-
+    ~Projectile();
     void update(float deltaTime);
     //void updateShootEnnemy(float deltaTime, vector<Ennemy>& ennemie);
     sf::FloatRect getBounds() const;

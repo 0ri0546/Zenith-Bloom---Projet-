@@ -10,7 +10,7 @@ Ennemy::Ennemy(unsigned long long x, unsigned long long y) : x(x), y(y) {
 	speed = 0;
 	pathIndex = 0;
 	gravity = 0.5;
-	//velocityY = 0;
+	velocityY = 0;
 }
 
 sf::Sprite Ennemy::getSprite() const {
@@ -44,15 +44,13 @@ void Ennemy::patrol(Player& player) {
 }
 
 void Ennemy::chase(Player& player) {
-
-
 	speed = 1;
 	sf::Vector2f direction(
 		speed * copysign(4.0f, player.getShape().getPosition().x - spriteEnnemy.getPosition().x),
 		speed * copysign(0.0f, velocityY + spriteEnnemy.getPosition().y));
 
 	moveForCol = direction;
-	if(onTheGround)
+	if (onTheGround)
 		spriteEnnemy.move(direction.x, 0);
 	else
 		spriteEnnemy.move(direction);
@@ -125,43 +123,30 @@ void Ennemy::colEnnemyToEnnemy(vector<Ennemy>& ennemies) {
 void Ennemy::colEnnemyToPlayer(Player& player, vector<Ennemy>& ennemies) {
 	
 	//for (auto ennemy : ennemies) {
-		if (spriteEnnemy.getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
-			sf::Vector2f direction = spriteEnnemy.getPosition() - player.getShape().getPosition();
-			float length = sqrt(direction.x * direction.x + direction.y * direction.y);
-			if (length != 0) {
-				direction /= length;
-				float reboundForce = 0.5f;
-				if (onTheGround)
-					spriteEnnemy.move(direction.x * reboundForce, 0);
-				//else
-				//	spriteEnnemy.move(direction * reboundForce);
-				player.playerSprite.move(-direction * reboundForce);
-			}
+	if (spriteEnnemy.getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
+		sf::Vector2f direction = spriteEnnemy.getPosition() - player.getShape().getPosition();
+		float length = sqrt(direction.x * direction.x + direction.y * direction.y);
+		if (length != 0) {
+			direction /= length;
+			float reboundForce = 0.5f;
+			if (onTheGround)
+				spriteEnnemy.move(direction.x * reboundForce, 0);
+			//else
+			//	spriteEnnemy.move(direction * reboundForce);
+			player.getShape().move(-direction * reboundForce);
 		}
-
-	
-
+	}
 }
-
-
-
-
-
-void Ennemy::colEnnemiToGround(vector<Ennemy>& ennemies, vector<unique_ptr<Tiles>>& tiles)
-{
+void Ennemy::colEnnemiToGround(vector<Ennemy>& ennemies, vector<unique_ptr<Tiles>>& tiles) {
 	for (auto& tile : tiles) {
-		
-			if (spriteEnnemy.getGlobalBounds().intersects(tile->getSprite().getGlobalBounds())) {
-				onTheGround = true;
-				
-				break;
-			}
-			else {
-				onTheGround = false;
-			
-			}
-			cout << onTheGround << "\n";
-		
+		if (spriteEnnemy.getGlobalBounds().intersects(tile->getSprite().getGlobalBounds())) {
+			onTheGround = true;
+			break;
+		}
+		else {
+			onTheGround = false;
+		}
+		cout << onTheGround << "\n";
 	}
 }
 
@@ -198,22 +183,22 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projecti
 			break;
 		}
 	}
-		//detectionCircle.setRadius(radiusDetection);
-		for (auto& detectionCircles : detectionCircles) {
-			detectionCircles.setRadius(radiusDetection);
-			detectionCircles.setOrigin(radiusDetection, radiusDetection);
-			detectionCircles.setFillColor(sf::Color::Black);
+	//detectionCircle.setRadius(radiusDetection);
+	for (auto& detectionCircles : detectionCircles) {
+		detectionCircles.setRadius(radiusDetection);
+		detectionCircles.setOrigin(radiusDetection, radiusDetection);
+		detectionCircles.setFillColor(sf::Color::Black);
 
-			/*for (auto& spritEnnemies : spritEnnemies) {
-				detectionCircles.setPosition(spritEnnemies.getPosition());
-				detectionCircles.setOrigin(spritEnnemies.getOrigin());
-			}*/
-		}
-		collision(player, projectile, ennemies);
-		colEnnemyToEnnemy(ennemies);
-		updateProjectiles(deltaTime, window);
-		//detectionCircle.setPosition(spriteEnnemy.getPosition());
-		rangedAttack();
+		/*for (auto& spritEnnemies : spritEnnemies) {
+			detectionCircles.setPosition(spritEnnemies.getPosition());
+			detectionCircles.setOrigin(spritEnnemies.getOrigin());
+		}*/
+	}
+	collision(player, projectile, ennemies);
+	colEnnemyToEnnemy(ennemies);
+	updateProjectiles(deltaTime, window);
+	//detectionCircle.setPosition(spriteEnnemy.getPosition());
+	rangedAttack();
 	
 }
 
@@ -249,3 +234,5 @@ void Ennemy::draw(sf::RenderWindow& window) {
 
 std::vector<Projectile> Ennemy::getProj() const { return projectiles; }
 sf::Sprite Ennemy::getProjShape(Projectile& proj) const { return proj.getSprite(); }
+
+Ennemy::~Ennemy() {}

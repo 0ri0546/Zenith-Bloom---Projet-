@@ -1,6 +1,8 @@
 #include "Player.hpp"
 
 Player::Player() {
+	playerSprite.setPosition(sf::Vector2f(400, 0));
+
 	playerSprite.setTexture(Shared::playerTexture);
 	smokeSprite.setTexture(Shared::smokeTexture);
 	swordSprite.setTexture(Shared::swordTexture);
@@ -14,6 +16,12 @@ Player::Player() {
 
 	jumpCount = maxJumps;
 	canJump = true;
+	hangedToWallsLeft = false;
+	hangedToWallsRight = false;
+	depX = 0;
+	bounce = 1000.f;
+	jumpTime = 0.f;
+	velocityX = 0.f;
 
 	lastDepIsLeft = false;
 
@@ -31,6 +39,7 @@ Player::Player() {
 
 	damage = 15;
 	hp = 100;
+	vie = 3;
 }
 
 void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
@@ -40,7 +49,7 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 	//border();
 	collide(tiles);
 	//useJetpack();
-	jump();
+	jump(deltaTime);
 	deplacement(deltaTime);
 	attack();
 	//rangedAttack(window);
@@ -55,14 +64,18 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 	}
 }
 
-void Player::jump() {
+void Player::jump(float deltaTime) {
 	//reste à faire :
 
-	if (!isOnGround) {
+	if (!isOnGround && !hangedToWallsLeft && !hangedToWallsRight) {
 		velocityY += gravity;
 	}
 	else {
 		jumpCount = maxJumps;
+	}
+
+	if (hangedToWallsLeft || hangedToWallsRight) {
+		jumpCount--;
 	}
 
 	if (sf::Joystick::isConnected(0)) {
@@ -97,9 +110,8 @@ void Player::jump() {
 			}
 		}
 	}
-
 	playerSprite.move(0, velocityY);
-
+	
 	if (jumpCount == 0) { //pour la fumée
 		if (lastDepIsLeft) {
 			smokeSprite.setPosition(playerSprite.getPosition().x + playerSprite.getGlobalBounds().width / 2, playerSprite.getPosition().y + 30);
@@ -115,6 +127,8 @@ void Player::jump() {
 
 void Player::collide(const std::vector<std::unique_ptr<Tiles>>& tiles) {
 	isOnGround = false;
+	hangedToWallsLeft = false;
+	hangedToWallsRight = false;
 
 	for (const auto& tile : tiles) {
 		if (playerSprite.getGlobalBounds().intersects(tile->getSprite().getGlobalBounds())) {
@@ -136,16 +150,29 @@ void Player::collide(const std::vector<std::unique_ptr<Tiles>>& tiles) {
 				velocityY = 0;
 				playerSprite.setPosition(playerSprite.getPosition().x, platformTop - playerSprite.getGlobalBounds().height);
 			}
-			else if (velocityY < 0 && playerTop < platformBottom && playerBottom > platformBottom) { // haut
-				velocityY = 0;
-				playerSprite.setPosition(playerSprite.getPosition().x, platformBottom);
-			}
 			else if (playerRight > platformLeft && playerLeft < platformLeft) { // gauche
 				playerSprite.setPosition(platformLeft - playerBounds.width, playerSprite.getPosition().y);
+				if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+					hangedToWallsLeft = true;
+				}
+				
 			}
 			else if (playerLeft < platformRight && playerRight > platformRight) { // droite
 				playerSprite.setPosition(platformRight, playerSprite.getPosition().y);
+				if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+					hangedToWallsRight = true;
+				}
+				
 			}
+			else if (velocityY < 0 && playerTop < platformBottom && playerBottom > platformBottom) { // haut
+				if (!hangedToWallsRight && !hangedToWallsLeft)
+				{
+					velocityY = 0;
+					playerSprite.setPosition(playerSprite.getPosition().x, platformBottom);
+				}
+				
+			}
+
 		}
 	}
 }
@@ -307,4 +334,8 @@ std::vector<Projectile> Player::getProj() const {
 
 sf::Sprite Player::getProjShape(Projectile& proj) const {
 	return proj.getSprite();
+}
+
+Player::~Player() {
+	projectiles.clear();
 }

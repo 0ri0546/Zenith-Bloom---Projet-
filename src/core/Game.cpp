@@ -98,7 +98,6 @@ void Game::render() {
 	case GameState::PLAYING:
 		
 
-		gamemap.draw(window);
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
 		window.draw(player.getShapeSmoke());
@@ -116,8 +115,8 @@ void Game::render() {
 			//std::cout << ennemies[i].getSprite().getPosition().x << ", " << ennemies[i].getSprite().getPosition().x << std::endl;
 		}
 		
-		for (auto& platform : platforms) {
-			window.draw(platform.getSprite());
+		for (auto& tile : gamemap.getTiles()) {
+			window.draw(tile->getSprite());
 		}
 		for (auto proj : player.getProj()) {
 			window.draw(player.getProjShape(proj));

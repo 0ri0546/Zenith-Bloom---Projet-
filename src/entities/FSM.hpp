@@ -16,6 +16,7 @@ enum ennemyState {
 class Ennemy {
 public : 
 	Ennemy(unsigned long long x, unsigned long long y);
+	~Ennemy();
 
 	void patrol(Player& player);
 	void chase(Player& player);
