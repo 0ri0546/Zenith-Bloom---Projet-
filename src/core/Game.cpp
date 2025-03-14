@@ -23,9 +23,10 @@ void Game::run() {
 	//Assets assets();
 	//addPlatform(0, 550, 40, 40);
 	//addPlatform(60, 550, 40, 40);
-	addPlatform(700, 100, 500, 20);
-	addPlatform(-200, 400, 2000, 20);
-	addPlatform(-200, 100, 500, 20);
+	addPlatform(700, 200, 500, 50);
+	addPlatform(-200, 400, 2000, 50);
+	addPlatform(-400, 600, 3000, 50);
+	addPlatform(-200, 200, 500, 50);
 	//addPlatform(700, 100, 500, 20);
 	//addPlatform(200, 0, 200, 500);
 	sf::Clock clock;

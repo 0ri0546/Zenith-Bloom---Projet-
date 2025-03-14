@@ -14,7 +14,6 @@ enum ennemyState {
 };
 
 class Ennemy {
-
 public : 
 	Ennemy(unsigned long long x, unsigned long long y);
 
@@ -24,6 +23,7 @@ public :
 
 	void collision(Player& player, vector<Projectile>& projectile, vector<Ennemy>& ennemies);
 	void colEnnemyToEnnemy(vector<Ennemy>& ennemies);
+	void colEnnemyToPlayer(Player& player, vector<Ennemy>& ennemies);
 	void colEnnemiToGround(vector<Ennemy>& ennemies, vector<Platform>& platforms);
 	
 

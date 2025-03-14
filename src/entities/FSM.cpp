@@ -48,8 +48,8 @@ void Ennemy::chase(Player& player) {
 
 	speed = 1;
 	sf::Vector2f direction(
-		speed * copysign(1.0f, player.getShape().getPosition().x - spriteEnnemy.getPosition().x),
-		speed * copysign(0.5f, velocityY - spriteEnnemy.getPosition().y));
+		speed * copysign(4.0f, player.getShape().getPosition().x - spriteEnnemy.getPosition().x),
+		speed * copysign(0.0f, velocityY + spriteEnnemy.getPosition().y));
 
 	moveForCol = direction;
 	spriteEnnemy.move(direction);
@@ -107,8 +107,8 @@ void Ennemy::colEnnemyToEnnemy(vector<Ennemy>& ennemies) {
 				if (length != 0) {
 					direction /= length;
 					float reboundForce = 0.5f; 
-					ennemies[i].spriteEnnemy.move(direction * reboundForce);
-					ennemies[j].spriteEnnemy.move(-direction * reboundForce);
+					ennemies[i].spriteEnnemy.move(direction.x * reboundForce, direction.y * (reboundForce) );
+					ennemies[j].spriteEnnemy.move(-direction.x * reboundForce, -direction.y * (reboundForce));
 				}
 			}
 		}
@@ -116,22 +116,44 @@ void Ennemy::colEnnemyToEnnemy(vector<Ennemy>& ennemies) {
 }
 
 
+void Ennemy::colEnnemyToPlayer(Player& player, vector<Ennemy>& ennemies) {
+	
+	//for (auto ennemy : ennemies) {
+		if (spriteEnnemy.getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
+			sf::Vector2f direction = spriteEnnemy.getPosition() - player.getShape().getPosition();
+			float length = sqrt(direction.x * direction.x + direction.y * direction.y);
+			if (length != 0) {
+				direction /= length;
+				float reboundForce = 0.5f;
+				spriteEnnemy.move(direction * reboundForce);
+				player.playerSprite.move(-direction * reboundForce);
+			}
+		}
+
+	
+
+}
+
+
+
+
+
 void Ennemy::colEnnemiToGround(vector<Ennemy>& ennemies, vector<Platform>& platforms)
 {
 	for (auto& platform : platforms) {
-		/*for (auto ennemy : ennemies) {*/
+		
 			if (spriteEnnemy.getGlobalBounds().intersects(platform.getSprite().getGlobalBounds())) {
 				
 				onTheGround = true;
-				//velocityY += 0.1;
+				
 				break;
 			}
 			else {
 				onTheGround = false;
-				//break;
+			
 			}
 			cout << onTheGround << "\n";
-		//}
+		
 	}
 }
 
@@ -142,16 +164,18 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, vector<Projecti
 	colEnnemiToGround(ennemies, platforms);
 
 	if (!onTheGround) {
-		velocityY += gravity; // Augmente la vitesse de chute progressivement
+		velocityY += gravity;
 		spriteEnnemy.move(0, velocityY);
+		colEnnemyToEnnemy(ennemies);
+		colEnnemyToPlayer(player, ennemies);
 	}
 	else {
-		velocityY = 0; // On remet à 0 si l'ennemi est au sol
+		velocityY = 0; 
 	}
 
 	if (onTheGround) {
 		colEnnemyToEnnemy(ennemies);
-		//colEnnemiToGround(ennemies, platforms);
+		colEnnemyToPlayer(player, ennemies);
 
 		switch (currentState) {
 		case PATROL:
