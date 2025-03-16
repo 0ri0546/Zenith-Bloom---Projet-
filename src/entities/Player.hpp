@@ -6,10 +6,11 @@
 #include "Entity.hpp"
 #include "Projectile.hpp"
 #include "../map/Tiles.hpp"
+#include "../systems/Animation.hpp"
 
 class Player : public Entity {
 public:
-	Player();
+	Player(sf::Texture& texture);
 	~Player();
 	void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) override;
 	void jump(float deltaTime);
@@ -68,6 +69,20 @@ private:
 	float damage;
 
 	int hp;
+
+	Animation 
+		jumpAnimation,
+		walkToLeftAnimation,
+		walkToRightAnimation,
+		hangedToLefAnimation,
+		hangedToRightAnimation,
+
+		takeDamageAnimation,
+		deathAnimation,
+		healAnimation,
+		attackAnimation,
+		rangedAttackAnimation,
+		repairAnimation;
 
 };
 

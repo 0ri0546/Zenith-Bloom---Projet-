@@ -1,9 +1,23 @@
 #include "Player.hpp"
 
-Player::Player() {
-	playerSprite.setPosition(sf::Vector2f(400, 0));
+Player::Player(sf::Texture& texture) : 
+	jumpAnimation(texture, 256, 256, 2, 0.2f), 
+	walkToLeftAnimation(texture, 256, 256, 1, 0.5f),
+	walkToRightAnimation(texture, 256, 256, 1, 0.5f),
+	hangedToLefAnimation(texture, 256, 256, 1, 0.5f),
+	hangedToRightAnimation(texture, 256, 256, 1, 0.5f),
 
-	playerSprite.setTexture(Shared::playerTexture);
+	takeDamageAnimation(texture, 256, 256, 1, 0.5f),
+	deathAnimation(texture, 256, 256, 1, 0.5f),
+	healAnimation(texture, 256, 256, 1, 0.5f),
+	attackAnimation(texture, 256, 256, 1, 0.5f),
+	rangedAttackAnimation(texture, 256, 256, 1, 0.5f),
+	repairAnimation(texture, 256, 256, 1, 0.5f)
+{
+	playerSprite.setPosition(sf::Vector2f(400, 0));
+	playerSprite.setTexture(texture);
+	playerSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
+
 	smokeSprite.setTexture(Shared::smokeTexture);
 	swordSprite.setTexture(Shared::swordTexture);
 	assets.resize(playerSprite, 50, 50);
@@ -45,6 +59,15 @@ Player::Player() {
 void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
 	//reste à faire :
 	//afficher les HUD (vie (coeurs ?), progression dans le niveau, etc...)
+
+	//if (isOnGround) {
+	//	walkAnimation.update(deltaTime);
+	//	walkAnimation.applyToSprite(playerSprite, 1);
+	//}
+	//else {
+	//	jumpAnimation.update(deltaTime);
+	//	jumpAnimation.applyToSprite(playerSprite, 2);
+	//}
 
 	//border();
 	collide(tiles);
