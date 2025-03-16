@@ -14,6 +14,7 @@
 #include "../hud/menu/SoundMenu.hpp"
 #include "../hud/menu/ControlMenu.hpp"
 #include "../entities/FSM.hpp"
+#include "../entities/Tank.hpp"
 #include "../systems/grid.hpp"
 #include "../hud/menu/BouncingTitle.hpp"
 
@@ -54,6 +55,7 @@ private:
 	bool isGamePaused;
 
 	vector<Ennemy> ennemies;
+	vector<Tank> Tanks;
 	
 	BouncingTitle title;
 	bool gameStarted = false;

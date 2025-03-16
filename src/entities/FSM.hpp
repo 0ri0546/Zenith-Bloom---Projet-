@@ -35,8 +35,12 @@ public:
     sf::Sprite getSprite() const;
     std::vector<Projectile>& getProj();
     sf::Sprite getProjShape(Projectile& proj) const;
+    
+    float x, y;
+    int life = 3;
 
-private:
+
+//private:
     ennemyState currentState;
     Assets assets;
     sf::Clock rangedAttackClock;
@@ -47,7 +51,7 @@ private:
     sf::Vector2f moveForCol;
 
     size_t pathIndex;
-    int life = 3;
+    
 
     float radiusDetection = 200.f;
     float speed;
@@ -58,7 +62,7 @@ private:
     bool isWakable = true;
     bool onTheGround = false;
 
-    float x, y;
+    
     float scaleEnnemy = 1;
     bool lastDepIsLeft;
 

@@ -209,6 +209,7 @@
     <ClInclude Include="src\systems\grid.hpp" />
     <ClInclude Include="src\systems\Node.hpp" />
     <ClInclude Include="src\systems\pathfinfing.hpp" />
+    <ClInclude Include="src\Tank.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,7 +4,7 @@ Game::Game() : isRunning(false), currentState(GameState::MAIN_MENU), optionsMenu
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
-	gamemap.loadMap(1, ennemies, player, window);
+	gamemap.loadMap(1, ennemies, player, window, Tanks);
 	view.setCenter(player.getShape().getPosition());
 	//grid.loadGrid(gamemap);
 
@@ -86,6 +86,19 @@ void Game::update(float deltaTime) {
 			}
 
 		}
+		for (auto& tank : Tanks) {
+			tank.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
+			auto& projectiles = tank.getProj();
+			for (auto it = projectiles.begin(); it != projectiles.end();) {
+				if (player.takeDamage(tank.getProjShape(*it))) {
+					it = projectiles.erase(it);
+				}
+				else {
+					++it;
+				}
+			}
+
+		}
 		view.setCenter(player.getShape().getPosition());
 		break;
 	default:
@@ -119,6 +132,9 @@ void Game::render() {
 		for (auto& ennemy : ennemies) {
 			window.draw(ennemy.getSprite());
 		}
+		for (auto& tank : Tanks) {
+			window.draw(tank.getSprite());
+		}
 			//ennemy.runEnnemy(player, window, grid, TimeAstar);
 		//cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
 
@@ -136,6 +152,11 @@ void Game::render() {
 		for (auto ennemy : ennemies) {
 			for (auto proj : ennemy.getProj()) {
 				window.draw(ennemy.getProjShape(proj));
+			}
+		}
+		for (auto tank : Tanks) {
+			for (auto proj : tank.getProj()) {
+				window.draw(tank.getProjShape(proj));
 			}
 		}
 		

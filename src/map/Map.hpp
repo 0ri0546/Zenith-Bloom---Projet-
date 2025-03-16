@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "../entities/FSM.hpp"
+#include "../entities/Tank.hpp"
 #include "Tiles.hpp"
 
 using namespace std;
@@ -26,7 +27,7 @@ public:
 	vector<vector<char>> getMap();
 	vector<unique_ptr<Tiles>>& getTiles();
 
-	void loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window);
+	void loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window, vector<Tank>& Tankennemies);
 };
 
 

@@ -49,6 +49,12 @@
     <Filter Include="Fichiers d%27en-tête\Systems\A%2a">
       <UniqueIdentifier>{91db1366-850a-4ff3-88be-b48ee75703bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Entities\Ennemies">
+      <UniqueIdentifier>{af68a546-c1ce-4544-9e3c-dda2196315cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entities\Ennemies">
+      <UniqueIdentifier>{0cacd254-dc4f-4e7b-8017-d8acf2672d40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -108,9 +114,6 @@
     <ClCompile Include="src\systems\grid.cpp">
       <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\systems\BouncingTitle.cpp">
-      <Filter>Fichiers sources\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="src\entities\Projectile.cpp">
       <Filter>Fichiers sources\Entities</Filter>
     </ClCompile>
@@ -134,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="src\systems\AudioSystem.cpp">
       <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\BouncingTitle.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -194,9 +200,6 @@
     <ClInclude Include="src\systems\grid.hpp">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\systems\BouncingTitle.hpp">
-      <Filter>Fichiers d%27en-tête\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="src\entities\Projectile.hpp">
       <Filter>Fichiers d%27en-tête\Entities</Filter>
     </ClInclude>
@@ -220,6 +223,12 @@
     </ClInclude>
     <ClInclude Include="src\systems\AudioSystem.hpp">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\BouncingTitle.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tank.hpp">
+      <Filter>Fichiers d%27en-tête\Entities\Ennemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,7 +20,7 @@ vector<vector<char>> Map::getMap()
 }
 
 
-void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window)
+void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window, vector<Tank>& Tankennemies)
 {
     
     map.clear();
@@ -83,6 +83,12 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::Rend
                 Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                 ennemies.push_back(newEnnemy);
             }
+            if (tileValue == 15)
+            {
+                Tank newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                Tankennemies.push_back(newEnnemy);
+            }
+
         }
             map.push_back(row);
     }
