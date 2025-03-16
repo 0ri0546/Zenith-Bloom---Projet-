@@ -138,13 +138,11 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Pro
             patrol(player);
             break;
         case SEARCH:
-            // Ajoutez la logique de recherche ici si nécessaire
             break;
         case CHASE:
             chase(player);
             break;
         case DEAD:
-            // Ajoutez la logique de mort ici si nécessaire
             break;
         }
     }
@@ -159,6 +157,8 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Pro
     collision(player, projectile, ennemies);
     updateProjectiles(deltaTime, window);
     rangedAttack();
+
+	//fillEmptySpacesWithShadows(tiles); // Ombres
 }
 
 void Ennemy::rangedAttack() {
@@ -177,6 +177,25 @@ void Ennemy::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
     for (auto it = projectiles.begin(); it != projectiles.end();) {
         it->update(deltaTime);
         ++it;
+    }
+}
+
+void Ennemy::fillEmptySpacesWithShadows(std::vector<std::unique_ptr<Tiles>>& tiles) {
+    for (auto& tile : tiles) {
+        if (!tile->hasShadow() && tile->isEmpty()) {
+            sf::FloatRect tileBounds = tile->getSprite().getGlobalBounds();
+            for (auto& otherTile : tiles) {
+                if (otherTile.get() != tile.get()) {
+                    sf::FloatRect otherTileBounds = otherTile->getSprite().getGlobalBounds();
+                    if (tileBounds.left == otherTileBounds.left && tileBounds.top == otherTileBounds.top + otherTileBounds.height) {
+                        if (otherTile->hasShadow() || otherTile->getValue() < 10) {
+                            tile->setShadow(true);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

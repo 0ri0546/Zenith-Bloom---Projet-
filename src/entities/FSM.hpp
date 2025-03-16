@@ -30,6 +30,7 @@ public:
 
     void rangedAttack();
     void updateProjectiles(float deltaTime, sf::RenderWindow& window);
+	void fillEmptySpacesWithShadows(std::vector<std::unique_ptr<Tiles>>& tiles);
 
     sf::Sprite getSprite() const;
     std::vector<Projectile>& getProj();

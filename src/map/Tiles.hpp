@@ -17,14 +17,27 @@ private:
 	int size = 240;
 	int type;
 	sf::Sprite sprite;
+
+	sf::RectangleShape shadowShape;
+	bool shadow;
+	bool empty;
+	int value;
+
 public:
 	Tiles(float x, float y, int type);
 	~Tiles();
 	sf::Vector2f getPos() const ;
 	sf::Sprite getSprite() const;
+	void setShadow(bool hasShadow);
+	bool hasShadow() const;
+	bool isEmpty() const;
+	sf::RectangleShape getShadowShape() const;
+
+	int getValue() const;
+
 
 	bool isPolluted;
 };
 
-#endif // !TILES_H
+#endif 
 

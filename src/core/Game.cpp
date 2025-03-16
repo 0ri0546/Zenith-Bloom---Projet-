@@ -112,8 +112,9 @@ void Game::render() {
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
 		window.draw(player.getShapeSmoke());
-		window.draw(player.getShapeHUDEnergy());
 		window.draw(player.getShapeFillEnergy());
+
+		
 		
 		for (auto& ennemy : ennemies) {
 			window.draw(ennemy.getSprite());
@@ -154,6 +155,13 @@ void Game::render() {
 			}
 		}
 
+		for (const auto& tile : gamemap.getTiles()) {
+			window.draw(tile->getSprite());
+			if (tile->hasShadow()) {
+				window.draw(tile->getShadowShape());
+			}
+		}
+		window.draw(player.getShapeHUDEnergy());
 		window.setView(view);
 		break;
 	case GameState::PAUSE_MENU:
@@ -178,6 +186,7 @@ void Game::render() {
 		break;
 	}
 
+	
 	window.display();
 }
 

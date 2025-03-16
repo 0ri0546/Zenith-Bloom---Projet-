@@ -1,7 +1,12 @@
 #include "Tiles.hpp"
 
-Tiles::Tiles(float x, float y, int type)  : x(x), y(y), type(type){
+Tiles::Tiles(float x, float y, int type)  : x(x), y(y), type(type) {
 	sprite.setTexture(Shared::floorTexture);
+	isPolluted = false;
+    shadowShape.setSize(sf::Vector2f(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height));
+    shadowShape.setFillColor(sf::Color(0, 0, 0, 128)); // Noir avec opacité 50%
+    shadowShape.setPosition(x, y);
+
     switch (type)
     {
     case(00):
@@ -214,6 +219,28 @@ Tiles::Tiles(float x, float y, int type)  : x(x), y(y), type(type){
 	sprite.setScale(0.5, 0.5);
 	sprite.setPosition(x, y);
 }
+
+//-----------------------------------------------------Pour les ombres-----------------------------------------------------
+void Tiles::setShadow(bool hasShadow) {
+    shadow = hasShadow;
+}
+
+bool Tiles::hasShadow() const {
+    return shadow;
+}
+
+sf::RectangleShape Tiles::getShadowShape() const {
+	return shadowShape;
+}
+
+bool Tiles::isEmpty() const {
+    return empty;
+}
+
+int Tiles::getValue() const {
+    return value;
+}
+//-----------------------------------------------------Pour les ombres-----------------------------------------------------
 
 Tiles::~Tiles() {}
 
