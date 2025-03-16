@@ -16,10 +16,11 @@ private:
 public:
     Button(int id, const std::string& label, const std::string& label2, sf::Font& font, sf::Vector2f position, sf::Vector2f size, std::function<void()> callback);
     void handleMouseHover(const sf::Vector2i& mousePos);
-    int handleMouseClick(const sf::Vector2i& mousePos);
+    int handleMouseClick(const sf::Vector2i& mousePos, bool isController = false);
     void render(sf::RenderWindow& window);
 
     void setText(const std::string& label);
+    void setHover(const bool isHover);
 
     std::string getOriginalText() const {
         return originalText;

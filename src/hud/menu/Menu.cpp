@@ -17,16 +17,51 @@ void Menu::initBackground() {
 Menu::Menu() {
     initFont();
     initBackground();
+
+    isGamepadConnected = sf::Joystick::isConnected(0);
+
+    if (isGamepadConnected && !buttons.empty()) {
+        currentHoveredButtonIndex = 0;
+        buttons[0].setHover(true);
+    }
 }
 
+
 int Menu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
+    static sf::Clock clickClock;
+
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-        for (auto& button : buttons) {
-            int buttonResult = button.handleMouseClick(mousePos);
-            if (buttonResult != 0) {
+    bool wasGamepadConnected = isGamepadConnected;
+    isGamepadConnected = sf::Joystick::isConnected(0);
+
+    if (isGamepadConnected && !wasGamepadConnected && !buttons.empty()) {
+        currentHoveredButtonIndex = 0;
+        for (size_t i = 0; i < buttons.size(); ++i) {
+            buttons[i].setHover(static_cast<int>(i) == currentHoveredButtonIndex);
+        }
+    }
+
+    if (isGamepadConnected) {
+        updateHoverWithGamepad();
+
+        if (sf::Joystick::isButtonPressed(0, 0) && clickClock.getElapsedTime().asMilliseconds() > 300) {
+            if (currentHoveredButtonIndex >= 0 && currentHoveredButtonIndex < buttons.size()) {
+                int buttonResult = buttons[currentHoveredButtonIndex].handleMouseClick(mousePos, true);
+                clickClock.restart();
                 return buttonResult;
+            }
+        }
+    }
+
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+        if (clickClock.getElapsedTime().asMilliseconds() > 300) {
+            for (auto& button : buttons) {
+                int buttonResult = button.handleMouseClick(mousePos);
+                if (buttonResult != 0) {
+                    clickClock.restart();
+                    return buttonResult;
+                }
             }
         }
     }
@@ -37,6 +72,49 @@ int Menu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
 
     return 0;
 }
+
+void Menu::updateHoverWithGamepad() {
+    static sf::Clock clock;
+    float yAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+    if (clock.getElapsedTime().asMilliseconds() > 200) {
+        if (std::abs(yAxis) > 50) {
+            int direction = (yAxis > 0) ? 1 : -1;
+
+            currentHoveredButtonIndex += direction;
+            currentHoveredButtonIndex = std::clamp(currentHoveredButtonIndex, 0, static_cast<int>(buttons.size() - 1));
+
+            for (size_t i = 0; i < buttons.size(); ++i) {
+                buttons[i].setHover(static_cast<int>(i) == currentHoveredButtonIndex);
+            }
+            clock.restart();
+        }
+    }
+
+    if (clock.getElapsedTime().asMilliseconds() > 200) {
+        float povY = sf::Joystick::getAxisPosition(0, sf::Joystick::PovY);
+
+        if (povY > 50) { // D-Pad down
+            currentHoveredButtonIndex--;
+            currentHoveredButtonIndex = std::clamp(currentHoveredButtonIndex, 0, static_cast<int>(buttons.size() - 1));
+
+            for (size_t i = 0; i < buttons.size(); ++i) {
+                buttons[i].setHover(static_cast<int>(i) == currentHoveredButtonIndex);
+            }
+            clock.restart();
+        }
+        else if (povY < -50) { // D-Pad up
+            currentHoveredButtonIndex++;
+            currentHoveredButtonIndex = std::clamp(currentHoveredButtonIndex, 0, static_cast<int>(buttons.size() - 1));
+
+            for (size_t i = 0; i < buttons.size(); ++i) {
+                buttons[i].setHover(static_cast<int>(i) == currentHoveredButtonIndex);
+            }
+            clock.restart();
+        }
+    }
+}
+
 
 void Menu::render(sf::RenderWindow& window) {
     window.draw(backgroundSprite);

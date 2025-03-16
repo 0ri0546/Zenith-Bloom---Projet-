@@ -5,6 +5,7 @@
 #include "Button.hpp"
 #include "Slider.hpp"
 #include "../../systems/Datas.hpp"
+#include <cmath>
 
 class Menu {
 protected:
@@ -17,6 +18,10 @@ protected:
     virtual void initButtons() = 0;
     void initFont();
     void initBackground();
+
+    int currentHoveredButtonIndex = 0;
+    bool isGamepadConnected = false;
+    void updateHoverWithGamepad();
 
 public:
     Menu();

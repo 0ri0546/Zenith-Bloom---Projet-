@@ -11,6 +11,8 @@ public:
     void handleInput(const sf::RenderWindow& window, const sf::Event& event);
     void render(sf::RenderWindow& window);
     int getValue() const;
+    void handleGamepadInput(float deltaX);
+    void setActive(bool active);
 
 private:
     sf::RectangleShape bar;

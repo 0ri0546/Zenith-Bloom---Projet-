@@ -32,10 +32,9 @@ void Button::handleMouseHover(const sf::Vector2i& mousePos) {
     }
 }
 
-int Button::handleMouseClick(const sf::Vector2i& mousePos) {
-    if (shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+int Button::handleMouseClick(const sf::Vector2i& mousePos, bool isController) {
+    if (isController || shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
         onClick();
-        text.setFillColor(sf::Color(150, 150, 150));
         return id;
     }
     return 0;
@@ -50,4 +49,13 @@ void Button::setText(const std::string& label) {
     text.setString(label);
     sf::FloatRect textBounds = text.getLocalBounds();
     text.setPosition(shape.getPosition().x + (shape.getSize().x - textBounds.width) / 2.f, shape.getPosition().y + (shape.getSize().y - textBounds.height) / 2.f - textBounds.top);
+}
+
+void Button::setHover(const bool isHover) {
+    if (isHover) {
+        text.setFillColor(sf::Color(0, 255, 50));
+    }
+    else if (!isHover) {
+        text.setFillColor(sf::Color::White);
+    }
 }

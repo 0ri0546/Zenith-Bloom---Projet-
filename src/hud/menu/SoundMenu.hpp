@@ -6,22 +6,22 @@
 #include "../../systems/AudioSystem.hpp"
 
 class SoundMenu : public Menu {
-private:
-    Slider* mainVolumeSlider;
-    Slider* musicVolumeSlider;
-    Slider* sfxVolumeSlider;
+private: 
+Slider* mainVolumeSlider; 
+Slider* musicVolumeSlider; 
+Slider* sfxVolumeSlider; 
 
-    AudioSystem audioSystem;
+AudioSystem audioSystem; 
 
-    void initSliders();
-    void initButtons() override;
+void initSliders(); 
+void initButtons() override; 
 
-public:
-    SoundMenu();
-    ~SoundMenu();
-    int handleInput(sf::RenderWindow& window, const sf::Event& event) override;
-    void renderSliders(sf::RenderWindow& window);
-    void updateSliderValues();
-};
+public: 
+	SoundMenu(); 
+	~SoundMenu(); 
+
+	int handleInput(sf::RenderWindow& window, const sf::Event& event) override; 
+	void renderSliders(sf::RenderWindow& window); 
+	void updateSliderValues(); }; 
 
 #endif // SOUND_MENU_HPP

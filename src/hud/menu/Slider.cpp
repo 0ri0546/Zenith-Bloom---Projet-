@@ -88,3 +88,15 @@ void Slider::render(sf::RenderWindow& window) {
 int Slider::getValue() const {
     return currentValue;
 }
+
+void Slider::handleGamepadInput(float deltaX) {
+    float currentPosition = circle.getPosition().x;
+    float newPosition = std::clamp(currentPosition + deltaX, bar.getPosition().x, bar.getPosition().x + bar.getSize().x);
+
+    circle.setPosition(newPosition, circle.getPosition().y);
+
+    float ratio = (newPosition - bar.getPosition().x) / bar.getSize().x;
+    currentValue = minValue + static_cast<int>(ratio * (maxValue - minValue));
+
+    valueText.setString(std::to_string(currentValue));
+}
