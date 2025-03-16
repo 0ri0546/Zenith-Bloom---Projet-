@@ -7,71 +7,61 @@
 #include "../map/Platform.hpp"
 
 enum ennemyState {
-	PATROL,
-	SEARCH,
-	CHASE,
-	DEAD
+    PATROL,
+    SEARCH,
+    CHASE,
+    DEAD
 };
 
 class Ennemy {
-public : 
-	Ennemy(unsigned long long x, unsigned long long y);
-	~Ennemy();
+public:
+    Ennemy(unsigned long long x, unsigned long long y);
+    ~Ennemy();
 
-	void patrol(Player& player);
-	void chase(Player& player);
+    void patrol(Player& player);
+    void chase(Player& player);
 
+    void collision(Player& player, std::vector<Projectile>& projectile, std::vector<Ennemy>& ennemies);
+    void colEnnemyToEnnemy(std::vector<Ennemy>& ennemies);
+    void colEnnemyToPlayer(Player& player, std::vector<Ennemy>& ennemies);
+    void colEnnemiToGround(std::vector<Ennemy>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles);
 
-	void collision(Player& player, vector<Projectile>& projectile, vector<Ennemy>& ennemies);
-	void colEnnemyToEnnemy(vector<Ennemy>& ennemies);
-	void colEnnemyToPlayer(Player& player, vector<Ennemy>& ennemies);
-	void colEnnemiToGround(vector<Ennemy>& ennemies, vector<unique_ptr<Tiles>>& tiles);
-	
+    void runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, std::vector<Ennemy>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime);
 
-	void draw(sf::RenderWindow& window);
-	void runEnnemy(Player& player, sf::RenderWindow& window, vector<Projectile>& projectile, vector<Ennemy>& ennemies, vector<unique_ptr<Tiles>>& tiles, float deltaTime);
-	
-	
-	void rangedAttack();
-	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
+    void rangedAttack();
+    void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 
-	sf::Sprite getSprite() const;
-	std::vector<Projectile> getProj() const;
-	sf::Sprite getProjShape(Projectile& proj) const;
+    sf::Sprite getSprite() const;
+    std::vector<Projectile>& getProj();
+    sf::Sprite getProjShape(Projectile& proj) const;
 
-private : 
+private:
+    ennemyState currentState;
+    Assets assets;
+    sf::Clock rangedAttackClock;
 
+    std::vector<Projectile> projectiles;
+    std::vector<sf::Sprite> spritEnnemies;
+    std::vector<sf::CircleShape> detectionCircles;
+    sf::Vector2f moveForCol;
 
+    size_t pathIndex;
+    int life = 3;
 
-	ennemyState currentState;
-	Assets assets;
-	sf::Clock rangedAttackClock;
+    float radiusDetection = 200.f;
+    float speed;
+    float gravity;
+    float velocityY;
 
-	std::vector<Projectile> projectiles;
-	vector<sf::Sprite> spritEnnemies;
-	vector<sf::CircleShape> detectionCircles;
-	sf::Vector2f moveForCol;
+    bool stop = false;
+    bool isWakable = true;
+    bool onTheGround = false;
 
-	size_t pathIndex;
-	int life = 3;
+    float x, y;
+    float scaleEnnemy = 1;
+    bool lastDepIsLeft;
 
-	float radiusDetection = 200.f;
-	float speed;
-	float gravity; 
-	float velocityY;
-
-	bool stop = false;
-	bool isWakable = true;
-	bool onTheGround = false; 
-	/*float searchTime;
-	float attackCooldown;*/
-
-	float x, y;
-	float scaleEnnemy = 1; 
-	bool lastDepIsLeft;
-
-	sf::Sprite spriteEnnemy;
-	//sf::CircleShape detectionCircle;
+    sf::Sprite spriteEnnemy;
 };
 
 #endif

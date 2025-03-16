@@ -18,6 +18,7 @@ public:
 	void collide(const std::vector<std::unique_ptr<Tiles>>& tiles);
 	float attack();
 	void updateHUDEnergy(sf::View& view);
+	bool takeDamage(sf::Sprite projEnnemi);
 
 	sf::Sprite getShape() const;
 	sf::Sprite getShapeAtk() const;

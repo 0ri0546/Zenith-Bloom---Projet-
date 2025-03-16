@@ -62,6 +62,7 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 5)) {
 		rangedAttack();
 	}
+	std::cout << "hp : " << hp << std::endl;
 }
 
 void Player::jump(float deltaTime) {
@@ -307,6 +308,14 @@ void Player::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
 		it->update(deltaTime);
 		++it;
 	}
+}
+
+bool Player::takeDamage(sf::Sprite projEnnemi) {
+	if (playerSprite.getGlobalBounds().intersects(projEnnemi.getGlobalBounds())) {
+		hp--;
+		return true;
+	}
+	return false;
 }
 
 sf::Sprite Player::getShape() const {

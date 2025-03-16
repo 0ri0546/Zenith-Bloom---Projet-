@@ -72,8 +72,19 @@ void Game::update(float deltaTime) {
 		break;
 	case GameState::PLAYING:
 		player.update(gamemap.getTiles(), window, view, deltaTime);
+		
 		for (auto& ennemy : ennemies) {
 			ennemy.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
+			auto& projectiles = ennemy.getProj();
+			for (auto it = projectiles.begin(); it != projectiles.end();) {
+				if (player.takeDamage(ennemy.getProjShape(*it))) {
+					it = projectiles.erase(it);
+				}
+				else {
+					++it;
+				}
+			}
+
 		}
 		view.setCenter(player.getShape().getPosition());
 		break;
