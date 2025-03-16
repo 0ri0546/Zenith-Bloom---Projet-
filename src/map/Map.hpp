@@ -27,7 +27,7 @@ public:
 	vector<vector<char>> getMap();
 	vector<unique_ptr<Tiles>>& getTiles();
 
-	void loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window, vector<Tank>& Tankennemies);
+	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window);
 };
 
 

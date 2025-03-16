@@ -54,7 +54,7 @@ private:
 	bool isRunning;
 	bool isGamePaused;
 
-	vector<Ennemy> ennemies;
+	vector<std::unique_ptr<Ennemy>> ennemies;
 	vector<Tank> Tanks;
 	
 	BouncingTitle title;

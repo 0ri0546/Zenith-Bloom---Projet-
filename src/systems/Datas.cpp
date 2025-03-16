@@ -11,6 +11,7 @@ sf::Texture Shared::projectileTexture;
 
 //assets des ennemis
 sf::Texture Shared::ennemyTexture;
+sf::Texture Shared::tankTexture;
 
 //assets des tiles
 sf::Texture Shared::groundTexture;

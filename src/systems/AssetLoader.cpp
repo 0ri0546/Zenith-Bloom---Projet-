@@ -17,6 +17,7 @@ void Assets::loadAssetsFromFiles() {
 	Shared::groundTexture.loadFromFile("assets/maps/tile test/bob.jpg");
 	Shared::floorTexture.loadFromFile("assets/maps/tileset/tiles.png");
 	Shared::ennemyTexture.loadFromFile("assets/player/sword.jpg");
+	Shared::tankTexture.loadFromFile("assets/textures/ennemy/canonTest.png");
 	Shared::projectileTexture.loadFromFile("assets/player/sword.jpg");
 }
 

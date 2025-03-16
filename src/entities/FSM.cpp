@@ -43,7 +43,7 @@ void Ennemy::chase(Player& player) {
     lastDepIsLeft = direction.x < 0;
 }
 
-void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, std::vector<Ennemy>& ennemies) {
+void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies) {
     for (auto it = projectile.begin(); it != projectile.end();) {
         if (player.getProjShape(*it).getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
             currentState = DEAD;
@@ -73,27 +73,27 @@ void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, std:
         currentState = DEAD;
     }
 
-    ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const Ennemy& e) { return e.currentState == DEAD; }), ennemies.end());
+    ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 }
 
-void Ennemy::colEnnemyToEnnemy(std::vector<Ennemy>& ennemies) {
+void Ennemy::colEnnemyToEnnemy(vector<std::unique_ptr<Ennemy>>& ennemies) {
     for (size_t i = 0; i < ennemies.size(); ++i) {
         for (size_t j = i + 1; j < ennemies.size(); ++j) {
-            if (ennemies[i].getSprite().getGlobalBounds().intersects(ennemies[j].getSprite().getGlobalBounds())) {
-                sf::Vector2f direction = ennemies[i].getSprite().getPosition() - ennemies[j].getSprite().getPosition();
+            if (ennemies[i]->getSprite().getGlobalBounds().intersects(ennemies[j]->getSprite().getGlobalBounds())) {
+                sf::Vector2f direction = ennemies[i]->getSprite().getPosition() - ennemies[j]->getSprite().getPosition();
                 float length = sqrt(direction.x * direction.x + direction.y * direction.y);
                 if (length != 0) {
                     direction /= length;
                     float reboundForce = 0.5f;
-                    ennemies[i].spriteEnnemy.move(direction.x * reboundForce, direction.y * reboundForce);
-                    ennemies[j].spriteEnnemy.move(-direction.x * reboundForce, -direction.y * reboundForce);
+                    ennemies[i]->spriteEnnemy.move(direction.x * reboundForce, direction.y * reboundForce);
+                    ennemies[j]->spriteEnnemy.move(-direction.x * reboundForce, -direction.y * reboundForce);
                 }
             }
         }
     }
 }
 
-void Ennemy::colEnnemyToPlayer(Player& player, std::vector<Ennemy>& ennemies) {
+void Ennemy::colEnnemyToPlayer(Player& player, vector<std::unique_ptr<Ennemy>>& ennemies) {
     if (spriteEnnemy.getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
         sf::Vector2f direction = spriteEnnemy.getPosition() - player.getShape().getPosition();
         float length = sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -112,13 +112,13 @@ void Ennemy::colEnnemyToPlayer(Player& player, std::vector<Ennemy>& ennemies) {
     }
 }
 
-void Ennemy::colEnnemiToGround(std::vector<Ennemy>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles) {
+void Ennemy::colEnnemiToGround(vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles) {
     onTheGround = std::any_of(tiles.begin(), tiles.end(), [this](const std::unique_ptr<Tiles>& tile) {
         return spriteEnnemy.getGlobalBounds().intersects(tile->getSprite().getGlobalBounds());
         });
 }
 
-void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, std::vector<Ennemy>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime) {
+void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime) {
     colEnnemiToGround(ennemies, tiles);
 
     if (!onTheGround) {

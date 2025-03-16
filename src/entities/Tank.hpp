@@ -5,7 +5,7 @@
 
 class Tank : public Ennemy {
 public :
-	Tank(unsigned long long x, unsigned long long y) : Ennemy(x, y) {};
+	Tank(unsigned long long x, unsigned long long y) : Ennemy(x, y) { spriteEnnemy.setTexture(Shared::tankTexture); };
 	//float life = 5;
 
 

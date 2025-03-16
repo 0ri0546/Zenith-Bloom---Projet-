@@ -21,12 +21,12 @@ public:
     void patrol(Player& player);
     void chase(Player& player);
 
-    void collision(Player& player, std::vector<Projectile>& projectile, std::vector<Ennemy>& ennemies);
-    void colEnnemyToEnnemy(std::vector<Ennemy>& ennemies);
-    void colEnnemyToPlayer(Player& player, std::vector<Ennemy>& ennemies);
-    void colEnnemiToGround(std::vector<Ennemy>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles);
+    void collision(Player& player, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies);
+    void colEnnemyToEnnemy(vector<std::unique_ptr<Ennemy>>& ennemies);
+    void colEnnemyToPlayer(Player& player, vector<std::unique_ptr<Ennemy>>& ennemies);
+    void colEnnemiToGround(vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles);
 
-    void runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, std::vector<Ennemy>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime);
+    void runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime);
 
     void rangedAttack();
     void updateProjectiles(float deltaTime, sf::RenderWindow& window);
