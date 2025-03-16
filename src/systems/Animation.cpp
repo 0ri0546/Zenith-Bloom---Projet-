@@ -17,4 +17,5 @@ void Animation::update(float deltaTime) {
 void Animation::applyToSprite(sf::Sprite& sprite, int row) {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(currentFrame * frameWidth, row * frameHeight, frameWidth, frameHeight));
+    sprite.setScale(50.f / frameWidth, 50.f / frameHeight);
 }

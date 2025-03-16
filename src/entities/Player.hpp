@@ -82,7 +82,8 @@ private:
 		healAnimation,
 		attackAnimation,
 		rangedAttackAnimation,
-		repairAnimation;
+		repairAnimation,
+		smokeAnimation;
 
 };
 

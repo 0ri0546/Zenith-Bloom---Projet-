@@ -12,16 +12,17 @@ Player::Player(sf::Texture& texture) :
 	healAnimation(texture, 256, 256, 1, 0.5f),
 	attackAnimation(texture, 256, 256, 1, 0.5f),
 	rangedAttackAnimation(texture, 256, 256, 1, 0.5f),
-	repairAnimation(texture, 256, 256, 1, 0.5f)
+	repairAnimation(texture, 256, 256, 1, 0.5f),
+
+	smokeAnimation(Shared::smokeTexture, 350, 350, 3, 0.2f)
 {
 	playerSprite.setPosition(sf::Vector2f(400, 0));
 	playerSprite.setTexture(texture);
 	playerSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
 
-	smokeSprite.setTexture(Shared::smokeTexture);
 	swordSprite.setTexture(Shared::swordTexture);
 	assets.resize(playerSprite, 50, 50);
-	assets.resize(smokeSprite, 30, 50);
+	//assets.resize(smokeSprite, 30, 50);
 	assets.resize(swordSprite, 30, 50);
 
 	velocityY = 0;
@@ -143,6 +144,8 @@ void Player::jump(float deltaTime) {
 		else {
 			smokeSprite.setPosition(playerSprite.getPosition().x - 30 + playerSprite.getGlobalBounds().width / 2, playerSprite.getPosition().y + 30);
 		}
+		smokeAnimation.update(deltaTime);
+		smokeAnimation.applyToSprite(smokeSprite, 0);
 	}
 	else {
 		smokeSprite.setPosition(9999, 9999);
