@@ -54,6 +54,8 @@ void Menu::updateHoverForButton(int index) {
 
 
 int Menu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
+    std::cout << "current : " << currentHoveredButtonIndex << std::endl;
+    
     static sf::Clock clickClock;
 
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -100,6 +102,7 @@ int Menu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
 void Menu::updateHoverWithGamepad() {
     static sf::Clock clock;
     float yAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+    float xAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 
     if (clock.getElapsedTime().asMilliseconds() > 200) {
         if (std::abs(yAxis) > 50) {
@@ -115,6 +118,10 @@ void Menu::updateHoverWithGamepad() {
 
             clock.restart();
         }
+    }
+
+    if (currentHoveredButtonIndex >= 0 && currentHoveredButtonIndex < buttons.size() && buttons[currentHoveredButtonIndex].getIsSlider()) {
+        buttons[currentHoveredButtonIndex].adjustSliderValue(xAxis);
     }
 
     if (clock.getElapsedTime().asMilliseconds() > 200) {

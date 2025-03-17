@@ -33,6 +33,7 @@ public:
     void setHoverButton(const bool isHover);
     int getValue() const;
     void setHoverSlider(const bool isHover);
+    void adjustSliderValue(float axisValue);
 
     std::string getOriginalText() const {
         return originalText;

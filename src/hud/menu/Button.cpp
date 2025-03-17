@@ -165,7 +165,6 @@ void Button::setHoverButton(const bool isHover) {
     }
 }
 
-
 void Button::setHoverSlider(const bool isHover) {
     if (isHover) {
         valueText.setFillColor(sf::Color(0, 255, 50));
@@ -179,4 +178,17 @@ void Button::setHoverSlider(const bool isHover) {
 
 int Button::getValue() const {
     return currentValue;
+}
+
+void Button::adjustSliderValue(float axisValue) {
+    if (axisValue > 20) {
+        currentValue = std::min(currentValue + 1, maxValue);
+    }
+    else if (axisValue < -20) {
+        currentValue = std::max(currentValue - 1, minValue);
+    }
+
+    float newPositionX = bar.getPosition().x + (static_cast<float>(currentValue - minValue) / (maxValue - minValue)) * bar.getSize().x;
+    circle.setPosition(newPositionX, circle.getPosition().y);
+    valueText.setString(std::to_string(currentValue));
 }
