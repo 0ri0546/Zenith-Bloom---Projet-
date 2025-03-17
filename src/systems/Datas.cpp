@@ -18,6 +18,11 @@ sf::Texture Shared::floorTexture;
 
 //sf::Sprite groundSprite;
 
+//assets du HUD
+sf::Texture Shared::dayTexture;
+sf::Texture Shared::nightTexture;
+sf::Texture Shared::progressBarTexture;
+
 //assets des menus
 
 namespace Keybind {

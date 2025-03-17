@@ -1,9 +1,10 @@
 #include "Player.hpp"
 
 Player::Player(sf::Texture& texture) : 
-	jumpAnimation(texture, 256, 256, 2, 0.2f), 
-	walkToLeftAnimation(texture, 256, 256, 1, 0.5f),
-	walkToRightAnimation(texture, 256, 256, 1, 0.5f),
+	jumpAnimation(texture, 136, 188, 4, 0.5f),
+	walkToLeftAnimation(texture, 136, 188, 4, 0.2f), // ----------
+	walkToRightAnimation(texture, 136, 188, 4, 0.2f),
+	staticAnimation(texture, 136, 188, 1, 0.5f),
 	hangedToLefAnimation(texture, 256, 256, 1, 0.5f),
 	hangedToRightAnimation(texture, 256, 256, 1, 0.5f),
 
@@ -19,14 +20,14 @@ Player::Player(sf::Texture& texture) :
 	playerSprite.setPosition(sf::Vector2f(400, 0));
 	playerSprite.setTexture(texture);
 	playerSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
+	//playerSprite.setOrigin(playerSprite.getGlobalBounds().width / 2 , playerSprite.getGlobalBounds().height / 2);
 
 	swordSprite.setTexture(Shared::swordTexture);
 	assets.resize(playerSprite, 50, 50);
-	//assets.resize(smokeSprite, 30, 50);
 	assets.resize(swordSprite, 30, 50);
 
 	velocityY = 0;
-	gravity = 0.5f;
+	gravity = 1700.f;
 	isOnGround = false;
 
 	jumpCount = maxJumps;
@@ -50,38 +51,51 @@ Player::Player(sf::Texture& texture) :
 	shapeEnergy.setFillColor(sf::Color::Transparent);
 	shapeEnergy.setOutlineColor(sf::Color::White);
 	shapeEnergy.setOutlineThickness(2);
-	shapeEnergy.setPosition(20, 20);
+	
+	hudEnergySprite.setTexture(Shared::progressBarTexture);
+	assets.resize(hudEnergySprite, 100, 30);
+	hudEnergySprite.setPosition(20, 20);
 
 	damage = 15;
 	hp = 100;
 	vie = 3;
+
+	daySprite.setTexture(Shared::dayTexture);
+	assets.resize(daySprite, 40, 40);
+	nightSprite.setTexture(Shared::nightTexture);
+	assets.resize(nightSprite, 40, 40);
 }
 
 void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
 	//reste à faire :
 	//afficher les HUD (vie (coeurs ?), progression dans le niveau, etc...)
 
-	//if (isOnGround) {
-	//	walkAnimation.update(deltaTime);
-	//	walkAnimation.applyToSprite(playerSprite, 1);
-	//}
-	//else {
-	//	jumpAnimation.update(deltaTime);
-	//	jumpAnimation.applyToSprite(playerSprite, 2);
-	//}
+	if (velocityY < 100 && velocityY > -100) {
+		if (!velocityX < 1 && !velocityX > -1) {
+			if (lastDepIsLeft) {
+				walkToLeftAnimation.update(deltaTime);
+				walkToLeftAnimation.applyToSprite(playerSprite, 1);
+			}
+			else {
+				walkToRightAnimation.update(deltaTime);
+				walkToRightAnimation.applyToSprite(playerSprite, 1);
+			}
+		}
+		else {
+			staticAnimation.update(deltaTime);
+			staticAnimation.applyToSprite(playerSprite, 1);
+		}
+	}
+	else {
+		jumpAnimation.update(deltaTime);
+		jumpAnimation.applyToSprite(playerSprite, 1);
+	}
 
-	//border();
 	collide(tiles);
-	//useJetpack();
 	jump(deltaTime);
 	deplacement(deltaTime);
 	attack();
-	//rangedAttack(window);
-	//std::cout << "Nombre de projectiles : " << projectiles.size() << std::endl;
-
-	updateHUDEnergy(view);
-	//std::cout << "deltatime : " << deltaTime << std::endl;
-
+	updateHUD(view);
 	updateProjectiles(deltaTime, window);
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 5)) {
 		rangedAttack();
@@ -91,9 +105,9 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 
 void Player::jump(float deltaTime) {
 	//reste à faire :
-
+	deltaTime = std::min(deltaTime, 0.1f);
 	if (!isOnGround && !hangedToWallsLeft && !hangedToWallsRight) {
-		velocityY += gravity;
+		velocityY += gravity * deltaTime;
 	}
 	else {
 		jumpCount = maxJumps;
@@ -105,7 +119,7 @@ void Player::jump(float deltaTime) {
 
 	if (sf::Joystick::isConnected(0)) {
 		if (sf::Joystick::isButtonPressed(0, 0) && jumpCount > 0 && canJump) {
-			velocityY = -10.0f;
+			velocityY = -10.0f / deltaTime;
 			jumpCount--;
 			canJump = false;
 			if (jumpCount == 0) {
@@ -121,7 +135,7 @@ void Player::jump(float deltaTime) {
 	}
 	else {
 		if (sf::Keyboard::isKeyPressed(Keybind::getKey(Keybind::Action::Jump)) && jumpCount > 0 && canJump) {
-			velocityY = -10.0f;
+			velocityY = -10.0f / deltaTime;
 			jumpCount--;
 			canJump = false;
 			if (jumpCount == 0) {
@@ -135,7 +149,7 @@ void Player::jump(float deltaTime) {
 			}
 		}
 	}
-	playerSprite.move(0, velocityY);
+	playerSprite.move(0, velocityY * deltaTime);
 	
 	if (jumpCount == 0) { //pour la fumée
 		if (lastDepIsLeft) {
@@ -157,6 +171,9 @@ void Player::collide(const std::vector<std::unique_ptr<Tiles>>& tiles) {
 	hangedToWallsLeft = false;
 	hangedToWallsRight = false;
 
+	const float offsetTolerance = 3.f;
+	const float groundTolerance = 5.f;
+
 	for (const auto& tile : tiles) {
 		if (playerSprite.getGlobalBounds().intersects(tile->getSprite().getGlobalBounds())) {
 			sf::FloatRect playerBounds = playerSprite.getGlobalBounds();
@@ -172,37 +189,38 @@ void Player::collide(const std::vector<std::unique_ptr<Tiles>>& tiles) {
 			float platformTop = platformBounds.top;
 			float platformBottom = platformBounds.top + platformBounds.height;
 
-			if (velocityY > 0 && playerBottom > platformTop && playerTop < platformTop) { // bas
+			
+			if (velocityY >= 0 && playerBottom > platformTop && playerTop < platformTop + groundTolerance) { // bas
 				isOnGround = true;
 				velocityY = 0;
 				playerSprite.setPosition(playerSprite.getPosition().x, platformTop - playerSprite.getGlobalBounds().height);
 			}
-			else if (playerRight > platformLeft && playerLeft < platformLeft) { // gauche
+			
+			else if (playerRight > platformLeft && playerLeft < platformLeft + offsetTolerance) { //gauche
 				playerSprite.setPosition(platformLeft - playerBounds.width, playerSprite.getPosition().y);
 				if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 					hangedToWallsLeft = true;
 				}
-				
 			}
-			else if (playerLeft < platformRight && playerRight > platformRight) { // droite
+			
+			else if (playerLeft < platformRight && playerRight > platformRight - offsetTolerance) { //droite
 				playerSprite.setPosition(platformRight, playerSprite.getPosition().y);
 				if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 					hangedToWallsRight = true;
 				}
-				
-			}
-			else if (velocityY < 0 && playerTop < platformBottom && playerBottom > platformBottom) { // haut
-				if (!hangedToWallsRight && !hangedToWallsLeft)
-				{
+			} 
+
+			else if (velocityY < 0 && playerTop < platformBottom && playerBottom > platformBottom - offsetTolerance) { //haut
+				if (!hangedToWallsRight && !hangedToWallsLeft) {
 					velocityY = 0;
 					playerSprite.setPosition(playerSprite.getPosition().x, platformBottom);
 				}
-				
 			}
-
 		}
 	}
 }
+
+
 
 void Player::deplacement(float deltaTime) {
 	deltaTime = std::min(deltaTime, 0.1f);
@@ -254,16 +272,6 @@ void Player::deplacement(float deltaTime) {
 	playerSprite.move(velocityX * deltaTime, 0);
 }
 
-void Player::border() {
-	//reste à faire :
-	if (playerSprite.getPosition().x <= 0) {
-		playerSprite.setPosition(0, playerSprite.getPosition().y);
-	}
-	if (playerSprite.getPosition().x + playerSprite.getGlobalBounds().width >= Config::WINDOW_WIDTH) {
-		playerSprite.setPosition(Config::WINDOW_WIDTH - playerSprite.getGlobalBounds().width, playerSprite.getPosition().y);
-	}
-}
-
 float Player::attack() {
 	float shortRangeDamage = 0.f;
 	if (lastDepIsLeft) {
@@ -300,7 +308,8 @@ float Player::attack() {
 	return shortRangeDamage;
 }
 
-void Player::updateHUDEnergy(sf::View& view) {
+void Player::updateHUD(sf::View& view) {
+	//------ENERGY------
 	sf::Vector2f viewCenter = view.getCenter();
 	sf::Vector2f viewSize = view.getSize();
 
@@ -310,8 +319,13 @@ void Player::updateHUDEnergy(sf::View& view) {
 	shapeFillEnergy.setSize(sf::Vector2f((energy / maxJetpackEnergy) * 100, 30));
 	shapeFillEnergy.setFillColor(sf::Color::Green);
 
-	shapeEnergy.setPosition(hudX, hudY);
-	shapeFillEnergy.setPosition(hudX, hudY);
+	hudEnergySprite.setPosition(hudX, hudY);
+	shapeFillEnergy.setPosition(hudX, hudY); // à modif
+	//------ENERGY------
+	//------DAY/NIGHT------
+	daySprite.setPosition(viewCenter.x + viewSize.x / 2 - 60, viewCenter.y - viewSize.y / 2 + 20);
+	nightSprite.setPosition(viewCenter.x + viewSize.x / 2 - 60, viewCenter.y - viewSize.y / 2 + 20);
+	//------DAY/NIGHT------
 }
 
 void Player::rangedAttack() {
@@ -356,8 +370,8 @@ sf::Sprite Player::getShapeSmoke() const {
 	return smokeSprite;
 }
 
-sf::RectangleShape Player::getShapeHUDEnergy() const {
-	return shapeEnergy;
+sf::Sprite Player::getSpriteHUDEnergy() const {
+	return hudEnergySprite;
 }
 
 sf::RectangleShape Player::getShapeFillEnergy() const {
@@ -369,6 +383,14 @@ std::vector<Projectile> Player::getProj() const {
 
 sf::Sprite Player::getProjShape(Projectile& proj) const {
 	return proj.getSprite();
+}
+
+sf::Sprite Player::getDaySprite() const {
+	return daySprite;
+}
+
+sf::Sprite Player::getNightSprite() const {
+	return nightSprite;
 }
 
 Player::~Player() {

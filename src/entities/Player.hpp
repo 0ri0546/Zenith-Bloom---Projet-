@@ -15,19 +15,20 @@ public:
 	void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) override;
 	void jump(float deltaTime);
 	void deplacement(float deltaTime);
-	void border();
 	void collide(const std::vector<std::unique_ptr<Tiles>>& tiles);
 	float attack();
-	void updateHUDEnergy(sf::View& view);
+	void updateHUD(sf::View& view);
 	bool takeDamage(sf::Sprite projEnnemi);
 
 	sf::Sprite getShape() const;
 	sf::Sprite getShapeAtk() const;
 	sf::Sprite getShapeSmoke() const;
-	sf::RectangleShape getShapeHUDEnergy() const;
+	sf::Sprite getSpriteHUDEnergy() const;
 	sf::RectangleShape getShapeFillEnergy() const;
 	std::vector<Projectile> getProj() const;
 	sf::Sprite getProjShape(Projectile& proj) const;
+	sf::Sprite getDaySprite() const;
+	sf::Sprite getNightSprite() const;
 
 	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
@@ -45,6 +46,8 @@ private:
 	sf::Clock rangedAttackClock;
 
 	Assets assets;
+
+	sf::Sprite daySprite, nightSprite, hudEnergySprite;
 
 	float velocityY;
 	float velocityX;
@@ -74,6 +77,7 @@ private:
 		jumpAnimation,
 		walkToLeftAnimation,
 		walkToRightAnimation,
+		staticAnimation,
 		hangedToLefAnimation,
 		hangedToRightAnimation,
 

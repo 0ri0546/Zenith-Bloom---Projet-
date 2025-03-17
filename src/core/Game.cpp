@@ -9,6 +9,7 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 	//grid.loadGrid(gamemap);
 
 	textFall = false;
+	isDay = false;
 }
 
 void Game::addPlatform(float x, float y, float width, float height) {
@@ -112,8 +113,6 @@ void Game::render() {
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
 		window.draw(player.getShapeSmoke());
-		window.draw(player.getShapeFillEnergy());
-
 		
 		
 		for (auto& ennemy : ennemies) {
@@ -149,7 +148,6 @@ void Game::render() {
 					break;
 				}
 			}
-
 			if (!erased) {
 				++it;
 			}
@@ -161,7 +159,12 @@ void Game::render() {
 				window.draw(tile->getShadowShape());
 			}
 		}
-		window.draw(player.getShapeHUDEnergy());
+		//----HUD----
+		window.draw(player.getShapeFillEnergy());
+		window.draw(player.getSpriteHUDEnergy());
+		if (isDay) { window.draw(player.getDaySprite()); }
+		else { window.draw(player.getNightSprite()); }
+		//----HUD----
 		window.setView(view);
 		break;
 	case GameState::PAUSE_MENU:

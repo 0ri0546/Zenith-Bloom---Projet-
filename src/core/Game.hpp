@@ -52,6 +52,7 @@ private:
 
 	bool isRunning;
 	bool isGamePaused;
+	bool isDay;
 
 	vector<Ennemy> ennemies;
 	

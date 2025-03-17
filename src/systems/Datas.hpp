@@ -48,6 +48,11 @@ public:
 	static sf::Texture floorTexture; 
 	//static sf::Sprite groundSprite; 
 
+	//HUD
+	static sf::Texture dayTexture;
+	static sf::Texture nightTexture;
+	static sf::Texture progressBarTexture;
+
 };
 
 #endif
