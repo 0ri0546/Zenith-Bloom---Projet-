@@ -10,6 +10,7 @@ enum ennemyState {
     PATROL,
     SEARCH,
     CHASE,
+    NIGHT,
     DEAD
 };
 

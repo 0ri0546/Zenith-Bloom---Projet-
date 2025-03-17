@@ -195,6 +195,8 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Pro
             break;
         case DEAD:
             break;
+        case NIGHT:
+            break;
         }
     }
 
