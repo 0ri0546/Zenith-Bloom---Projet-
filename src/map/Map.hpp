@@ -5,7 +5,10 @@
 #include <iostream>
 #include "../entities/FSM.hpp"
 #include "../entities/Tank.hpp"
-#include "Tiles.hpp"
+#include "../entities/drone.hpp"
+#include "../entities/incendiaire.hpp"
+
+
 
 using namespace std;
 using namespace sf;

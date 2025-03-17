@@ -89,7 +89,16 @@ void Map::loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player&
                 Tankennemies.push_back(newEnnemy);*/
                 ennemies.push_back(make_unique<Tank>(i / 2 * gridCellSize, map.size() * gridCellSize));
             }
-
+            if (tileValue == 16)
+            {
+                
+                ennemies.push_back(make_unique<Drone>(i / 2 * gridCellSize, map.size() * gridCellSize));
+            }
+            if (tileValue == 17)
+            {
+               
+                ennemies.push_back(make_unique<Incendiaire>(i / 2 * gridCellSize, map.size() * gridCellSize));
+            } 
         }
             map.push_back(row);
     }

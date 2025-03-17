@@ -135,9 +135,9 @@ void Game::render() {
 		for (auto& ennemy : ennemies) {
 			window.draw(ennemy->getSprite());
 		}
-		for (auto& tank : Tanks) {
+		/*for (auto& tank : Tanks) {
 			window.draw(tank.getSprite());
-		}
+		}*/
 			//ennemy.runEnnemy(player, window, grid, TimeAstar);
 		//cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
 

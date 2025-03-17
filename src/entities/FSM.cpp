@@ -114,7 +114,7 @@ void Ennemy::colEnnemyToPlayer(Player& player, vector<std::unique_ptr<Ennemy>>& 
 
 void Ennemy::colEnnemiToGround(vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles) {
     if (spriteEnnemy.getTexture() == nullptr) {
-        // Si la texture du sprite est nulle, l'ennemi est considéré comme supprimé
+        // Si la texture du sprite est nulle, l'ennemi est considéré comme supprimép
         return;
     }
     onTheGround = std::any_of(tiles.begin(), tiles.end(), [this](const std::unique_ptr<Tiles>& tile) {

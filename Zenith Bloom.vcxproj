@@ -183,8 +183,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp" />
+    <ClInclude Include="src\entities\drone.hpp" />
     <ClInclude Include="src\entities\FSM.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />
+    <ClInclude Include="src\entities\incendiaire.hpp" />
     <ClInclude Include="src\entities\ManagerEnnemy.hpp" />
     <ClInclude Include="src\entities\Player.hpp" />
     <ClInclude Include="src\entities\Projectile.hpp" />

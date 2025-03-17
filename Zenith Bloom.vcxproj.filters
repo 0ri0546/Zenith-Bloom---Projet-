@@ -141,6 +141,9 @@
     <ClCompile Include="src\hud\menu\BouncingTitle.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\entities\Tank.cpp">
+      <Filter>Fichiers sources\Entities\Ennemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -227,7 +230,13 @@
     <ClInclude Include="src\hud\menu\BouncingTitle.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tank.hpp">
+    <ClInclude Include="src\entities\Tank.hpp">
+      <Filter>Fichiers d%27en-tête\Entities\Ennemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\incendiaire.hpp">
+      <Filter>Fichiers d%27en-tête\Entities\Ennemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\drone.hpp">
       <Filter>Fichiers d%27en-tête\Entities\Ennemies</Filter>
     </ClInclude>
   </ItemGroup>
