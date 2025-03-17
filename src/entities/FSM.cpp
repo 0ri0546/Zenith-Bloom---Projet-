@@ -5,9 +5,15 @@ Ennemy::Ennemy(unsigned long long x, unsigned long long y) : x(x), y(y) {
     assets.resize(spriteEnnemy, 100, 100);
     spriteEnnemy.setOrigin(spriteEnnemy.getLocalBounds().width / 2, spriteEnnemy.getLocalBounds().height /2 );
     spriteEnnemy.setPosition(x, y);
-    currentState = CHASE;
+    radiusDetection = 200.f;
+    circle.setRadius(radiusDetection);
+    circle.setOrigin(radiusDetection, radiusDetection);
+    circle.setPosition(x, y);
+    circle.setFillColor(sf::Color::Black);
+    currentState = PATROL;
+    
     lastDepIsLeft = false;
-    speed = 0;
+    speed = 1;
     pathIndex = 0;
     gravity = 1200;
     velocityY = 0;
@@ -20,17 +26,17 @@ sf::Sprite Ennemy::getSprite() const {
 }
 
 void Ennemy::patrol(Player& player) {
-    for (auto& detectionCircle : detectionCircles) {
-        if (player.getShape().getGlobalBounds().intersects(detectionCircle.getGlobalBounds())) {
-            currentState = CHASE;
-            return;
-        }
+    
+    if (player.getShape().getGlobalBounds().intersects(circle.getGlobalBounds())) {
+        currentState = CHASE;
+        return;
     }
-    currentState = PATROL;
+    
+    //currentState = PATROL;
 }
 
 void Ennemy::chase(Player& player) {
-    speed = 1;
+    //speed = 1;
     sf::Vector2f direction(
         speed * copysign(4.0f, player.getShape().getPosition().x - spriteEnnemy.getPosition().x),
         speed * copysign(0.0f, velocityY + spriteEnnemy.getPosition().y)
@@ -182,7 +188,7 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Pro
     
     colEnnemyToEnnemy(ennemies);
     colEnnemyToPlayer(player, ennemies);
-
+    circle.setPosition(spriteEnnemy.getPosition());
     if (onTheGround) {
         switch (currentState) {
         case PATROL:
@@ -200,18 +206,19 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Pro
         }
     }
 
-    for (auto& detectionCircle : detectionCircles) {
+    /*for (auto& detectionCircle : detectionCircles) {
         detectionCircle.setRadius(radiusDetection);
         detectionCircle.setOrigin(radiusDetection, radiusDetection);
         detectionCircle.setFillColor(sf::Color::Black);
         detectionCircle.setPosition(spriteEnnemy.getPosition());
-    }
-
+    }*/
+    
     collision(player, projectile, ennemies);
     updateProjectiles(deltaTime, window);
     rangedAttack();
 
 	//fillEmptySpacesWithShadows(tiles); // Ombres
+    //window.draw(circle);
 }
 
 void Ennemy::rangedAttack() {

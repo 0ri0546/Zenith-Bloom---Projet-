@@ -41,20 +41,20 @@ public:
     int life = 3;
 
 
-//private:
+
     ennemyState currentState;
     Assets assets;
     sf::Clock rangedAttackClock;
 
     std::vector<Projectile> projectiles;
     std::vector<sf::Sprite> spritEnnemies;
-    std::vector<sf::CircleShape> detectionCircles;
+    //std::vector<sf::CircleShape> detectionCircles;
     sf::Vector2f moveForCol;
 
     size_t pathIndex;
-    
-
-    float radiusDetection = 200.f;
+    sf::CircleShape circle;
+protected : 
+    float radiusDetection; 
     float speed;
     float gravity;
     float velocityY;

@@ -33,13 +33,13 @@ public:
 
 	
 	std::vector<Projectile> projectiles;
-
+bool canAttack = true;
 private:
 	sf::Sprite swordSprite;
 	sf::Sprite smokeSprite;
 	sf::Sprite playerSprite;
 	sf::RectangleShape shapeEnergy, shapeFillEnergy;
-	sf::Clock attackClock;
+	sf::Clock attackClock;	
 	sf::Clock attackDurationClock;
 	sf::Clock rangedAttackClock;
 
@@ -66,6 +66,8 @@ private:
 	float energyConsumption;
 	float energyRecharge;
 	float damage;
+	
+	
 
 	int hp;
 

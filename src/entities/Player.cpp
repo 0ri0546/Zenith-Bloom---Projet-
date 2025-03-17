@@ -240,6 +240,8 @@ void Player::border() {
 
 float Player::attack() {
 	float shortRangeDamage = 0.f;
+
+
 	if (lastDepIsLeft) {
 		swordSprite.setPosition(playerSprite.getPosition().x - 30, playerSprite.getPosition().y);
 	}

@@ -134,6 +134,7 @@ void Game::render() {
 		
 		
 		for (auto& ennemy : ennemies) {
+			window.draw(ennemy->circle);
 			window.draw(ennemy->getSprite());
 		}
 		/*for (auto& tank : Tanks) {
@@ -155,14 +156,12 @@ void Game::render() {
 		}
 		for (auto& ennemy : ennemies) {
 			for (auto& proj : ennemy->getProj()) {
+				
 				window.draw(ennemy->getProjShape(proj));
+				
 			}
 		}
-		for (auto tank : Tanks) {
-			for (auto proj : tank.getProj()) {
-				window.draw(tank.getProjShape(proj));
-			}
-		}
+		
 		
 		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
 			bool erased = false;
