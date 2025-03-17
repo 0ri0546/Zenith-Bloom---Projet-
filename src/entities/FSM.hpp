@@ -57,6 +57,9 @@ public:
     float speed;
     float gravity;
     float velocityY;
+    float maxFallSpeed = 800;
+    float boxCol1;
+    float boxCol2;
 
     bool stop = false;
     bool isWakable = true;
