@@ -6,7 +6,7 @@ void VideoMenu::initButtons() {
     buttons.emplace_back(2, "Plein Ecran", "Plein Ecran", font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 300), sf::Vector2f(200, 50), []() {});
     buttons.emplace_back(3, "Synchronisation Vertical - ON", "Synchronisation Vertical - ON", font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 400), sf::Vector2f(200, 50), []() {});
 
-    fpsSlider = new Slider((Config::WINDOW_WIDTH - 400) / 2.f, 530, 400, 20, 30, 240, font, "Max FPS : ", 60);
+    fpsSlider = new Slider((Config::WINDOW_WIDTH - 400) / 2.f, 530, 400, 30, 240, font, "Max FPS : ", 60);
 }
 
 VideoMenu::VideoMenu(MenuList lastMenu) : Menu(), isFullscreen(true), isVSync(true), lastMenu(lastMenu) {

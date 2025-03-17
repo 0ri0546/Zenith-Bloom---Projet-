@@ -138,11 +138,12 @@
     <ClCompile Include="src\systems\AudioSystem.cpp">
       <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\hud\menu\BouncingTitle.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
+
     <ClCompile Include="src\entities\Tank.cpp">
       <Filter>Fichiers sources\Entities\Ennemies</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\menu\BouncingTitle.cpp">
+      <Filter>Fichiers sources\Hud</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,9 +228,7 @@
     <ClInclude Include="src\systems\AudioSystem.hpp">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\hud\menu\BouncingTitle.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
+
     <ClInclude Include="src\entities\Tank.hpp">
       <Filter>Fichiers d%27en-tête\Entities\Ennemies</Filter>
     </ClInclude>
@@ -238,6 +237,9 @@
     </ClInclude>
     <ClInclude Include="src\entities\drone.hpp">
       <Filter>Fichiers d%27en-tête\Entities\Ennemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\menu\BouncingTitle.hpp">
+      <Filter>Fichiers d%27en-tête\Hud</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

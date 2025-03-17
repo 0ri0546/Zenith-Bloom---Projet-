@@ -83,8 +83,8 @@
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>C:\SFML-2.6.2\include;C:\Users\orio6\Documents\SFML-2.6.2\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\SFML-2.6.2\lib;C:\Users\orio6\Documents\SFML-2.6.2\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\SFML-2.6.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SFML-2.6.2\lib;C:\Users\orio6\Documents\SFML-2.6.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SFML-2.6.2\include;$(IncludePath);C:\Users\spenz\Documents\SFML-2.6.2\include</IncludePath>
+    <LibraryPath>C:\SFML-2.6.2\lib;C:\Users\orio6\Documents\SFML-2.6.2\lib;$(LibraryPath);C:\Users\spenz\Documents\SFML-2.6.2\lib</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

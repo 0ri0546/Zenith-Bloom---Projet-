@@ -17,9 +17,9 @@ void SoundMenu::initButtons() {
 }
 
 void SoundMenu::initSliders() {
-    mainVolumeSlider = new Slider(static_cast<int>((Config::WINDOW_WIDTH - 400) / 2.f), 300, 400, 20, 0, 100, font, "Volume Principal", 100);
-    musicVolumeSlider = new Slider(static_cast<int>((Config::WINDOW_WIDTH - 400) / 2.f), 400, 400, 20, 0, 100, font, "Volume Musique", 100);
-    sfxVolumeSlider = new Slider(static_cast<int>((Config::WINDOW_WIDTH - 400) / 2.f), 500, 400, 20, 0, 100, font, "Volume SFX", 100);
+    mainVolumeSlider = new Slider(static_cast<int>((Config::WINDOW_WIDTH - 400) / 2.f), 300, 400, 0, 100, font, "Volume Principal", 100);
+    musicVolumeSlider = new Slider(static_cast<int>((Config::WINDOW_WIDTH - 400) / 2.f), 400, 400, 0, 100, font, "Volume Musique", 100);
+    sfxVolumeSlider = new Slider(static_cast<int>((Config::WINDOW_WIDTH - 400) / 2.f), 500, 400, 0, 100, font, "Volume SFX", 100);
 }
 
 int SoundMenu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
