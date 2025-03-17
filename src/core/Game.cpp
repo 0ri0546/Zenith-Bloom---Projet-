@@ -71,6 +71,7 @@ void Game::update(float deltaTime) {
 	case GameState::MAIN_MENU:
 		break;
 	case GameState::PLAYING:
+		gamemap.handleInput(window, view);
 		player.update(gamemap.getTiles(), window, view, deltaTime);
 		
 		for (auto& ennemy : ennemies) {
@@ -88,6 +89,9 @@ void Game::update(float deltaTime) {
 		}
 		view.setCenter(player.getShape().getPosition());
 		break;
+
+	case GameState::EDITOR:
+		
 	default:
 		view.setCenter(static_cast<float>(Config::WINDOW_WIDTH) / 2.f, static_cast<float>(Config::WINDOW_HEIGHT) / 2.f);
 		window.setView(view);
