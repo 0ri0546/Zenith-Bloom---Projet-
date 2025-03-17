@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "Button.hpp"
-#include "Slider.hpp"
 #include "../../systems/Datas.hpp"
 #include <cmath>
 
@@ -18,6 +17,8 @@ protected:
     virtual void initButtons() = 0;
     void initFont();
     void initBackground();
+
+    void updateHoverForButton(int index);
 
     int currentHoveredButtonIndex = 0;
     bool isGamepadConnected = false;

@@ -130,7 +130,7 @@ int ControlMenu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
             newClick = false;
 
             for (auto& button : buttons) {
-                int buttonResult = button->handleMouseClick(mousePos);
+                int buttonResult = button->handleInput(mousePos, event);
                 if (buttonResult != 0) {
                     if (buttonResult >= 2 && buttonResult <= 6) {
                         buttonWaitingForKey = button;

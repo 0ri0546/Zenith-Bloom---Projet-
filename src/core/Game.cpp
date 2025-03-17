@@ -173,11 +173,9 @@ void Game::render() {
 		break;
 	case GameState::VIDEO_MENU:
 		videoMenu.render(window);
-		videoMenu.renderSlider(window);
 		break;
 	case GameState::SOUND_MENU:
 		soundMenu.render(window);
-		soundMenu.renderSliders(window);
 		break;
 	case GameState::CONTROL_MENU:
 		controlMenu.render(window);
