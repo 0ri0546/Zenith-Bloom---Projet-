@@ -113,13 +113,28 @@ void Ennemy::colEnnemyToPlayer(Player& player, vector<std::unique_ptr<Ennemy>>& 
 }
 
 void Ennemy::colEnnemiToGround(vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles) {
+    if (spriteEnnemy.getTexture() == nullptr) {
+        // Si la texture du sprite est nulle, l'ennemi est considéré comme supprimé
+        return;
+    }
     onTheGround = std::any_of(tiles.begin(), tiles.end(), [this](const std::unique_ptr<Tiles>& tile) {
         return spriteEnnemy.getGlobalBounds().intersects(tile->getSprite().getGlobalBounds());
         });
 }
 
 void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime) {
+    /*for (auto& ennemy : ennemies) {
+        if (ennemy != nullptr && ennemy->currentState != DEAD) {
+            ennemy->colEnnemiToGround(ennemies, tiles);
+        }
+    }*/
+   //ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const std::unique_ptr<Ennemy>& e) {
+   //     return e->currentState == DEAD;
+   //     }), ennemies.end());
+    
     colEnnemiToGround(ennemies, tiles);
+
+
 
     if (!onTheGround) {
         velocityY += gravity;
@@ -129,8 +144,8 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Pro
         velocityY = 0;
     }
 
-    colEnnemyToEnnemy(ennemies);
-    colEnnemyToPlayer(player, ennemies);
+    /*colEnnemyToEnnemy(ennemies);
+    colEnnemyToPlayer(player, ennemies);*/
 
     if (onTheGround) {
         switch (currentState) {

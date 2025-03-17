@@ -72,6 +72,8 @@ void Game::update(float deltaTime) {
 	case GameState::MAIN_MENU:
 		break;
 	case GameState::PLAYING:
+
+
 		player.update(gamemap.getTiles(), window, view, deltaTime);
 		
 		for (auto& ennemy : ennemies) {
@@ -87,7 +89,7 @@ void Game::update(float deltaTime) {
 			}
 
 		}
-		for (auto& tank : Tanks) {
+		/*for (auto& tank : Tanks) {
 			tank.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
 			auto& projectiles = tank.getProj();
 			for (auto it = projectiles.begin(); it != projectiles.end();) {
@@ -99,7 +101,7 @@ void Game::update(float deltaTime) {
 				}
 			}
 
-		}
+		}*/
 		view.setCenter(player.getShape().getPosition());
 		break;
 	default:
