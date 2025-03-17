@@ -20,7 +20,7 @@ vector<vector<char>> Map::getMap()
 }
 
 
-void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window)
+void Map::loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window)
 {
     
     map.clear();
@@ -80,9 +80,25 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::Rend
             }
             if (tileValue == 14)
             {
-                Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
-                ennemies.push_back(newEnnemy);
+                //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                ennemies.push_back(make_unique<Ennemy>(i / 2 * gridCellSize, map.size() * gridCellSize));
             }
+            if (tileValue == 15)
+            {
+               /* Tank newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                Tankennemies.push_back(newEnnemy);*/
+                ennemies.push_back(make_unique<Tank>(i / 2 * gridCellSize, map.size() * gridCellSize));
+            }
+            if (tileValue == 16)
+            {
+                
+                ennemies.push_back(make_unique<Drone>(i / 2 * gridCellSize, map.size() * gridCellSize));
+            }
+            if (tileValue == 17)
+            {
+               
+                ennemies.push_back(make_unique<Incendiaire>(i / 2 * gridCellSize, map.size() * gridCellSize));
+            } 
         }
             map.push_back(row);
     }

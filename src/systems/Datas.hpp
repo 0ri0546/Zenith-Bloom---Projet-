@@ -42,6 +42,9 @@ public:
 
 	// assets ennemy
 	static sf::Texture ennemyTexture;
+	static sf::Texture tankTexture;
+	static sf::Texture droneTexture;
+	static sf::Texture incendTexture;
 
 	//assets map
 	static sf::Texture groundTexture; 

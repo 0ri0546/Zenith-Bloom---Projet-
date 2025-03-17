@@ -5,6 +5,13 @@
 #include <string>
 
 class Slider {
+public:
+    Slider(int x, int y, int width, int minValue, int maxValue, const sf::Font& font, const std::string& name, int initialValue);
+
+    void handleInput(const sf::RenderWindow& window, const sf::Event& event);
+    void render(sf::RenderWindow& window);
+    int getValue() const;
+
 private:
     sf::RectangleShape bar;
     sf::CircleShape circle;
@@ -14,13 +21,6 @@ private:
     int currentValue;
     bool isDragging;
     std::string name;
-
-public:
-    Slider(int x, int y, int width, int height, int minValue, int maxValue, const sf::Font& font, const std::string& name, int initialValue);
-
-    void handleInput(const sf::RenderWindow& window, const sf::Event& event);
-    void render(sf::RenderWindow& window);
-    int getValue() const;
 };
 
 #endif // SLIDER_HPP
