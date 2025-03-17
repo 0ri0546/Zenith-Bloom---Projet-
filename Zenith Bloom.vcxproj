@@ -152,8 +152,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Game.cpp" />
+    <ClCompile Include="src\entities\drone.cpp" />
     <ClCompile Include="src\entities\FSM.cpp" />
     <ClCompile Include="src\entities\Entity.cpp" />
+    <ClCompile Include="src\entities\incendiaire.cpp" />
     <ClCompile Include="src\entities\ManagerEnnemy.cpp" />
     <ClCompile Include="src\entities\Player.cpp" />
     <ClCompile Include="src\entities\Projectile.cpp" />

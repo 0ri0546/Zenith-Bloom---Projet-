@@ -5,7 +5,7 @@
 
 class Incendiaire : public Ennemy {
 public:
-	Incendiaire(unsigned long long x, unsigned long long y) : Ennemy(x, y) { spriteEnnemy.setTexture(Shared::incendTexture); };
+	Incendiaire(unsigned long long x, unsigned long long y) : Ennemy(x, y) { spriteEnnemy.setTexture(Shared::incendTexture); life = 5; };
 	//float life = 5;
 
 
