@@ -1,9 +1,12 @@
 #include"Map.hpp"
 #include <fstream>
 #include <iostream>
+#include <string> 
+
+Map::Map() {
 
 
-Map::Map() {}
+}
 
 Map::~Map()
 {
@@ -18,6 +21,20 @@ vector<vector<char>> Map::getMap()
 {
     return tiles;
 }
+
+ void Map::spawnTile(int x, int y, int mapNum) {
+     tiles.push_back(make_unique<Tiles>(x, y, mapNum));
+}
+
+ void Map::supprTile(int x, int y) {
+     for (auto it = tiles.begin(); it != tiles.end(); ++it) {
+
+         if ((*it)->getSprite().getPosition().x == x && (*it)->getSprite().getPosition().y == y) {
+             tiles.erase(it);
+             break;
+         }
+     }
+ }
 
 
 void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window)
@@ -65,7 +82,8 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::Rend
 
                 if (tileValue < 102) {
 
-                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, tileValue));
+                    spawnTile(i / 3 * gridCellSize, map.size() * gridCellSize, tileValue);
+                    
                 }
                 if (tileValue == 999)
                 {
@@ -79,18 +97,37 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::Rend
 }
 
 void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
+    cout << numtile;
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         sf::Vector2i mousePosWindow = sf::Mouse::getPosition(window);
         sf::Vector2f mousePosWorld = window.mapPixelToCoords(mousePosWindow, view);
         int gridX = static_cast<int>(mousePosWorld.x) / gridCellSize;
         int gridY = static_cast<int>(mousePosWorld.y) / gridCellSize;
-        modifyMapFile(gridX, gridY, 4);
+        modifyMapFile(gridX, gridY, numtile);
+        supprTile(gridX * gridCellSize, gridY * gridCellSize);
+        spawnTile(gridX * gridCellSize, gridY * gridCellSize, numtile);
+
     }
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+        sf::Vector2i mousePosWindow = sf::Mouse::getPosition(window);
+        sf::Vector2f mousePosWorld = window.mapPixelToCoords(mousePosWindow, view);
+        int gridX = static_cast<int>(mousePosWorld.x) / gridCellSize;
+        int gridY = static_cast<int>(mousePosWorld.y) / gridCellSize;
+        modifyMapFile(gridX, gridY, -1);
+        supprTile(gridX * gridCellSize, gridY * gridCellSize);
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { if (inputOn == false) { numtile += 1; } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) { if (inputOn == false) { numtile -= 1; } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { if (inputOn == false) { numtile -= 10; } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { if (inputOn == false) { numtile += 10; } inputOn = true; }
+    else { inputOn = false; }
+
+
 }
 
 void Map::modifyMapFile(int gridX, int gridY, int type) {
     string path = "assets/maps/map" + to_string(currentmap) + ".txt";
-
     fstream file(path, ios::in | ios::out);
     if (!file.is_open()) {
         cout << "Error: Unable to open map file." << endl;
@@ -99,27 +136,49 @@ void Map::modifyMapFile(int gridX, int gridY, int type) {
 
     string line;
     int rowIndex = 0;
-    long pos = 0; 
 
+    vector<string> lines;
     while (getline(file, line)) {
-        if (rowIndex == gridY) {
-            int startIdx = gridX * 3;
-
-            if (startIdx + 2 < line.size()) {
-                line[startIdx] = '0';
-                line[startIdx + 1] = '0';
-                line[startIdx + 2] = '4';
-
-                file.seekp(pos, ios::beg);
-
-                file << line << endl;
-                break; 
-            }
-        }
-        pos = file.tellg();
-        rowIndex++;
+        lines.push_back(line);
     }
 
-    file.close();
+    if (gridY >= 0 && gridY < lines.size()) {
+        string& lineToModify = lines[gridY];
+
+        int startIdx = gridX * 3;
+        if (type == -1) {
+            if (startIdx + 2 < lineToModify.size()) {
+                lineToModify[startIdx] = ' ';
+                lineToModify[startIdx + 1] = ' ';
+                lineToModify[startIdx + 2] = ' ';
+            }
+        }
+        else 
+        {
+            if (startIdx + 2 < lineToModify.size()) {
+                lineToModify[startIdx] = type / 100 + '0';
+                lineToModify[startIdx + 1] = (type % 100) / 10 + '0';
+                lineToModify[startIdx + 2] = type % 10 + '0';
+            }
+        }
+    }
+
+    file.close();  
+
+    ofstream outFile(path, ios::out);
+    if (!outFile.is_open()) {
+        cout << "Error: Unable to open map file for writing." << endl;
+        return;
+    }
+
+    for (const auto& modifiedLine : lines) {
+        outFile << modifiedLine << endl;
+    }
+
+    outFile.close(); 
 }
 
+void Map::editormode(sf::RenderWindow& window, sf::View& view) {
+
+    handleInput(window, view);
+}

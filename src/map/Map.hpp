@@ -15,9 +15,13 @@ private:
 
 	int gridCellSize = 120;
 	vector<vector<char>> map;
-	int currentmap;
+	int currentmap = 1;
 	vector<sf::RectangleShape> recTab;
 	vector<unique_ptr<Tiles>> tiles;
+	int numtile = 1;
+	Sprite assetfull;
+
+	bool inputOn = false;
 	
 public:
 	
@@ -26,9 +30,10 @@ public:
 
 	vector<vector<char>> getMap();
 	vector<unique_ptr<Tiles>>& getTiles();
-
+	void spawnTile(int x, int y, int mapNum);
+	void supprTile(int x, int y);
 	void loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window);
-
+	void editormode(sf::RenderWindow& window, sf::View& view);
 	void handleInput(sf::RenderWindow& window, sf::View& view);
 	void modifyMapFile(int griX, int gridY, int type);
 
