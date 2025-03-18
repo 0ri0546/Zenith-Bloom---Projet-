@@ -1,12 +1,12 @@
 #include "Player.hpp"
 
 Player::Player(sf::Texture& texture) : 
-	jumpAnimation(texture, 136, 188, 4, 0.5f),
-	walkToLeftAnimation(texture, 136, 188, 4, 0.2f), // ----------
-	walkToRightAnimation(texture, 136, 188, 4, 0.2f),
-	staticAnimation(texture, 136, 188, 1, 0.5f),
-	hangedToLefAnimation(texture, 256, 256, 1, 0.5f),
-	hangedToRightAnimation(texture, 256, 256, 1, 0.5f),
+	jumpAnimation(texture, 194, 256, 3, 0.5f),
+	walkToLeftAnimation(texture, 194, 256, 3, 0.2f), // ----------
+	walkToRightAnimation(texture, 194, 256, 3, 0.2f),
+	staticAnimation(texture, 194, 256, 1, 0.5f),
+	hangedToLefAnimation(texture, 194, 256, 3, 0.5f),
+	hangedToRightAnimation(texture, 194, 256, 3, 0.5f),
 
 	takeDamageAnimation(texture, 256, 256, 1, 0.5f),
 	deathAnimation(texture, 256, 256, 1, 0.5f),
@@ -15,7 +15,7 @@ Player::Player(sf::Texture& texture) :
 	rangedAttackAnimation(texture, 256, 256, 1, 0.5f),
 	repairAnimation(texture, 256, 256, 1, 0.5f),
 
-	smokeAnimation(Shared::smokeTexture, 350, 350, 3, 0.2f)
+	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f)
 {
 	playerSprite.setPosition(sf::Vector2f(400, 0));
 	playerSprite.setTexture(texture);
@@ -74,11 +74,11 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 		if (!velocityX < 1 && !velocityX > -1) {
 			if (lastDepIsLeft) {
 				walkToLeftAnimation.update(deltaTime);
-				walkToLeftAnimation.applyToSprite(playerSprite, 1);
+				walkToLeftAnimation.applyToSprite(playerSprite, 0);
 			}
 			else {
 				walkToRightAnimation.update(deltaTime);
-				walkToRightAnimation.applyToSprite(playerSprite, 1);
+				walkToRightAnimation.applyToSprite(playerSprite, 0);
 			}
 		}
 		else {
@@ -88,7 +88,7 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 	}
 	else {
 		jumpAnimation.update(deltaTime);
-		jumpAnimation.applyToSprite(playerSprite, 1);
+		jumpAnimation.applyToSprite(playerSprite, 8);
 	}
 
 	collide(tiles);
