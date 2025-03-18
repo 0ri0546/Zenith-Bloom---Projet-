@@ -37,7 +37,7 @@ vector<vector<char>> Map::getMap()
  }
 
 
-void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window)
+void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window)
 {
     
     map.clear();
@@ -85,11 +85,28 @@ void Map::loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::Rend
                     spawnTile(i / 3 * gridCellSize, map.size() * gridCellSize, tileValue);
                     
                 }
-                if (tileValue == 999)
+                if (tileValue == 14)
                 {
-                    Ennemy newEnnemy(i / 3 * gridCellSize, map.size() * gridCellSize);
-                    ennemies.push_back(newEnnemy);
+                    //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                    ennemies.push_back(make_unique<Ennemy>(i / 2 * gridCellSize, map.size() * gridCellSize));
                 }
+                if (tileValue == 15)
+                {
+                    /* Tank newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                     Tankennemies.push_back(newEnnemy);*/
+                    ennemies.push_back(make_unique<Tank>(i / 2 * gridCellSize, map.size() * gridCellSize));
+                }
+                if (tileValue == 16)
+                {
+
+                    ennemies.push_back(make_unique<Drone>(i / 2 * gridCellSize, map.size() * gridCellSize));
+                }
+                if (tileValue == 17)
+                {
+
+                    ennemies.push_back(make_unique<Incendiaire>(i / 2 * gridCellSize, map.size() * gridCellSize));
+                }
+
             }
         }
             map.push_back(row);
@@ -181,31 +198,4 @@ void Map::modifyMapFile(int gridX, int gridY, int type) {
 void Map::editormode(sf::RenderWindow& window, sf::View& view) {
 
     handleInput(window, view);
-}
-                tiles.push_back(make_unique<Tiles>(i / 2 * gridCellSize, map.size() * gridCellSize, tileValue));
-            }
-            if (tileValue == 14)
-            {
-                //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
-                ennemies.push_back(make_unique<Ennemy>(i / 2 * gridCellSize, map.size() * gridCellSize));
-            }
-            if (tileValue == 15)
-            {
-               /* Tank newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
-                Tankennemies.push_back(newEnnemy);*/
-                ennemies.push_back(make_unique<Tank>(i / 2 * gridCellSize, map.size() * gridCellSize));
-            }
-            if (tileValue == 16)
-            {
-                
-                ennemies.push_back(make_unique<Drone>(i / 2 * gridCellSize, map.size() * gridCellSize));
-            }
-            if (tileValue == 17)
-            {
-               
-                ennemies.push_back(make_unique<Incendiaire>(i / 2 * gridCellSize, map.size() * gridCellSize));
-            } 
-        }
-            map.push_back(row);
-    }
 }
