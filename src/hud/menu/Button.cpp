@@ -176,10 +176,6 @@ void Button::setHoverSlider(const bool isHover) {
     }
 }
 
-int Button::getValue() const {
-    return currentValue;
-}
-
 void Button::adjustSliderValue(float axisValue) {
     if (axisValue > 20) {
         currentValue = std::min(currentValue + 1, maxValue);
@@ -191,4 +187,24 @@ void Button::adjustSliderValue(float axisValue) {
     float newPositionX = bar.getPosition().x + (static_cast<float>(currentValue - minValue) / (maxValue - minValue)) * bar.getSize().x;
     circle.setPosition(newPositionX, circle.getPosition().y);
     valueText.setString(std::to_string(currentValue));
+}
+
+int Button::getValue() const {
+    return currentValue;
+}
+
+std::string Button::getOriginalText() const {
+    return originalText;
+}
+
+bool Button::getIsHovered() const {
+    return isHovered;
+}
+
+bool Button::getIsSlider() const {
+    return isSlider;
+}
+
+int Button::getId() const {
+    return id;
 }

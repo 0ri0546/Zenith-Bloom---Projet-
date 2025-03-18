@@ -19,10 +19,10 @@ protected:
     void initBackground();
 
     void updateHoverForButton(int index);
+    void updateHoverWithGamepad();
 
     int currentHoveredButtonIndex = 0;
     bool isGamepadConnected = false;
-    void updateHoverWithGamepad();
 
 public:
     Menu();

@@ -7,21 +7,22 @@
 class Button {
 private:
     int id;
+    bool isSlider;
+    bool isHovered;
+    bool isDragging;
+
+    std::string originalText;
+    std::string name;
+    int minValue, maxValue, initialValue;
+    int currentValue;
+
+    std::function<void()> onClick;
+    sf::Font& font;
     sf::RectangleShape shape;
     sf::Text text;
-    std::function<void()> onClick;
-    bool isHovered;
-    std::string originalText;
-
-    bool isSlider;
     sf::RectangleShape bar;
     sf::CircleShape circle;
     sf::Text minText, maxText, valueText, nameText;
-    sf::Font& font;
-    int minValue, maxValue, initialValue;
-    int currentValue;
-    bool isDragging;
-    std::string name;
 
 public:
     Button(int id, const std::string& label, const std::string& label2, sf::Font& font, sf::Vector2f position, sf::Vector2f size, std::function<void()> callback, int minValue = 0, int maxValue = 0, int initialValue = 0, bool slider = false);
@@ -31,25 +32,14 @@ public:
 
     void setText(const std::string& label);
     void setHoverButton(const bool isHover);
-    int getValue() const;
     void setHoverSlider(const bool isHover);
     void adjustSliderValue(float axisValue);
 
-    std::string getOriginalText() const {
-        return originalText;
-    }
-
-    bool getIsHovered() const {
-        return isHovered;
-    }
-
-    bool getIsSlider() const {
-        return isSlider;
-    }
-
-    int getId() const {
-        return id;
-    }
+    int getValue() const;
+    std::string getOriginalText() const;
+    bool getIsHovered() const;
+    bool getIsSlider() const;
+    int getId() const;
 };
 
 #endif // BUTTON_HPP
