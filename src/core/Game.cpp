@@ -34,6 +34,7 @@ void Game::processEvents(float deltaTime) {
 		}
 		handleKeyboardInput(event);
 		handleState(event, deltaTime);
+		handleGamepadInput(deltaTime);
 
 		switch (currentState) {
 		case GameState::MAIN_MENU:
@@ -200,11 +201,9 @@ void Game::render() {
 		break;
 	case GameState::VIDEO_MENU:
 		videoMenu.render(window);
-		videoMenu.renderSlider(window);
 		break;
 	case GameState::SOUND_MENU:
 		soundMenu.render(window);
-		soundMenu.renderSliders(window);
 		break;
 	case GameState::CONTROL_MENU:
 		controlMenu.render(window);
@@ -268,6 +267,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		int result = pauseMenu.handleInput(window, event);
 		if (result == 1) { // Reprendre
 			currentState = GameState::PLAYING;
+			isGamePaused = false;
 		}
 		else if (result == 2) { // Options
 			currentState = GameState::OPTIONS_MENU;
@@ -357,6 +357,17 @@ void Game::handleKeyboardInput(const sf::Event& event) {
 			}
 			else if (currentState == GameState::CONTROL_MENU) {
 				currentState = GameState::OPTIONS_MENU;
+			}
+		}
+	}
+}
+
+void Game::handleGamepadInput(float deltaTime) {
+	if (sf::Joystick::isConnected(0)) {
+		if (sf::Joystick::isButtonPressed(0, 7)) { // Start Button
+			if (currentState == GameState::PLAYING) {
+				currentState = GameState::PAUSE_MENU;
+				isGamePaused = true;
 			}
 		}
 	}

@@ -1,3 +1,5 @@
+/*
+
 #include "Slider.hpp"
 #include <sstream>
 
@@ -88,3 +90,5 @@ void Slider::render(sf::RenderWindow& window) {
 int Slider::getValue() const {
     return currentValue;
 }
+
+*/

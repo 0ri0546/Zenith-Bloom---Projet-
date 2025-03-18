@@ -69,6 +69,7 @@ private:
 	void render();
 	void handleState(const sf::Event& event, float deltaTime);
 	void handleKeyboardInput(const sf::Event& event);
+	void handleGamepadInput(float deltaTime);
 
 	GameState currentState;
 	MainMenu mainMenu;
