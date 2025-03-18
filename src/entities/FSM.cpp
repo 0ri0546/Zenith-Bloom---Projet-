@@ -17,7 +17,7 @@ Ennemy::Ennemy(unsigned long long x, unsigned long long y) : x(x), y(y) {
     pathIndex = 0;
     gravity = 1200;
     velocityY = 0;
-    boxCol1 = 170; 
+    boxCol1 = 170;  
     boxCol2 = 49;
 }
 

@@ -39,7 +39,7 @@ public:
 
 private:
 	sf::RenderWindow window;
-	Player player;
+	Player player;	
 	//Player player2;
 	//Ennemy ennemy;
 	//Grid grid;
@@ -53,6 +53,7 @@ private:
 
 	bool isRunning;
 	bool isGamePaused;
+	bool isDay;
 
 	vector<std::unique_ptr<Ennemy>> ennemies;
 	vector<Tank> Tanks;

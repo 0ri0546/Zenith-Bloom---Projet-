@@ -145,6 +145,9 @@
     <ClCompile Include="src\hud\menu\BouncingTitle.cpp">
       <Filter>Fichiers sources\Hud</Filter>
     </ClCompile>
+    <ClCompile Include="src\systems\Animation.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp">
@@ -227,6 +230,10 @@
     </ClInclude>
     <ClInclude Include="src\systems\AudioSystem.hpp">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    
+    <ClInclude Include="src\systems\Animation.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
 
     <ClInclude Include="src\entities\Tank.hpp">
