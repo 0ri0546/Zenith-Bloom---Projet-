@@ -3,7 +3,7 @@
 #include "../entities/Tank.hpp"
 
 
-Tank::Tank(unsigned long long x, unsigned long long y) : Ennemy(x, y) {
+Tank::Tank(unsigned long long x, unsigned long long y, sf::Texture text, float xT, float yT) : Ennemy(x, y, text, xT, yT) {
 	spriteEnnemy.setTexture(Shared::tankTexture);
 
 	life = 7;

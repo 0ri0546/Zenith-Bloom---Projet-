@@ -81,23 +81,23 @@ void Map::loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player&
             if (tileValue == 14)
             {
                 //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
-                ennemies.push_back(make_unique<Ennemy>(i / 2 * gridCellSize, map.size() * gridCellSize));
+                ennemies.push_back(make_unique<Ennemy>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTexture, 139, 178));
             }
             if (tileValue == 15)
             {
                /* Tank newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                 Tankennemies.push_back(newEnnemy);*/
-                ennemies.push_back(make_unique<Tank>(i / 2 * gridCellSize, map.size() * gridCellSize));
+                ennemies.push_back(make_unique<Tank>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::tankTexture, 139, 178));
             }
             if (tileValue == 16)
             {
                 
-                ennemies.push_back(make_unique<Drone>(i / 2 * gridCellSize, map.size() * gridCellSize));
+                ennemies.push_back(make_unique<Drone>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::droneTexture, 139, 178));
             }
             if (tileValue == 17)
             {
                
-                ennemies.push_back(make_unique<Incendiaire>(i / 2 * gridCellSize, map.size() * gridCellSize));
+                ennemies.push_back(make_unique<Incendiaire>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, 100, 270));
             } 
         }
             map.push_back(row);

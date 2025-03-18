@@ -16,10 +16,10 @@ void Assets::loadAssetsFromFiles() {
 	Shared::swordTexture.loadFromFile("assets/player/sword.jpg");
 	Shared::groundTexture.loadFromFile("assets/maps/tile test/bob.jpg");
 	Shared::floorTexture.loadFromFile("assets/maps/tileset/tiles.png");
-	Shared::ennemyTexture.loadFromFile("assets/ennemies/ennemies.png");
-	Shared::tankTexture.loadFromFile("assets/textures/ennemy/canonTest.png");
-	Shared::droneTexture.loadFromFile("assets/textures/ennemy/droneTest.png");
-	Shared::incendTexture.loadFromFile("assets/textures/ennemy/incendTest.png");
+	Shared::ennemyTexture.loadFromFile("assets/ennemies/newTilsetEnemy.png");
+	Shared::tankTexture.loadFromFile("assets/ennemies/tank.png");
+	Shared::droneTexture.loadFromFile("assets/ennemies/droneTest.png");
+	Shared::incendTexture.loadFromFile("assets/ennemies/incend.png");
 	Shared::projectileTexture.loadFromFile("assets/player/sword.jpg");
 	Shared::dayTexture.loadFromFile("assets/player/sword.jpg");
 	Shared::nightTexture.loadFromFile("assets/maps/tile test/bob.jpg");

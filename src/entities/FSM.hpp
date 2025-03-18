@@ -5,6 +5,7 @@
 #include "../entities/Player.hpp"
 #include "Projectile.hpp"
 #include "../map/Platform.hpp"
+#include "../systems/Animation.hpp"
 
 enum ennemyState {
     PATROL,
@@ -16,20 +17,20 @@ enum ennemyState {
 
 class Ennemy {
 public:
-    Ennemy(unsigned long long x, unsigned long long y);
+    Ennemy(unsigned long long x, unsigned long long y, sf::Texture& text, float xT, float yT);
     ~Ennemy();
 
     void patrol(Player& player);
     void chase(Player& player);
 
-    void collision(Player& player, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies);
+    void collision(Player& player, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, float deltaTime);
     void colEnnemyToEnnemy(vector<std::unique_ptr<Ennemy>>& ennemies);
     void colEnnemyToPlayer(Player& player, vector<std::unique_ptr<Ennemy>>& ennemies);
     void colEnnemiToGround(vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles);
 
     void runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime);
 
-    void rangedAttack();
+    void rangedAttack(float deltaTime);
     void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 	void fillEmptySpacesWithShadows(std::vector<std::unique_ptr<Tiles>>& tiles);
 
@@ -45,6 +46,8 @@ public:
     ennemyState currentState;
     Assets assets;
     sf::Clock rangedAttackClock;
+    sf::Clock takeDamageClock;
+    sf::Clock rangClock;
 
     std::vector<Projectile> projectiles;
     std::vector<sf::Sprite> spritEnnemies;
@@ -53,7 +56,10 @@ public:
 
     size_t pathIndex;
     sf::CircleShape circle;
+
+
 protected : 
+
     float radiusDetection; 
     float speed;
     float gravity;
@@ -65,12 +71,15 @@ protected :
     bool stop = false;
     bool isWakable = true;
     bool onTheGround = false;
+    bool inWalk = false;
 
     
     float scaleEnnemy = 1;
     bool lastDepIsLeft;
 
     sf::Sprite spriteEnnemy;
+
+    Animation attackAnim, walkAnim, standAnim, hitAnim; 
 };
 
 #endif

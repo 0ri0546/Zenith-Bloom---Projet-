@@ -9,6 +9,7 @@ public:
 
     void update(float deltaTime);
     void applyToSprite(sf::Sprite& sprite, int row);
+    void takeSecondImage(sf::Sprite& sprite, int row);
 
 private:
     sf::Texture& texture;
