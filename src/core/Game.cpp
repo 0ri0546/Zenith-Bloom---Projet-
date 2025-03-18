@@ -13,11 +13,6 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 	isDay = false;
 }
 
-void Game::addPlatform(float x, float y, float width, float height) {
-	Platform temp(x, y, width, height);
-	platforms.push_back(temp);
-}
-
 void Game::createWindow() {
 	sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
 	window.create(desktopMode, "Zenith Bloom", sf::Style::Fullscreen);
@@ -82,7 +77,7 @@ void Game::update(float deltaTime) {
 			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
 			auto& projectiles = ennemy->getProj();
 			for (auto it = projectiles.begin(); it != projectiles.end();) {
-				if (player.takeDamage(ennemy->getProjShape(*it))) {
+				if (player.takeDamage(ennemy->getProjShape(*it), deltaTime)) {
 					it = projectiles.erase(it);
 				}
 				else {
@@ -127,9 +122,9 @@ void Game::render() {
 	case GameState::PLAYING:
 		
 
+		window.draw(player.getShapeSmoke());
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
-		window.draw(player.getShapeSmoke());
 		
 		
 		for (auto& ennemy : ennemies) {
@@ -220,11 +215,6 @@ void Game::render() {
 
 void Game::run() {
 	//gamemap.loadMap(1);
-	//Assets assets();
-	//addPlatform(0, 550, 40, 40);
-	//addPlatform(60, 550, 40, 40);
-	addPlatform(-200, 400, 2000, 20);
-	//addPlatform(200, 0, 200, 500);
 	sf::Clock clock;
 	
 	while (isRunning) {

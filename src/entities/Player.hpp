@@ -16,9 +16,9 @@ public:
 	void jump(float deltaTime);
 	void deplacement(float deltaTime);
 	void collide(const std::vector<std::unique_ptr<Tiles>>& tiles);
-	float attack();
+	float attack(float deltaTime);
 	void updateHUD(sf::View& view);
-	bool takeDamage(sf::Sprite projEnnemi);
+	bool takeDamage(sf::Sprite projEnnemi, float deltaTime);
 
 	sf::Sprite getShape() const;
 	sf::Sprite getShapeAtk() const;
@@ -44,6 +44,8 @@ private:
 	sf::Clock attackClock;
 	sf::Clock attackDurationClock;
 	sf::Clock rangedAttackClock;
+	sf::Clock takeDamageClock;
+
 
 	Assets assets;
 
@@ -88,6 +90,9 @@ private:
 		rangedAttackAnimation,
 		repairAnimation,
 		smokeAnimation;
+
+	bool isAttacking;
+	bool setAnimationDamage;
 
 };
 

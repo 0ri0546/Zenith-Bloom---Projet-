@@ -62,7 +62,6 @@ private:
 	bool gameStarted = false;
 	bool textFall;
 	
-	void addPlatform(float x, float y, float width, float height);
 	void createWindow();
 	void processEvents(float deltaTime);
 	void update(float deltaTime);

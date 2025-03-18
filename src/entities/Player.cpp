@@ -1,19 +1,19 @@
 #include "Player.hpp"
 
 Player::Player(sf::Texture& texture) : 
-	jumpAnimation(texture, 194, 256, 3, 0.5f),
-	walkToLeftAnimation(texture, 194, 256, 3, 0.2f), // ----------
-	walkToRightAnimation(texture, 194, 256, 3, 0.2f),
-	staticAnimation(texture, 194, 256, 1, 0.5f),
-	hangedToLefAnimation(texture, 194, 256, 3, 0.5f),
-	hangedToRightAnimation(texture, 194, 256, 3, 0.5f),
+	jumpAnimation(texture, 197, 256, 3, 0.2f),
+	walkToLeftAnimation(texture, 197, 256, 3, 0.2f), // ----------
+	walkToRightAnimation(texture, 197, 256, 3, 0.2f),
+	staticAnimation(texture, 197, 256, 1, 0.5f),
+	hangedToLefAnimation(texture, 197, 256, 3, 0.05f),
+	hangedToRightAnimation(texture, 197, 256, 3, 0.05f),
 
-	takeDamageAnimation(texture, 256, 256, 1, 0.5f),
-	deathAnimation(texture, 256, 256, 1, 0.5f),
-	healAnimation(texture, 256, 256, 1, 0.5f),
-	attackAnimation(texture, 256, 256, 1, 0.5f),
-	rangedAttackAnimation(texture, 256, 256, 1, 0.5f),
-	repairAnimation(texture, 256, 256, 1, 0.5f),
+	takeDamageAnimation(texture, 193, 256, 2, 0.5f),
+	deathAnimation(texture, 197, 256, 1, 0.5f),
+	healAnimation(texture, 197, 256, 1, 0.5f),
+	attackAnimation(texture, 310, 256, 4, 0.25f),
+	rangedAttackAnimation(texture, 197, 256, 1, 0.5f),
+	repairAnimation(texture, 197, 256, 1, 0.5f),
 
 	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f)
 {
@@ -23,7 +23,7 @@ Player::Player(sf::Texture& texture) :
 	//playerSprite.setOrigin(playerSprite.getGlobalBounds().width / 2 , playerSprite.getGlobalBounds().height / 2);
 
 	swordSprite.setTexture(Shared::swordTexture);
-	assets.resize(playerSprite, 50, 50);
+	assets.resize(playerSprite, 100, 100);
 	assets.resize(swordSprite, 30, 50);
 
 	velocityY = 0;
@@ -40,6 +40,9 @@ Player::Player(sf::Texture& texture) :
 	velocityX = 0.f;
 
 	lastDepIsLeft = false;
+
+	isAttacking = false;
+	setAnimationDamage = false;	
 
 	energy = 100.f;
 	maxJetpackEnergy = 100.f;
@@ -70,31 +73,63 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 	//reste à faire :
 	//afficher les HUD (vie (coeurs ?), progression dans le niveau, etc...)
 
-	if (velocityY < 100 && velocityY > -100) {
-		if (!velocityX < 1 && !velocityX > -1) {
-			if (lastDepIsLeft) {
-				walkToLeftAnimation.update(deltaTime);
-				walkToLeftAnimation.applyToSprite(playerSprite, 0);
-			}
-			else {
-				walkToRightAnimation.update(deltaTime);
-				walkToRightAnimation.applyToSprite(playerSprite, 0);
-			}
-		}
-		else {
-			staticAnimation.update(deltaTime);
-			staticAnimation.applyToSprite(playerSprite, 1);
-		}
+	if (setAnimationDamage) {
+		takeDamageAnimation.update(deltaTime);
+		takeDamageAnimation.applyToSprite(playerSprite, 2);
 	}
 	else {
-		jumpAnimation.update(deltaTime);
-		jumpAnimation.applyToSprite(playerSprite, 8);
+		if (velocityY < 100 && velocityY > -100) { //---------------------isOnGround---------------------
+			if (!velocityX < 1 && !velocityX > -1) {//---------------------deplacement---------------------
+				if (lastDepIsLeft) {
+					walkToLeftAnimation.update(deltaTime);
+					walkToLeftAnimation.applyToSprite(playerSprite, 0);
+					//playerSprite.setScale(-0.4f, 0.4f);
+					//playerSprite.setScale(-0.4f, 0.4f);
+					//assets.resize(playerSprite, -100.f, 100.f);
+				}
+				else {
+					walkToRightAnimation.update(deltaTime);
+					walkToRightAnimation.applyToSprite(playerSprite, 0);
+				}
+			}//---------------------deplacement---------------------
+			else { //---------------------Static---------------------
+				staticAnimation.update(deltaTime);
+				staticAnimation.applyToSprite(playerSprite, 1);
+			}
+		} //---------------------Static---------------------
+		else { //---------------------Jump---------------------
+			if (hangedToWallsLeft) {
+				hangedToLefAnimation.update(deltaTime);
+				hangedToLefAnimation.applyToSprite(playerSprite, 8);
+			}
+			else if (hangedToWallsRight) {
+				hangedToRightAnimation.update(deltaTime);
+				hangedToRightAnimation.applyToSprite(playerSprite, 8);
+			}
+			else {
+				if (lastDepIsLeft) {
+					jumpAnimation.update(deltaTime);
+					jumpAnimation.applyToSprite(playerSprite, 8);
+				}
+				else {
+					jumpAnimation.update(deltaTime);
+					jumpAnimation.applyToSprite(playerSprite, 8);
+				}
+			}
+
+		}//---------------------Jump---------------------
+		if (isAttacking) {//---------------------Atk---------------------
+			attackAnimation.update(deltaTime);
+			attackAnimation.applyToSprite(playerSprite, 4);
+			//assets.resize(playerSprite, 78.6802030f, 50);
+		}//---------------------Atk---------------------
 	}
+	
 
 	collide(tiles);
 	jump(deltaTime);
 	deplacement(deltaTime);
-	attack();
+	attack(deltaTime);
 	updateHUD(view);
 	updateProjectiles(deltaTime, window);
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 5)) {
@@ -156,7 +191,7 @@ void Player::jump(float deltaTime) {
 			smokeSprite.setPosition(playerSprite.getPosition().x + playerSprite.getGlobalBounds().width / 2, playerSprite.getPosition().y + 30);
 		}
 		else {
-			smokeSprite.setPosition(playerSprite.getPosition().x - 30 + playerSprite.getGlobalBounds().width / 2, playerSprite.getPosition().y + 30);
+			smokeSprite.setPosition(playerSprite.getPosition().x - 15, playerSprite.getPosition().y + 80);
 		}
 		smokeAnimation.update(deltaTime);
 		smokeAnimation.applyToSprite(smokeSprite, 0);
@@ -220,8 +255,6 @@ void Player::collide(const std::vector<std::unique_ptr<Tiles>>& tiles) {
 	}
 }
 
-
-
 void Player::deplacement(float deltaTime) {
 	deltaTime = std::min(deltaTime, 0.1f);
 
@@ -272,7 +305,7 @@ void Player::deplacement(float deltaTime) {
 	playerSprite.move(velocityX * deltaTime, 0);
 }
 
-float Player::attack() {
+float Player::attack(float deltaTime) {
 	float shortRangeDamage = 0.f;
 	if (lastDepIsLeft) {
 		swordSprite.setPosition(playerSprite.getPosition().x - 30, playerSprite.getPosition().y);
@@ -282,6 +315,7 @@ float Player::attack() {
 	}
 
 	if (attackClock.getElapsedTime().asSeconds() >= 0.5f) {
+
 
 		if (sf::Joystick::isConnected(0)) {
 			if (sf::Joystick::isButtonPressed(0, 2) && energy > 5.0) {
@@ -303,8 +337,11 @@ float Player::attack() {
 
 	if (attackDurationClock.getElapsedTime().asSeconds() >= 1.0f) { //valeur modifiable selon l'animation de l'attaque
 		swordSprite.setPosition(9999, 9999);
+		isAttacking = false;
 	}
-
+	else {
+		isAttacking = true;
+	}
 	return shortRangeDamage;
 }
 
@@ -350,13 +387,22 @@ void Player::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
 	}
 }
 
-bool Player::takeDamage(sf::Sprite projEnnemi) {
+bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
+	bool takingDamage = false;
 	if (playerSprite.getGlobalBounds().intersects(projEnnemi.getGlobalBounds())) {
+		takeDamageClock.restart();
 		hp--;
-		return true;
+		takingDamage = true;
+		setAnimationDamage = true;
 	}
-	return false;
+
+	if (takeDamageClock.getElapsedTime().asSeconds() > 0.5) {
+		setAnimationDamage = false;
+	}
+
+	return takingDamage;
 }
+
 
 sf::Sprite Player::getShape() const {
 	return playerSprite;
