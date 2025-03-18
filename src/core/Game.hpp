@@ -17,6 +17,8 @@
 #include "../entities/Tank.hpp"
 #include "../systems/grid.hpp"
 #include "../hud/menu/BouncingTitle.hpp"
+#include "../hud/menu/gameOver.hpp"
+#include "../hud/menu/LevelSelectorMenu.hpp"
 
 class Game {
 public:
@@ -78,6 +80,8 @@ private:
 	VideoMenu videoMenu;
 	SoundMenu soundMenu;
 	ControlMenu controlMenu;
+	GameOver gameOverScreen;
+	LevelSelectMenu levelSelectMenu;
 };
 
 #endif

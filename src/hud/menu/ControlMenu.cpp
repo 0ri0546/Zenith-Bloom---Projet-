@@ -102,7 +102,6 @@ int ControlMenu::handleInput(sf::RenderWindow& window, const sf::Event& event) {
 
 
 void ControlMenu::render(sf::RenderWindow& window) {
-    window.clear();
     window.draw(backgroundSprite);
     for (auto& button : buttons) {
         button.render(window);

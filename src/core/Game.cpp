@@ -55,6 +55,14 @@ void Game::processEvents(float deltaTime) {
 		case GameState::CONTROL_MENU:
 			controlMenu.handleInput(window, event);
 			break;
+		case GameState::GAMEOVER_MENU:
+			if (gameOverScreen.handleInput()) {
+				currentState = GameState::MAIN_MENU;
+			}
+			break;
+		case GameState::LEVEL_SELECTOR_MENU:
+			levelSelectMenu.handleInput(window, event);
+			break;		
 		default:
 			break;
 		}
@@ -208,11 +216,15 @@ void Game::render() {
 	case GameState::CONTROL_MENU:
 		controlMenu.render(window);
 		break;
+	case GameState::GAMEOVER_MENU:
+		gameOverScreen.render(window);
+		break;
+	case GameState::LEVEL_SELECTOR_MENU:
+		levelSelectMenu.render(window);
+		break;
 	default:
-
 		break;
 	}
-
 	
 	window.display();
 }
@@ -324,6 +336,19 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		int result = controlMenu.handleInput(window, event);
 		if (result == 1) { // Retour
 			currentState = GameState::OPTIONS_MENU;
+		}
+		break;
+	}
+	case GameState::LEVEL_SELECTOR_MENU: {
+		int result = levelSelectMenu.handleInput(window, event);
+		if (result == 1) { // Retour
+			currentState = GameState::MAIN_MENU;
+		}
+		else if (result == 2) { // Level Tuto
+			// Play Level Tuto
+		}
+		else if (result == 3) { // Level 1
+			// Play Level 1
 		}
 		break;
 	}
