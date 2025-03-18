@@ -4,7 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "../entities/FSM.hpp"
-#include "Tiles.hpp"
+#include "../entities/Tank.hpp"
+#include "../entities/drone.hpp"
+#include "../entities/incendiaire.hpp"
+
+
 
 using namespace std;
 using namespace sf;
@@ -37,6 +41,7 @@ public:
 	void handleInput(sf::RenderWindow& window, sf::View& view);
 	void modifyMapFile(int griX, int gridY, int type);
 
+	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window);
 };
 
 

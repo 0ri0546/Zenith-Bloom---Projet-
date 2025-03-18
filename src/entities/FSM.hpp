@@ -21,12 +21,12 @@ public:
     void patrol(Player& player);
     void chase(Player& player);
 
-    void collision(Player& player, std::vector<Projectile>& projectile, std::vector<Ennemy>& ennemies);
-    void colEnnemyToEnnemy(std::vector<Ennemy>& ennemies);
-    void colEnnemyToPlayer(Player& player, std::vector<Ennemy>& ennemies);
-    void colEnnemiToGround(std::vector<Ennemy>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles);
+    void collision(Player& player, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies);
+    void colEnnemyToEnnemy(vector<std::unique_ptr<Ennemy>>& ennemies);
+    void colEnnemyToPlayer(Player& player, vector<std::unique_ptr<Ennemy>>& ennemies);
+    void colEnnemiToGround(vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles);
 
-    void runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, std::vector<Ennemy>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime);
+    void runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime);
 
     void rangedAttack();
     void updateProjectiles(float deltaTime, sf::RenderWindow& window);
@@ -35,8 +35,12 @@ public:
     sf::Sprite getSprite() const;
     std::vector<Projectile>& getProj();
     sf::Sprite getProjShape(Projectile& proj) const;
+    
+    float x, y;
+    int life = 3;
 
-private:
+
+//private:
     ennemyState currentState;
     Assets assets;
     sf::Clock rangedAttackClock;
@@ -47,18 +51,21 @@ private:
     sf::Vector2f moveForCol;
 
     size_t pathIndex;
-    int life = 3;
+    
 
     float radiusDetection = 200.f;
     float speed;
     float gravity;
     float velocityY;
+    float maxFallSpeed = 800;
+    float boxCol1;
+    float boxCol2;
 
     bool stop = false;
     bool isWakable = true;
     bool onTheGround = false;
 
-    float x, y;
+    
     float scaleEnnemy = 1;
     bool lastDepIsLeft;
 

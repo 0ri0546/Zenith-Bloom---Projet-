@@ -7,16 +7,12 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <string>
+#include <vector>
+#include <string>
 
 class ControlMenu : public Menu {
 private:
-    std::vector<Button*> buttons;
-    Button* moveRightButton;
-    Button* moveLeftButton;
-    Button* jumpButton;
-    Button* vitalSeedButton;
-    Button* repairButton;
-
+    std::vector<Button> buttons;
     sf::Keyboard::Key moveRightKey;
     sf::Keyboard::Key moveLeftKey;
     sf::Keyboard::Key jumpKey;
@@ -31,7 +27,6 @@ private:
 
 public:
     ControlMenu();
-    ~ControlMenu();
 
     int handleInput(sf::RenderWindow& window, const sf::Event& event) override;
     void render(sf::RenderWindow& window) override;

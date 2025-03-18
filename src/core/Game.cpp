@@ -1,14 +1,16 @@
 #include "Game.hpp"
 
-Game::Game() : isRunning(false), currentState(GameState::MAIN_MENU), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font) {
+Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font), player(Shared::playerTexture) {
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
 	gamemap.loadMap(1, ennemies, player, window);
+	std::cout << "Nombre d'ennemis chargés : " << ennemies.size() << std::endl;
 	view.setCenter(player.getShape().getPosition());
 	//grid.loadGrid(gamemap);
 
 	textFall = false;
+	isDay = false;
 }
 
 void Game::addPlatform(float x, float y, float width, float height) {
@@ -32,6 +34,7 @@ void Game::processEvents(float deltaTime) {
 		}
 		handleKeyboardInput(event);
 		handleState(event, deltaTime);
+		handleGamepadInput(deltaTime);
 
 		switch (currentState) {
 		case GameState::MAIN_MENU:
@@ -52,6 +55,14 @@ void Game::processEvents(float deltaTime) {
 		case GameState::CONTROL_MENU:
 			controlMenu.handleInput(window, event);
 			break;
+		case GameState::GAMEOVER_MENU:
+			if (gameOverScreen.handleInput()) {
+				currentState = GameState::MAIN_MENU;
+			}
+			break;
+		case GameState::LEVEL_SELECTOR_MENU:
+			levelSelectMenu.handleInput(window, event);
+			break;		
 		default:
 			break;
 		}
@@ -71,14 +82,17 @@ void Game::update(float deltaTime) {
 	case GameState::MAIN_MENU:
 		break;
 	case GameState::PLAYING:
+
+
+		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 		gamemap.handleInput(window, view);
 		player.update(gamemap.getTiles(), window, view, deltaTime);
 		
 		for (auto& ennemy : ennemies) {
-			ennemy.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
-			auto& projectiles = ennemy.getProj();
+			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
+			auto& projectiles = ennemy->getProj();
 			for (auto it = projectiles.begin(); it != projectiles.end();) {
-				if (player.takeDamage(ennemy.getProjShape(*it))) {
+				if (player.takeDamage(ennemy->getProjShape(*it))) {
 					it = projectiles.erase(it);
 				}
 				else {
@@ -87,6 +101,19 @@ void Game::update(float deltaTime) {
 			}
 
 		}
+		/*for (auto& tank : Tanks) {
+			tank.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
+			auto& projectiles = tank.getProj();
+			for (auto it = projectiles.begin(); it != projectiles.end();) {
+				if (player.takeDamage(tank.getProjShape(*it))) {
+					it = projectiles.erase(it);
+				}
+				else {
+					++it;
+				}
+			}
+
+		}*/
 		view.setCenter(player.getShape().getPosition());
 		break;
 
@@ -116,13 +143,14 @@ void Game::render() {
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
 		window.draw(player.getShapeSmoke());
-		window.draw(player.getShapeFillEnergy());
-
 		
 		
 		for (auto& ennemy : ennemies) {
-			window.draw(ennemy.getSprite());
+			window.draw(ennemy->getSprite());
 		}
+		/*for (auto& tank : Tanks) {
+			window.draw(tank.getSprite());
+		}*/
 			//ennemy.runEnnemy(player, window, grid, TimeAstar);
 		//cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
 
@@ -137,9 +165,14 @@ void Game::render() {
 		for (auto proj : player.getProj()) {
 			window.draw(player.getProjShape(proj));
 		}
-		for (auto ennemy : ennemies) {
-			for (auto proj : ennemy.getProj()) {
-				window.draw(ennemy.getProjShape(proj));
+		for (auto& ennemy : ennemies) {
+			for (auto& proj : ennemy->getProj()) {
+				window.draw(ennemy->getProjShape(proj));
+			}
+		}
+		for (auto tank : Tanks) {
+			for (auto proj : tank.getProj()) {
+				window.draw(tank.getProjShape(proj));
 			}
 		}
 		
@@ -153,7 +186,6 @@ void Game::render() {
 					break;
 				}
 			}
-
 			if (!erased) {
 				++it;
 			}
@@ -165,7 +197,12 @@ void Game::render() {
 				window.draw(tile->getShadowShape());
 			}
 		}
-		window.draw(player.getShapeHUDEnergy());
+		//----HUD----
+		window.draw(player.getShapeFillEnergy());
+		window.draw(player.getSpriteHUDEnergy());
+		if (isDay) { window.draw(player.getDaySprite()); }
+		else { window.draw(player.getNightSprite()); }
+		//----HUD----
 		window.setView(view);
 		break;
 	case GameState::PAUSE_MENU:
@@ -176,20 +213,22 @@ void Game::render() {
 		break;
 	case GameState::VIDEO_MENU:
 		videoMenu.render(window);
-		videoMenu.renderSlider(window);
 		break;
 	case GameState::SOUND_MENU:
 		soundMenu.render(window);
-		soundMenu.renderSliders(window);
 		break;
 	case GameState::CONTROL_MENU:
 		controlMenu.render(window);
 		break;
+	case GameState::GAMEOVER_MENU:
+		gameOverScreen.render(window);
+		break;
+	case GameState::LEVEL_SELECTOR_MENU:
+		levelSelectMenu.render(window);
+		break;
 	default:
-
 		break;
 	}
-
 	
 	window.display();
 }
@@ -244,6 +283,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		int result = pauseMenu.handleInput(window, event);
 		if (result == 1) { // Reprendre
 			currentState = GameState::PLAYING;
+			isGamePaused = false;
 		}
 		else if (result == 2) { // Options
 			currentState = GameState::OPTIONS_MENU;
@@ -303,6 +343,19 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		}
 		break;
 	}
+	case GameState::LEVEL_SELECTOR_MENU: {
+		int result = levelSelectMenu.handleInput(window, event);
+		if (result == 1) { // Retour
+			currentState = GameState::MAIN_MENU;
+		}
+		else if (result == 2) { // Level Tuto
+			// Play Level Tuto
+		}
+		else if (result == 3) { // Level 1
+			// Play Level 1
+		}
+		break;
+	}
 	default:
 		break;
 	}
@@ -333,6 +386,17 @@ void Game::handleKeyboardInput(const sf::Event& event) {
 			}
 			else if (currentState == GameState::CONTROL_MENU) {
 				currentState = GameState::OPTIONS_MENU;
+			}
+		}
+	}
+}
+
+void Game::handleGamepadInput(float deltaTime) {
+	if (sf::Joystick::isConnected(0)) {
+		if (sf::Joystick::isButtonPressed(0, 7)) { // Start Button
+			if (currentState == GameState::PLAYING) {
+				currentState = GameState::PAUSE_MENU;
+				isGamePaused = true;
 			}
 		}
 	}

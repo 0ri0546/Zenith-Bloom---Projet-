@@ -1,0 +1,15 @@
+#pragma once
+
+#include "../entities/FSM.hpp"
+
+
+class Tank : public Ennemy {
+public :
+	Tank(unsigned long long x, unsigned long long y) : Ennemy(x, y) { spriteEnnemy.setTexture(Shared::tankTexture); };
+	//float life = 5;
+
+
+//private : 
+	//float x, y;
+
+};

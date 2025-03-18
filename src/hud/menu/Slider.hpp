@@ -1,3 +1,5 @@
+/*
+
 #ifndef SLIDER_HPP
 #define SLIDER_HPP
 
@@ -24,3 +26,5 @@ private:
 };
 
 #endif // SLIDER_HPP
+
+*/
