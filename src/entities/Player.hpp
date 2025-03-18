@@ -37,7 +37,7 @@ public:
 
 	
 	std::vector<Projectile> projectiles;
-	
+	bool setAnimationDamage;
 
 private:
 	sf::Sprite swordSprite;
@@ -96,7 +96,7 @@ private:
 		smokeAnimation;
 
 	bool isAttacking;
-	bool setAnimationDamage;
+	
 	bool takingDamage;
 
 };

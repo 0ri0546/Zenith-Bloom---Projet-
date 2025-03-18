@@ -388,6 +388,8 @@ void Player::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
 }
 
 bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
+
+
 	if (playerSprite.getGlobalBounds().intersects(projEnnemi.getGlobalBounds())) {
 		takeDamageClock.restart();
 		hp--;

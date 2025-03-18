@@ -70,13 +70,13 @@ void Game::update(float deltaTime) {
 	case GameState::PLAYING:
 
 
+		player.setTakingDamageBool(false);
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 		player.update(gamemap.getTiles(), window, view, deltaTime);
-		
+
 		for (auto& ennemy : ennemies) {
 			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
 			auto& projectiles = ennemy->getProj();
-			player.setTakingDamageBool(false);
 			for (auto it = projectiles.begin(); it != projectiles.end();) {
 				if (player.takeDamage(ennemy->getProjShape(*it), deltaTime)) {
 					it = projectiles.erase(it);
@@ -85,6 +85,10 @@ void Game::update(float deltaTime) {
 					++it;
 				}
 			}
+		}
+		if (ennemies.size() == 0)
+		{
+			player.setAnimationDamage = false;
 		}
 		/*for (auto& tank : Tanks) {
 			tank.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
