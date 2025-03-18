@@ -46,6 +46,10 @@ public:
     bool getIsSlider() const {
         return isSlider;
     }
+
+    int getId() const {
+        return id;
+    }
 };
 
 #endif // BUTTON_HPP
