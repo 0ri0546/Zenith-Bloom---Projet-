@@ -29,12 +29,15 @@ public:
 	sf::Sprite getProjShape(Projectile& proj) const;
 	sf::Sprite getDaySprite() const;
 	sf::Sprite getNightSprite() const;
+	bool getTakingDamageBool() const;
+	void setTakingDamageBool(bool takingDamage);
 
 	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 
 	
 	std::vector<Projectile> projectiles;
+	
 
 private:
 	sf::Sprite swordSprite;
@@ -44,6 +47,7 @@ private:
 	sf::Clock attackClock;
 	sf::Clock attackDurationClock;
 	sf::Clock rangedAttackClock;
+	sf::Clock rangedAttackClockDuration;
 	sf::Clock takeDamageClock;
 
 
@@ -93,6 +97,7 @@ private:
 
 	bool isAttacking;
 	bool setAnimationDamage;
+	bool takingDamage;
 
 };
 

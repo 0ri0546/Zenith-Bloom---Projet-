@@ -76,6 +76,7 @@ void Game::update(float deltaTime) {
 		for (auto& ennemy : ennemies) {
 			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
 			auto& projectiles = ennemy->getProj();
+			player.setTakingDamageBool(false);
 			for (auto it = projectiles.begin(); it != projectiles.end();) {
 				if (player.takeDamage(ennemy->getProjShape(*it), deltaTime)) {
 					it = projectiles.erase(it);
@@ -84,7 +85,6 @@ void Game::update(float deltaTime) {
 					++it;
 				}
 			}
-
 		}
 		/*for (auto& tank : Tanks) {
 			tank.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);

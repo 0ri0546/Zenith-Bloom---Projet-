@@ -388,7 +388,6 @@ void Player::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
 }
 
 bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
-	bool takingDamage = false;
 	if (playerSprite.getGlobalBounds().intersects(projEnnemi.getGlobalBounds())) {
 		takeDamageClock.restart();
 		hp--;
@@ -437,6 +436,14 @@ sf::Sprite Player::getDaySprite() const {
 
 sf::Sprite Player::getNightSprite() const {
 	return nightSprite;
+}
+
+bool Player::getTakingDamageBool() const {
+	return takingDamage;
+}
+
+void Player::setTakingDamageBool(bool takingDamage) {
+	this->takingDamage = takingDamage;
 }
 
 Player::~Player() {
