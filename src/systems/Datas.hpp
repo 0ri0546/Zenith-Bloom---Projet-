@@ -42,11 +42,19 @@ public:
 
 	// assets ennemy
 	static sf::Texture ennemyTexture;
+	static sf::Texture tankTexture;
+	static sf::Texture droneTexture;
+	static sf::Texture incendTexture;
 
 	//assets map
 	static sf::Texture groundTexture; 
 	static sf::Texture floorTexture; 
 	//static sf::Sprite groundSprite; 
+
+	//HUD
+	static sf::Texture dayTexture;
+	static sf::Texture nightTexture;
+	static sf::Texture progressBarTexture;
 
 };
 

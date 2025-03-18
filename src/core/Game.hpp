@@ -14,6 +14,7 @@
 #include "../hud/menu/SoundMenu.hpp"
 #include "../hud/menu/ControlMenu.hpp"
 #include "../entities/FSM.hpp"
+#include "../entities/Tank.hpp"
 #include "../systems/grid.hpp"
 #include "../hud/menu/BouncingTitle.hpp"
 
@@ -38,7 +39,7 @@ public:
 
 private:
 	sf::RenderWindow window;
-	Player player;
+	Player player;	
 	//Player player2;
 	//Ennemy ennemy;
 	//Grid grid;
@@ -52,8 +53,10 @@ private:
 
 	bool isRunning;
 	bool isGamePaused;
+	bool isDay;
 
-	vector<Ennemy> ennemies;
+	vector<std::unique_ptr<Ennemy>> ennemies;
+	vector<Tank> Tanks;
 	
 	BouncingTitle title;
 	bool gameStarted = false;

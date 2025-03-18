@@ -1,14 +1,16 @@
 #include "Game.hpp"
 
-Game::Game() : isRunning(false), currentState(GameState::MAIN_MENU), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font) {
+Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font), player(Shared::playerTexture) {
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
 	gamemap.loadMap(1, ennemies, player, window);
+	std::cout << "Nombre d'ennemis chargés : " << ennemies.size() << std::endl;
 	view.setCenter(player.getShape().getPosition());
 	//grid.loadGrid(gamemap);
 
 	textFall = false;
+	isDay = false;
 }
 
 void Game::addPlatform(float x, float y, float width, float height) {
@@ -72,13 +74,16 @@ void Game::update(float deltaTime) {
 	case GameState::MAIN_MENU:
 		break;
 	case GameState::PLAYING:
+
+
+		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 		player.update(gamemap.getTiles(), window, view, deltaTime);
 		
 		for (auto& ennemy : ennemies) {
-			ennemy.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
-			auto& projectiles = ennemy.getProj();
+			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
+			auto& projectiles = ennemy->getProj();
 			for (auto it = projectiles.begin(); it != projectiles.end();) {
-				if (player.takeDamage(ennemy.getProjShape(*it))) {
+				if (player.takeDamage(ennemy->getProjShape(*it))) {
 					it = projectiles.erase(it);
 				}
 				else {
@@ -87,6 +92,19 @@ void Game::update(float deltaTime) {
 			}
 
 		}
+		/*for (auto& tank : Tanks) {
+			tank.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
+			auto& projectiles = tank.getProj();
+			for (auto it = projectiles.begin(); it != projectiles.end();) {
+				if (player.takeDamage(tank.getProjShape(*it))) {
+					it = projectiles.erase(it);
+				}
+				else {
+					++it;
+				}
+			}
+
+		}*/
 		view.setCenter(player.getShape().getPosition());
 		break;
 	default:
@@ -113,13 +131,14 @@ void Game::render() {
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
 		window.draw(player.getShapeSmoke());
-		window.draw(player.getShapeFillEnergy());
-
 		
 		
 		for (auto& ennemy : ennemies) {
-			window.draw(ennemy.getSprite());
+			window.draw(ennemy->getSprite());
 		}
+		/*for (auto& tank : Tanks) {
+			window.draw(tank.getSprite());
+		}*/
 			//ennemy.runEnnemy(player, window, grid, TimeAstar);
 		//cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
 
@@ -134,9 +153,14 @@ void Game::render() {
 		for (auto proj : player.getProj()) {
 			window.draw(player.getProjShape(proj));
 		}
-		for (auto ennemy : ennemies) {
-			for (auto proj : ennemy.getProj()) {
-				window.draw(ennemy.getProjShape(proj));
+		for (auto& ennemy : ennemies) {
+			for (auto& proj : ennemy->getProj()) {
+				window.draw(ennemy->getProjShape(proj));
+			}
+		}
+		for (auto tank : Tanks) {
+			for (auto proj : tank.getProj()) {
+				window.draw(tank.getProjShape(proj));
 			}
 		}
 		
@@ -150,7 +174,6 @@ void Game::render() {
 					break;
 				}
 			}
-
 			if (!erased) {
 				++it;
 			}
@@ -162,7 +185,12 @@ void Game::render() {
 				window.draw(tile->getShadowShape());
 			}
 		}
-		window.draw(player.getShapeHUDEnergy());
+		//----HUD----
+		window.draw(player.getShapeFillEnergy());
+		window.draw(player.getSpriteHUDEnergy());
+		if (isDay) { window.draw(player.getDaySprite()); }
+		else { window.draw(player.getNightSprite()); }
+		//----HUD----
 		window.setView(view);
 		break;
 	case GameState::PAUSE_MENU:

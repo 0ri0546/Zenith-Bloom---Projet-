@@ -36,7 +36,7 @@ public:
 	int getValue() const;
 
 
-	bool isPolluted;
+	bool isReparable;
 };
 
 #endif 
