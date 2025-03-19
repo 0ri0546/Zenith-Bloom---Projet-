@@ -34,6 +34,8 @@ public:
 	void setTakingDamageBool(bool takingDamage);
 	void augmenterEnergie(int quantite);
 	float getEnergie() const;
+	void augmenterHP(int quantite);
+	float getHP() const;
 
 	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);

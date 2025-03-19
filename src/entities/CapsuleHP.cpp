@@ -9,7 +9,7 @@ CapsuleHP::CapsuleHP(int valeur, sf::Texture& texture, float x, float y) : hpVal
 CapsuleHP::~CapsuleHP() {}
 
 void CapsuleHP::utiliser(Player& joueur) {
-	joueur.augmenterEnergie(hpValue);
+	joueur.augmenterHP(hpValue);
 }
 
 int CapsuleHP::getHPValue() const { return hpValue; }

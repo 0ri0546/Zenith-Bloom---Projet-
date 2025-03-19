@@ -437,7 +437,15 @@ void Player::augmenterEnergie(int quantite) {
 	}
 }
 
+void Player::augmenterHP(int quantite) {
+	hp += quantite;
+	if (hp > 100) {
+		hp = 100;
+	}
+}
+
 //getters/setters
+float Player::getHP() const { return hp; }
 float Player::getEnergie() const { return energy; }
 sf::Sprite Player::getShape() const { return playerSprite; }
 sf::Sprite Player::getShapeAtk() const { return swordSprite; }
