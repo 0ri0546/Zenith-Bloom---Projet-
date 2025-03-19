@@ -28,8 +28,8 @@ void Assets::loadAssetsFromFiles() {
 	Shared::incendTexture.loadFromFile("assets/ennemies/retouche/incendTileR.png");
 
 	Shared::projectileTexture.loadFromFile("assets/player/projectilePlayer.png");
-	Shared::dayTexture.loadFromFile("assets/player/sword.jpg");
-	Shared::nightTexture.loadFromFile("assets/maps/tile test/bob.jpg");
+	Shared::dayTexture.loadFromFile("assets/textures/hud/day.png");
+	Shared::nightTexture.loadFromFile("assets/textures/hud/night.png");
 	Shared::progressBarTexture.loadFromFile("assets/textures/hudTest.png");
 	Shared::itemsTexture.loadFromFile("assets/maps/tileset/items.png");
 }
