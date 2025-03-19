@@ -33,12 +33,8 @@ public:
 	//assets joueur
 	static sf::Texture playerTexture;
 	static sf::Texture playerReverseTexture;
-
 	static sf::Texture smokeTexture;
-	
-
 	static sf::Texture swordTexture;
-
 	static sf::Texture projectileTexture;
 
 	// assets ennemy
@@ -60,7 +56,6 @@ public:
 	static sf::Texture dayTexture;
 	static sf::Texture nightTexture;
 	static sf::Texture progressBarTexture;
-
 };
 
 #endif

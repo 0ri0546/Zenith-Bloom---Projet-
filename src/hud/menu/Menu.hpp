@@ -31,4 +31,4 @@ public:
     virtual void render(sf::RenderWindow& window);
 };
 
-#endif // MENU_HPP
+#endif

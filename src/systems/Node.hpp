@@ -7,5 +7,4 @@
 #include "../systems/Datas.hpp"
 #include "../systems/grid.hpp"
 
-
 #endif
