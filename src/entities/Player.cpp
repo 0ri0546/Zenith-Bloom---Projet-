@@ -399,7 +399,7 @@ void Player::rangedAttack() {
 		sf::Vector2f spawnPos = playerSprite.getPosition();
 		spawnPos.x += lastDepIsLeft ? -20 : playerSprite.getGlobalBounds().width;
 		Projectile newProjectile(Shared::projectileTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
-		newProjectile.resize(20, 20);
+		newProjectile.resize(30, 30);
 		projectiles.push_back(newProjectile);
 		energy -= 10.0f;
 		rangedAttackClock.restart();

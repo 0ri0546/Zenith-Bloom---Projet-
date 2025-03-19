@@ -27,7 +27,7 @@ void Assets::loadAssetsFromFiles() {
 	Shared::incendTextureR.loadFromFile("assets/ennemies/retouche/incendTile.png");
 	Shared::incendTexture.loadFromFile("assets/ennemies/retouche/incendTileR.png");
 
-	Shared::projectileTexture.loadFromFile("assets/player/sword.jpg");
+	Shared::projectileTexture.loadFromFile("assets/player/projectilePlayer.png");
 	Shared::dayTexture.loadFromFile("assets/player/sword.jpg");
 	Shared::nightTexture.loadFromFile("assets/maps/tile test/bob.jpg");
 	Shared::progressBarTexture.loadFromFile("assets/textures/hudTest.png");
