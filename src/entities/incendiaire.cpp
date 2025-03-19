@@ -8,7 +8,7 @@ Incendiaire::Incendiaire(unsigned long long x, unsigned long long y, sf::Texture
 	//assets.resize(spriteEnnemy, 100, 100);
 	life = 5; 
 	speed = 0.5;
-	currentState = CHASE;
+	//currentState = CHASE;
 	radiusDetection = 100;
 	circle.setRadius(radiusDetection);
 	circle.setOrigin(radiusDetection, radiusDetection);
