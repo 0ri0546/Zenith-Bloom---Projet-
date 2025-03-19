@@ -26,7 +26,6 @@ Player::Player(sf::Texture& texture) :
 	playerSprite.setPosition(sf::Vector2f(400, 0));
 	playerSprite.setTexture(texture);
 	playerSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
-	//playerSprite.setOrigin(playerSprite.getGlobalBounds().width / 2 , playerSprite.getGlobalBounds().height / 2);
 
 	swordSprite.setTexture(Shared::swordTexture);
 	assets.resize(playerSprite, 100, 100);
@@ -76,7 +75,7 @@ Player::Player(sf::Texture& texture) :
 }
 
 void Player::animate(float deltaTime) {
-	if (setAnimationDamage) {
+	if (setAnimationDamage) {                                           //---------------------takeDamage---------------------
 		if (lastDepIsLeft) {
 			takeDamageToLeftAnimation.update(deltaTime);
 			takeDamageToLeftAnimation.applyToSprite(playerSprite, 2);
@@ -85,24 +84,20 @@ void Player::animate(float deltaTime) {
 			takeDamageToRightAnimation.update(deltaTime);
 			takeDamageToRightAnimation.applyToSprite(playerSprite, 2);
 		}
-
-	}
+	}                                                                   //--------------------takeDamage---------------------
 	else {
-		if (velocityY < 100 && velocityY > -100) { //---------------------isOnGround---------------------
-			if (!velocityX < 1 && !velocityX > -1) {//---------------------deplacement---------------------
+		if (velocityY < 100 && velocityY > -100) {                      //---------------------isOnGround---------------------
+			if (!velocityX < 1 && !velocityX > -1) {                    //---------------------deplacement---------------------
 				if (lastDepIsLeft) {
 					walkToLeftAnimation.update(deltaTime);
 					walkToLeftAnimation.applyToSprite(playerSprite, 0);
-					//playerSprite.setScale(-0.4f, 0.4f);
-					//playerSprite.setScale(-0.4f, 0.4f);
-					//assets.resize(playerSprite, -100.f, 100.f);
 				}
 				else {
 					walkToRightAnimation.update(deltaTime);
 					walkToRightAnimation.applyToSprite(playerSprite, 0);
 				}
-			}//---------------------deplacement---------------------
-			else { //---------------------Static---------------------
+			}                                                           //---------------------deplacement---------------------
+			else {                                                      //---------------------Static---------------------
 				if (lastDepIsLeft) {
 					staticToLeftAnimation.update(deltaTime);
 					staticToLeftAnimation.applyToSprite(playerSprite, 1);
@@ -112,8 +107,8 @@ void Player::animate(float deltaTime) {
 					staticToRightAnimation.applyToSprite(playerSprite, 1);
 				}
 			}
-		} //---------------------Static---------------------
-		else { //---------------------Jump---------------------
+		}                                                               //---------------------Static---------------------
+		else {                                                          //---------------------Jump---------------------
 			if (hangedToWallsLeft) {
 				hangedToLefAnimation.update(deltaTime);
 				hangedToLefAnimation.applyToSprite(playerSprite, 8);
@@ -132,9 +127,8 @@ void Player::animate(float deltaTime) {
 					jumpToRightAnimation.applyToSprite(playerSprite, 8);
 				}
 			}
-
-		}//---------------------Jump---------------------
-		if (isAttacking) {//---------------------Atk---------------------
+		}                                                               //---------------------Jump---------------------
+		if (isAttacking) {                                              //---------------------Atk---------------------
 			if (lastDepIsLeft) {
 				attackToLeftAnimation.update(deltaTime);
 				attackToLeftAnimation.applyToSprite(playerSprite, 4);
@@ -143,11 +137,9 @@ void Player::animate(float deltaTime) {
 				attackToRightAnimation.update(deltaTime);
 				attackToRightAnimation.applyToSprite(playerSprite, 4);
 			}
-			
-			//assets.resize(playerSprite, 78.6802030f, 50);
-		}//---------------------Atk---------------------
+		}                                                               //---------------------Atk---------------------
 	}
-	if (hp <= 0) {
+	if (hp <= 0) {                                                      //---------------------Death-------------------
 		if (lastDepIsLeft) {
 			deathToLeftAnimation.update(deltaTime);
 			deathToLeftAnimation.applyToSprite(playerSprite, 4);
@@ -156,15 +148,11 @@ void Player::animate(float deltaTime) {
 			deathToRightAnimation.update(deltaTime);
 			deathToRightAnimation.applyToSprite(playerSprite, 4);
 		}
-	}
+	}                                                                   //---------------------Death-------------------
 }
 
 void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
-	//reste à faire :
-	//afficher les HUD (vie (coeurs ?), progression dans le niveau, etc...)
-
 	animate(deltaTime);
-
 	collide(tiles);
 	jump(deltaTime);
 	deplacement(deltaTime);
@@ -174,11 +162,9 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 5)) {
 		rangedAttack();
 	}
-	std::cout << "hp : " << hp << std::endl;
 }
 
 void Player::jump(float deltaTime) {
-	//reste à faire :
 	deltaTime = std::min(deltaTime, 0.1f);
 	if (!isOnGround && !hangedToWallsLeft && !hangedToWallsRight) {
 		velocityY += gravity * deltaTime;
@@ -225,7 +211,7 @@ void Player::jump(float deltaTime) {
 	}
 	playerSprite.move(0, velocityY * deltaTime);
 	
-	if (jumpCount == 0) { //pour la fumée
+	if (jumpCount == 0) { 
 		if (lastDepIsLeft) {
 			smokeSprite.setPosition(playerSprite.getPosition().x + 50, playerSprite.getPosition().y + 100);
 		}
@@ -269,21 +255,18 @@ void Player::collide(const std::vector<std::unique_ptr<Tiles>>& tiles) {
 				velocityY = 0;
 				playerSprite.setPosition(playerSprite.getPosition().x, platformTop - playerSprite.getGlobalBounds().height);
 			}
-			
 			else if (playerRight > platformLeft && playerLeft < platformLeft + offsetTolerance) { //gauche
 				playerSprite.setPosition(platformLeft - playerBounds.width, playerSprite.getPosition().y);
 				if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 					hangedToWallsLeft = true;
 				}
 			}
-			
 			else if (playerLeft < platformRight && playerRight > platformRight - offsetTolerance) { //droite
 				playerSprite.setPosition(platformRight, playerSprite.getPosition().y);
 				if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 					hangedToWallsRight = true;
 				}
-			} 
-
+			}
 			else if (velocityY < 0 && playerTop < platformBottom && playerBottom > platformBottom - offsetTolerance) { //haut
 				if (!hangedToWallsRight && !hangedToWallsLeft) {
 					velocityY = 0;
@@ -347,7 +330,6 @@ void Player::deplacement(float deltaTime) {
 float Player::attack(float deltaTime) {
 	float shortRangeDamage = 0.f;
 
-
 	if (lastDepIsLeft) {
 		swordSprite.setPosition(playerSprite.getPosition().x - 30, playerSprite.getPosition().y);
 	}
@@ -356,8 +338,6 @@ float Player::attack(float deltaTime) {
 	}
 
 	if (attackClock.getElapsedTime().asSeconds() >= 0.5f) {
-
-
 		if (sf::Joystick::isConnected(0)) {
 			if (sf::Joystick::isButtonPressed(0, 2) && energy > 5.0) {
 				shortRangeDamage = damage;
@@ -398,7 +378,7 @@ void Player::updateHUD(sf::View& view) {
 	shapeFillEnergy.setFillColor(sf::Color::Green);
 
 	hudEnergySprite.setPosition(hudX, hudY);
-	shapeFillEnergy.setPosition(hudX, hudY); // à modif
+	shapeFillEnergy.setPosition(hudX, hudY);
 	//------ENERGY------
 	//------DAY/NIGHT------
 	daySprite.setPosition(viewCenter.x + viewSize.x / 2 - 60, viewCenter.y - viewSize.y / 2 + 20);
@@ -410,12 +390,9 @@ void Player::rangedAttack() {
 	if (rangedAttackClock.getElapsedTime().asSeconds() >= 0.3f && energy > 10.0f) {
 		sf::Vector2f spawnPos = playerSprite.getPosition();
 		spawnPos.x += lastDepIsLeft ? -20 : playerSprite.getGlobalBounds().width;
-
 		Projectile newProjectile(Shared::projectileTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
 		newProjectile.resize(20, 20);
-
 		projectiles.push_back(newProjectile);
-
 		energy -= 10.0f;
 		rangedAttackClock.restart();
 	}
@@ -429,8 +406,6 @@ void Player::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
 }
 
 bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
-
-
 	if (playerSprite.getGlobalBounds().intersects(projEnnemi.getGlobalBounds())) {
 		takeDamageClock.restart();
 		hp--;
@@ -445,49 +420,18 @@ bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
 	return takingDamage;
 }
 
-
-sf::Sprite Player::getShape() const {
-	return playerSprite;
-}
-
-sf::Sprite Player::getShapeAtk() const {
-	return swordSprite;
-}
-
-sf::Sprite Player::getShapeSmoke() const {
-	return smokeSprite;
-}
-
-sf::Sprite Player::getSpriteHUDEnergy() const {
-	return hudEnergySprite;
-}
-
-sf::RectangleShape Player::getShapeFillEnergy() const {
-	return shapeFillEnergy;
-}
-std::vector<Projectile> Player::getProj() const {
-	return projectiles;
-}
-
-sf::Sprite Player::getProjShape(Projectile& proj) const {
-	return proj.getSprite();
-}
-
-sf::Sprite Player::getDaySprite() const {
-	return daySprite;
-}
-
-sf::Sprite Player::getNightSprite() const {
-	return nightSprite;
-}
-
-bool Player::getTakingDamageBool() const {
-	return takingDamage;
-}
-
-void Player::setTakingDamageBool(bool takingDamage) {
-	this->takingDamage = takingDamage;
-}
+//getters/setters
+sf::Sprite Player::getShape() const { return playerSprite; }
+sf::Sprite Player::getShapeAtk() const { return swordSprite; }
+sf::Sprite Player::getShapeSmoke() const { return smokeSprite; }
+sf::Sprite Player::getSpriteHUDEnergy() const { return hudEnergySprite; }
+sf::RectangleShape Player::getShapeFillEnergy() const { return shapeFillEnergy; }
+std::vector<Projectile> Player::getProj() const { return projectiles; }
+sf::Sprite Player::getProjShape(Projectile& proj) const { return proj.getSprite(); }
+sf::Sprite Player::getDaySprite() const { return daySprite; }
+sf::Sprite Player::getNightSprite() const { return nightSprite; }
+bool Player::getTakingDamageBool() const { return takingDamage; }
+void Player::setTakingDamageBool(bool takingDamage) { this->takingDamage = takingDamage; }
 
 Player::~Player() {
 	projectiles.clear();
