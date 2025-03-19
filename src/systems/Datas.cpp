@@ -5,15 +5,20 @@ sf::Font Shared::font;
 
 // assets du joueur
 sf::Texture Shared::playerTexture;
+sf::Texture Shared::playerReverseTexture;
 sf::Texture Shared::smokeTexture;
 sf::Texture Shared::swordTexture;
 sf::Texture Shared::projectileTexture;
 
 //assets des ennemis
 sf::Texture Shared::ennemyTexture;
+sf::Texture Shared::ennemyTextureR;
 sf::Texture Shared::tankTexture;
+sf::Texture Shared::tankTextureR;
 sf::Texture Shared::droneTexture;
+sf::Texture Shared::droneTextureR;
 sf::Texture Shared::incendTexture;
+sf::Texture Shared::incendTextureR;
 
 //assets des tiles
 sf::Texture Shared::groundTexture;

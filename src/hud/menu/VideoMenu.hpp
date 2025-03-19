@@ -10,7 +10,6 @@ private:
     bool isFullscreen;
     bool isVSync;
     sf::Vector2u currentResolution;
-    Slider* fpsSlider;
 
 public:
     enum MenuList { MAIN_MENU, PAUSE_MENU };
@@ -18,11 +17,9 @@ public:
     MenuList lastMenu;
 
     VideoMenu(MenuList lastMenu);
-    ~VideoMenu();
     int handleInput(sf::RenderWindow& window, const sf::Event& event) override;
     void toggleFullscreen(sf::RenderWindow& window);
     void toggleVSync(sf::RenderWindow& window);
-    void renderSlider(sf::RenderWindow& window);
 };
 
 #endif // VIDEO_MENU_HPP

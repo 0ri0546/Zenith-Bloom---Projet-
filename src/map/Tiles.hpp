@@ -27,6 +27,7 @@ public:
 	Tiles(float x, float y, int type);
 	~Tiles();
 	sf::Vector2f getPos() const ;
+	void setSprite(int type);
 	sf::Sprite getSprite() const;
 	void setShadow(bool hasShadow);
 	bool hasShadow() const;

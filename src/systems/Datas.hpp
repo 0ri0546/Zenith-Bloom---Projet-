@@ -31,7 +31,7 @@ public:
 
 	//assets joueur
 	static sf::Texture playerTexture;
-	
+	static sf::Texture playerReverseTexture;
 
 	static sf::Texture smokeTexture;
 	
@@ -42,9 +42,13 @@ public:
 
 	// assets ennemy
 	static sf::Texture ennemyTexture;
-	static sf::Texture tankTexture;
+	static sf::Texture ennemyTextureR;
+	static sf::Texture tankTexture;	
+	static sf::Texture tankTextureR;
 	static sf::Texture droneTexture;
+	static sf::Texture droneTextureR;
 	static sf::Texture incendTexture;
+	static sf::Texture incendTextureR;
 
 	//assets map
 	static sf::Texture groundTexture; 

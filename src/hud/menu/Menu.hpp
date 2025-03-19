@@ -3,8 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "Button.hpp"
-#include "Slider.hpp"
 #include "../../systems/Datas.hpp"
+#include <cmath>
 
 class Menu {
 protected:
@@ -17,6 +17,12 @@ protected:
     virtual void initButtons() = 0;
     void initFont();
     void initBackground();
+
+    void updateHoverForButton(int index);
+    void updateHoverWithGamepad();
+
+    int currentHoveredButtonIndex = 0;
+    bool isGamepadConnected = false;
 
 public:
     Menu();
