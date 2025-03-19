@@ -31,7 +31,7 @@ public:
 
 	//assets joueur
 	static sf::Texture playerTexture;
-	
+	static sf::Texture playerReverseTexture;
 
 	static sf::Texture smokeTexture;
 	
