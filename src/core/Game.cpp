@@ -79,7 +79,7 @@ void Game::update(float deltaTime) {
 	case GameState::PLAYING:
 		player.setTakingDamageBool(false);
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
-		gamemap.handleInput(window, view);
+		
 		player.update(gamemap.getTiles(), window, view, deltaTime);
 
 		for (auto& ennemy : ennemies) {
@@ -115,7 +115,7 @@ void Game::update(float deltaTime) {
 		break;
 
 	case GameState::EDITOR:
-		
+		gamemap.editormode(window, view);
 	default:
 		view.setCenter(static_cast<float>(Config::WINDOW_WIDTH) / 2.f, static_cast<float>(Config::WINDOW_HEIGHT) / 2.f);
 		window.setView(view);
