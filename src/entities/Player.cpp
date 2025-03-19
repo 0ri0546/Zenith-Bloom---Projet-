@@ -1,19 +1,25 @@
 #include "Player.hpp"
 
 Player::Player(sf::Texture& texture) : 
-	jumpAnimation(texture, 194, 256, 3, 0.5f, 50/*scaleX*/, 50/*scaleY*/),
-	walkToLeftAnimation(texture, 194, 256, 3, 0.2f, 50, 50), // ----------
-	walkToRightAnimation(texture, 194, 256, 3, 0.2f, 50, 50),
-	staticAnimation(texture, 194, 256, 1, 0.5f, 50, 50),
-	hangedToLefAnimation(texture, 194, 256, 3, 0.5f, 50, 50),
-	hangedToRightAnimation(texture, 194, 256, 3, 0.5f, 50, 50),
+	jumpToLeftAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.5f, 100/*scaleX*/, 100/*scaleY*/),
+	jumpToRightAnimation(texture, 194, 256, 3, 0.5f, 100/*scaleX*/, 100/*scaleY*/),
+	walkToLeftAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.2f, 100, 100), // ----------
+	walkToRightAnimation(texture, 194, 256, 3, 0.2f, 100, 100),
+	staticToLeftAnimation(Shared::playerReverseTexture, 194, 256, 1, 0.5f, 100, 100),
+	staticToRightAnimation(texture, 194, 256, 1, 0.5f, 100, 100),
+	hangedToLefAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.5f, 100, 100),
+	hangedToRightAnimation(texture, 194, 256, 3, 0.5f, 100, 100),
 
-	takeDamageAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
-	deathAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
-	healAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
-	attackAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
-	rangedAttackAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
-	repairAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
+	takeDamageToLeftAnimation(Shared::playerReverseTexture, 256, 256, 2, 0.5f, 100, 100),
+	takeDamageToRightAnimation(texture, 256, 256, 2, 0.5f, 100, 100),
+	deathToLeftAnimation(Shared::playerReverseTexture, 256, 256, 1, 0.5f, 100, 100),
+	deathToRightAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
+
+	healAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
+	attackToLeftAnimation(Shared::playerReverseTexture, 310, 256, 4, 0.2f, 100, 100),
+	attackToRightAnimation(texture, 310, 256, 4, 0.2f, 100, 100),
+	rangedAttackAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
+	repairAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
 
 	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f, 50, 50)
 {
@@ -69,13 +75,17 @@ Player::Player(sf::Texture& texture) :
 	assets.resize(nightSprite, 40, 40);
 }
 
-void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
-	//reste à faire :
-	//afficher les HUD (vie (coeurs ?), progression dans le niveau, etc...)
-
+void Player::animate(float deltaTime) {
 	if (setAnimationDamage) {
-		takeDamageAnimation.update(deltaTime);
-		takeDamageAnimation.applyToSprite(playerSprite, 2);
+		if (lastDepIsLeft) {
+			takeDamageToLeftAnimation.update(deltaTime);
+			takeDamageToLeftAnimation.applyToSprite(playerSprite, 2);
+		}
+		else {
+			takeDamageToRightAnimation.update(deltaTime);
+			takeDamageToRightAnimation.applyToSprite(playerSprite, 2);
+		}
+
 	}
 	else {
 		if (velocityY < 100 && velocityY > -100) { //---------------------isOnGround---------------------
@@ -93,8 +103,14 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 				}
 			}//---------------------deplacement---------------------
 			else { //---------------------Static---------------------
-				staticAnimation.update(deltaTime);
-				staticAnimation.applyToSprite(playerSprite, 1);
+				if (lastDepIsLeft) {
+					staticToLeftAnimation.update(deltaTime);
+					staticToLeftAnimation.applyToSprite(playerSprite, 1);
+				}
+				else {
+					staticToRightAnimation.update(deltaTime);
+					staticToRightAnimation.applyToSprite(playerSprite, 1);
+				}
 			}
 		} //---------------------Static---------------------
 		else { //---------------------Jump---------------------
@@ -108,23 +124,46 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 			}
 			else {
 				if (lastDepIsLeft) {
-					jumpAnimation.update(deltaTime);
-					jumpAnimation.applyToSprite(playerSprite, 8);
+					jumpToLeftAnimation.update(deltaTime);
+					jumpToLeftAnimation.applyToSprite(playerSprite, 8);
 				}
 				else {
-					jumpAnimation.update(deltaTime);
-					jumpAnimation.applyToSprite(playerSprite, 8);
+					jumpToRightAnimation.update(deltaTime);
+					jumpToRightAnimation.applyToSprite(playerSprite, 8);
 				}
 			}
 
 		}//---------------------Jump---------------------
 		if (isAttacking) {//---------------------Atk---------------------
-			attackAnimation.update(deltaTime);
-			attackAnimation.applyToSprite(playerSprite, 4);
+			if (lastDepIsLeft) {
+				attackToLeftAnimation.update(deltaTime);
+				attackToLeftAnimation.applyToSprite(playerSprite, 4);
+			}
+			else {
+				attackToRightAnimation.update(deltaTime);
+				attackToRightAnimation.applyToSprite(playerSprite, 4);
+			}
+			
 			//assets.resize(playerSprite, 78.6802030f, 50);
 		}//---------------------Atk---------------------
 	}
-	
+	if (hp <= 0) {
+		if (lastDepIsLeft) {
+			deathToLeftAnimation.update(deltaTime);
+			deathToLeftAnimation.applyToSprite(playerSprite, 4);
+		}
+		else {
+			deathToRightAnimation.update(deltaTime);
+			deathToRightAnimation.applyToSprite(playerSprite, 4);
+		}
+	}
+}
+
+void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
+	//reste à faire :
+	//afficher les HUD (vie (coeurs ?), progression dans le niveau, etc...)
+
+	animate(deltaTime);
 
 	collide(tiles);
 	jump(deltaTime);
@@ -188,10 +227,10 @@ void Player::jump(float deltaTime) {
 	
 	if (jumpCount == 0) { //pour la fumée
 		if (lastDepIsLeft) {
-			smokeSprite.setPosition(playerSprite.getPosition().x + playerSprite.getGlobalBounds().width / 2, playerSprite.getPosition().y + 30);
+			smokeSprite.setPosition(playerSprite.getPosition().x + 50, playerSprite.getPosition().y + 100);
 		}
 		else {
-			smokeSprite.setPosition(playerSprite.getPosition().x - 15, playerSprite.getPosition().y + 80);
+			smokeSprite.setPosition(playerSprite.getPosition().x , playerSprite.getPosition().y + 100);
 		}
 		smokeAnimation.update(deltaTime);
 		smokeAnimation.applyToSprite(smokeSprite, 0);

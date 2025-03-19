@@ -19,6 +19,7 @@ public:
 	float attack(float deltaTime);
 	void updateHUD(sf::View& view);
 	bool takeDamage(sf::Sprite projEnnemi, float deltaTime);
+	void animate(float deltaTime);
 
 	sf::Sprite getShape() const;
 	sf::Sprite getShapeAtk() const;
@@ -83,17 +84,15 @@ private:
 	int hp;
 
 	Animation 
-		jumpAnimation,
-		walkToLeftAnimation,
-		walkToRightAnimation,
-		staticAnimation,
-		hangedToLefAnimation,
-		hangedToRightAnimation,
+		jumpToLeftAnimation, jumpToRightAnimation,
+		walkToLeftAnimation, walkToRightAnimation,
+		staticToLeftAnimation, staticToRightAnimation,
+		hangedToLefAnimation, hangedToRightAnimation,
 
-		takeDamageAnimation,
-		deathAnimation,
+		takeDamageToLeftAnimation, takeDamageToRightAnimation,
+		deathToLeftAnimation, deathToRightAnimation,
 		healAnimation,
-		attackAnimation,
+		attackToLeftAnimation, attackToRightAnimation,
 		rangedAttackAnimation,
 		repairAnimation,
 		smokeAnimation;
