@@ -31,7 +31,7 @@ void Assets::loadAssetsFromFiles() {
 	Shared::dayTexture.loadFromFile("assets/player/sword.jpg");
 	Shared::nightTexture.loadFromFile("assets/maps/tile test/bob.jpg");
 	Shared::progressBarTexture.loadFromFile("assets/textures/hudTest.png");
-	Shared::itemsTexture.loadFromFile("assets/map/items.png");
+	Shared::itemsTexture.loadFromFile("assets/maps/tileset/items.png");
 }
 
 void Assets::resize(sf::Sprite& sprite, float scaleX, float scaleY) {
