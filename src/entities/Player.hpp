@@ -16,9 +16,10 @@ public:
 	void jump(float deltaTime);
 	void deplacement(float deltaTime);
 	void collide(const std::vector<std::unique_ptr<Tiles>>& tiles);
-	float attack();
+	float attack(float deltaTime);
 	void updateHUD(sf::View& view);
-	bool takeDamage(sf::Sprite projEnnemi);
+	bool takeDamage(sf::Sprite projEnnemi, float deltaTime);
+	void animate(float deltaTime);
 
 	sf::Sprite getShape() const;
 	sf::Sprite getShapeAtk() const;
@@ -29,25 +30,29 @@ public:
 	sf::Sprite getProjShape(Projectile& proj) const;
 	sf::Sprite getDaySprite() const;
 	sf::Sprite getNightSprite() const;
+	bool getTakingDamageBool() const;
+	void setTakingDamageBool(bool takingDamage);
 
 	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 
-	
 	std::vector<Projectile> projectiles;
+	bool setAnimationDamage;
+	bool canAttack;
 
 private:
-	sf::Sprite swordSprite;
-	sf::Sprite smokeSprite;
-	sf::Sprite playerSprite;
+	sf::Sprite swordSprite, smokeSprite, playerSprite;
+	sf::Sprite daySprite, nightSprite, hudEnergySprite;
+
 	sf::RectangleShape shapeEnergy, shapeFillEnergy;
-	sf::Clock attackClock;
+
+	sf::Clock attackClock;	
 	sf::Clock attackDurationClock;
 	sf::Clock rangedAttackClock;
+	sf::Clock rangedAttackClockDuration;
+	sf::Clock takeDamageClock;
 
 	Assets assets;
-
-	sf::Sprite daySprite, nightSprite, hudEnergySprite;
 
 	float velocityY;
 	float velocityX;
@@ -70,25 +75,22 @@ private:
 	float energyConsumption;
 	float energyRecharge;
 	float damage;
-
 	int hp;
+	bool isAttacking;
+	bool takingDamage;
 
 	Animation 
-		jumpAnimation,
-		walkToLeftAnimation,
-		walkToRightAnimation,
-		staticAnimation,
-		hangedToLefAnimation,
-		hangedToRightAnimation,
-
-		takeDamageAnimation,
-		deathAnimation,
+		jumpToLeftAnimation, jumpToRightAnimation,
+		walkToLeftAnimation, walkToRightAnimation,
+		staticToLeftAnimation, staticToRightAnimation,
+		hangedToLefAnimation, hangedToRightAnimation,
+		takeDamageToLeftAnimation, takeDamageToRightAnimation,
+		deathToLeftAnimation, deathToRightAnimation,
 		healAnimation,
-		attackAnimation,
+		attackToLeftAnimation, attackToRightAnimation,
 		rangedAttackAnimation,
 		repairAnimation,
 		smokeAnimation;
-
 };
 
 #endif

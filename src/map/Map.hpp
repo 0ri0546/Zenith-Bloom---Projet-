@@ -9,26 +9,19 @@
 #include "../entities/incendiaire.hpp"
 
 
-
-using namespace std;
-using namespace sf;
-
-class Map
-{ 
+class Map { 
 private:
-
 	int gridCellSize = 120;
-	vector<vector<char>> map;
 	int currentmap = 1;
-	vector<sf::RectangleShape> recTab;
-	vector<unique_ptr<Tiles>> tiles;
 	int numtile = 1;
-	Sprite assetfull;
-
 	bool inputOn = false;
-	
+
+	vector<vector<char>> map;
+	vector<unique_ptr<Tiles>> tiles;
+	vector<sf::RectangleShape> recTab;
+	sf::Sprite assetfull;
+
 public:
-	
 	Map();
 	~Map();
 
@@ -44,7 +37,4 @@ public:
 	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window);
 };
 
-
-
-
-#endif // MAP_H
+#endif

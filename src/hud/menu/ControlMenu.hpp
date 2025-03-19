@@ -1,14 +1,10 @@
 #ifndef CONTROL_MENU_HPP
 #define CONTROL_MENU_HPP
 
+#include "../../systems/Datas.hpp"
 #include "Menu.hpp"
 #include "Button.hpp"
-#include "../../systems/Datas.hpp"
-#include <SFML/Graphics.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include <string>
-#include <vector>
-#include <string>
+
 
 class ControlMenu : public Menu {
 private:

@@ -9,6 +9,7 @@ private:
     sf::Sprite sprite;
     sf::Vector2f velocity;
     float speed;
+    bool goingLeft;
 
     float velocityY;
     float gravity;
@@ -20,7 +21,7 @@ public:
     //void updateShootEnnemy(float deltaTime, vector<Ennemy>& ennemie);
     sf::FloatRect getBounds() const;
     sf::Sprite getSprite() const;
-
+    bool returnGoing();
     void resize(float width, float height);
 
 };

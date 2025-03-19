@@ -13,11 +13,6 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 	isDay = false;
 }
 
-void Game::addPlatform(float x, float y, float width, float height) {
-	Platform temp(x, y, width, height);
-	platforms.push_back(temp);
-}
-
 void Game::createWindow() {
 	sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
 	window.create(desktopMode, "Zenith Bloom", sf::Style::Fullscreen);
@@ -82,24 +77,26 @@ void Game::update(float deltaTime) {
 	case GameState::MAIN_MENU:
 		break;
 	case GameState::PLAYING:
-
-
+		player.setTakingDamageBool(false);
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 		gamemap.handleInput(window, view);
 		player.update(gamemap.getTiles(), window, view, deltaTime);
-		
+
 		for (auto& ennemy : ennemies) {
 			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
 			auto& projectiles = ennemy->getProj();
 			for (auto it = projectiles.begin(); it != projectiles.end();) {
-				if (player.takeDamage(ennemy->getProjShape(*it))) {
+				if (player.takeDamage(ennemy->getProjShape(*it), deltaTime)) {
 					it = projectiles.erase(it);
 				}
 				else {
 					++it;
 				}
 			}
-
+		}
+		if (ennemies.size() == 0)
+		{
+			player.setAnimationDamage = false;
 		}
 		/*for (auto& tank : Tanks) {
 			tank.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
@@ -132,20 +129,17 @@ void Game::render() {
 	case GameState::TITLE_MENU:
 		title.draw(window);
 		break;
-
 	case GameState::MAIN_MENU:
 		mainMenu.render(window);
 		break;
-
 	case GameState::PLAYING:
-		
-
+		window.draw(player.getShapeSmoke());
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
-		window.draw(player.getShapeSmoke());
 		
 		
 		for (auto& ennemy : ennemies) {
+			//window.draw(ennemy->circle);
 			window.draw(ennemy->getSprite());
 		}
 		/*for (auto& tank : Tanks) {
@@ -154,11 +148,9 @@ void Game::render() {
 			//ennemy.runEnnemy(player, window, grid, TimeAstar);
 		//cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
 
-		for (int i = 0; i < ennemies.size(); i++)
-		{
+		for (int i = 0; i < ennemies.size(); i++) {
 			//std::cout << ennemies[i].getSprite().getPosition().x << ", " << ennemies[i].getSprite().getPosition().x << std::endl;
 		}
-		
 		for (auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 		}
@@ -167,15 +159,11 @@ void Game::render() {
 		}
 		for (auto& ennemy : ennemies) {
 			for (auto& proj : ennemy->getProj()) {
+				
 				window.draw(ennemy->getProjShape(proj));
+				
 			}
 		}
-		for (auto tank : Tanks) {
-			for (auto proj : tank.getProj()) {
-				window.draw(tank.getProjShape(proj));
-			}
-		}
-		
 		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
 			bool erased = false;
 
@@ -190,7 +178,6 @@ void Game::render() {
 				++it;
 			}
 		}
-
 		for (const auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 			if (tile->hasShadow()) {
@@ -234,12 +221,6 @@ void Game::render() {
 }
 
 void Game::run() {
-	//gamemap.loadMap(1);
-	//Assets assets();
-	//addPlatform(0, 550, 40, 40);
-	//addPlatform(60, 550, 40, 40);
-	addPlatform(-200, 400, 2000, 20);
-	//addPlatform(200, 0, 200, 500);
 	sf::Clock clock;
 	
 	while (isRunning) {
@@ -261,7 +242,6 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 				textFall = true;
 			}
 		}
-		
 		break;
 	case GameState::MAIN_MENU: {
 		int result = mainMenu.handleInput(window, event);

@@ -1,18 +1,37 @@
 #include "../entities/FSM.hpp"
 
-Ennemy::Ennemy(unsigned long long x, unsigned long long y) : x(x), y(y) {
-    spriteEnnemy.setTexture(Shared::ennemyTexture);
-    assets.resize(spriteEnnemy, 100, 100);
+Ennemy::Ennemy(unsigned long long x, unsigned long long y, sf::Texture& text, sf::Texture& textR, float xT, float yT, float scaleX, float scaleY, float textRecX, float textRecY) : x(x), y(y), 
+
+    attackAnim(text, xT, yT, 4, 0.5f, scaleX, scaleY),
+    walkAnim(text, xT, yT, 4, 0.05f, scaleX, scaleY),
+    standAnim(text, xT, yT, 1, 0.5f, scaleX, scaleY),
+    hitAnim(text, xT, yT, 1, 3.f, scaleX, scaleY),
+
+    walkAnimR(textR, xT, yT, 4, 0.05f, scaleX, scaleY),
+    hitAnimR(textR, xT, yT, 1, 3.f, scaleX, scaleY)
+{
+
+
+    spriteEnnemy.setTexture(text);
+    spriteEnnemy.setTextureRect(sf::IntRect(0,0,textRecX, textRecY)); //50, 30
+    //assets.resize(spriteEnnemy, 100, 100);
+    //spriteEnnemy.setScale(3, 3);
     spriteEnnemy.setOrigin(spriteEnnemy.getLocalBounds().width / 2, spriteEnnemy.getLocalBounds().height /2 );
     spriteEnnemy.setPosition(x, y);
-    currentState = CHASE;
+    radiusDetection = 200.f;
+    circle.setRadius(radiusDetection);
+    circle.setOrigin(radiusDetection, radiusDetection);
+    circle.setPosition(x, y);
+    circle.setFillColor(sf::Color::Black);
+    currentState = PATROL;
+    
     lastDepIsLeft = false;
-    speed = 0;
+    speed = 1;
     pathIndex = 0;
     gravity = 1200;
     velocityY = 0;
     boxCol1 = 170;  
-    boxCol2 = 49;
+    boxCol2 = 40;
 }
 
 sf::Sprite Ennemy::getSprite() const {
@@ -20,17 +39,18 @@ sf::Sprite Ennemy::getSprite() const {
 }
 
 void Ennemy::patrol(Player& player) {
-    for (auto& detectionCircle : detectionCircles) {
-        if (player.getShape().getGlobalBounds().intersects(detectionCircle.getGlobalBounds())) {
-            currentState = CHASE;
-            return;
-        }
+    
+    if (player.getShape().getGlobalBounds().intersects(circle.getGlobalBounds())) {
+        currentState = CHASE;
+        return;
     }
-    currentState = PATROL;
+    
+    //currentState = PATROL;
 }
 
 void Ennemy::chase(Player& player) {
-    speed = 1;
+    //speed = 1;
+    inWalk = true;
     sf::Vector2f direction(
         speed * copysign(4.0f, player.getShape().getPosition().x - spriteEnnemy.getPosition().x),
         speed * copysign(0.0f, velocityY + spriteEnnemy.getPosition().y)
@@ -45,10 +65,15 @@ void Ennemy::chase(Player& player) {
     lastDepIsLeft = direction.x < 0;
 }
 
-void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies) {
+void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, float deltaTime) {
+    //takeDamageClock.getElapsedTime().asSeconds();
     for (auto it = projectile.begin(); it != projectile.end();) {
         if (player.getProjShape(*it).getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
+            takeDamageClock.restart();
+            
             life -= 1;
+            /*hitAnim.update(deltaTime);
+            hitAnim.takeSecondImage(spriteEnnemy, 2);*/
             if (life == 0) {
                 currentState = DEAD;
             }
@@ -76,11 +101,27 @@ void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, vect
 
     if (player.getShapeAtk().getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
         life -= 1; 
+        takeDamageClock.restart();
+        /*hitAnim.update(deltaTime);
+        hitAnim.takeSecondImage(spriteEnnemy, 2);*/
         if (life == 0) {
             currentState = DEAD;
         }
     }
 
+    if (takeDamageClock.getElapsedTime().asSeconds() <= 0.5f) {
+        if (player.getShape().getPosition().x < spriteEnnemy.getPosition().x) {
+            hitAnimR.update(deltaTime);
+            hitAnimR.applyToSprite(spriteEnnemy, 1);
+        }
+        else
+        {
+            hitAnim.update(deltaTime);
+            hitAnim.applyToSprite(spriteEnnemy, 1);
+        }
+        
+        //cout << "anim \n"; 
+    }
     //ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 }
 
@@ -162,10 +203,15 @@ void Ennemy::colEnnemiToGround(vector<std::unique_ptr<Ennemy>>& ennemies, std::v
 void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime) {
   
     
-    colEnnemiToGround(ennemies, tiles);
 
-    cout << onTheGround << endl;
-   
+        
+
+        colEnnemiToGround(ennemies, tiles);
+
+        cout << onTheGround << endl;
+
+
+
         if (!onTheGround) {
 
             velocityY += gravity * deltaTime;
@@ -173,53 +219,92 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Pro
             if (velocityY > maxFallSpeed) {
                 velocityY = maxFallSpeed;
             }
-            
+
             spriteEnnemy.move(0, velocityY * deltaTime);
         }
         else {
             velocityY = 0;
         }
-    
-    colEnnemyToEnnemy(ennemies);
-    colEnnemyToPlayer(player, ennemies);
 
-    if (onTheGround) {
-        switch (currentState) {
-        case PATROL:
-            patrol(player);
-            break;
-        case SEARCH:
-            break;
-        case CHASE:
-            chase(player);
-            break;
-        case DEAD:
-            break;
+
+
+        colEnnemyToEnnemy(ennemies);
+        colEnnemyToPlayer(player, ennemies);
+        circle.setPosition(spriteEnnemy.getPosition());
+        if (onTheGround) {
+            switch (currentState) {
+            case PATROL:
+
+                
+                standAnim.update(deltaTime);
+                standAnim.applyToSprite(spriteEnnemy, 0);
+                patrol(player);
+                //collision(player, projectile, ennemies, deltaTime);
+                break;
+            case SEARCH:
+
+
+                break;
+            case CHASE:
+                
+                if (player.getShape().getPosition().x < spriteEnnemy.getPosition().x) {
+                    lastDepIsLeft = true;
+                    walkAnimR.update(deltaTime);  
+                    walkAnimR.applyToSprite(spriteEnnemy, 0);
+                }
+                else {
+                    lastDepIsLeft = false;
+                    walkAnim.update(deltaTime);   
+                    walkAnim.applyToSprite(spriteEnnemy, 0);
+                }
+
+                chase(player);
+                rangedAttack(deltaTime);
+                /*attackAnim.update(deltaTime);
+                attackAnim.applyToSprite(spriteEnnemy, 0);*/
+                break;
+            case DEAD:
+
+                break;
+            case NIGHT:
+                break;
+            }
         }
-    }
 
-    for (auto& detectionCircle : detectionCircles) {
-        detectionCircle.setRadius(radiusDetection);
-        detectionCircle.setOrigin(radiusDetection, radiusDetection);
-        detectionCircle.setFillColor(sf::Color::Black);
-        detectionCircle.setPosition(spriteEnnemy.getPosition());
-    }
+        /*for (auto& detectionCircle : detectionCircles) {
+            detectionCircle.setRadius(radiusDetection);
+            detectionCircle.setOrigin(radiusDetection, radiusDetection);
+            detectionCircle.setFillColor(sf::Color::Black);
+            detectionCircle.setPosition(spriteEnnemy.getPosition());
+        }*/
 
-    collision(player, projectile, ennemies);
-    updateProjectiles(deltaTime, window);
-    rangedAttack();
+        collision(player, projectile, ennemies, deltaTime);
+        updateProjectiles(deltaTime, window);
 
-	//fillEmptySpacesWithShadows(tiles); // Ombres
+
+        //fillEmptySpacesWithShadows(tiles); // Ombres
+        //window.draw(circle);
+    
 }
 
-void Ennemy::rangedAttack() {
-    if (rangedAttackClock.getElapsedTime().asSeconds() >= 0.3f) {
+void Ennemy::rangedAttack(float deltaTime) {
+    if (rangedAttackClock.getElapsedTime().asSeconds() >= 0.6f) {
+        //takeDamageClock.getElapsedTime().asSeconds();
+        //rangClock.restart();
         sf::Vector2f spawnPos = spriteEnnemy.getPosition();
         spawnPos.x += lastDepIsLeft ? -20 : spriteEnnemy.getGlobalBounds().width;
 
         Projectile newProjectile(Shared::projectileTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
         newProjectile.resize(20, 20);
         projectiles.push_back(newProjectile);
+
+        /*if (rangClock.getElapsedTime().asSeconds() <= 0.5f) {
+            
+            attackAnim.update(deltaTime);
+            attackAnim.applyToSprite(spriteEnnemy, 0);
+            
+        }*/
+       
         rangedAttackClock.restart();
     }
 }

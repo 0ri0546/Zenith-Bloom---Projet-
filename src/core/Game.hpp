@@ -42,30 +42,22 @@ public:
 
 private:
 	sf::RenderWindow window;
-	Player player;	
-	//Player player2;
-	//Ennemy ennemy;
-	//Grid grid;
+	Player player;
+	sf::View view;
+	Map gamemap;
+	
+	std::vector<Platform> platforms;
+	vector<std::unique_ptr<Ennemy>> ennemies;
+	vector<Tank> Tanks;
 	
 	//Grid grid = Grid(gamemap);
-	
-
-	sf::View view;
-	std::vector<Platform> platforms;
-	Map gamemap;
 
 	bool isRunning;
 	bool isGamePaused;
 	bool isDay;
-
-	vector<std::unique_ptr<Ennemy>> ennemies;
-	vector<Tank> Tanks;
-	
-	BouncingTitle title;
 	bool gameStarted = false;
 	bool textFall;
-	
-	void addPlatform(float x, float y, float width, float height);
+
 	void createWindow();
 	void processEvents(float deltaTime);
 	void update(float deltaTime);
@@ -74,6 +66,7 @@ private:
 	void handleKeyboardInput(const sf::Event& event);
 	void handleGamepadInput(float deltaTime);
 
+	BouncingTitle title;
 	GameState currentState;
 	MainMenu mainMenu;
 	PauseMenu pauseMenu;

@@ -3,16 +3,12 @@
 Tiles::Tiles(float x, float y, int type)  : x(x), y(y), type(type) {
 	sprite.setTexture(Shared::floorTexture);
 	isReparable = false;
-    //shadowShape.setSize(sf::Vector2f(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height));
-    //shadowShape.setFillColor(sf::Color(0, 0, 0, 128)); 
-    //shadowShape.setPosition(x, y);
     setSprite(type);
 	sprite.setScale(0.5, 0.5);
 	sprite.setPosition(x, y);
 }
 
-void Tiles::setSprite(int type)
-{
+void Tiles::setSprite(int type) {
     switch (type)
     {
     case(00):

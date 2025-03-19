@@ -6,7 +6,7 @@ Projectile::Projectile(sf::Texture& texture, sf::Vector2f position, bool goingLe
     speed = 1300.0f;
     velocity.x = goingLeft ? -speed : speed;
 
-    velocityY = -200.0f;
+    velocityY = -50.0f;
     gravity = 500.0f;
 }
 
@@ -32,6 +32,11 @@ sf::FloatRect Projectile::getBounds() const {
 
 sf::Sprite Projectile::getSprite() const {
     return sprite;
+}
+
+bool Projectile::returnGoing()
+{
+    return goingLeft;
 }
 
 Projectile::~Projectile() {}
