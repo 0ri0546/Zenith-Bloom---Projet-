@@ -17,6 +17,8 @@
 #include "../entities/Tank.hpp"
 #include "../systems/grid.hpp"
 #include "../hud/menu/BouncingTitle.hpp"
+#include "../hud/menu/gameOver.hpp"
+#include "../hud/menu/LevelSelectorMenu.hpp"
 
 class Game {
 public:
@@ -34,7 +36,8 @@ public:
 		CONTROL_MENU,
 		GAMEOVER_MENU,
 		VICTORY_MENU,
-		TITLE_MENU
+		TITLE_MENU,
+		EDITOR
 	};
 
 private:
@@ -69,6 +72,7 @@ private:
 	void render();
 	void handleState(const sf::Event& event, float deltaTime);
 	void handleKeyboardInput(const sf::Event& event);
+	void handleGamepadInput(float deltaTime);
 
 	GameState currentState;
 	MainMenu mainMenu;
@@ -77,6 +81,8 @@ private:
 	VideoMenu videoMenu;
 	SoundMenu soundMenu;
 	ControlMenu controlMenu;
+	GameOver gameOverScreen;
+	LevelSelectMenu levelSelectMenu;
 };
 
 #endif

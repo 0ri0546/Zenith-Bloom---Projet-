@@ -1,5 +1,5 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef MAP_HPP
+#define MAP_HPP
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -19,9 +19,14 @@ private:
 
 	int gridCellSize = 120;
 	vector<vector<char>> map;
-	
+	int currentmap = 1;
 	vector<sf::RectangleShape> recTab;
 	vector<unique_ptr<Tiles>> tiles;
+	int numtile = 1;
+	Sprite assetfull;
+
+	bool inputOn = false;
+	
 public:
 	
 	Map();
@@ -29,9 +34,17 @@ public:
 
 	vector<vector<char>> getMap();
 	vector<unique_ptr<Tiles>>& getTiles();
+	void spawnTile(int x, int y, int mapNum);
+	void supprTile(int x, int y);
+	void loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window);
+	void editormode(sf::RenderWindow& window, sf::View& view);
+	void handleInput(sf::RenderWindow& window, sf::View& view);
+	void modifyMapFile(int griX, int gridY, int type);
 
 	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window);
 };
+
+
 
 
 #endif // MAP_H

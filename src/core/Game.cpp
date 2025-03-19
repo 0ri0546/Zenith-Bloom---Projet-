@@ -34,6 +34,7 @@ void Game::processEvents(float deltaTime) {
 		}
 		handleKeyboardInput(event);
 		handleState(event, deltaTime);
+		handleGamepadInput(deltaTime);
 
 		switch (currentState) {
 		case GameState::MAIN_MENU:
@@ -54,6 +55,14 @@ void Game::processEvents(float deltaTime) {
 		case GameState::CONTROL_MENU:
 			controlMenu.handleInput(window, event);
 			break;
+		case GameState::GAMEOVER_MENU:
+			if (gameOverScreen.handleInput()) {
+				currentState = GameState::MAIN_MENU;
+			}
+			break;
+		case GameState::LEVEL_SELECTOR_MENU:
+			levelSelectMenu.handleInput(window, event);
+			break;		
 		default:
 			break;
 		}
@@ -76,6 +85,7 @@ void Game::update(float deltaTime) {
 
 
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
+		gamemap.handleInput(window, view);
 		player.update(gamemap.getTiles(), window, view, deltaTime);
 		
 		for (auto& ennemy : ennemies) {
@@ -106,6 +116,9 @@ void Game::update(float deltaTime) {
 		}*/
 		view.setCenter(player.getShape().getPosition());
 		break;
+
+	case GameState::EDITOR:
+		
 	default:
 		view.setCenter(static_cast<float>(Config::WINDOW_WIDTH) / 2.f, static_cast<float>(Config::WINDOW_HEIGHT) / 2.f);
 		window.setView(view);
@@ -199,20 +212,22 @@ void Game::render() {
 		break;
 	case GameState::VIDEO_MENU:
 		videoMenu.render(window);
-		videoMenu.renderSlider(window);
 		break;
 	case GameState::SOUND_MENU:
 		soundMenu.render(window);
-		soundMenu.renderSliders(window);
 		break;
 	case GameState::CONTROL_MENU:
 		controlMenu.render(window);
 		break;
+	case GameState::GAMEOVER_MENU:
+		gameOverScreen.render(window);
+		break;
+	case GameState::LEVEL_SELECTOR_MENU:
+		levelSelectMenu.render(window);
+		break;
 	default:
-
 		break;
 	}
-
 	
 	window.display();
 }
@@ -267,6 +282,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		int result = pauseMenu.handleInput(window, event);
 		if (result == 1) { // Reprendre
 			currentState = GameState::PLAYING;
+			isGamePaused = false;
 		}
 		else if (result == 2) { // Options
 			currentState = GameState::OPTIONS_MENU;
@@ -326,6 +342,19 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		}
 		break;
 	}
+	case GameState::LEVEL_SELECTOR_MENU: {
+		int result = levelSelectMenu.handleInput(window, event);
+		if (result == 1) { // Retour
+			currentState = GameState::MAIN_MENU;
+		}
+		else if (result == 2) { // Level Tuto
+			// Play Level Tuto
+		}
+		else if (result == 3) { // Level 1
+			// Play Level 1
+		}
+		break;
+	}
 	default:
 		break;
 	}
@@ -356,6 +385,17 @@ void Game::handleKeyboardInput(const sf::Event& event) {
 			}
 			else if (currentState == GameState::CONTROL_MENU) {
 				currentState = GameState::OPTIONS_MENU;
+			}
+		}
+	}
+}
+
+void Game::handleGamepadInput(float deltaTime) {
+	if (sf::Joystick::isConnected(0)) {
+		if (sf::Joystick::isButtonPressed(0, 7)) { // Start Button
+			if (currentState == GameState::PLAYING) {
+				currentState = GameState::PAUSE_MENU;
+				isGamePaused = true;
 			}
 		}
 	}
