@@ -8,10 +8,10 @@ Assets::Assets() {
 }
 
 void Assets::loadAssetsFromFiles() {
-	if (!Shared::font.loadFromFile("assets/fonts/arial.ttf")) // FONT
+	if (!Shared::font.loadFromFile("assets/fonts/arial.ttf"))
 		std::cerr << "Chargement de la police impossible" << '\n';
 	
-	Shared::playerTexture.loadFromFile("assets/player/player.png"); //assets/player/player.png
+	Shared::playerTexture.loadFromFile("assets/player/player.png");
 	Shared::playerReverseTexture.loadFromFile("assets/player/playerReverse.png");
 	Shared::smokeTexture.loadFromFile("assets/player/smoke.png");
 	Shared::swordTexture.loadFromFile("assets/player/sword.jpg");

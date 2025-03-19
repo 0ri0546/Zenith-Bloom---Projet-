@@ -1,5 +1,4 @@
 #include "ControlMenu.hpp"
-#include <iostream>
 
 std::string keyToString(sf::Keyboard::Key key) {
     static const std::map<sf::Keyboard::Key, std::string> keyMap = {
@@ -48,9 +47,8 @@ void ControlMenu::initButtons() {
                     break;
                 }
             }
-            });
-        };
-
+        });
+    };
 
     addButton(2, Keybind::Action::MoveRight, "Aller à droite", verticalSpacing);
     addButton(3, Keybind::Action::MoveLeft, "Aller à gauche", 2 * verticalSpacing);

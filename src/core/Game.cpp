@@ -77,8 +77,6 @@ void Game::update(float deltaTime) {
 	case GameState::MAIN_MENU:
 		break;
 	case GameState::PLAYING:
-
-
 		player.setTakingDamageBool(false);
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 		gamemap.handleInput(window, view);
@@ -131,14 +129,10 @@ void Game::render() {
 	case GameState::TITLE_MENU:
 		title.draw(window);
 		break;
-
 	case GameState::MAIN_MENU:
 		mainMenu.render(window);
 		break;
-
 	case GameState::PLAYING:
-		
-
 		window.draw(player.getShapeSmoke());
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
@@ -154,11 +148,9 @@ void Game::render() {
 			//ennemy.runEnnemy(player, window, grid, TimeAstar);
 		//cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
 
-		for (int i = 0; i < ennemies.size(); i++)
-		{
+		for (int i = 0; i < ennemies.size(); i++) {
 			//std::cout << ennemies[i].getSprite().getPosition().x << ", " << ennemies[i].getSprite().getPosition().x << std::endl;
 		}
-		
 		for (auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 		}
@@ -172,8 +164,6 @@ void Game::render() {
 				
 			}
 		}
-		
-		
 		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
 			bool erased = false;
 
@@ -188,7 +178,6 @@ void Game::render() {
 				++it;
 			}
 		}
-
 		for (const auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 			if (tile->hasShadow()) {
@@ -232,7 +221,6 @@ void Game::render() {
 }
 
 void Game::run() {
-	//gamemap.loadMap(1);
 	sf::Clock clock;
 	
 	while (isRunning) {
@@ -254,7 +242,6 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 				textFall = true;
 			}
 		}
-		
 		break;
 	case GameState::MAIN_MENU: {
 		int result = mainMenu.handleInput(window, event);

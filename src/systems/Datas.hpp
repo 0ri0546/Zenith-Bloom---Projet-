@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <unordered_map>
+#include <SFML/Window/Keyboard.hpp>
 
 namespace Config {
 	static int WINDOW_WIDTH = 1920; // 800

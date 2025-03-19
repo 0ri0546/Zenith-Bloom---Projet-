@@ -48,6 +48,7 @@ Player::Player(sf::Texture& texture) :
 
 	isAttacking = false;
 	setAnimationDamage = false;	
+	canAttack = true;
 
 	energy = 100.f;
 	maxJetpackEnergy = 100.f;

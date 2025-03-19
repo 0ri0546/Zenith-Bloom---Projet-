@@ -3,22 +3,12 @@
 #include <iostream>
 #include <string> 
 
-Map::Map() {
+Map::Map() {}
 
-
-}
-
-Map::~Map()
-{
-    map.clear();
-}
-
-vector<vector<char>> Map::getMap()
-{
+vector<vector<char>> Map::getMap() {
     return map;
 }
- vector<unique_ptr<Tiles>>& Map::getTiles()
-{
+ vector<unique_ptr<Tiles>>& Map::getTiles() {
     return tiles;
 }
 
@@ -36,39 +26,30 @@ vector<vector<char>> Map::getMap()
      }
  }
 
-
-void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window)
-{
-    
+void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window) {
     map.clear();
     tiles.clear();
     currentmap = mapNum;
-    string path = "assets/maps/map" + to_string(mapNum) + ".txt";
 
+    string path = "assets/maps/map" + to_string(mapNum) + ".txt";
     ifstream file(path);
-    if (!file.is_open())
-    {
+    if (!file.is_open()) {
         cout << "Error: file not found" << endl;
         return;
     }
 
     string line;
-    while (getline(file, line))
-    {
+    while (getline(file, line)) {
         vector<char> row;
-        for (size_t i = 0; i < line.size(); i += 3)
-        {
-            if (i + 1 >= line.size())
-            {
+        for (size_t i = 0; i < line.size(); i += 3) {
+            if (i + 1 >= line.size()) {
                 cout << "Warning: Uneven characters in map file. Skipping last character." << endl;
                 break;
             }
 
             string tileCode = line.substr(i, 3);
-            if (tileCode != "   ")
-            {
-                if (!isdigit(tileCode[0]) || !isdigit(tileCode[1]) || !isdigit(tileCode[2]))
-                {
+            if (tileCode != "   ") {
+                if (!isdigit(tileCode[0]) || !isdigit(tileCode[1]) || !isdigit(tileCode[2])) {
                     cout << "Warning: Invalid tile code '" << tileCode << "' at position " << i << "." << endl;
                     continue;
                 }
@@ -78,37 +59,27 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
 
                 row.push_back(tileCode[0]);
 
-
-
-
                 if (tileValue < 10) {
-
                     tiles.push_back(make_unique<Tiles>(i / 2 * gridCellSize, map.size() * gridCellSize, tileValue));
                 }
-                if (tileValue == 14)
-                {
+                if (tileValue == 14) {
                     //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                     ennemies.push_back(make_unique<Ennemy>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTexture, Shared::tankTextureR, 139/* pas toucher*/, 178/* pas toucher*/, 80/*scaleX*/, 80/*scaleY*/, 150/*coliboxX*/, 150/*coliboxY*/)); // scale égaux obligatoire car carré 
                 }
-                if (tileValue == 15)
-                {
+                if (tileValue == 15) {
                     /* Tank newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                      Tankennemies.push_back(newEnnemy);*/
                     ennemies.push_back(make_unique<Tank>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::tankTexture, Shared::tankTextureR, 79, 131, 90, 120, 160, 160));
                 }
-                if (tileValue == 16)
-                {
-
+                if (tileValue == 16) {
                     ennemies.push_back(make_unique<Drone>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::droneTexture, Shared::tankTextureR, 139, 178, 60, 60, 64, 64));
                 }
-                if (tileValue == 17)
-                {
-
+                if (tileValue == 17) {
                     ennemies.push_back(make_unique<Incendiaire>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, Shared::incendTextureR, 132, 80, 120, 70, 80, 60)); // scale avec dif de 50 = perfect 
                 }
             }
         }
-            map.push_back(row);
+        map.push_back(row);
     }
 }
 
@@ -138,8 +109,6 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { if (inputOn == false) { numtile -= 10; } inputOn = true; }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { if (inputOn == false) { numtile += 10; } inputOn = true; }
     else { inputOn = false; }
-
-
 }
 
 void Map::modifyMapFile(int gridX, int gridY, int type) {
@@ -169,8 +138,7 @@ void Map::modifyMapFile(int gridX, int gridY, int type) {
                 lineToModify[startIdx + 2] = ' ';
             }
         }
-        else 
-        {
+        else {
             if (startIdx + 2 < lineToModify.size()) {
                 lineToModify[startIdx] = type / 100 + '0';
                 lineToModify[startIdx + 1] = (type % 100) / 10 + '0';
@@ -179,8 +147,7 @@ void Map::modifyMapFile(int gridX, int gridY, int type) {
         }
     }
 
-    file.close();  
-
+    file.close();
     ofstream outFile(path, ios::out);
     if (!outFile.is_open()) {
         cout << "Error: Unable to open map file for writing." << endl;
@@ -195,6 +162,9 @@ void Map::modifyMapFile(int gridX, int gridY, int type) {
 }
 
 void Map::editormode(sf::RenderWindow& window, sf::View& view) {
-
     handleInput(window, view);
+}
+
+Map::~Map() {
+    map.clear();
 }

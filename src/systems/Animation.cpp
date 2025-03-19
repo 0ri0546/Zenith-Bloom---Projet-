@@ -19,10 +19,3 @@ void Animation::applyToSprite(sf::Sprite& sprite, int row) {
     sprite.setTextureRect(sf::IntRect(currentFrame * frameWidth, row * frameHeight, frameWidth, frameHeight));
     sprite.setScale(scaleX / frameWidth, scaleY / frameHeight);
 }
-
-void Animation::takeSecondImage(sf::Sprite& sprite, int row)
-{
-    sprite.setTexture(texture);
-    sprite.setTextureRect(sf::IntRect(frameWidth, row * frameHeight, frameWidth, frameHeight));
-    sprite.setScale(50.f / frameWidth, 50.f / frameHeight);
-}
