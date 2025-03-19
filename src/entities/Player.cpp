@@ -1,9 +1,9 @@
 #include "Player.hpp"
 
 Player::Player(sf::Texture& texture) : 
-	jumpToLeftAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.5f, 100/*scaleX*/, 100/*scaleY*/),
-	jumpToRightAnimation(texture, 194, 256, 3, 0.5f, 100/*scaleX*/, 100/*scaleY*/),
-	walkToLeftAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.2f, 100, 100), // ----------
+	jumpToLeftAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.5f, 100, 100), // width height frames duration x y
+	jumpToRightAnimation(texture, 194, 256, 3, 0.5f, 100, 100),
+	walkToLeftAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.2f, 100, 100), 
 	walkToRightAnimation(texture, 194, 256, 3, 0.2f, 100, 100),
 	staticToLeftAnimation(Shared::playerReverseTexture, 194, 256, 1, 0.5f, 100, 100),
 	staticToRightAnimation(texture, 194, 256, 1, 0.5f, 100, 100),
@@ -76,6 +76,7 @@ Player::Player(sf::Texture& texture) :
 }
 
 void Player::animate(float deltaTime) {
+	// méthode pour animer le joueur
 	if (setAnimationDamage) {                                           //---------------------takeDamage---------------------
 		if (lastDepIsLeft) {
 			takeDamageToLeftAnimation.update(deltaTime);
@@ -153,6 +154,7 @@ void Player::animate(float deltaTime) {
 }
 
 void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
+	// méthode pour mettre à jour le joueur
 	animate(deltaTime);
 	collide(tiles);
 	jump(deltaTime);
@@ -166,6 +168,7 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 }
 
 void Player::jump(float deltaTime) {
+	// méthode pour gérer le saut du joueur (mouvement + fumée)
 	deltaTime = std::min(deltaTime, 0.1f);
 	if (!isOnGround && !hangedToWallsLeft && !hangedToWallsRight) {
 		velocityY += gravity * deltaTime;
@@ -212,7 +215,7 @@ void Player::jump(float deltaTime) {
 	}
 	playerSprite.move(0, velocityY * deltaTime);
 	
-	if (jumpCount == 0) { 
+	if (jumpCount == 0) {
 		if (lastDepIsLeft) {
 			smokeSprite.setPosition(playerSprite.getPosition().x + 50, playerSprite.getPosition().y + 100);
 		}
@@ -228,6 +231,7 @@ void Player::jump(float deltaTime) {
 }
 
 void Player::collide(const std::vector<std::unique_ptr<Tiles>>& tiles) {
+	// méthode pour gérer les collisions du joueur avec les plateformes
 	isOnGround = false;
 	hangedToWallsLeft = false;
 	hangedToWallsRight = false;
@@ -279,8 +283,8 @@ void Player::collide(const std::vector<std::unique_ptr<Tiles>>& tiles) {
 }
 
 void Player::deplacement(float deltaTime) {
+	// méthode pour gérer le déplacement du joueur
 	deltaTime = std::min(deltaTime, 0.1f);
-
 	const float acceleration = 1000.0f;
 	const float friction = 1000.0f;
 	const float maxSpeed = 700.0f; 
@@ -329,6 +333,7 @@ void Player::deplacement(float deltaTime) {
 }
 
 float Player::attack(float deltaTime) {
+	// méthode pour gérer l'attaque du joueur
 	float shortRangeDamage = 0.f;
 
 	if (lastDepIsLeft) {
@@ -368,6 +373,7 @@ float Player::attack(float deltaTime) {
 }
 
 void Player::updateHUD(sf::View& view) {
+	// méthode pour mettre à jour l'interface utilisateur
 	//------ENERGY------
 	sf::Vector2f viewCenter = view.getCenter();
 	sf::Vector2f viewSize = view.getSize();
@@ -388,6 +394,7 @@ void Player::updateHUD(sf::View& view) {
 }
 
 void Player::rangedAttack() {
+	// méthode pour gérer l'attaque à distance du joueur
 	if (rangedAttackClock.getElapsedTime().asSeconds() >= 0.3f && energy > 10.0f) {
 		sf::Vector2f spawnPos = playerSprite.getPosition();
 		spawnPos.x += lastDepIsLeft ? -20 : playerSprite.getGlobalBounds().width;
@@ -400,6 +407,7 @@ void Player::rangedAttack() {
 }
 
 void Player::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
+	// méthode pour mettre à jour les projectiles du joueur
 	for (auto it = projectiles.begin(); it != projectiles.end();) {
 		it->update(deltaTime);
 		++it;
@@ -407,6 +415,7 @@ void Player::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
 }
 
 bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
+	// méthode pour gérer les dégâts infligés au joueur
 	if (playerSprite.getGlobalBounds().intersects(projEnnemi.getGlobalBounds())) {
 		takeDamageClock.restart();
 		hp--;
