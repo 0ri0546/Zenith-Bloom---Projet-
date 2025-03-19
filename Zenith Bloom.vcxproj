@@ -151,9 +151,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CapsuleHP.cpp" />
     <ClCompile Include="src\core\Game.cpp" />
     <ClCompile Include="src\entities\CapsuleEnergie.cpp" />
+    <ClCompile Include="src\entities\CapsuleHP.cpp" />
     <ClCompile Include="src\entities\drone.cpp" />
     <ClCompile Include="src\entities\FSM.cpp" />
     <ClCompile Include="src\entities\Entity.cpp" />
@@ -188,9 +188,9 @@
     <ClCompile Include="src\systems\pathfinding.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CapsuleHP.hpp" />
     <ClInclude Include="src\core\Game.hpp" />
     <ClInclude Include="src\entities\CapsuleEnergie.hpp" />
+    <ClInclude Include="src\entities\CapsuleHP.hpp" />
     <ClInclude Include="src\entities\drone.hpp" />
     <ClInclude Include="src\entities\FSM.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />

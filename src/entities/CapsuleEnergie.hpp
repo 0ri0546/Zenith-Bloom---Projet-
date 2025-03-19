@@ -1,4 +1,3 @@
-// CapsuleEnergie.hpp
 #ifndef CAPSULE_ENERGIE_HPP
 #define CAPSULE_ENERGIE_HPP
 

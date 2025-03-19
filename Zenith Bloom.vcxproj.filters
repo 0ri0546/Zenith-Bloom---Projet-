@@ -159,8 +159,8 @@
     <ClCompile Include="src\entities\CapsuleEnergie.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="CapsuleHP.cpp">
-      <Filter>Fichiers sources\Entities</Filter>
+    <ClCompile Include="src\entities\CapsuleHP.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,7 +266,7 @@
     <ClInclude Include="src\entities\CapsuleEnergie.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="CapsuleHP.hpp">
+    <ClInclude Include="src\entities\CapsuleHP.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
