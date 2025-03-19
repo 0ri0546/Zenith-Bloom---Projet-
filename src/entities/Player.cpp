@@ -34,6 +34,7 @@ Player::Player(sf::Texture& texture) :
 	velocityY = 0;
 	gravity = 1700.f;
 	isOnGround = false;
+	lastDepIsLeft = false;
 
 	jumpCount = maxJumps;
 	canJump = true;
@@ -44,11 +45,10 @@ Player::Player(sf::Texture& texture) :
 	jumpTime = 0.f;
 	velocityX = 0.f;
 
-	lastDepIsLeft = false;
-
 	isAttacking = false;
 	setAnimationDamage = false;	
 	canAttack = true;
+	takingDamage = false;
 
 	energy = 100.f;
 	maxJetpackEnergy = 100.f;
