@@ -430,7 +430,15 @@ bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
 	return takingDamage;
 }
 
+void Player::augmenterEnergie(int quantite) {
+	energy += quantite;
+	if (energy > energyMax) {
+		energy = energyMax;
+	}
+}
+
 //getters/setters
+float Player::getEnergie() const { return energy; }
 sf::Sprite Player::getShape() const { return playerSprite; }
 sf::Sprite Player::getShapeAtk() const { return swordSprite; }
 sf::Sprite Player::getShapeSmoke() const { return smokeSprite; }

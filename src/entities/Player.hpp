@@ -32,6 +32,8 @@ public:
 	sf::Sprite getNightSprite() const;
 	bool getTakingDamageBool() const;
 	void setTakingDamageBool(bool takingDamage);
+	void augmenterEnergie(int quantite);
+	float getEnergie() const;
 
 	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
@@ -70,6 +72,7 @@ private:
 	float bounce;
 
 	float energy;
+	float energyMax;
 	float maxJetpackEnergy;
 	float jetpackPower;
 	float energyConsumption;

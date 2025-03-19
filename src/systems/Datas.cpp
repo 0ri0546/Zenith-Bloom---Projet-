@@ -23,6 +23,7 @@ sf::Texture Shared::incendTextureR;
 //assets des tiles
 sf::Texture Shared::groundTexture;
 sf::Texture Shared::floorTexture;
+sf::Texture Shared::itemsTexture;
 //sf::Sprite groundSprite;
 
 //assets du HUD
