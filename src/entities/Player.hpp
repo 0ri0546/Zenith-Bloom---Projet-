@@ -24,8 +24,12 @@ public:
 	sf::Sprite getShape() const;
 	sf::Sprite getShapeAtk() const;
 	sf::Sprite getShapeSmoke() const;
-	sf::Sprite getSpriteHUDEnergy() const;
+	sf::Sprite getLifeBarSprite() const;
+	sf::Sprite getLifeBar2Sprite() const;
+	sf::Sprite getEnergyBarSprite() const;
+	sf::Sprite getProgressBarSprite() const;
 	sf::RectangleShape getShapeFillEnergy() const;
+	sf::RectangleShape getShapeFillHP() const;
 	std::vector<Projectile> getProj() const;
 	sf::Sprite getProjShape(Projectile& proj) const;
 	sf::Sprite getDaySprite() const;
@@ -46,9 +50,9 @@ public:
 
 private:
 	sf::Sprite swordSprite, smokeSprite, playerSprite;
-	sf::Sprite daySprite, nightSprite, hudEnergySprite;
+	sf::Sprite daySprite, nightSprite, lifeBarSprite, lifeBar2Sprite, energyBarSprite, progressBarSprite;
 
-	sf::RectangleShape shapeEnergy, shapeFillEnergy;
+	sf::RectangleShape shapeFillEnergy, shapeFillHP;
 
 	sf::Clock attackClock;	
 	sf::Clock attackDurationClock;
@@ -80,9 +84,11 @@ private:
 	float energyConsumption;
 	float energyRecharge;
 	float damage;
-	int hp;
+	float hp;
+	float maxHp;
 	bool isAttacking;
 	bool takingDamage;
+	float progress;
 
 	Animation 
 		jumpToLeftAnimation, jumpToRightAnimation,

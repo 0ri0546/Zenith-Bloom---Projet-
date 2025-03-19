@@ -29,6 +29,9 @@ sf::Texture Shared::itemsTexture;
 //assets du HUD
 sf::Texture Shared::dayTexture;
 sf::Texture Shared::nightTexture;
+sf::Texture Shared::lifeBarTexture;
+sf::Texture Shared::lifeBar2Texture;
+sf::Texture Shared::energyBarTexture;
 sf::Texture Shared::progressBarTexture;
 
 //assets des menus

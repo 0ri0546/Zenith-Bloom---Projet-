@@ -56,6 +56,9 @@ public:
 	//HUD
 	static sf::Texture dayTexture;
 	static sf::Texture nightTexture;
+	static sf::Texture lifeBarTexture;
+	static sf::Texture lifeBar2Texture;
+	static sf::Texture energyBarTexture;
 	static sf::Texture progressBarTexture;
 };
 

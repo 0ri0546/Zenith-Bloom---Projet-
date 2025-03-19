@@ -55,24 +55,31 @@ Player::Player(sf::Texture& texture) :
 	jetpackPower = -3.f;
 	energyConsumption = 10.f;
 	energyRecharge = 1.f;
-
-	shapeEnergy.setSize(sf::Vector2f(100, 30));
-	shapeEnergy.setFillColor(sf::Color::Transparent);
-	shapeEnergy.setOutlineColor(sf::Color::White);
-	shapeEnergy.setOutlineThickness(2);
 	
-	hudEnergySprite.setTexture(Shared::progressBarTexture);
-	assets.resize(hudEnergySprite, 100, 30);
-	hudEnergySprite.setPosition(20, 20);
+	lifeBarSprite.setTexture(Shared::lifeBarTexture);
+	assets.resize(lifeBarSprite, 300, 100);
+	lifeBarSprite.setPosition(20, 20);
+
+	lifeBar2Sprite.setTexture(Shared::lifeBar2Texture);
+	assets.resize(lifeBar2Sprite, 300, 100);
+	lifeBar2Sprite.setPosition(20, 20);
+
+	energyBarSprite.setTexture(Shared::energyBarTexture);
+	assets.resize(energyBarSprite, 268, 100);
+	energyBarSprite.setPosition(33, 20 * 2 + lifeBar2Sprite.getGlobalBounds().height);
+
+	progressBarSprite.setTexture(Shared::progressBarTexture);
+	assets.resize(progressBarSprite, 270, 40);
+	progressBarSprite.setPosition(33, 20 * 2 + energyBarSprite.getGlobalBounds().height * 2);
 
 	damage = 15;
-	hp = 100;
-	vie = 3;
+	hp = 100.f;
+	maxHp = 100.f;
 
 	daySprite.setTexture(Shared::dayTexture);
-	assets.resize(daySprite, 40, 40);
+	assets.resize(daySprite, 150, 120);
 	nightSprite.setTexture(Shared::nightTexture);
-	assets.resize(nightSprite, 40, 40);
+	assets.resize(nightSprite, 150, 120);
 }
 
 void Player::animate(float deltaTime) {
@@ -378,18 +385,29 @@ void Player::updateHUD(sf::View& view) {
 	sf::Vector2f viewCenter = view.getCenter();
 	sf::Vector2f viewSize = view.getSize();
 
-	float hudX = viewCenter.x - (viewSize.x / 2) + 20;
-	float hudY = viewCenter.y - (viewSize.y / 2) + 20;
+	float spacing = 20;
+	float sizeY = 35;
 
-	shapeFillEnergy.setSize(sf::Vector2f((energy / maxJetpackEnergy) * 100, 30));
+	float hudX = viewCenter.x - (viewSize.x / 2) + spacing;
+	float hudY = viewCenter.y - (viewSize.y / 2) + spacing;
+
+	shapeFillHP.setSize(sf::Vector2f(((hp / maxHp) * 100) * 2.67f, sizeY));
+	shapeFillHP.setFillColor(sf::Color::Red);
+
+	shapeFillEnergy.setSize(sf::Vector2f(((energy / maxJetpackEnergy) * 100) * 2.62f, sizeY));
 	shapeFillEnergy.setFillColor(sf::Color::Green);
 
-	hudEnergySprite.setPosition(hudX, hudY);
-	shapeFillEnergy.setPosition(hudX, hudY);
+	lifeBarSprite.setPosition(hudX, hudY);
+	lifeBar2Sprite.setPosition(hudX, hudY);
+	energyBarSprite.setPosition(hudX + 15, hudY + lifeBar2Sprite.getGlobalBounds().height + spacing);
+	progressBarSprite.setPosition(hudX + 15, hudY + lifeBar2Sprite.getGlobalBounds().height * 2 + (spacing * 3));
+
+	shapeFillEnergy.setPosition(hudX + spacing - 1, hudY + lifeBar2Sprite.getGlobalBounds().height + 53);
+	shapeFillHP.setPosition(hudX + spacing - 2, hudY + (spacing * 2) + 8);
 	//------ENERGY------
 	//------DAY/NIGHT------
-	daySprite.setPosition(viewCenter.x + viewSize.x / 2 - 60, viewCenter.y - viewSize.y / 2 + 20);
-	nightSprite.setPosition(viewCenter.x + viewSize.x / 2 - 60, viewCenter.y - viewSize.y / 2 + 20);
+	daySprite.setPosition(viewCenter.x + viewSize.x / 2 - daySprite.getGlobalBounds().width - spacing, viewCenter.y - viewSize.y / 2 + spacing);
+	nightSprite.setPosition(viewCenter.x + viewSize.x / 2 - daySprite.getGlobalBounds().width - spacing, viewCenter.y - viewSize.y / 2 + spacing);
 	//------DAY/NIGHT------
 }
 
@@ -450,8 +468,12 @@ float Player::getEnergie() const { return energy; }
 sf::Sprite Player::getShape() const { return playerSprite; }
 sf::Sprite Player::getShapeAtk() const { return swordSprite; }
 sf::Sprite Player::getShapeSmoke() const { return smokeSprite; }
-sf::Sprite Player::getSpriteHUDEnergy() const { return hudEnergySprite; }
+sf::Sprite Player::getLifeBarSprite() const { return lifeBarSprite; }
+sf::Sprite Player::getLifeBar2Sprite() const { return lifeBar2Sprite; }
+sf::Sprite Player::getEnergyBarSprite() const { return energyBarSprite; }
+sf::Sprite Player::getProgressBarSprite() const { return progressBarSprite; }
 sf::RectangleShape Player::getShapeFillEnergy() const { return shapeFillEnergy; }
+sf::RectangleShape Player::getShapeFillHP() const { return shapeFillHP; }
 std::vector<Projectile> Player::getProj() const { return projectiles; }
 sf::Sprite Player::getProjShape(Projectile& proj) const { return proj.getSprite(); }
 sf::Sprite Player::getDaySprite() const { return daySprite; }

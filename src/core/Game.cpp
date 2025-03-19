@@ -10,7 +10,7 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 	//grid.loadGrid(gamemap);
 
 	textFall = false;
-	isDay = false;
+	isDay = true;
 }
 
 void Game::createWindow() {
@@ -186,9 +186,13 @@ void Game::render() {
 		}
 		//----HUD----
 		window.draw(player.getShapeFillEnergy());
-		window.draw(player.getSpriteHUDEnergy());
+		window.draw(player.getShapeFillHP());
+		if (player.getHP()<50) { window.draw(player.getLifeBarSprite()); }
+		else { window.draw(player.getLifeBar2Sprite()); }
+		window.draw(player.getEnergyBarSprite());
 		if (isDay) { window.draw(player.getDaySprite()); }
 		else { window.draw(player.getNightSprite()); }
+		window.draw(player.getProgressBarSprite());
 		//----HUD----
 		window.setView(view);
 		break;
