@@ -3,7 +3,7 @@
 BouncingTitle::BouncingTitle(const std::string& title, sf::Font& font) {
     titleText.setFont(font);
     titleText.setString(title);
-    titleText.setCharacterSize(150);
+    titleText.setCharacterSize(130);
     titleText.setFillColor(sf::Color::White);
     titleText.setStyle(sf::Text::Bold);
     titleText.setOutlineColor(sf::Color::Black);
@@ -31,7 +31,7 @@ BouncingTitle::BouncingTitle(const std::string& title, sf::Font& font) {
     pressKeyText.setRotation(-20);
     pressKeyText.setOutlineColor(sf::Color::Black);
     pressKeyText.setOutlineThickness(4);
-    pressKeyText.setPosition(textBounds.width + 400, Config::WINDOW_HEIGHT / 2 + 20);
+    pressKeyText.setPosition(textBounds.width + 20, Config::WINDOW_HEIGHT / 2 + 40);
 
     timer.restart();
     blinkingTimer.restart();

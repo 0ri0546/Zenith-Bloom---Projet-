@@ -8,7 +8,7 @@ Assets::Assets() {
 }
 
 void Assets::loadAssetsFromFiles() {
-	if (!Shared::font.loadFromFile("assets/fonts/arial.ttf"))
+	if (!Shared::font.loadFromFile("assets/fonts/ethno.otf"))
 		std::cerr << "Chargement de la police impossible" << '\n';
 	
 	Shared::playerTexture.loadFromFile("assets/player/player.png");
