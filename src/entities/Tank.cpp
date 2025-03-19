@@ -3,8 +3,8 @@
 #include "../entities/Tank.hpp"
 
 
-Tank::Tank(unsigned long long x, unsigned long long y, sf::Texture text, float xT, float yT) : Ennemy(x, y, text, xT, yT) {
-	spriteEnnemy.setTexture(Shared::tankTexture);
+Tank::Tank(unsigned long long x, unsigned long long y, sf::Texture& text, sf::Texture& textR, float xT, float yT, float scaleX, float scaleY, float textRecX, float textRecY) : Ennemy(x, y, text, textR, xT, yT, scaleX, scaleY, textRecX, textRecY) {
+	//spriteEnnemy.setTexture(Shared::tankTexture);
 
 	life = 7;
 	speed = 0.3;

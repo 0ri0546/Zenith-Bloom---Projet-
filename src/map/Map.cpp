@@ -81,23 +81,23 @@ void Map::loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player&
             if (tileValue == 14)
             {
                 //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
-                ennemies.push_back(make_unique<Ennemy>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTexture, 139, 178));
+                ennemies.push_back(make_unique<Ennemy>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTexture, Shared::tankTextureR, 139/* pas toucher*/, 178/* pas toucher*/, 80/*scaleX*/, 80/*scaleY*/, 150/*coliboxX*/, 150/*coliboxY*/)); // scale égaux obligatoire car carré 
             }
             if (tileValue == 15)
             {
                /* Tank newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                 Tankennemies.push_back(newEnnemy);*/
-                ennemies.push_back(make_unique<Tank>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::tankTexture, 139, 178));
+                ennemies.push_back(make_unique<Tank>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::tankTexture, Shared::tankTextureR, 79, 131, 90, 120, 160, 160));
             }
             if (tileValue == 16)
             {
                 
-                ennemies.push_back(make_unique<Drone>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::droneTexture, 139, 178));
+                ennemies.push_back(make_unique<Drone>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::droneTexture, Shared::tankTextureR, 139, 178, 60, 60, 64, 64));
             }
             if (tileValue == 17)
             {
                
-                ennemies.push_back(make_unique<Incendiaire>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, 100, 270));
+                ennemies.push_back(make_unique<Incendiaire>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, Shared::tankTextureR, 135, 84, 120, 70, 80, 60)); // scale avec dif de 50 = perfect 
             } 
         }
             map.push_back(row);

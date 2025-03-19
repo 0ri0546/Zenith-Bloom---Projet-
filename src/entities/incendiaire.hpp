@@ -5,7 +5,7 @@
 
 class Incendiaire : public Ennemy {
 public:
-	Incendiaire(unsigned long long x, unsigned long long y, sf::Texture& text, float xT, float yT);
+	Incendiaire(unsigned long long x, unsigned long long y, sf::Texture& text, sf::Texture& textR, float xT, float yT, float scaleX, float scaleY, float textRecX, float textRecY);
 	//float life = 5;
 
 	//radiusDetection = 50;

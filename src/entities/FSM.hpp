@@ -17,7 +17,7 @@ enum ennemyState {
 
 class Ennemy {
 public:
-    Ennemy(unsigned long long x, unsigned long long y, sf::Texture& text, float xT, float yT);
+    Ennemy(unsigned long long x, unsigned long long y, sf::Texture& text, sf::Texture& textR, float xT, float yT, float scaleX, float scaleY, float textRecX, float textRecY);
     ~Ennemy();
 
     void patrol(Player& player);
@@ -79,7 +79,7 @@ protected :
 
     sf::Sprite spriteEnnemy;
 
-    Animation attackAnim, walkAnim, standAnim, hitAnim; 
+    Animation attackAnim, walkAnim, walkAnimR, standAnim, hitAnim, hitAnimR;
 };
 
 #endif

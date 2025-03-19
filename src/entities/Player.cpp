@@ -1,21 +1,21 @@
 #include "Player.hpp"
 
 Player::Player(sf::Texture& texture) : 
-	jumpAnimation(texture, 194, 256, 3, 0.5f),
-	walkToLeftAnimation(texture, 194, 256, 3, 0.2f), // ----------
-	walkToRightAnimation(texture, 194, 256, 3, 0.2f),
-	staticAnimation(texture, 194, 256, 1, 0.5f),
-	hangedToLefAnimation(texture, 194, 256, 3, 0.5f),
-	hangedToRightAnimation(texture, 194, 256, 3, 0.5f),
+	jumpAnimation(texture, 194, 256, 3, 0.5f, 50/*scaleX*/, 50/*scaleY*/),
+	walkToLeftAnimation(texture, 194, 256, 3, 0.2f, 50, 50), // ----------
+	walkToRightAnimation(texture, 194, 256, 3, 0.2f, 50, 50),
+	staticAnimation(texture, 194, 256, 1, 0.5f, 50, 50),
+	hangedToLefAnimation(texture, 194, 256, 3, 0.5f, 50, 50),
+	hangedToRightAnimation(texture, 194, 256, 3, 0.5f, 50, 50),
 
-	takeDamageAnimation(texture, 256, 256, 1, 0.5f),
-	deathAnimation(texture, 256, 256, 1, 0.5f),
-	healAnimation(texture, 256, 256, 1, 0.5f),
-	attackAnimation(texture, 256, 256, 1, 0.5f),
-	rangedAttackAnimation(texture, 256, 256, 1, 0.5f),
-	repairAnimation(texture, 256, 256, 1, 0.5f),
+	takeDamageAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
+	deathAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
+	healAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
+	attackAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
+	rangedAttackAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
+	repairAnimation(texture, 256, 256, 1, 0.5f, 50, 50),
 
-	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f)
+	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f, 50, 50)
 {
 	playerSprite.setPosition(sf::Vector2f(400, 0));
 	playerSprite.setTexture(texture);

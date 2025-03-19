@@ -12,6 +12,7 @@ sf::Texture Shared::projectileTexture;
 //assets des ennemis
 sf::Texture Shared::ennemyTexture;
 sf::Texture Shared::tankTexture;
+sf::Texture Shared::tankTextureR;
 sf::Texture Shared::droneTexture;
 sf::Texture Shared::incendTexture;
 

@@ -34,4 +34,9 @@ sf::Sprite Projectile::getSprite() const {
     return sprite;
 }
 
+bool Projectile::returnGoing()
+{
+    return goingLeft;
+}
+
 Projectile::~Projectile() {}
