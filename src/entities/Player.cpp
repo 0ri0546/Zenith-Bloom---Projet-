@@ -16,8 +16,8 @@ Player::Player(sf::Texture& texture) :
 	deathToRightAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
 
 	healAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
-	attackToLeftAnimation(Shared::playerReverseTexture, 310, 256, 4, 0.2f, 100, 100),
-	attackToRightAnimation(texture, 310, 256, 4, 0.2f, 100, 100),
+	attackToLeftAnimation(Shared::playerReverseTexture, 275, 256, 4, 0.1f, 100, 100),
+	attackToRightAnimation(texture, 275, 256, 4, 0.1f, 100, 100),
 	rangedAttackAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
 	repairAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
 
@@ -133,11 +133,11 @@ void Player::animate(float deltaTime) {
 		if (isAttacking) {                                              //---------------------Atk---------------------
 			if (lastDepIsLeft) {
 				attackToLeftAnimation.update(deltaTime);
-				attackToLeftAnimation.applyToSprite(playerSprite, 4);
+				attackToLeftAnimation.applyToSprite(playerSprite, 5);
 			}
 			else {
 				attackToRightAnimation.update(deltaTime);
-				attackToRightAnimation.applyToSprite(playerSprite, 4);
+				attackToRightAnimation.applyToSprite(playerSprite, 5);
 			}
 		}                                                               //---------------------Atk---------------------
 	}
