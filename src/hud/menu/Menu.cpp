@@ -2,7 +2,7 @@
 #include <iostream>
 
 void Menu::initFont() {
-    if (!font.loadFromFile("assets/fonts/arial.ttf")) {
+    if (!font.loadFromFile("assets/fonts/Ethnocentric Rg.otf")) {
         std::cerr << "Error loading font! : arial.ttf" << std::endl;
     }
 }

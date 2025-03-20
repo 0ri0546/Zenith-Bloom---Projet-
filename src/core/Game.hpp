@@ -36,7 +36,8 @@ public:
 		CONTROL_MENU,
 		GAMEOVER_MENU,
 		VICTORY_MENU,
-		TITLE_MENU
+		TITLE_MENU,
+		EDITEUR
 	};
 
 private:

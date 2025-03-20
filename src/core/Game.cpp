@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : isRunning(false), currentState(GameState::TITLE_MENU), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font), player(Shared::playerTexture) {
+Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font), player(Shared::playerTexture) {
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
@@ -277,6 +277,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			isRunning = false;
 			window.close();
 		}
+		else if (result == 4) { // Editeur Mode
+			currentState = GameState::EDITEUR;
+		}
 		break;
 	}
 	case GameState::PAUSE_MENU: {
@@ -291,6 +294,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		}
 		else if (result == 3) { // Menu Principal
 			currentState = GameState::MAIN_MENU;
+		}
+		else if (result == 4) { // Editeur Mode
+			currentState = GameState::EDITEUR;
 		}
 		break;
 	}
