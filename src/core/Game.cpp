@@ -4,7 +4,7 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
-	gamemap.loadMap(1, ennemies, player, window);
+	gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy);
 	view.setCenter(player.getShape().getPosition());
 	//grid.loadGrid(gamemap);
 
@@ -102,6 +102,26 @@ void Game::update(float deltaTime) {
 			player.setAnimationDamage = false;
 		}
 
+		for (auto it = capsulesEnergy.begin(); it != capsulesEnergy.end(); ) {
+			if ((*it)->getSprite().getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
+				player.augmenterEnergie((*it)->getEnergyValue());
+				it = capsulesEnergy.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
+
+		for (auto it = capsulesHP.begin(); it != capsulesHP.end(); ) {
+			if ((*it)->getSprite().getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
+				player.augmenterHP((*it)->getHPValue());
+				it = capsulesHP.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
+
 		view.setCenter(player.getShape().getPosition());
 		if (player.getCanDisplayGameOverBool()) {
 			currentState = GameState::GAMEOVER_MENU;
@@ -167,6 +187,13 @@ void Game::render() {
 				++it;
 			}
 		}
+
+		for (auto& item : capsulesEnergy) {
+			window.draw(item->getSprite());
+		}
+		for (auto& item : capsulesHP) {
+			window.draw(item->getSprite());
+		}
 		window.draw(player.getShapeSmoke());
 		window.draw(player.getShape());
 		for (const auto& tile : gamemap.getTiles()) {
@@ -178,8 +205,7 @@ void Game::render() {
 		//----HUD----
 		window.draw(player.getShapeFillEnergy());
 		window.draw(player.getShapeFillHP());
-		if (player.getHP()<50) { window.draw(player.getLifeBarSprite()); }
-		else { window.draw(player.getLifeBar2Sprite()); }
+		window.draw(player.getLifeBar2Sprite()); 
 		window.draw(player.getEnergyBarSprite());
 		if (isDay) { window.draw(player.getDaySprite()); }
 		else { window.draw(player.getNightSprite()); }

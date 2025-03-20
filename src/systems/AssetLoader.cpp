@@ -39,6 +39,8 @@ void Assets::loadAssetsFromFiles() {
 	Shared::lifeBar2Texture.loadFromFile("assets/textures/hud/lifeBar2.png");
 	Shared::itemsTexture.loadFromFile("assets/maps/tileset/items.png");
 	Shared::backgroundTexture.loadFromFile("assets/textures/menu/background.jpg");
+	Shared::capsuleHPTexture.loadFromFile("assets/maps/tileset/capsule_hp.png");
+	Shared::capsuleEnergyTexture.loadFromFile("assets/maps/tileset/capsule_energie.png");
 }
 
 void Assets::resize(sf::Sprite& sprite, float scaleX, float scaleY) {

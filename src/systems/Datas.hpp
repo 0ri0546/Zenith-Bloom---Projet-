@@ -52,6 +52,8 @@ public:
 	static sf::Texture groundTexture; 
 	static sf::Texture floorTexture; 
 	static sf::Texture itemsTexture;
+	static sf::Texture capsuleHPTexture;
+	static sf::Texture capsuleEnergyTexture;
 	//static sf::Sprite groundSprite; 
 
 	//HUD

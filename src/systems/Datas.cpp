@@ -25,6 +25,8 @@ sf::Texture Shared::projIcend;
 sf::Texture Shared::groundTexture;
 sf::Texture Shared::floorTexture;
 sf::Texture Shared::itemsTexture;
+sf::Texture Shared::capsuleHPTexture;
+sf::Texture Shared::capsuleEnergyTexture;
 //sf::Sprite groundSprite;
 
 //assets du HUD

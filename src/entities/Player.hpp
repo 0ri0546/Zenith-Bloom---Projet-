@@ -52,7 +52,7 @@ public:
 
 private:
 	sf::Sprite swordSprite, smokeSprite, playerSprite;
-	sf::Sprite daySprite, nightSprite, lifeBarSprite, lifeBar2Sprite, energyBarSprite, progressBarSprite;
+	sf::Sprite daySprite, nightSprite, lifeBarSprite, energyBarSprite, progressBarSprite;
 
 	sf::RectangleShape shapeFillEnergy, shapeFillHP;
 

@@ -13,3 +13,4 @@ void CapsuleEnergie::utiliser(Player& joueur) {
 }
 
 int CapsuleEnergie::getEnergyValue() const { return energyValue; }
+sf::Sprite CapsuleEnergie::getSprite() const { return sprite; }

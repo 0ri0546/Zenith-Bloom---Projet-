@@ -33,7 +33,7 @@ void Map::preshowTile(int x, int y, sf::RenderWindow& window) {
     tempTile = std::make_unique<Tiles>(posX, posY, numtile);
 }
 
-void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window) {
+void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie) {
     map.clear();
     tiles.clear();
     currentmap = mapNum;
@@ -83,6 +83,12 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
                 }
                 if (tileValue == 996) {
                     ennemies.push_back(make_unique<Incendiaire>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, Shared::incendTextureR, 132, 80, 120, 70, 80, 60)); // scale avec dif de 50 = perfect 
+                }
+                if (tileValue == 666) {
+                    capsulesEnergie.push_back(make_unique<CapsuleEnergie>(15, Shared::capsuleEnergyTexture, i / 3 * gridCellSize, map.size() * gridCellSize));
+                }
+                if (tileValue == 667) {
+                    capsulesHP.push_back(make_unique<CapsuleHP>(15, Shared::capsuleHPTexture, i / 3 * gridCellSize, map.size() * gridCellSize));
                 }
             }
         }

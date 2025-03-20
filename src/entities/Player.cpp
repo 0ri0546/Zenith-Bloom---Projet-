@@ -57,29 +57,23 @@ Player::Player(sf::Texture& texture) :
 	isRepairing = false;
 
 	energy = 100.f;
+	energyMax = 100.f;
 	maxJetpackEnergy = 100.f;
 	jetpackPower = -3.f;
 	energyConsumption = 10.f;
 	energyRecharge = 1.f;
-	
-	lifeBarSprite.setTexture(Shared::lifeBarTexture);
-	assets.resize(lifeBarSprite, 300, 100);
-	lifeBarSprite.setPosition(20, 20);
 
-	lifeBar2Sprite.setTexture(Shared::lifeBar2Texture);
-	assets.resize(lifeBar2Sprite, 300, 100);
-	lifeBar2Sprite.setPosition(20, 20);
+	lifeBarSprite.setTexture(Shared::lifeBar2Texture);
+	assets.resize(lifeBarSprite, 300, 100);
 
 	energyBarSprite.setTexture(Shared::energyBarTexture);
 	assets.resize(energyBarSprite, 268, 100);
-	energyBarSprite.setPosition(33, 20 * 2 + lifeBar2Sprite.getGlobalBounds().height);
 
 	progressBarSprite.setTexture(Shared::progressBarTexture);
 	assets.resize(progressBarSprite, 270, 40);
-	progressBarSprite.setPosition(33, 20 * 2 + energyBarSprite.getGlobalBounds().height * 2);
 
 	damage = 15;
-	hp = 5.f; // -------------------------------------------------------------------------------------------HP---------------
+	hp = 10.f; // -------------------------------------------------------------------------------------------HP---------------
 	maxHp = 100.f;
 
 	daySprite.setTexture(Shared::dayTexture);
@@ -391,7 +385,7 @@ void Player::updateHUD(sf::View& view) {
 	sf::Vector2f viewSize = view.getSize();
 
 	float spacing = 20;
-	float sizeY = 35;
+	float sizeY = 36;
 
 	float hudX = viewCenter.x - (viewSize.x / 2) + spacing;
 	float hudY = viewCenter.y - (viewSize.y / 2) + spacing;
@@ -403,11 +397,10 @@ void Player::updateHUD(sf::View& view) {
 	shapeFillEnergy.setFillColor(sf::Color::Green);
 
 	lifeBarSprite.setPosition(hudX, hudY);
-	lifeBar2Sprite.setPosition(hudX, hudY);
-	energyBarSprite.setPosition(hudX + 15, hudY + lifeBar2Sprite.getGlobalBounds().height + spacing);
-	progressBarSprite.setPosition(hudX + 15, hudY + lifeBar2Sprite.getGlobalBounds().height * 2 + (spacing * 3));
+	energyBarSprite.setPosition(hudX + 15, hudY + lifeBarSprite.getGlobalBounds().height + spacing);
+	progressBarSprite.setPosition(hudX + 15, hudY + lifeBarSprite.getGlobalBounds().height * 2 + (spacing * 3));
 
-	shapeFillEnergy.setPosition(hudX + spacing - 1, hudY + lifeBar2Sprite.getGlobalBounds().height + 53);
+	shapeFillEnergy.setPosition(hudX + spacing - 1, hudY + lifeBarSprite.getGlobalBounds().height + 53);
 	shapeFillHP.setPosition(hudX + spacing - 2, hudY + (spacing * 2) + 8);
 	//------ENERGY------
 	//------DAY/NIGHT------
@@ -475,7 +468,7 @@ sf::Sprite Player::getShape() const { return playerSprite; }
 sf::Sprite Player::getShapeAtk() const { return swordSprite; }
 sf::Sprite Player::getShapeSmoke() const { return smokeSprite; }
 sf::Sprite Player::getLifeBarSprite() const { return lifeBarSprite; }
-sf::Sprite Player::getLifeBar2Sprite() const { return lifeBar2Sprite; }
+sf::Sprite Player::getLifeBar2Sprite() const { return lifeBarSprite; }
 sf::Sprite Player::getEnergyBarSprite() const { return energyBarSprite; }
 sf::Sprite Player::getProgressBarSprite() const { return progressBarSprite; }
 sf::RectangleShape Player::getShapeFillEnergy() const { return shapeFillEnergy; }
