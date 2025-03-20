@@ -15,8 +15,7 @@ Tank::Tank(unsigned long long x, unsigned long long y, sf::Texture& text, sf::Te
 
 }
 
-void Tank::attack(Player& player, float deltaTime)
-{
+void Tank::attack(Player& player, float deltaTime) {
 	if (player.getShape().getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
         isAttacking = true;
         if (player.getShape().getPosition().x < spriteEnnemy.getPosition().x) {
