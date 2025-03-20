@@ -1,4 +1,4 @@
-#include "Animation.hpp"
+#include "../systems/Animation.hpp"
 
 Animation::Animation(sf::Texture& texture, int frameWidth, int frameHeight, int numFrames, float switchTime, float scaleX, float scaleY)
     : texture(texture), frameWidth(frameWidth), frameHeight(frameHeight), numFrames(numFrames), switchTime(switchTime), scaleX(scaleX), scaleY(scaleY) {

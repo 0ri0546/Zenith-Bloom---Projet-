@@ -210,6 +210,7 @@
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
     <ClInclude Include="src\map\Tiles.hpp" />
+    <ClInclude Include="src\systems\Animation.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
     <ClInclude Include="src\systems\audioManager.hpp" />
     <ClInclude Include="src\systems\AudioSystem.hpp" />
