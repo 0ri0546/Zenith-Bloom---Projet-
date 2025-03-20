@@ -12,6 +12,7 @@ Projectile::Projectile(sf::Texture& texture, sf::Vector2f position, bool goingLe
     gravity = 500.0f;
     gravityForWater = 1000.f;
     goingLeft = false;
+    rotationSpeed = 5.0f;
 }
 
 void Projectile::update(float deltaTime) {

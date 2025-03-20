@@ -6,10 +6,11 @@
 #include <iostream>
 #include <unordered_map>
 #include <SFML/Window/Keyboard.hpp>
+#include <cmath> 
 
 namespace Config {
-	static int WINDOW_WIDTH = 1920; // 800
-	static int WINDOW_HEIGHT = 1080; // 800
+	static int WINDOW_WIDTH = 1920;
+	static int WINDOW_HEIGHT = 1080;
 }
 
 namespace Keybind {
@@ -64,7 +65,6 @@ public:
 	static sf::Texture eolienneTexture;
 	static sf::Texture lampadaireTexture;
 	static sf::Texture panneauTexture;
-	//static sf::Sprite groundSprite; 
 
 	//HUD
 	static sf::Texture dayTexture;

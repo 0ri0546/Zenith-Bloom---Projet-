@@ -5,23 +5,32 @@
 
 class BouncingTitle {
 public:
+    // constructeur
     BouncingTitle(const std::string& title, sf::Font& font);
+
+    //void
     void update(float deltaTime);
     void handleInput(bool& gameStarted);
     void draw(sf::RenderWindow& window);
+
+    // autres methodes
     bool fallingText(float deltaTime);
+
+    // variables
     bool canSkip = false;
 
 private:
-    sf::Text titleText, pressKeyText;
-    sf::Text instructionText;
+    sf::Clock timer, blinkingTimer;
+
+    sf::Text titleText, instructionText, pressKeyText;
+
     float velocityY = 0.f;
     float gravity = 980.f;
     float bounceDamping = 0.5f;
+    float instructionAlpha = 0.f;
+
     bool isWaitingForInput = false;
     bool showInstruction = false;
-    float instructionAlpha = 0.f;
-    sf::Clock timer, blinkingTimer;
 };
 
 #endif 

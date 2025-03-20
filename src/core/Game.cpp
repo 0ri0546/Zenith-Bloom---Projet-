@@ -6,7 +6,6 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 	
 	gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy);
 	view.setCenter(player.getShape().getPosition());
-	//grid.loadGrid(gamemap);
 
 	textFall = false;
 	isDay = true;
@@ -99,11 +98,8 @@ void Game::update(float deltaTime) {
 				}
 			}
 		}
-		if (ennemies.size() == 0)
-		{
-			player.setAnimationDamage = false;
-		}
 
+		if (ennemies.size() == 0) { player.setAnimationDamage = false; }
 		for (auto it = capsulesEnergy.begin(); it != capsulesEnergy.end(); ) {
 			if ((*it)->getSprite().getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
 				player.augmenterEnergie((*it)->getEnergyValue());
@@ -137,7 +133,6 @@ void Game::update(float deltaTime) {
 				++it;
 			}
 		}
-
 		for (auto it = player.projectilesWater.begin(); it != player.projectilesWater.end();) {
 			bool erased = false;
 
@@ -153,8 +148,6 @@ void Game::update(float deltaTime) {
 				++it;
 			}
 		}
-
-		// Gestion des projectiles des ennemis
 		for (auto& ennemy : ennemies) {
 			auto& enemyProjectiles = ennemy->getProj();
 			for (auto it = enemyProjectiles.begin(); it != enemyProjectiles.end();) {
@@ -167,13 +160,11 @@ void Game::update(float deltaTime) {
 						break;
 					}
 				}
-
 				if (!erased) {
 					++it;
 				}
 			}
 		}
-
 
 		view.setCenter(player.getShape().getPosition());
 		if (player.getCanDisplayGameOverBool()) {
