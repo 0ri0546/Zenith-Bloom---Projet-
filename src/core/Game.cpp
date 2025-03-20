@@ -372,7 +372,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 void Game::handleKeyboardInput(const sf::Event& event) {
 	if (event.type == sf::Event::KeyPressed) {
 		if (event.key.code == sf::Keyboard::Escape) {
-			if (currentState == GameState::PLAYING) {
+			if (currentState == GameState::PLAYING || currentState == GameState::EDITOR) {
 				currentState = GameState::PAUSE_MENU;
 				isGamePaused = true;
 			}
