@@ -2,13 +2,14 @@
 
 Ennemy::Ennemy(unsigned long long x, unsigned long long y, sf::Texture& text, sf::Texture& textR, float xT, float yT, float scaleX, float scaleY, float textRecX, float textRecY) : x(x), y(y), 
 
-    attackAnim(text, xT, yT, 4, 0.5f, scaleX, scaleY),
+    attackAnim(text, xT, yT, 4, 0.07f, scaleX, scaleY),
     walkAnim(text, xT, yT, 4, 0.05f, scaleX, scaleY),
     standAnim(text, xT, yT, 1, 0.5f, scaleX, scaleY),
     hitAnim(text, xT, yT, 1, 3.f, scaleX, scaleY),
 
     walkAnimR(textR, xT, yT, 4, 0.05f, scaleX, scaleY),
-    hitAnimR(textR, xT, yT, 1, 3.f, scaleX, scaleY)
+    hitAnimR(textR, xT, yT, 1, 3.f, scaleX, scaleY),
+    attackAnimR(textR, xT, yT, 4, 0.1f, scaleX, scaleY)
 {
 
 

@@ -28,9 +28,10 @@ public:
     void colEnnemyToPlayer(Player& player, vector<std::unique_ptr<Ennemy>>& ennemies);
     void colEnnemiToGround(vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles);
 
-    void runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime);
+    virtual void runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime);
 
     void rangedAttack(float deltaTime);
+
     void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 	void fillEmptySpacesWithShadows(std::vector<std::unique_ptr<Tiles>>& tiles);
 
@@ -79,7 +80,7 @@ protected :
 
     sf::Sprite spriteEnnemy;
 
-    Animation attackAnim, walkAnim, walkAnimR, standAnim, hitAnim, hitAnimR;
+    Animation attackAnim, walkAnim, walkAnimR, standAnim, hitAnim, hitAnimR, attackAnimR;
 };
 
 #endif
