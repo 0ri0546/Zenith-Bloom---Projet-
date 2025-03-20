@@ -27,8 +27,10 @@ public:
 
 	vector<vector<char>> getMap();
 	vector<unique_ptr<Tiles>>& getTiles();
+	std::unique_ptr<Tiles> tempTile;
 	void spawnTile(int x, int y, int mapNum);
 	void supprTile(int x, int y);
+	void preshowTile(int x, int y, sf::RenderWindow& window);
 	void loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window);
 	void editormode(sf::RenderWindow& window, sf::View& view);
 	void handleInput(sf::RenderWindow& window, sf::View& view);
