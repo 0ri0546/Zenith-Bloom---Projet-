@@ -26,6 +26,13 @@ vector<vector<char>> Map::getMap() {
      }
  }
 
+void Map::preshowTile(int x, int y, sf::RenderWindow& window) {
+    float posX = x * gridCellSize;
+    float posY = y * gridCellSize;
+
+    tempTile = std::make_unique<Tiles>(posX, posY, numtile);
+}
+
 void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window) {
     map.clear();
     tiles.clear();
@@ -168,6 +175,14 @@ void Map::modifyMapFile(int gridX, int gridY, int type) {
 }
 
 void Map::editormode(sf::RenderWindow& window, sf::View& view) {
+    sf::Vector2i mousePosWindow = sf::Mouse::getPosition(window);
+    sf::Vector2f mousePosWorld = window.mapPixelToCoords(mousePosWindow, view);
+
+    int gridX = static_cast<int>(mousePosWorld.x) / gridCellSize;
+    int gridY = static_cast<int>(mousePosWorld.y) / gridCellSize;
+
+    preshowTile(gridX, gridY, window);
+
     handleInput(window, view);
 }
 

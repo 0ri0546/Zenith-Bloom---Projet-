@@ -233,6 +233,7 @@ void Game::render() {
 				window.draw(tile->getShadowShape());
 			}
 		}
+		window.draw(gamemap.tempTile->getSprite());
 		break;
 	default:
 		break;
