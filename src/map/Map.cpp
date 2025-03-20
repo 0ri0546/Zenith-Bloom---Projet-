@@ -59,7 +59,7 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
 
                 row.push_back(tileCode[0]);
 
-                if (tileValue < 10) {
+                if (tileValue < 102) {
                     tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, tileValue));
                 }
                 if (tileValue == 14) {
