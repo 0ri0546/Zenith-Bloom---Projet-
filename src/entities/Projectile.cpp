@@ -3,16 +3,18 @@
 Projectile::Projectile(sf::Texture& texture, sf::Vector2f position, bool goingLeft) {
     sprite.setTexture(texture);
     sprite.setPosition(position);
-    speed = 1300.0f;
+    speed = 1100.0f;
     velocity.x = goingLeft ? -speed : speed;
 
-    velocityY = -50.0f;
+    velocityY = -200.0f;
     gravity = 500.0f;
 }
 
 void Projectile::update(float deltaTime) {
     velocityY += gravity * deltaTime;
     sprite.move(velocity.x * deltaTime, velocityY * deltaTime);
+    float angle = std::atan2(velocityY, velocity.x) * 180.f / 3.14159f;
+    sprite.setRotation(angle);
 }
 
 //void Projectile::updateShootEnnemy(float deltaTime, vector<Ennemy>& ennemie)
