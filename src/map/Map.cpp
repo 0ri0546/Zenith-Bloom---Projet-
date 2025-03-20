@@ -69,19 +69,19 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
                 if (tileValue < 102) {
                     tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, tileValue));
                 }
-                if (tileValue == 14) {
+                if (tileValue == 999) {
                     //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                     ennemies.push_back(make_unique<Ennemy>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTexture, Shared::tankTextureR, 139/* pas toucher*/, 178/* pas toucher*/, 80/*scaleX*/, 80/*scaleY*/, 150/*coliboxX*/, 150/*coliboxY*/)); // scale égaux obligatoire car carré 
                 }
-                if (tileValue == 15) {
+                if (tileValue == 998) {
                     /* Tank newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                      Tankennemies.push_back(newEnnemy);*/
                     ennemies.push_back(make_unique<Tank>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::tankTexture, Shared::tankTextureR, 79, 131, 90, 120, 160, 160));
                 }
-                if (tileValue == 16) {
+                if (tileValue == 997) {
                     ennemies.push_back(make_unique<Drone>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::droneTexture, Shared::tankTextureR, 139, 178, 60, 60, 64, 64));
                 }
-                if (tileValue == 17) {
+                if (tileValue == 996) {
                     ennemies.push_back(make_unique<Incendiaire>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, Shared::incendTextureR, 132, 80, 120, 70, 80, 60)); // scale avec dif de 50 = perfect 
                 }
             }

@@ -43,7 +43,6 @@ void Tank::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Proje
 
     colEnnemiToGround(ennemies, tiles);
 
-    cout << onTheGround << endl;
 
 
 

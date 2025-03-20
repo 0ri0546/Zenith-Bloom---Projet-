@@ -121,7 +121,8 @@ void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, vect
             hitAnim.applyToSprite(spriteEnnemy, 1);
         }
         
-        //cout << "anim \n"; 
+        //
+        // << "anim \n"; 
     }
     //ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 }
@@ -209,7 +210,6 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Pro
 
         colEnnemiToGround(ennemies, tiles);
 
-        cout << onTheGround << endl;
 
 
 

@@ -5,7 +5,6 @@ Game::Game() : isRunning(false), currentState(GameState::TITLE_MENU), optionsMen
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
 	gamemap.loadMap(1, ennemies, player, window);
-	std::cout << "Nombre d'ennemis chargés : " << ennemies.size() << std::endl;
 	view.setCenter(player.getShape().getPosition());
 	//grid.loadGrid(gamemap);
 
@@ -102,20 +101,11 @@ void Game::update(float deltaTime) {
 		{
 			player.setAnimationDamage = false;
 		}
-		/*for (auto& tank : Tanks) {
-			tank.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
-			auto& projectiles = tank.getProj();
-			for (auto it = projectiles.begin(); it != projectiles.end();) {
-				if (player.takeDamage(tank.getProjShape(*it))) {
-					it = projectiles.erase(it);
-				}
-				else {
-					++it;
-				}
-			}
 
-		}*/
 		view.setCenter(player.getShape().getPosition());
+		if (player.getCanDisplayGameOverBool()) {
+			currentState = GameState::GAMEOVER_MENU;
+		}
 		break;
 
 	case GameState::EDITOR:
@@ -139,11 +129,6 @@ void Game::render() {
 		mainMenu.render(window);
 		break;
 	case GameState::PLAYING:
-		window.draw(player.getShapeSmoke());
-		window.draw(player.getShape());
-		window.draw(player.getShapeAtk());
-		
-		
 		for (auto& ennemy : ennemies) {
 			//window.draw(ennemy->circle);
 			window.draw(ennemy->getSprite());
@@ -165,9 +150,7 @@ void Game::render() {
 		}
 		for (auto& ennemy : ennemies) {
 			for (auto& proj : ennemy->getProj()) {
-				
 				window.draw(ennemy->getProjShape(proj));
-				
 			}
 		}
 		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
@@ -184,6 +167,8 @@ void Game::render() {
 				++it;
 			}
 		}
+		window.draw(player.getShapeSmoke());
+		window.draw(player.getShape());
 		for (const auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 			if (tile->hasShadow()) {

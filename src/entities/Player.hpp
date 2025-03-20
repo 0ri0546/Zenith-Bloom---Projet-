@@ -40,6 +40,7 @@ public:
 	float getEnergie() const;
 	void augmenterHP(int quantite);
 	float getHP() const;
+	bool getCanDisplayGameOverBool() const;
 
 	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
@@ -47,6 +48,7 @@ public:
 	std::vector<Projectile> projectiles;
 	bool setAnimationDamage;
 	bool canAttack;
+	
 
 private:
 	sf::Sprite swordSprite, smokeSprite, playerSprite;
@@ -59,6 +61,7 @@ private:
 	sf::Clock rangedAttackClock;
 	sf::Clock rangedAttackClockDuration;
 	sf::Clock takeDamageClock;
+	sf::Clock death;
 
 	Assets assets;
 
@@ -72,6 +75,7 @@ private:
 	bool canJump;
 	bool lastDepIsLeft;
 	int vie;
+	bool isDead;
 	bool hangedToWallsLeft;
 	bool hangedToWallsRight;
 	float depX;
@@ -87,8 +91,10 @@ private:
 	float hp;
 	float maxHp;
 	bool isAttacking;
+	bool isRangedAttacking;
 	bool takingDamage;
 	float progress;
+	bool canDisplayGameOverBool;
 
 	Animation 
 		jumpToLeftAnimation, jumpToRightAnimation,
