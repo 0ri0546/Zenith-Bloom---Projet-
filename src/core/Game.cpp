@@ -266,7 +266,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			window.close();
 		}
 		else if (result == 4) { // Editeur Mode
-			currentState = GameState::EDITEUR;
+			currentState = GameState::EDITOR;
 		}
 		break;
 	}
@@ -284,7 +284,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			currentState = GameState::MAIN_MENU;
 		}
 		else if (result == 4) { // Editeur Mode
-			currentState = GameState::EDITEUR;
+			currentState = GameState::EDITOR;
 		}
 		break;
 	}
