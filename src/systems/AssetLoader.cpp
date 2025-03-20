@@ -35,7 +35,6 @@ void Assets::loadAssetsFromFiles() {
 
 	Shared::lifeBarTexture.loadFromFile("assets/textures/hud/lifeBar.png");
 	Shared::lifeBar2Texture.loadFromFile("assets/textures/hud/lifeBar2.png");
-	Shared::itemsTexture.loadFromFile("assets/maps/tileset/items.png");
 }
 
 void Assets::resize(sf::Sprite& sprite, float scaleX, float scaleY) {
