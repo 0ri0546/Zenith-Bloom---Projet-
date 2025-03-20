@@ -121,6 +121,7 @@ void Game::update(float deltaTime) {
 	case GameState::EDITOR:
 		gamemap.editormode(window, view);
 		window.setView(view);
+		break;
 	default:
 		view.setCenter(static_cast<float>(Config::WINDOW_WIDTH) / 2.f, static_cast<float>(Config::WINDOW_HEIGHT) / 2.f);
 		window.setView(view);
