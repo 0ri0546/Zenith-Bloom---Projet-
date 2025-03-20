@@ -10,16 +10,18 @@ Player::Player(sf::Texture& texture) :
 	hangedToLefAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.5f, 100, 100),
 	hangedToRightAnimation(texture, 194, 256, 3, 0.5f, 100, 100),
 
-	takeDamageToLeftAnimation(Shared::playerReverseTexture, 256, 256, 2, 0.5f, 100, 100),
-	takeDamageToRightAnimation(texture, 256, 256, 2, 0.5f, 100, 100),
-	deathToLeftAnimation(Shared::playerReverseTexture, 256, 256, 1, 0.5f, 100, 100),
-	deathToRightAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
+	takeDamageToLeftAnimation(Shared::playerReverseTexture, 194, 256, 2, 0.5f, 100, 100),
+	takeDamageToRightAnimation(texture, 194, 256, 2, 0.5f, 100, 100),
+	deathToLeftAnimation(Shared::playerReverseTexture, 257, 256, 6, 0.3f, 100, 100),
+	deathToRightAnimation(texture, 257, 256, 6, 0.3f, 100, 100),
 
 	healAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
 	attackToLeftAnimation(Shared::playerReverseTexture, 275, 256, 4, 0.1f, 100, 100),
 	attackToRightAnimation(texture, 275, 256, 4, 0.1f, 100, 100),
-	rangedAttackAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
-	repairAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
+	rangedAttackToLeftAnimation(Shared::playerReverseTexture, 310, 256, 4, 0.3f, 100, 100),
+	rangedAttackToRightAnimation(texture, 310, 256, 4, 0.3f, 100, 100),
+	repairToLeftAnimation(Shared::playerReverseTexture, 256, 256, 5, 0.3f, 100, 100),
+	repairToRightAnimation(texture, 256, 256, 5, 0.3f, 100, 100),
 
 	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f, 50, 50)
 {
@@ -46,34 +48,32 @@ Player::Player(sf::Texture& texture) :
 	velocityX = 0.f;
 
 	isAttacking = false;
+	isRangedAttacking = false;
 	setAnimationDamage = false;	
 	canAttack = true;
 	takingDamage = false;
+	isDead = false;
+	canDisplayGameOverBool = false;	
+	isRepairing = false;
 
 	energy = 100.f;
+	energyMax = 100.f;
 	maxJetpackEnergy = 100.f;
 	jetpackPower = -3.f;
 	energyConsumption = 10.f;
 	energyRecharge = 1.f;
-	
-	lifeBarSprite.setTexture(Shared::lifeBarTexture);
-	assets.resize(lifeBarSprite, 300, 100);
-	lifeBarSprite.setPosition(20, 20);
 
-	lifeBar2Sprite.setTexture(Shared::lifeBar2Texture);
-	assets.resize(lifeBar2Sprite, 300, 100);
-	lifeBar2Sprite.setPosition(20, 20);
+	lifeBarSprite.setTexture(Shared::lifeBar2Texture);
+	assets.resize(lifeBarSprite, 300, 100);
 
 	energyBarSprite.setTexture(Shared::energyBarTexture);
 	assets.resize(energyBarSprite, 268, 100);
-	energyBarSprite.setPosition(33, 20 * 2 + lifeBar2Sprite.getGlobalBounds().height);
 
 	progressBarSprite.setTexture(Shared::progressBarTexture);
 	assets.resize(progressBarSprite, 270, 40);
-	progressBarSprite.setPosition(33, 20 * 2 + energyBarSprite.getGlobalBounds().height * 2);
 
 	damage = 15;
-	hp = 100.f;
+	hp = 10.f; // -------------------------------------------------------------------------------------------HP---------------
 	maxHp = 100.f;
 
 	daySprite.setTexture(Shared::dayTexture);
@@ -83,96 +83,91 @@ Player::Player(sf::Texture& texture) :
 }
 
 void Player::animate(float deltaTime) {
-	// méthode pour animer le joueur
-	if (setAnimationDamage) {                                           //---------------------takeDamage---------------------
-		if (lastDepIsLeft) {
-			takeDamageToLeftAnimation.update(deltaTime);
-			takeDamageToLeftAnimation.applyToSprite(playerSprite, 2);
-		}
-		else {
-			takeDamageToRightAnimation.update(deltaTime);
-			takeDamageToRightAnimation.applyToSprite(playerSprite, 2);
-		}
-	}                                                                   //--------------------takeDamage---------------------
-	else {
-		if (velocityY < 100 && velocityY > -100) {                      //---------------------isOnGround---------------------
-			if (!velocityX < 1 && !velocityX > -1) {                    //---------------------deplacement---------------------
-				if (lastDepIsLeft) {
-					walkToLeftAnimation.update(deltaTime);
-					walkToLeftAnimation.applyToSprite(playerSprite, 0);
-				}
-				else {
-					walkToRightAnimation.update(deltaTime);
-					walkToRightAnimation.applyToSprite(playerSprite, 0);
-				}
-			}                                                           //---------------------deplacement---------------------
-			else {                                                      //---------------------Static---------------------
-				if (lastDepIsLeft) {
-					staticToLeftAnimation.update(deltaTime);
-					staticToLeftAnimation.applyToSprite(playerSprite, 1);
-				}
-				else {
-					staticToRightAnimation.update(deltaTime);
-					staticToRightAnimation.applyToSprite(playerSprite, 1);
-				}
-			}
-		}                                                               //---------------------Static---------------------
-		else {                                                          //---------------------Jump---------------------
-			if (hangedToWallsLeft) {
-				hangedToLefAnimation.update(deltaTime);
-				hangedToLefAnimation.applyToSprite(playerSprite, 8);
-			}
-			else if (hangedToWallsRight) {
-				hangedToRightAnimation.update(deltaTime);
-				hangedToRightAnimation.applyToSprite(playerSprite, 8);
-			}
-			else {
-				if (lastDepIsLeft) {
-					jumpToLeftAnimation.update(deltaTime);
-					jumpToLeftAnimation.applyToSprite(playerSprite, 8);
-				}
-				else {
-					jumpToRightAnimation.update(deltaTime);
-					jumpToRightAnimation.applyToSprite(playerSprite, 8);
-				}
-			}
-		}                                                               //---------------------Jump---------------------
-		if (isAttacking) {                                              //---------------------Atk---------------------
-			if (lastDepIsLeft) {
-				attackToLeftAnimation.update(deltaTime);
-				attackToLeftAnimation.applyToSprite(playerSprite, 5);
-			}
-			else {
-				attackToRightAnimation.update(deltaTime);
-				attackToRightAnimation.applyToSprite(playerSprite, 5);
-			}
-		}                                                               //---------------------Atk---------------------
+	std::cout << hp << std::endl;
+
+	// Gestion de la mort
+	if (isDead) {
+		(lastDepIsLeft ? deathToLeftAnimation : deathToRightAnimation).update(deltaTime);
+		(lastDepIsLeft ? deathToLeftAnimation : deathToRightAnimation).applyToSprite(playerSprite, 9);
+		return;
 	}
-	if (hp <= 0) {                                                      //---------------------Death-------------------
-		if (lastDepIsLeft) {
-			deathToLeftAnimation.update(deltaTime);
-			deathToLeftAnimation.applyToSprite(playerSprite, 4);
+
+	// Gestion des dégâts
+	if (setAnimationDamage) {
+		(lastDepIsLeft ? takeDamageToLeftAnimation : takeDamageToRightAnimation).update(deltaTime);
+		(lastDepIsLeft ? takeDamageToLeftAnimation : takeDamageToRightAnimation).applyToSprite(playerSprite, 2);
+		return;
+	}
+
+	// Gestion du mouvement et des actions
+	if (std::abs(velocityY) < 100) { // Joueur au sol
+		if (std::abs(velocityX) > 1) { // Déplacement
+			(lastDepIsLeft ? walkToLeftAnimation : walkToRightAnimation).update(deltaTime);
+			(lastDepIsLeft ? walkToLeftAnimation : walkToRightAnimation).applyToSprite(playerSprite, 0);
 		}
-		else {
-			deathToRightAnimation.update(deltaTime);
-			deathToRightAnimation.applyToSprite(playerSprite, 4);
+		else { // Statique
+			(lastDepIsLeft ? staticToLeftAnimation : staticToRightAnimation).update(deltaTime);
+			(lastDepIsLeft ? staticToLeftAnimation : staticToRightAnimation).applyToSprite(playerSprite, 1);
 		}
-	}                                                                   //---------------------Death-------------------
+	}
+	else { // En l'air (saut ou accroché)
+		if (hangedToWallsLeft || hangedToWallsRight) {
+			(hangedToWallsLeft ? hangedToLefAnimation : hangedToRightAnimation).update(deltaTime);
+			(hangedToWallsLeft ? hangedToLefAnimation : hangedToRightAnimation).applyToSprite(playerSprite, 8);
+		}
+		else { // Saut normal
+			(lastDepIsLeft ? jumpToLeftAnimation : jumpToRightAnimation).update(deltaTime);
+			(lastDepIsLeft ? jumpToLeftAnimation : jumpToRightAnimation).applyToSprite(playerSprite, 8);
+		}
+	}
+
+	// Gestion des attaques
+	if (isAttacking) {
+		(lastDepIsLeft ? attackToLeftAnimation : attackToRightAnimation).update(deltaTime);
+		(lastDepIsLeft ? attackToLeftAnimation : attackToRightAnimation).applyToSprite(playerSprite, 5);
+	}
+
+	if (isRangedAttacking) {
+		(lastDepIsLeft ? rangedAttackToLeftAnimation : rangedAttackToRightAnimation).update(deltaTime);
+		(lastDepIsLeft ? rangedAttackToLeftAnimation : rangedAttackToRightAnimation).applyToSprite(playerSprite, 4);
+	}
+
+	if (isRepairing) {
+		(lastDepIsLeft ? repairToLeftAnimation : repairToRightAnimation).update(deltaTime);
+		(lastDepIsLeft ? repairToLeftAnimation : repairToRightAnimation).applyToSprite(playerSprite, 10);
+	}
+
 }
 
 void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
 	// méthode pour mettre à jour le joueur
+	if (hp <= 0) {
+		if (!isDead) {
+			isDead = true;
+			death.restart();
+		}
+		if (death.getElapsedTime().asSeconds() >= 1.8f) {
+			canDisplayGameOverBool = true;
+		}
+	}
+
 	animate(deltaTime);
 	collide(tiles);
-	jump(deltaTime);
-	deplacement(deltaTime);
-	attack(deltaTime);
+	if (!isDead) {
+		jump(deltaTime);
+		deplacement(deltaTime);
+		attack(deltaTime);
+	}
 	updateHUD(view);
 	updateProjectiles(deltaTime, window);
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 5)) {
-		rangedAttack();
+		if (!isDead) { rangedAttack(); }
 	}
+	if (rangedAttackClockDuration.getElapsedTime().asSeconds() >= 1.0f) { isRangedAttacking = false; }
+	else { isRangedAttacking = true; }
 }
+
+bool Player::getCanDisplayGameOverBool() const { return canDisplayGameOverBool; }
 
 void Player::jump(float deltaTime) {
 	// méthode pour gérer le saut du joueur (mouvement + fumée)
@@ -261,28 +256,32 @@ void Player::collide(const std::vector<std::unique_ptr<Tiles>>& tiles) {
 			float platformTop = platformBounds.top;
 			float platformBottom = platformBounds.top + platformBounds.height;
 
-			
-			if (velocityY >= 0 && playerBottom > platformTop && playerTop < platformTop + groundTolerance) { // bas
+			float playerTopCenterX = playerBounds.left + playerBounds.width / 2;
+			float playerTopCenterY = playerBounds.top;
+
+			if (velocityY < 0 && playerTopCenterY < platformBottom && playerTopCenterY > platformTop &&
+				playerTopCenterX > platformLeft && playerTopCenterX < platformRight) { // haut
+				if (!hangedToWallsRight && !hangedToWallsLeft) {
+					velocityY = 0;
+					playerSprite.setPosition(playerSprite.getPosition().x, platformBottom);
+				}
+			}
+
+			else if (velocityY >= 0 && playerBottom > platformTop && playerTop < platformTop + groundTolerance) { // bas
 				isOnGround = true;
 				velocityY = 0;
 				playerSprite.setPosition(playerSprite.getPosition().x, platformTop - playerSprite.getGlobalBounds().height);
 			}
-			else if (playerRight > platformLeft && playerLeft < platformLeft + offsetTolerance) { //gauche
+			else if (playerRight > platformLeft && playerLeft < platformLeft + offsetTolerance) { // gauche
 				playerSprite.setPosition(platformLeft - playerBounds.width, playerSprite.getPosition().y);
 				if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 					hangedToWallsLeft = true;
 				}
 			}
-			else if (playerLeft < platformRight && playerRight > platformRight - offsetTolerance) { //droite
+			else if (playerLeft < platformRight && playerRight > platformRight - offsetTolerance) { // droite
 				playerSprite.setPosition(platformRight, playerSprite.getPosition().y);
 				if ((sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0)) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 					hangedToWallsRight = true;
-				}
-			}
-			else if (velocityY < 0 && playerTop < platformBottom && playerBottom > platformBottom - offsetTolerance) { //haut
-				if (!hangedToWallsRight && !hangedToWallsLeft) {
-					velocityY = 0;
-					playerSprite.setPosition(playerSprite.getPosition().x, platformBottom);
 				}
 			}
 		}
@@ -386,7 +385,7 @@ void Player::updateHUD(sf::View& view) {
 	sf::Vector2f viewSize = view.getSize();
 
 	float spacing = 20;
-	float sizeY = 35;
+	float sizeY = 36;
 
 	float hudX = viewCenter.x - (viewSize.x / 2) + spacing;
 	float hudY = viewCenter.y - (viewSize.y / 2) + spacing;
@@ -398,11 +397,10 @@ void Player::updateHUD(sf::View& view) {
 	shapeFillEnergy.setFillColor(sf::Color::Green);
 
 	lifeBarSprite.setPosition(hudX, hudY);
-	lifeBar2Sprite.setPosition(hudX, hudY);
-	energyBarSprite.setPosition(hudX + 15, hudY + lifeBar2Sprite.getGlobalBounds().height + spacing);
-	progressBarSprite.setPosition(hudX + 15, hudY + lifeBar2Sprite.getGlobalBounds().height * 2 + (spacing * 3));
+	energyBarSprite.setPosition(hudX + 15, hudY + lifeBarSprite.getGlobalBounds().height + spacing);
+	progressBarSprite.setPosition(hudX + 15, hudY + lifeBarSprite.getGlobalBounds().height * 2 + (spacing * 3));
 
-	shapeFillEnergy.setPosition(hudX + spacing - 1, hudY + lifeBar2Sprite.getGlobalBounds().height + 53);
+	shapeFillEnergy.setPosition(hudX + spacing - 1, hudY + lifeBarSprite.getGlobalBounds().height + 53);
 	shapeFillHP.setPosition(hudX + spacing - 2, hudY + (spacing * 2) + 8);
 	//------ENERGY------
 	//------DAY/NIGHT------
@@ -421,6 +419,7 @@ void Player::rangedAttack() {
 		projectiles.push_back(newProjectile);
 		energy -= 10.0f;
 		rangedAttackClock.restart();
+		rangedAttackClockDuration.restart();
 	}
 }
 
@@ -469,7 +468,7 @@ sf::Sprite Player::getShape() const { return playerSprite; }
 sf::Sprite Player::getShapeAtk() const { return swordSprite; }
 sf::Sprite Player::getShapeSmoke() const { return smokeSprite; }
 sf::Sprite Player::getLifeBarSprite() const { return lifeBarSprite; }
-sf::Sprite Player::getLifeBar2Sprite() const { return lifeBar2Sprite; }
+sf::Sprite Player::getLifeBar2Sprite() const { return lifeBarSprite; }
 sf::Sprite Player::getEnergyBarSprite() const { return energyBarSprite; }
 sf::Sprite Player::getProgressBarSprite() const { return progressBarSprite; }
 sf::RectangleShape Player::getShapeFillEnergy() const { return shapeFillEnergy; }

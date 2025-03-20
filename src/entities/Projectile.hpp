@@ -13,6 +13,7 @@ private:
 
     float velocityY;
     float gravity;
+    float rotationSpeed = 5.0f;
 
 public:
     Projectile(sf::Texture& texture, sf::Vector2f position, bool goingLeft);

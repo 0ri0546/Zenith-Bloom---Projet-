@@ -13,3 +13,4 @@ void CapsuleHP::utiliser(Player& joueur) {
 }
 
 int CapsuleHP::getHPValue() const { return hpValue; }
+sf::Sprite CapsuleHP::getSprite() const { return sprite; }

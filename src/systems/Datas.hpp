@@ -46,11 +46,15 @@ public:
 	static sf::Texture droneTextureR;
 	static sf::Texture incendTexture;
 	static sf::Texture incendTextureR;
+	static sf::Texture projIcend;
+	static sf::Texture projMini;
 
 	//assets map
 	static sf::Texture groundTexture; 
 	static sf::Texture floorTexture; 
 	static sf::Texture itemsTexture;
+	static sf::Texture capsuleHPTexture;
+	static sf::Texture capsuleEnergyTexture;
 	//static sf::Sprite groundSprite; 
 
 	//HUD
@@ -60,6 +64,9 @@ public:
 	static sf::Texture lifeBar2Texture;
 	static sf::Texture energyBarTexture;
 	static sf::Texture progressBarTexture;
+
+	//menus
+	static sf::Texture backgroundTexture;
 };
 
 #endif

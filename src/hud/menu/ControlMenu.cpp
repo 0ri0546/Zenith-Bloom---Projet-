@@ -35,10 +35,10 @@ void ControlMenu::initButtons() {
     float startY = 200.f;
     float verticalSpacing = 100.f;
 
-    buttons.emplace_back(1, "Retour", "Retour", font, sf::Vector2f(centerX - 150, startY), sf::Vector2f(300, 50), []() {});
+    buttons.emplace_back(1, "Retour", "Retour", Shared::font, sf::Vector2f(centerX - 150, startY), sf::Vector2f(300, 50), []() {});
 
     auto addButton = [&](int id, Keybind::Action action, const std::string& label, float offsetY) {
-        buttons.emplace_back(id, label + " : " + keyToString(Keybind::getKey(action)), label, font, sf::Vector2f(centerX - 150, startY + offsetY), sf::Vector2f(300, 50), [this, id]() {
+        buttons.emplace_back(id, label + " : " + keyToString(Keybind::getKey(action)), label, Shared::font, sf::Vector2f(centerX - 150, startY + offsetY), sf::Vector2f(300, 50), [this, id]() {
             for (auto& button : buttons) {
                 if (button.getId() == id) {
                     buttonWaitingForKey = &button;

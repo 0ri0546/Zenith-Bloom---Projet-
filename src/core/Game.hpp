@@ -19,6 +19,9 @@
 #include "../hud/menu/BouncingTitle.hpp"
 #include "../hud/menu/gameOverMenu.hpp"
 #include "../hud/menu/LevelSelectorMenu.hpp"
+#include "../entities/CapsuleEnergie.hpp"
+#include "../entities/CapsuleHP.hpp"
+
 
 class Game {
 public:
@@ -48,6 +51,8 @@ private:
 	
 	std::vector<Platform> platforms;
 	vector<std::unique_ptr<Ennemy>> ennemies;
+	vector<std::unique_ptr<CapsuleHP>> capsulesHP;
+	vector<std::unique_ptr<CapsuleEnergie>> capsulesEnergy;
 	vector<Tank> Tanks;
 	
 	//Grid grid = Grid(gamemap);

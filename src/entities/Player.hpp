@@ -40,6 +40,7 @@ public:
 	float getEnergie() const;
 	void augmenterHP(int quantite);
 	float getHP() const;
+	bool getCanDisplayGameOverBool() const;
 
 	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
@@ -47,10 +48,11 @@ public:
 	std::vector<Projectile> projectiles;
 	bool setAnimationDamage;
 	bool canAttack;
+	
 
 private:
 	sf::Sprite swordSprite, smokeSprite, playerSprite;
-	sf::Sprite daySprite, nightSprite, lifeBarSprite, lifeBar2Sprite, energyBarSprite, progressBarSprite;
+	sf::Sprite daySprite, nightSprite, lifeBarSprite, energyBarSprite, progressBarSprite;
 
 	sf::RectangleShape shapeFillEnergy, shapeFillHP;
 
@@ -59,6 +61,7 @@ private:
 	sf::Clock rangedAttackClock;
 	sf::Clock rangedAttackClockDuration;
 	sf::Clock takeDamageClock;
+	sf::Clock death;
 
 	Assets assets;
 
@@ -72,6 +75,7 @@ private:
 	bool canJump;
 	bool lastDepIsLeft;
 	int vie;
+	bool isDead;
 	bool hangedToWallsLeft;
 	bool hangedToWallsRight;
 	float depX;
@@ -87,8 +91,11 @@ private:
 	float hp;
 	float maxHp;
 	bool isAttacking;
+	bool isRangedAttacking;
 	bool takingDamage;
 	float progress;
+	bool canDisplayGameOverBool;
+	bool isRepairing;
 
 	Animation 
 		jumpToLeftAnimation, jumpToRightAnimation,
@@ -99,8 +106,10 @@ private:
 		deathToLeftAnimation, deathToRightAnimation,
 		healAnimation,
 		attackToLeftAnimation, attackToRightAnimation,
-		rangedAttackAnimation,
-		repairAnimation,
+		rangedAttackToLeftAnimation,
+		rangedAttackToRightAnimation,
+		repairToLeftAnimation,
+		repairToRightAnimation,
 		smokeAnimation;
 };
 

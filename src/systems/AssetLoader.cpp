@@ -17,7 +17,9 @@ void Assets::loadAssetsFromFiles() {
 	Shared::swordTexture.loadFromFile("assets/player/sword.jpg");
 	Shared::floorTexture.loadFromFile("assets/maps/tileset/tiles.png");
 
-	Shared::ennemyTexture.loadFromFile("assets/ennemies/newTilsetEnemy.png");
+	Shared::ennemyTexture.loadFromFile("assets/ennemies/retouche/ennemiTile2.png");
+	Shared::ennemyTextureR.loadFromFile("assets/ennemies/retouche/ennemiTile2R.png");
+	Shared::projMini.loadFromFile("assets/proj/missile.png");
 
 	Shared::tankTexture.loadFromFile("assets/ennemies/retouche/tankTile.png");
 	Shared::tankTextureR.loadFromFile("assets/ennemies/retouche/tankTileR.png");
@@ -25,6 +27,7 @@ void Assets::loadAssetsFromFiles() {
 
 	Shared::incendTextureR.loadFromFile("assets/ennemies/retouche/incendTile.png");
 	Shared::incendTexture.loadFromFile("assets/ennemies/retouche/incendTileR.png");
+	Shared::projIcend.loadFromFile("assets/proj/feu.png");
 
 	Shared::projectileTexture.loadFromFile("assets/player/projectilePlayer.png");
 
@@ -35,6 +38,10 @@ void Assets::loadAssetsFromFiles() {
 
 	Shared::lifeBarTexture.loadFromFile("assets/textures/hud/lifeBar.png");
 	Shared::lifeBar2Texture.loadFromFile("assets/textures/hud/lifeBar2.png");
+	Shared::itemsTexture.loadFromFile("assets/maps/tileset/items.png");
+	Shared::backgroundTexture.loadFromFile("assets/textures/menu/background.jpg");
+	Shared::capsuleHPTexture.loadFromFile("assets/maps/tileset/capsule_hp.png");
+	Shared::capsuleEnergyTexture.loadFromFile("assets/maps/tileset/capsule_energie.png");
 }
 
 void Assets::resize(sf::Sprite& sprite, float scaleX, float scaleY) {

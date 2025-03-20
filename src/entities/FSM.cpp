@@ -2,13 +2,14 @@
 
 Ennemy::Ennemy(unsigned long long x, unsigned long long y, sf::Texture& text, sf::Texture& textR, float xT, float yT, float scaleX, float scaleY, float textRecX, float textRecY) : x(x), y(y), 
 
-    attackAnim(text, xT, yT, 4, 0.5f, scaleX, scaleY),
+    attackAnim(text, xT, yT, 4, 0.15f, scaleX, scaleY),
     walkAnim(text, xT, yT, 4, 0.05f, scaleX, scaleY),
     standAnim(text, xT, yT, 1, 0.5f, scaleX, scaleY),
     hitAnim(text, xT, yT, 1, 3.f, scaleX, scaleY),
 
     walkAnimR(textR, xT, yT, 4, 0.05f, scaleX, scaleY),
-    hitAnimR(textR, xT, yT, 1, 3.f, scaleX, scaleY)
+    hitAnimR(textR, xT, yT, 1, 3.f, scaleX, scaleY),
+    attackAnimR(textR, xT, yT, 4, 0.15f, scaleX, scaleY)
 {
 
 
@@ -120,7 +121,8 @@ void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, vect
             hitAnim.applyToSprite(spriteEnnemy, 1);
         }
         
-        //cout << "anim \n"; 
+        //
+        // << "anim \n"; 
     }
     //ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 }
@@ -208,7 +210,6 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Pro
 
         colEnnemiToGround(ennemies, tiles);
 
-        cout << onTheGround << endl;
 
 
 
@@ -292,10 +293,21 @@ void Ennemy::rangedAttack(float deltaTime) {
         //takeDamageClock.getElapsedTime().asSeconds();
         //rangClock.restart();
         sf::Vector2f spawnPos = spriteEnnemy.getPosition();
-        spawnPos.x += lastDepIsLeft ? -20 : spriteEnnemy.getGlobalBounds().width;
-
-        Projectile newProjectile(Shared::projectileTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
-        newProjectile.resize(20, 20);
+        if (lastDepIsLeft == false) {
+             
+            spawnPos.x += 50;
+            spawnPos.y -= 80;
+        }
+        if (lastDepIsLeft == true)
+        {
+            //sf::Vector2f spawnPos = spriteEnnemy.getPosition();
+            spawnPos.x -= 50;
+            spawnPos.y -= 40;
+        }
+        AudioManager::getInstance().playSound("tir");
+        
+        Projectile newProjectile(Shared::projMini, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
+        newProjectile.resize(50, 25);
         projectiles.push_back(newProjectile);
 
         /*if (rangClock.getElapsedTime().asSeconds() <= 0.5f) {

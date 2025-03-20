@@ -17,6 +17,7 @@ public:
 
     void utiliser(Player& joueur);
     int getEnergyValue() const;
+    sf::Sprite getSprite() const;
 };
 
 #endif

@@ -3,7 +3,49 @@
 #include <iostream>
 #include <string> 
 
-Map::Map() {}
+Map::Map() {
+    initBackground();
+}
+
+void Map::initBackground() {
+    if (!backgroundTexture.loadFromFile("assets/maps/tuto_tiles_1.png")) {
+        std::cerr << "Error loading texture! : background.png" << std::endl;
+    }
+    backgroundSprite.setTexture(backgroundTexture);
+    backgroundSprite.setScale(0.5f, 0.5f);
+    backgroundSprite.setColor(sf::Color(255, 255, 255, 102));
+
+    if (!backgroundTexture2.loadFromFile("assets/maps/tuto_tiles_2.png")) {
+        std::cerr << "Error loading texture! : background.png" << std::endl;
+    }
+    backgroundSprite2.setTexture(backgroundTexture2);
+    backgroundSprite2.setScale(0.5f, 0.5f);
+    backgroundSprite2.setColor(sf::Color(255, 255, 255, 102));
+    backgroundSprite2.setPosition(backgroundSprite.getPosition().x + backgroundSprite.getGlobalBounds().width, 0.f);
+
+    if (!backgroundTexture3.loadFromFile("assets/maps/tuto_tiles_3.png")) {
+        std::cerr << "Error loading texture! : background.png" << std::endl;
+    }
+    backgroundSprite3.setTexture(backgroundTexture3);
+    backgroundSprite3.setScale(0.5f, 0.5f);
+    backgroundSprite3.setColor(sf::Color(255, 255, 255, 102));
+    backgroundSprite3.setPosition(backgroundSprite2.getPosition().x + backgroundSprite2.getGlobalBounds().width, 0.f);
+
+    if (!backgroundTexture4.loadFromFile("assets/maps/tuto_tiles_4.png")) {
+        std::cerr << "Error loading texture! : background.png" << std::endl;
+    }
+    backgroundSprite4.setTexture(backgroundTexture4);
+    backgroundSprite4.setScale(0.5f, 0.5f);
+    backgroundSprite4.setColor(sf::Color(255, 255, 255, 102));
+    backgroundSprite4.setPosition(backgroundSprite3.getPosition().x + backgroundSprite3.getGlobalBounds().width, 0.f);
+}
+
+void Map::renderBackground(sf::RenderWindow& window) {
+    window.draw(backgroundSprite);
+    window.draw(backgroundSprite2);
+    window.draw(backgroundSprite3);
+    window.draw(backgroundSprite4);
+}
 
 vector<vector<char>> Map::getMap() {
     return map;
@@ -33,7 +75,7 @@ void Map::preshowTile(int x, int y, sf::RenderWindow& window) {
     tempTile = std::make_unique<Tiles>(posX, posY, numtile);
 }
 
-void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window) {
+void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie) {
     map.clear();
     tiles.clear();
     currentmap = mapNum;
@@ -69,20 +111,58 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
                 if (tileValue < 102) {
                     tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, tileValue));
                 }
-                if (tileValue == 14) {
-                    //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
-                    ennemies.push_back(make_unique<Ennemy>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTexture, Shared::tankTextureR, 139/* pas toucher*/, 178/* pas toucher*/, 80/*scaleX*/, 80/*scaleY*/, 150/*coliboxX*/, 150/*coliboxY*/)); // scale égaux obligatoire car carré 
+                if (tileValue == 103) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 6));
                 }
-                if (tileValue == 15) {
+                if (tileValue == 104) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 33));
+                }
+                if (tileValue == 105) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 51));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 12));
+                }
+                if (tileValue == 106) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 32));
+                }
+                if (tileValue == 107) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 31));
+                }
+                if (tileValue == 108) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 30));
+                }
+                if (tileValue == 109) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 4));
+                }
+                if (tileValue == 110) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 51));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 10));
+                }
+                if (tileValue == 999) {
+                    //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
+                    ennemies.push_back(make_unique<Ennemy>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTextureR, Shared::ennemyTexture, 135/* pas toucher*/, 178/* pas toucher*/, 120/*scaleX*/, 120/*scaleY*/, 190/*coliboxX*/, 190/*coliboxY*/)); // scale égaux obligatoire car carré 
+                }
+                if (tileValue == 998) {
                     /* Tank newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
                      Tankennemies.push_back(newEnnemy);*/
                     ennemies.push_back(make_unique<Tank>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::tankTexture, Shared::tankTextureR, 79, 131, 90, 120, 160, 160));
                 }
-                if (tileValue == 16) {
+                if (tileValue == 997) {
                     ennemies.push_back(make_unique<Drone>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::droneTexture, Shared::tankTextureR, 139, 178, 60, 60, 64, 64));
                 }
-                if (tileValue == 17) {
+                if (tileValue == 996) {
                     ennemies.push_back(make_unique<Incendiaire>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, Shared::incendTextureR, 132, 80, 120, 70, 80, 60)); // scale avec dif de 50 = perfect 
+                }
+                if (tileValue == 666) {
+                    capsulesEnergie.push_back(make_unique<CapsuleEnergie>(15, Shared::capsuleEnergyTexture, i / 3 * gridCellSize, map.size() * gridCellSize));
+                }
+                if (tileValue == 667) {
+                    capsulesHP.push_back(make_unique<CapsuleHP>(15, Shared::capsuleHPTexture, i / 3 * gridCellSize, map.size() * gridCellSize));
                 }
             }
         }

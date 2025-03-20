@@ -19,11 +19,15 @@ sf::Texture Shared::droneTexture;
 sf::Texture Shared::droneTextureR;
 sf::Texture Shared::incendTexture;
 sf::Texture Shared::incendTextureR;
+sf::Texture Shared::projIcend;
+sf::Texture Shared::projMini;
 
 //assets des tiles
 sf::Texture Shared::groundTexture;
 sf::Texture Shared::floorTexture;
 sf::Texture Shared::itemsTexture;
+sf::Texture Shared::capsuleHPTexture;
+sf::Texture Shared::capsuleEnergyTexture;
 //sf::Sprite groundSprite;
 
 //assets du HUD
@@ -34,7 +38,8 @@ sf::Texture Shared::lifeBar2Texture;
 sf::Texture Shared::energyBarTexture;
 sf::Texture Shared::progressBarTexture;
 
-//assets des menus
+//assets des 
+sf::Texture Shared::backgroundTexture;
 
 namespace Keybind {
     static std::unordered_map<Action, sf::Keyboard::Key> keyBindings = {

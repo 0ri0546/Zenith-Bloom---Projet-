@@ -17,6 +17,7 @@ public:
 
     void utiliser(Player& joueur);
     int getHPValue() const;
+    sf::Sprite getSprite() const;
 };
 
 #endif

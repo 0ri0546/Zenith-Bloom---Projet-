@@ -8,14 +8,11 @@
 
 class Menu {
 protected:
-    sf::Font font;
     std::vector<Button> buttons;
 
-    sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
 
     virtual void initButtons() = 0;
-    void initFont();
     void initBackground();
 
     void updateHoverForButton(int index);

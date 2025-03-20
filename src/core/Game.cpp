@@ -4,8 +4,7 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
-	gamemap.loadMap(1, ennemies, player, window);
-	std::cout << "Nombre d'ennemis chargés : " << ennemies.size() << std::endl;
+	gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy);
 	view.setCenter(player.getShape().getPosition());
 	//grid.loadGrid(gamemap);
 
@@ -102,20 +101,47 @@ void Game::update(float deltaTime) {
 		{
 			player.setAnimationDamage = false;
 		}
-		/*for (auto& tank : Tanks) {
-			tank.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
-			auto& projectiles = tank.getProj();
-			for (auto it = projectiles.begin(); it != projectiles.end();) {
-				if (player.takeDamage(tank.getProjShape(*it))) {
-					it = projectiles.erase(it);
-				}
-				else {
-					++it;
+
+		for (auto it = capsulesEnergy.begin(); it != capsulesEnergy.end(); ) {
+			if ((*it)->getSprite().getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
+				player.augmenterEnergie((*it)->getEnergyValue());
+				it = capsulesEnergy.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
+		for (auto it = capsulesHP.begin(); it != capsulesHP.end(); ) {
+			if ((*it)->getSprite().getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
+				player.augmenterHP((*it)->getHPValue());
+				it = capsulesHP.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
+		/*for (auto it = player.getProj().begin(); it != player.getProj().end(); ) {
+			bool erased = false;  
+			auto currentProj = *it; 
+
+			for (auto& tile : gamemap.getTiles()) {
+				if (currentProj.getSprite().getGlobalBounds().intersects(player.getProjShape(currentProj).getGlobalBounds())) {
+					it = player.getProj().erase(it);
+					erased = true;
+					break;  
 				}
 			}
 
+			if (!erased) {
+				++it; 
+			}
 		}*/
+
+
 		view.setCenter(player.getShape().getPosition());
+		if (player.getCanDisplayGameOverBool()) {
+			currentState = GameState::GAMEOVER_MENU;
+		}
 		break;
 
 	case GameState::EDITOR:
@@ -139,11 +165,11 @@ void Game::render() {
 		mainMenu.render(window);
 		break;
 	case GameState::PLAYING:
-		window.draw(player.getShapeSmoke());
-		window.draw(player.getShape());
-		window.draw(player.getShapeAtk());
-		
-		
+		gamemap.renderBackground(window);
+		for (auto& tile : gamemap.getTiles()) {
+			window.draw(tile->getSprite());
+		}
+
 		for (auto& ennemy : ennemies) {
 			//window.draw(ennemy->circle);
 			window.draw(ennemy->getSprite());
@@ -157,17 +183,12 @@ void Game::render() {
 		for (int i = 0; i < ennemies.size(); i++) {
 			//std::cout << ennemies[i].getSprite().getPosition().x << ", " << ennemies[i].getSprite().getPosition().x << std::endl;
 		}
-		for (auto& tile : gamemap.getTiles()) {
-			window.draw(tile->getSprite());
-		}
 		for (auto proj : player.getProj()) {
 			window.draw(player.getProjShape(proj));
 		}
 		for (auto& ennemy : ennemies) {
 			for (auto& proj : ennemy->getProj()) {
-				
 				window.draw(ennemy->getProjShape(proj));
-				
 			}
 		}
 		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
@@ -184,6 +205,15 @@ void Game::render() {
 				++it;
 			}
 		}
+
+		for (auto& item : capsulesEnergy) {
+			window.draw(item->getSprite());
+		}
+		for (auto& item : capsulesHP) {
+			window.draw(item->getSprite());
+		}
+		window.draw(player.getShapeSmoke());
+		window.draw(player.getShape());
 		for (const auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 			if (tile->hasShadow()) {
@@ -193,8 +223,7 @@ void Game::render() {
 		//----HUD----
 		window.draw(player.getShapeFillEnergy());
 		window.draw(player.getShapeFillHP());
-		if (player.getHP()<50) { window.draw(player.getLifeBarSprite()); }
-		else { window.draw(player.getLifeBar2Sprite()); }
+		window.draw(player.getLifeBar2Sprite()); 
 		window.draw(player.getEnergyBarSprite());
 		if (isDay) { window.draw(player.getDaySprite()); }
 		else { window.draw(player.getNightSprite()); }
@@ -224,6 +253,7 @@ void Game::render() {
 		levelSelectMenu.render(window);
 		break;
 	case GameState::EDITOR:
+		gamemap.renderBackground(window);
 		for (auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 		}
