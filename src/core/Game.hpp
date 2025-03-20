@@ -74,7 +74,7 @@ private:
 	VideoMenu videoMenu;
 	SoundMenu soundMenu;
 	ControlMenu controlMenu;
-	GameOver gameOverScreen;
+	GameOverMenu gameOverScreen;
 	LevelSelectMenu levelSelectMenu;
 };
 
