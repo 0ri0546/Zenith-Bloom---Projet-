@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font), player(Shared::playerTexture) {
+Game::Game() : isRunning(false), currentState(GameState::TITLE_MENU), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font), player(Shared::playerTexture) {
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
@@ -79,7 +79,11 @@ void Game::update(float deltaTime) {
 			}
 		}
 		break;
-	case GameState::MAIN_MENU:
+	case GameState::SOUND_MENU:
+		soundMenu.updateSliderValues();
+		break;
+	case GameState::VIDEO_MENU:
+		videoMenu.update(window);
 		break;
 	case GameState::PLAYING:
 
@@ -307,7 +311,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			currentState = GameState::SOUND_MENU;
 		}
 		else if (result == 4) { // Controles
-			currentState = GameState::CONTROL_MENU;
+			if (!sf::Joystick::isConnected(0)) {
+				currentState = GameState::CONTROL_MENU;
+			}
 		}
 		break;
 	}

@@ -5,7 +5,7 @@
 
 class OptionsMenu : public Menu {
 private:
-    void initButtons() override;
+    void initButtons();
 
 public:
     enum MenuList { MAIN_MENU, PAUSE_MENU };
