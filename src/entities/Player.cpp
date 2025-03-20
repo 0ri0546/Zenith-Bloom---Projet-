@@ -61,11 +61,11 @@ Player::Player(sf::Texture& texture) :
 	maxEnergy = 100.f;
 	jetpackPower = -3.f;
 	energyConsumption = 10.f;
-	energyRecharge = 0.2f;
-	hpRecharge = 0.2f;
+	energyRecharge = 0.1f;
+	hpRecharge = 0.1f;
 	surchauffe = 50.f;
 	maxSurchauffe = 100.f;
-	surchauffeRecharge = 0.1f;
+	surchauffeRecharge = 0.05f;
 
 	lifeBarSprite.setTexture(Shared::lifeBar2Texture);
 	assets.resize(lifeBarSprite, 300, 100);
@@ -148,6 +148,7 @@ void Player::animate(float deltaTime) {
 
 void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime, bool isDay, bool isInTheSun) {
 	// méthode pour mettre à jour le joueur
+	statsManager(isDay, isInTheSun);
 	if (hp <= 0) {
 		if (!isDead) {
 			isDead = true;
@@ -158,7 +159,6 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 		}
 	}
 
-	statsManager(isDay, isInTheSun);
 	animate(deltaTime);
 	collide(tiles);
 	if (!isDead) {
@@ -188,12 +188,13 @@ void Player::statsManager(bool isDay, bool isInTheSun) {
 			if (surchauffe < maxSurchauffe) { surchauffe += surchauffeRecharge; }
 		}
 		else {
-			if (surchauffe > 0) { surchauffe -= surchauffeRecharge; }
+			if (surchauffe > 0) { surchauffe -= surchauffeRecharge * 4; }
 		}
 	}
 	else {
 		if (surchauffe > 0) { surchauffe -= surchauffeRecharge; }
 	}
+	if (surchauffe >= maxSurchauffe) { hp = -999; }
 }
 
 void Player::jump(float deltaTime) {
