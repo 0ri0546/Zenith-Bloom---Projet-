@@ -84,7 +84,6 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
 }
 
 void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
-    cout << numtile;
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         sf::Vector2i mousePosWindow = sf::Mouse::getPosition(window);
         sf::Vector2f mousePosWorld = window.mapPixelToCoords(mousePosWindow, view);
@@ -104,11 +103,16 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
         supprTile(gridX * gridCellSize, gridY * gridCellSize);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { if (inputOn == false) { numtile += 1; } inputOn = true; }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) { if (inputOn == false) { numtile -= 1; } inputOn = true; }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { if (inputOn == false) { numtile -= 10; } inputOn = true; }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { if (inputOn == false) { numtile += 10; } inputOn = true; }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { if (inputOn == false) { numtile += 1; cout << numtile << endl;    } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) { if (inputOn == false) { numtile -= 1; cout << numtile << endl;    } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { if (inputOn == false) { numtile -= 10; cout << numtile << endl;    } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { if (inputOn == false) { numtile += 10; cout << numtile << endl;    } inputOn = true; }
     else { inputOn = false; }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) { view.move(0, -1); }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) { view.move(-1, 0); }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { view.move(0, 1); }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { view.move(1, 0); }
 }
 
 void Map::modifyMapFile(int gridX, int gridY, int type) {

@@ -78,6 +78,7 @@ void Game::update(float deltaTime) {
 		break;
 	case GameState::PLAYING:
 		player.setTakingDamageBool(false);
+		gamemap.editormode(window, view);
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 		
 		player.update(gamemap.getTiles(), window, view, deltaTime);
