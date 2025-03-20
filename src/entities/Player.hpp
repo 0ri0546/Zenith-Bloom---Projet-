@@ -109,7 +109,8 @@ private:
 	bool isRepairing;
 	bool isThrowingWater;
 
-	Animation 
+
+	Animation
 		jumpToLeftAnimation, jumpToRightAnimation,
 		walkToLeftAnimation, walkToRightAnimation,
 		staticToLeftAnimation, staticToRightAnimation,
@@ -122,7 +123,8 @@ private:
 		rangedAttackToRightAnimation,
 		repairToLeftAnimation,
 		repairToRightAnimation,
-		smokeAnimation;
+		smokeAnimation,
+		throwWaterToLeftAnimation, throwWaterToRightAnimation;
 };
 
 #endif

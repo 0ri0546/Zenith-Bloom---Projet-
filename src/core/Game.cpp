@@ -122,22 +122,57 @@ void Game::update(float deltaTime) {
 				++it;
 			}
 		}
-		/*for (auto it = player.getProj().begin(); it != player.getProj().end(); ) {
-			bool erased = false;  
-			auto currentProj = *it; 
+		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
+			bool erased = false;
 
-			for (auto& tile : gamemap.getTiles()) {
-				if (currentProj.getSprite().getGlobalBounds().intersects(player.getProjShape(currentProj).getGlobalBounds())) {
-					it = player.getProj().erase(it);
+			for (const auto& tile : gamemap.getTiles()) {
+				if (it->getBounds().intersects(tile->getSprite().getGlobalBounds())) {
+					it = player.projectiles.erase(it);
 					erased = true;
-					break;  
+					break;
 				}
 			}
 
 			if (!erased) {
-				++it; 
+				++it;
 			}
-		}*/
+		}
+
+		for (auto it = player.projectilesWater.begin(); it != player.projectilesWater.end();) {
+			bool erased = false;
+
+			for (const auto& tile : gamemap.getTiles()) {
+				if (it->getBounds().intersects(tile->getSprite().getGlobalBounds())) {
+					it = player.projectilesWater.erase(it);
+					erased = true;
+					break;
+				}
+			}
+
+			if (!erased) {
+				++it;
+			}
+		}
+
+		// Gestion des projectiles des ennemis
+		for (auto& ennemy : ennemies) {
+			auto& enemyProjectiles = ennemy->getProj();
+			for (auto it = enemyProjectiles.begin(); it != enemyProjectiles.end();) {
+				bool erased = false;
+
+				for (const auto& tile : gamemap.getTiles()) {
+					if (ennemy->getProjShape(*it).getGlobalBounds().intersects(tile->getSprite().getGlobalBounds())) {
+						it = enemyProjectiles.erase(it);
+						erased = true;
+						break;
+					}
+				}
+
+				if (!erased) {
+					++it;
+				}
+			}
+		}
 
 
 		view.setCenter(player.getShape().getPosition());

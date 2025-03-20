@@ -23,7 +23,9 @@ Player::Player(sf::Texture& texture) :
 	repairToLeftAnimation(Shared::playerReverseTexture, 256, 256, 5, 0.3f, 100, 100),
 	repairToRightAnimation(texture, 256, 256, 5, 0.3f, 100, 100),
 
-	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f, 50, 50)
+	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f, 50, 50),
+	throwWaterToLeftAnimation(Shared::playerReverseTexture, 210, 256, 6, 0.166f, 100, 100),
+	throwWaterToRightAnimation(texture, 194, 256, 6, 0.166f, 100, 100)
 {
 	playerSprite.setPosition(sf::Vector2f(400, 0));
 	playerSprite.setTexture(texture);
@@ -143,6 +145,10 @@ void Player::animate(float deltaTime) {
 	if (isRepairing) {
 		(lastDepIsLeft ? repairToLeftAnimation : repairToRightAnimation).update(deltaTime);
 		(lastDepIsLeft ? repairToLeftAnimation : repairToRightAnimation).applyToSprite(playerSprite, 10);
+	}
+	if (isThrowingWater) {
+		(lastDepIsLeft ? throwWaterToLeftAnimation : throwWaterToRightAnimation).update(deltaTime);
+		(lastDepIsLeft ? throwWaterToLeftAnimation : throwWaterToRightAnimation).applyToSprite(playerSprite, 8);
 	}
 
 }
