@@ -95,6 +95,7 @@ private:
 	bool takingDamage;
 	float progress;
 	bool canDisplayGameOverBool;
+	bool isRepairing;
 
 	Animation 
 		jumpToLeftAnimation, jumpToRightAnimation,
@@ -107,7 +108,8 @@ private:
 		attackToLeftAnimation, attackToRightAnimation,
 		rangedAttackToLeftAnimation,
 		rangedAttackToRightAnimation,
-		repairAnimation,
+		repairToLeftAnimation,
+		repairToRightAnimation,
 		smokeAnimation;
 };
 

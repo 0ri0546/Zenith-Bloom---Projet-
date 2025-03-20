@@ -20,7 +20,8 @@ Player::Player(sf::Texture& texture) :
 	attackToRightAnimation(texture, 275, 256, 4, 0.1f, 100, 100),
 	rangedAttackToLeftAnimation(Shared::playerReverseTexture, 310, 256, 4, 0.3f, 100, 100),
 	rangedAttackToRightAnimation(texture, 310, 256, 4, 0.3f, 100, 100),
-	repairAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
+	repairToLeftAnimation(Shared::playerReverseTexture, 256, 256, 5, 0.3f, 100, 100),
+	repairToRightAnimation(texture, 256, 256, 5, 0.3f, 100, 100),
 
 	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f, 50, 50)
 {
@@ -53,6 +54,7 @@ Player::Player(sf::Texture& texture) :
 	takingDamage = false;
 	isDead = false;
 	canDisplayGameOverBool = false;	
+	isRepairing = false;
 
 	energy = 100.f;
 	maxJetpackEnergy = 100.f;
@@ -135,6 +137,12 @@ void Player::animate(float deltaTime) {
 		(lastDepIsLeft ? rangedAttackToLeftAnimation : rangedAttackToRightAnimation).update(deltaTime);
 		(lastDepIsLeft ? rangedAttackToLeftAnimation : rangedAttackToRightAnimation).applyToSprite(playerSprite, 4);
 	}
+
+	if (isRepairing) {
+		(lastDepIsLeft ? repairToLeftAnimation : repairToRightAnimation).update(deltaTime);
+		(lastDepIsLeft ? repairToLeftAnimation : repairToRightAnimation).applyToSprite(playerSprite, 10);
+	}
+
 }
 
 void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
