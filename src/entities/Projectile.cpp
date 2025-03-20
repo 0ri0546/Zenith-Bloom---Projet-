@@ -4,15 +4,26 @@ Projectile::Projectile(sf::Texture& texture, sf::Vector2f position, bool goingLe
     sprite.setTexture(texture);
     sprite.setPosition(position);
     speed = 1100.0f;
+    speedForWater = 200.0f;
     velocity.x = goingLeft ? -speed : speed;
+    velocityForWater.x = goingLeft ? -speedForWater : speedForWater;
 
     velocityY = -200.0f;
     gravity = 500.0f;
+    gravityForWater = 1000.f;
+    goingLeft = false;
 }
 
 void Projectile::update(float deltaTime) {
     velocityY += gravity * deltaTime;
     sprite.move(velocity.x * deltaTime, velocityY * deltaTime);
+    float angle = std::atan2(velocityY, velocity.x) * 180.f / 3.14159f;
+    sprite.setRotation(angle);
+}
+
+void Projectile::updateForWater(float deltaTime) {
+    velocityY += gravityForWater * deltaTime;
+    sprite.move(velocityForWater.x * deltaTime, velocityY * deltaTime);
     float angle = std::atan2(velocityY, velocity.x) * 180.f / 3.14159f;
     sprite.setRotation(angle);
 }

@@ -29,6 +29,7 @@ void Assets::loadAssetsFromFiles() {
 	Shared::projIcend.loadFromFile("assets/proj/feu.png");
 
 	Shared::projectileTexture.loadFromFile("assets/player/projectilePlayer.png");
+	Shared::waterProjTexture.loadFromFile("assets/player/water.png");
 
 	Shared::dayTexture.loadFromFile("assets/textures/hud/day.png");
 	Shared::nightTexture.loadFromFile("assets/textures/hud/night.png");

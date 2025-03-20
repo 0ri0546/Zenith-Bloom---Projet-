@@ -56,6 +56,7 @@ Player::Player(sf::Texture& texture) :
 	canDisplayGameOverBool = false;	
 	isRepairing = false;
 	progress = 0;
+	isThrowingWater = false;
 
 	energy = 100.f;
 	maxEnergy = 100.f;
@@ -173,6 +174,12 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 	}
 	if (rangedAttackClockDuration.getElapsedTime().asSeconds() >= 1.0f) { isRangedAttacking = false; }
 	else { isRangedAttacking = true; }
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 4)) {
+		if (!isDead) { throwWater(); }
+	}
+	if (throwWaterClockDuration.getElapsedTime().asSeconds() >= 1.0f) { isThrowingWater = false; }
+	else { isThrowingWater = true; }
 }
 
 bool Player::getCanDisplayGameOverBool() const { return canDisplayGameOverBool; }
@@ -452,10 +459,27 @@ void Player::rangedAttack() {
 	}
 }
 
+void Player::throwWater() {
+	if (throwWaterClock.getElapsedTime().asSeconds() >= 0.5f) {
+		sf::Vector2f spawnPos = playerSprite.getPosition();
+		spawnPos.x += lastDepIsLeft ? -20 : playerSprite.getGlobalBounds().width;
+		Projectile newProjectile(Shared::waterProjTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
+		newProjectile.resize(30, 30);
+		projectilesWater.push_back(newProjectile);
+		energy -= 10.0f;
+		throwWaterClock.restart();
+		throwWaterClockDuration.restart();
+	}
+}
+
 void Player::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
 	// méthode pour mettre à jour les projectiles du joueur
 	for (auto it = projectiles.begin(); it != projectiles.end();) {
 		it->update(deltaTime);
+		++it;
+	}
+	for (auto it = projectilesWater.begin(); it != projectilesWater.end();) {
+		it->updateForWater(deltaTime);
 		++it;
 	}
 }
@@ -505,7 +529,9 @@ sf::RectangleShape Player::getShapeFillEnergy() const { return shapeFillEnergy; 
 sf::RectangleShape Player::getShapeFillHP() const { return shapeFillHP; }
 sf::RectangleShape Player::getShapeSurchauffe() const { return shapeFillSurchauffe; }
 std::vector<Projectile> Player::getProj() const { return projectiles; }
+std::vector<Projectile> Player::getProjWater() const { return projectilesWater; }
 sf::Sprite Player::getProjShape(Projectile& proj) const { return proj.getSprite(); }
+sf::Sprite Player::getProjWaterShape(Projectile& proj) const { return proj.getSprite(); }
 sf::Sprite Player::getDaySprite() const { return daySprite; }
 sf::Sprite Player::getNightSprite() const { return nightSprite; }
 bool Player::getTakingDamageBool() const { return takingDamage; }

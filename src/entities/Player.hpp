@@ -17,10 +17,12 @@ public:
 	void deplacement(float deltaTime);
 	void collide(const std::vector<std::unique_ptr<Tiles>>& tiles);
 	float attack(float deltaTime);
+	void rangedAttack();
 	void updateHUD(sf::View& view);
 	bool takeDamage(sf::Sprite projEnnemi, float deltaTime);
 	void animate(float deltaTime);
 	void statsManager(bool isDay, bool isInTheSun);
+	void throwWater();
 
 	sf::Sprite getShape() const;
 	sf::Sprite getShapeAtk() const;
@@ -34,7 +36,9 @@ public:
 	sf::RectangleShape getShapeFillHP() const;
 	sf::RectangleShape getShapeSurchauffe() const;
 	std::vector<Projectile> getProj() const;
+	std::vector<Projectile> getProjWater() const;
 	sf::Sprite getProjShape(Projectile& proj) const;
+	sf::Sprite getProjWaterShape(Projectile& proj) const;
 	sf::Sprite getDaySprite() const;
 	sf::Sprite getNightSprite() const;
 	bool getTakingDamageBool() const;
@@ -45,10 +49,10 @@ public:
 	float getHP() const;
 	bool getCanDisplayGameOverBool() const;
 
-	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 
 	std::vector<Projectile> projectiles;
+	std::vector<Projectile> projectilesWater;
 	bool setAnimationDamage;
 	bool canAttack;
 	
@@ -63,6 +67,8 @@ private:
 	sf::Clock attackDurationClock;
 	sf::Clock rangedAttackClock;
 	sf::Clock rangedAttackClockDuration;
+	sf::Clock throwWaterClock;
+	sf::Clock throwWaterClockDuration;
 	sf::Clock takeDamageClock;
 	sf::Clock death;
 
@@ -101,6 +107,7 @@ private:
 	float progress;
 	bool canDisplayGameOverBool;
 	bool isRepairing;
+	bool isThrowingWater;
 
 	Animation 
 		jumpToLeftAnimation, jumpToRightAnimation,

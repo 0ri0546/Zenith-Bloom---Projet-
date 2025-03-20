@@ -188,6 +188,9 @@ void Game::render() {
 		for (auto proj : player.getProj()) {
 			window.draw(player.getProjShape(proj));
 		}
+		for (auto proj : player.getProjWater()) {
+			window.draw(player.getProjWaterShape(proj));
+		}
 		for (auto& ennemy : ennemies) {
 			for (auto& proj : ennemy->getProj()) {
 				window.draw(ennemy->getProjShape(proj));

@@ -36,6 +36,7 @@ public:
 	static sf::Texture smokeTexture;
 	static sf::Texture swordTexture;
 	static sf::Texture projectileTexture;
+	static sf::Texture waterProjTexture;
 
 	// assets ennemy
 	static sf::Texture ennemyTexture;

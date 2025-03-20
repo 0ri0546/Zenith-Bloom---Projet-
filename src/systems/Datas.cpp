@@ -9,6 +9,7 @@ sf::Texture Shared::playerReverseTexture;
 sf::Texture Shared::smokeTexture;
 sf::Texture Shared::swordTexture;
 sf::Texture Shared::projectileTexture;
+sf::Texture Shared::waterProjTexture;
 
 //assets des ennemis
 sf::Texture Shared::ennemyTexture;
