@@ -71,7 +71,7 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
                 }
                 if (tileValue == 999) {
                     //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
-                    ennemies.push_back(make_unique<Ennemy>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTexture, Shared::tankTextureR, 139/* pas toucher*/, 178/* pas toucher*/, 80/*scaleX*/, 80/*scaleY*/, 150/*coliboxX*/, 150/*coliboxY*/)); // scale égaux obligatoire car carré 
+                    ennemies.push_back(make_unique<Ennemy>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTextureR, Shared::ennemyTexture, 135/* pas toucher*/, 178/* pas toucher*/, 80/*scaleX*/, 80/*scaleY*/, 150/*coliboxX*/, 150/*coliboxY*/)); // scale égaux obligatoire car carré 
                 }
                 if (tileValue == 998) {
                     /* Tank newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);

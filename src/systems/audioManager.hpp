@@ -17,9 +17,9 @@ public:
     void stopAllSounds();
 
 private:
-    AudioManager() = default;
+    AudioManager();
     ~AudioManager() = default;
-
+    void loadAllSounds();
     std::unordered_map<std::string, std::unique_ptr<sf::SoundBuffer>> soundBuffers;
     std::unordered_map<std::string, std::unique_ptr<sf::Sound>> sounds;
 };
