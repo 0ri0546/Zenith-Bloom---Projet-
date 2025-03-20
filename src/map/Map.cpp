@@ -109,10 +109,12 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { if (inputOn == false) { numtile += 10; cout << numtile << endl;    } inputOn = true; }
     else { inputOn = false; }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) { view.move(0, -10); }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) { view.move(-10, 0); }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { view.move(0, 10); }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { view.move(10, 0); }
+    float moveSpeed = 10.0f;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) { view.move(0, -moveSpeed); }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) { view.move(-moveSpeed, 0); }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { view.move(0, moveSpeed); }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { view.move(moveSpeed, 0); }
 }
 
 void Map::modifyMapFile(int gridX, int gridY, int type) {

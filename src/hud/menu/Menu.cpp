@@ -8,10 +8,12 @@ void Menu::initFont() {
 }
 
 void Menu::initBackground() {
-    if (!backgroundTexture.loadFromFile("assets/textures/menu/background.png")) {
+    if (!backgroundTexture.loadFromFile("assets/textures/menu/background.jpg")) {
         std::cerr << "Error loading texture! : background.png" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
+    backgroundSprite.setScale(1.23f, 1.23f);
+    backgroundSprite.setPosition((Config::WINDOW_WIDTH - backgroundSprite.getGlobalBounds().width) / 2.f, 0.f);
 }
 
 Menu::Menu() {
