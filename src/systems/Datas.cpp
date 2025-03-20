@@ -5,6 +5,7 @@ sf::Font Shared::font;
 
 // assets du joueur
 sf::Texture Shared::playerTexture;
+sf::Texture Shared::playerReverseTexture;
 sf::Texture Shared::smokeTexture;
 sf::Texture Shared::swordTexture;
 sf::Texture Shared::projectileTexture;
@@ -22,12 +23,15 @@ sf::Texture Shared::incendTextureR;
 //assets des tiles
 sf::Texture Shared::groundTexture;
 sf::Texture Shared::floorTexture;
-
+sf::Texture Shared::itemsTexture;
 //sf::Sprite groundSprite;
 
 //assets du HUD
 sf::Texture Shared::dayTexture;
 sf::Texture Shared::nightTexture;
+sf::Texture Shared::lifeBarTexture;
+sf::Texture Shared::lifeBar2Texture;
+sf::Texture Shared::energyBarTexture;
 sf::Texture Shared::progressBarTexture;
 
 //assets des menus

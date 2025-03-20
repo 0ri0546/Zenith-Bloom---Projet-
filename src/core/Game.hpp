@@ -17,6 +17,8 @@
 #include "../entities/Tank.hpp"
 #include "../systems/grid.hpp"
 #include "../hud/menu/BouncingTitle.hpp"
+#include "../hud/menu/gameOverMenu.hpp"
+#include "../hud/menu/LevelSelectorMenu.hpp"
 
 class Game {
 public:
@@ -34,42 +36,37 @@ public:
 		CONTROL_MENU,
 		GAMEOVER_MENU,
 		VICTORY_MENU,
-		TITLE_MENU
+		TITLE_MENU,
+		EDITOR
 	};
 
 private:
 	sf::RenderWindow window;
-	Player player;	
-	//Player player2;
-	//Ennemy ennemy;
-	//Grid grid;
+	Player player;
+	sf::View view;
+	Map gamemap;
+	
+	std::vector<Platform> platforms;
+	vector<std::unique_ptr<Ennemy>> ennemies;
+	vector<Tank> Tanks;
 	
 	//Grid grid = Grid(gamemap);
-	
-
-	sf::View view;
-	std::vector<Platform> platforms;
-	Map gamemap;
 
 	bool isRunning;
 	bool isGamePaused;
 	bool isDay;
-
-	vector<std::unique_ptr<Ennemy>> ennemies;
-	vector<Tank> Tanks;
-	
-	BouncingTitle title;
 	bool gameStarted = false;
 	bool textFall;
-	
-	void addPlatform(float x, float y, float width, float height);
+
 	void createWindow();
 	void processEvents(float deltaTime);
 	void update(float deltaTime);
 	void render();
 	void handleState(const sf::Event& event, float deltaTime);
 	void handleKeyboardInput(const sf::Event& event);
+	void handleGamepadInput(float deltaTime);
 
+	BouncingTitle title;
 	GameState currentState;
 	MainMenu mainMenu;
 	PauseMenu pauseMenu;
@@ -77,6 +74,8 @@ private:
 	VideoMenu videoMenu;
 	SoundMenu soundMenu;
 	ControlMenu controlMenu;
+	GameOverMenu gameOverScreen;
+	LevelSelectMenu levelSelectMenu;
 };
 
 #endif

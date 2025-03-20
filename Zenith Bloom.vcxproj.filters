@@ -129,9 +129,6 @@
     <ClCompile Include="src\hud\menu\ControlMenu.cpp">
       <Filter>Fichiers sources\Hud</Filter>
     </ClCompile>
-    <ClCompile Include="src\hud\menu\Slider.cpp">
-      <Filter>Fichiers sources\Hud</Filter>
-    </ClCompile>
     <ClCompile Include="src\hud\menu\SoundMenu.cpp">
       <Filter>Fichiers sources\Hud</Filter>
     </ClCompile>
@@ -147,14 +144,23 @@
     <ClCompile Include="src\systems\Animation.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\hud\menu\GameOver.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
     <ClCompile Include="src\entities\drone.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="src\entities\incendiaire.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\systems\audioManager.cpp">
-      <Filter>Fichiers sources\Systems</Filter>
+    <ClCompile Include="src\hud\menu\GameOver.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\CapsuleEnergie.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\CapsuleHP.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,14 +236,14 @@
     <ClInclude Include="src\hud\menu\ControlMenu.hpp">
       <Filter>Fichiers d%27en-tête\Hud</Filter>
     </ClInclude>
-    <ClInclude Include="src\hud\menu\Slider.hpp">
-      <Filter>Fichiers d%27en-tête\Hud</Filter>
-    </ClInclude>
     <ClInclude Include="src\hud\menu\SoundMenu.hpp">
       <Filter>Fichiers d%27en-tête\Hud</Filter>
     </ClInclude>
     <ClInclude Include="src\systems\AudioSystem.hpp">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\Animation.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="src\entities\Tank.hpp">
       <Filter>Fichiers d%27en-tête\Entities\Ennemies</Filter>
@@ -251,8 +257,14 @@
     <ClInclude Include="src\hud\menu\BouncingTitle.hpp">
       <Filter>Fichiers d%27en-tête\Hud</Filter>
     </ClInclude>
-    <ClInclude Include="src\systems\audioManager.hpp">
-      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    <ClInclude Include="src\hud\menu\GameOver.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\CapsuleEnergie.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\CapsuleHP.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

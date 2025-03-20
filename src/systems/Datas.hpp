@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <unordered_map>
+#include <SFML/Window/Keyboard.hpp>
 
 namespace Config {
 	static int WINDOW_WIDTH = 1920; // 800
@@ -31,13 +32,9 @@ public:
 
 	//assets joueur
 	static sf::Texture playerTexture;
-	
-
+	static sf::Texture playerReverseTexture;
 	static sf::Texture smokeTexture;
-	
-
 	static sf::Texture swordTexture;
-
 	static sf::Texture projectileTexture;
 
 	// assets ennemy
@@ -53,13 +50,16 @@ public:
 	//assets map
 	static sf::Texture groundTexture; 
 	static sf::Texture floorTexture; 
+	static sf::Texture itemsTexture;
 	//static sf::Sprite groundSprite; 
 
 	//HUD
 	static sf::Texture dayTexture;
 	static sf::Texture nightTexture;
+	static sf::Texture lifeBarTexture;
+	static sf::Texture lifeBar2Texture;
+	static sf::Texture energyBarTexture;
 	static sf::Texture progressBarTexture;
-
 };
 
 #endif

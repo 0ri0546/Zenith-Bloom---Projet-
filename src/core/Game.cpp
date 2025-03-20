@@ -10,12 +10,7 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 	//grid.loadGrid(gamemap);
 
 	textFall = false;
-	isDay = false;
-}
-
-void Game::addPlatform(float x, float y, float width, float height) {
-	Platform temp(x, y, width, height);
-	platforms.push_back(temp);
+	isDay = true;
 }
 
 void Game::createWindow() {
@@ -34,6 +29,7 @@ void Game::processEvents(float deltaTime) {
 		}
 		handleKeyboardInput(event);
 		handleState(event, deltaTime);
+		handleGamepadInput(deltaTime);
 
 		switch (currentState) {
 		case GameState::MAIN_MENU:
@@ -54,6 +50,14 @@ void Game::processEvents(float deltaTime) {
 		case GameState::CONTROL_MENU:
 			controlMenu.handleInput(window, event);
 			break;
+		case GameState::GAMEOVER_MENU:
+			if (gameOverScreen.handleInput()) {
+				currentState = GameState::MAIN_MENU;
+			}
+			break;
+		case GameState::LEVEL_SELECTOR_MENU:
+			levelSelectMenu.handleInput(window, event);
+			break;
 		default:
 			break;
 		}
@@ -70,26 +74,33 @@ void Game::update(float deltaTime) {
 			}
 		}
 		break;
-	case GameState::MAIN_MENU:
+	case GameState::SOUND_MENU:
+		soundMenu.updateSliderValues();
+		break;
+	case GameState::VIDEO_MENU:
+		videoMenu.update(window);
 		break;
 	case GameState::PLAYING:
-
-
+		player.setTakingDamageBool(false);
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
-		player.update(gamemap.getTiles(), window, view, deltaTime);
 		
+		player.update(gamemap.getTiles(), window, view, deltaTime);
+
 		for (auto& ennemy : ennemies) {
 			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
 			auto& projectiles = ennemy->getProj();
 			for (auto it = projectiles.begin(); it != projectiles.end();) {
-				if (player.takeDamage(ennemy->getProjShape(*it))) {
+				if (player.takeDamage(ennemy->getProjShape(*it), deltaTime)) {
 					it = projectiles.erase(it);
 				}
 				else {
 					++it;
 				}
 			}
-
+		}
+		if (ennemies.size() == 0)
+		{
+			player.setAnimationDamage = false;
 		}
 		/*for (auto& tank : Tanks) {
 			tank.runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
@@ -106,6 +117,11 @@ void Game::update(float deltaTime) {
 		}*/
 		view.setCenter(player.getShape().getPosition());
 		break;
+
+	case GameState::EDITOR:
+		gamemap.editormode(window, view);
+		window.setView(view);
+		break;
 	default:
 		view.setCenter(static_cast<float>(Config::WINDOW_WIDTH) / 2.f, static_cast<float>(Config::WINDOW_HEIGHT) / 2.f);
 		window.setView(view);
@@ -119,17 +135,13 @@ void Game::render() {
 	case GameState::TITLE_MENU:
 		title.draw(window);
 		break;
-
 	case GameState::MAIN_MENU:
 		mainMenu.render(window);
 		break;
-
 	case GameState::PLAYING:
-		
-
+		window.draw(player.getShapeSmoke());
 		window.draw(player.getShape());
 		window.draw(player.getShapeAtk());
-		window.draw(player.getShapeSmoke());
 		
 		
 		for (auto& ennemy : ennemies) {
@@ -142,11 +154,9 @@ void Game::render() {
 			//ennemy.runEnnemy(player, window, grid, TimeAstar);
 		//cout << "Nombre d'ennemis : " << ennemies.size() << std::endl;
 
-		for (int i = 0; i < ennemies.size(); i++)
-		{
+		for (int i = 0; i < ennemies.size(); i++) {
 			//std::cout << ennemies[i].getSprite().getPosition().x << ", " << ennemies[i].getSprite().getPosition().x << std::endl;
 		}
-		
 		for (auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 		}
@@ -160,8 +170,6 @@ void Game::render() {
 				
 			}
 		}
-		
-		
 		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
 			bool erased = false;
 
@@ -176,7 +184,6 @@ void Game::render() {
 				++it;
 			}
 		}
-
 		for (const auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 			if (tile->hasShadow()) {
@@ -185,9 +192,13 @@ void Game::render() {
 		}
 		//----HUD----
 		window.draw(player.getShapeFillEnergy());
-		window.draw(player.getSpriteHUDEnergy());
+		window.draw(player.getShapeFillHP());
+		if (player.getHP()<50) { window.draw(player.getLifeBarSprite()); }
+		else { window.draw(player.getLifeBar2Sprite()); }
+		window.draw(player.getEnergyBarSprite());
 		if (isDay) { window.draw(player.getDaySprite()); }
 		else { window.draw(player.getNightSprite()); }
+		window.draw(player.getProgressBarSprite());
 		//----HUD----
 		window.setView(view);
 		break;
@@ -199,31 +210,39 @@ void Game::render() {
 		break;
 	case GameState::VIDEO_MENU:
 		videoMenu.render(window);
-		videoMenu.renderSlider(window);
 		break;
 	case GameState::SOUND_MENU:
 		soundMenu.render(window);
-		soundMenu.renderSliders(window);
 		break;
 	case GameState::CONTROL_MENU:
 		controlMenu.render(window);
 		break;
+	case GameState::GAMEOVER_MENU:
+		gameOverScreen.render(window);
+		break;
+	case GameState::LEVEL_SELECTOR_MENU:
+		levelSelectMenu.render(window);
+		break;
+	case GameState::EDITOR:
+		for (auto& tile : gamemap.getTiles()) {
+			window.draw(tile->getSprite());
+		}
+		for (const auto& tile : gamemap.getTiles()) {
+			window.draw(tile->getSprite());
+			if (tile->hasShadow()) {
+				window.draw(tile->getShadowShape());
+			}
+		}
+		window.draw(gamemap.tempTile->getSprite());
+		break;
 	default:
-
 		break;
 	}
-
 	
 	window.display();
 }
 
 void Game::run() {
-	//gamemap.loadMap(1);
-	//Assets assets();
-	//addPlatform(0, 550, 40, 40);
-	//addPlatform(60, 550, 40, 40);
-	addPlatform(-200, 400, 2000, 20);
-	//addPlatform(200, 0, 200, 500);
 	sf::Clock clock;
 	
 	while (isRunning) {
@@ -245,7 +264,6 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 				textFall = true;
 			}
 		}
-		
 		break;
 	case GameState::MAIN_MENU: {
 		int result = mainMenu.handleInput(window, event);
@@ -261,12 +279,16 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			isRunning = false;
 			window.close();
 		}
+		else if (result == 4) { // Editeur Mode
+			currentState = GameState::EDITOR;
+		}
 		break;
 	}
 	case GameState::PAUSE_MENU: {
 		int result = pauseMenu.handleInput(window, event);
 		if (result == 1) { // Reprendre
 			currentState = GameState::PLAYING;
+			isGamePaused = false;
 		}
 		else if (result == 2) { // Options
 			currentState = GameState::OPTIONS_MENU;
@@ -274,6 +296,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		}
 		else if (result == 3) { // Menu Principal
 			currentState = GameState::MAIN_MENU;
+		}
+		else if (result == 4) { // Editeur Mode
+			currentState = GameState::EDITOR;
 		}
 		break;
 	}
@@ -294,7 +319,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			currentState = GameState::SOUND_MENU;
 		}
 		else if (result == 4) { // Controles
-			currentState = GameState::CONTROL_MENU;
+			if (!sf::Joystick::isConnected(0)) {
+				currentState = GameState::CONTROL_MENU;
+			}
 		}
 		break;
 	}
@@ -326,6 +353,19 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		}
 		break;
 	}
+	case GameState::LEVEL_SELECTOR_MENU: {
+		int result = levelSelectMenu.handleInput(window, event);
+		if (result == 1) { // Retour
+			currentState = GameState::MAIN_MENU;
+		}
+		else if (result == 2) { // Level Tuto
+			// Play Level Tuto
+		}
+		else if (result == 3) { // Level 1
+			// Play Level 1
+		}
+		break;
+	}
 	default:
 		break;
 	}
@@ -334,7 +374,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 void Game::handleKeyboardInput(const sf::Event& event) {
 	if (event.type == sf::Event::KeyPressed) {
 		if (event.key.code == sf::Keyboard::Escape) {
-			if (currentState == GameState::PLAYING) {
+			if (currentState == GameState::PLAYING || currentState == GameState::EDITOR) {
 				currentState = GameState::PAUSE_MENU;
 				isGamePaused = true;
 			}
@@ -356,6 +396,17 @@ void Game::handleKeyboardInput(const sf::Event& event) {
 			}
 			else if (currentState == GameState::CONTROL_MENU) {
 				currentState = GameState::OPTIONS_MENU;
+			}
+		}
+	}
+}
+
+void Game::handleGamepadInput(float deltaTime) {
+	if (sf::Joystick::isConnected(0)) {
+		if (sf::Joystick::isButtonPressed(0, 7)) { // Start Button
+			if (currentState == GameState::PLAYING) {
+				currentState = GameState::PAUSE_MENU;
+				isGamePaused = true;
 			}
 		}
 	}

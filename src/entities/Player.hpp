@@ -16,38 +16,51 @@ public:
 	void jump(float deltaTime);
 	void deplacement(float deltaTime);
 	void collide(const std::vector<std::unique_ptr<Tiles>>& tiles);
-	float attack();
+	float attack(float deltaTime);
 	void updateHUD(sf::View& view);
-	bool takeDamage(sf::Sprite projEnnemi);
+	bool takeDamage(sf::Sprite projEnnemi, float deltaTime);
+	void animate(float deltaTime);
 
 	sf::Sprite getShape() const;
 	sf::Sprite getShapeAtk() const;
 	sf::Sprite getShapeSmoke() const;
-	sf::Sprite getSpriteHUDEnergy() const;
+	sf::Sprite getLifeBarSprite() const;
+	sf::Sprite getLifeBar2Sprite() const;
+	sf::Sprite getEnergyBarSprite() const;
+	sf::Sprite getProgressBarSprite() const;
 	sf::RectangleShape getShapeFillEnergy() const;
+	sf::RectangleShape getShapeFillHP() const;
 	std::vector<Projectile> getProj() const;
 	sf::Sprite getProjShape(Projectile& proj) const;
 	sf::Sprite getDaySprite() const;
 	sf::Sprite getNightSprite() const;
+	bool getTakingDamageBool() const;
+	void setTakingDamageBool(bool takingDamage);
+	void augmenterEnergie(int quantite);
+	float getEnergie() const;
+	void augmenterHP(int quantite);
+	float getHP() const;
 
 	void rangedAttack();
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 
-	
 	std::vector<Projectile> projectiles;
-bool canAttack = true;
+	bool setAnimationDamage;
+	bool canAttack;
+
 private:
-	sf::Sprite swordSprite;
-	sf::Sprite smokeSprite;
-	sf::Sprite playerSprite;
-	sf::RectangleShape shapeEnergy, shapeFillEnergy;
+	sf::Sprite swordSprite, smokeSprite, playerSprite;
+	sf::Sprite daySprite, nightSprite, lifeBarSprite, lifeBar2Sprite, energyBarSprite, progressBarSprite;
+
+	sf::RectangleShape shapeFillEnergy, shapeFillHP;
+
 	sf::Clock attackClock;	
 	sf::Clock attackDurationClock;
 	sf::Clock rangedAttackClock;
+	sf::Clock rangedAttackClockDuration;
+	sf::Clock takeDamageClock;
 
 	Assets assets;
-
-	sf::Sprite daySprite, nightSprite, hudEnergySprite;
 
 	float velocityY;
 	float velocityX;
@@ -65,32 +78,30 @@ private:
 	float bounce;
 
 	float energy;
+	float energyMax;
 	float maxJetpackEnergy;
 	float jetpackPower;
 	float energyConsumption;
 	float energyRecharge;
 	float damage;
-	
-	
-
-	int hp;
+	float hp;
+	float maxHp;
+	bool isAttacking;
+	bool takingDamage;
+	float progress;
 
 	Animation 
-		jumpAnimation,
-		walkToLeftAnimation,
-		walkToRightAnimation,
-		staticAnimation,
-		hangedToLefAnimation,
-		hangedToRightAnimation,
-
-		takeDamageAnimation,
-		deathAnimation,
+		jumpToLeftAnimation, jumpToRightAnimation,
+		walkToLeftAnimation, walkToRightAnimation,
+		staticToLeftAnimation, staticToRightAnimation,
+		hangedToLefAnimation, hangedToRightAnimation,
+		takeDamageToLeftAnimation, takeDamageToRightAnimation,
+		deathToLeftAnimation, deathToRightAnimation,
 		healAnimation,
-		attackAnimation,
+		attackToLeftAnimation, attackToRightAnimation,
 		rangedAttackAnimation,
 		repairAnimation,
 		smokeAnimation;
-
 };
 
 #endif

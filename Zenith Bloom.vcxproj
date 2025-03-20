@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Game.cpp" />
+    <ClCompile Include="src\entities\CapsuleEnergie.cpp" />
+    <ClCompile Include="src\entities\CapsuleHP.cpp" />
     <ClCompile Include="src\entities\drone.cpp" />
     <ClCompile Include="src\entities\FSM.cpp" />
     <ClCompile Include="src\entities\Entity.cpp" />
@@ -169,7 +171,6 @@
     <ClCompile Include="src\hud\menu\Menu.cpp" />
     <ClCompile Include="src\hud\menu\OptionsMenu.cpp" />
     <ClCompile Include="src\hud\menu\PauseMenu.cpp" />
-    <ClCompile Include="src\hud\menu\Slider.cpp" />
     <ClCompile Include="src\hud\menu\SoundMenu.cpp" />
     <ClCompile Include="src\hud\menu\VideoMenu.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -187,6 +188,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.hpp" />
+    <ClInclude Include="src\entities\CapsuleEnergie.hpp" />
+    <ClInclude Include="src\entities\CapsuleHP.hpp" />
     <ClInclude Include="src\entities\drone.hpp" />
     <ClInclude Include="src\entities\FSM.hpp" />
     <ClInclude Include="src\entities\Entity.hpp" />
@@ -204,7 +207,6 @@
     <ClInclude Include="src\hud\menu\Menu.hpp" />
     <ClInclude Include="src\hud\menu\OptionsMenu.hpp" />
     <ClInclude Include="src\hud\menu\PauseMenu.hpp" />
-    <ClInclude Include="src\hud\menu\Slider.hpp" />
     <ClInclude Include="src\hud\menu\SoundMenu.hpp" />
     <ClInclude Include="src\hud\menu\VideoMenu.hpp" />
     <ClInclude Include="src\map\Map.hpp" />

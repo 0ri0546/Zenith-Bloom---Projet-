@@ -16,27 +16,27 @@ private:
 	float y;
 	int size = 240;
 	int type;
-	sf::Sprite sprite;
-
-	sf::RectangleShape shadowShape;
 	bool shadow;
 	bool empty;
 	int value;
+	bool isReparable;
+
+	sf::Sprite sprite;
+	sf::RectangleShape shadowShape;
 
 public:
 	Tiles(float x, float y, int type);
 	~Tiles();
-	sf::Vector2f getPos() const ;
-	sf::Sprite getSprite() const;
+
+	void setSprite(int type);
 	void setShadow(bool hasShadow);
 	bool hasShadow() const;
 	bool isEmpty() const;
+
+	sf::Sprite getSprite() const;
+	sf::Vector2f getPos() const;
 	sf::RectangleShape getShadowShape() const;
-
 	int getValue() const;
-
-
-	bool isReparable;
 };
 
 #endif 
