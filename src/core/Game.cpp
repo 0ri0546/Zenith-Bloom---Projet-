@@ -165,6 +165,11 @@ void Game::render() {
 		mainMenu.render(window);
 		break;
 	case GameState::PLAYING:
+		gamemap.renderBackground(window);
+		for (auto& tile : gamemap.getTiles()) {
+			window.draw(tile->getSprite());
+		}
+
 		for (auto& ennemy : ennemies) {
 			//window.draw(ennemy->circle);
 			window.draw(ennemy->getSprite());
@@ -177,9 +182,6 @@ void Game::render() {
 
 		for (int i = 0; i < ennemies.size(); i++) {
 			//std::cout << ennemies[i].getSprite().getPosition().x << ", " << ennemies[i].getSprite().getPosition().x << std::endl;
-		}
-		for (auto& tile : gamemap.getTiles()) {
-			window.draw(tile->getSprite());
 		}
 		for (auto proj : player.getProj()) {
 			window.draw(player.getProjShape(proj));
@@ -251,6 +253,7 @@ void Game::render() {
 		levelSelectMenu.render(window);
 		break;
 	case GameState::EDITOR:
+		gamemap.renderBackground(window);
 		for (auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 		}

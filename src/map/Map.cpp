@@ -3,7 +3,49 @@
 #include <iostream>
 #include <string> 
 
-Map::Map() {}
+Map::Map() {
+    initBackground();
+}
+
+void Map::initBackground() {
+    if (!backgroundTexture.loadFromFile("assets/maps/tuto_tiles_1.png")) {
+        std::cerr << "Error loading texture! : background.png" << std::endl;
+    }
+    backgroundSprite.setTexture(backgroundTexture);
+    backgroundSprite.setScale(0.5f, 0.5f);
+    backgroundSprite.setColor(sf::Color(255, 255, 255, 102));
+
+    if (!backgroundTexture2.loadFromFile("assets/maps/tuto_tiles_2.png")) {
+        std::cerr << "Error loading texture! : background.png" << std::endl;
+    }
+    backgroundSprite2.setTexture(backgroundTexture2);
+    backgroundSprite2.setScale(0.5f, 0.5f);
+    backgroundSprite2.setColor(sf::Color(255, 255, 255, 102));
+    backgroundSprite2.setPosition(backgroundSprite.getPosition().x + backgroundSprite.getGlobalBounds().width, 0.f);
+
+    if (!backgroundTexture3.loadFromFile("assets/maps/tuto_tiles_3.png")) {
+        std::cerr << "Error loading texture! : background.png" << std::endl;
+    }
+    backgroundSprite3.setTexture(backgroundTexture3);
+    backgroundSprite3.setScale(0.5f, 0.5f);
+    backgroundSprite3.setColor(sf::Color(255, 255, 255, 102));
+    backgroundSprite3.setPosition(backgroundSprite2.getPosition().x + backgroundSprite2.getGlobalBounds().width, 0.f);
+
+    if (!backgroundTexture4.loadFromFile("assets/maps/tuto_tiles_4.png")) {
+        std::cerr << "Error loading texture! : background.png" << std::endl;
+    }
+    backgroundSprite4.setTexture(backgroundTexture4);
+    backgroundSprite4.setScale(0.5f, 0.5f);
+    backgroundSprite4.setColor(sf::Color(255, 255, 255, 102));
+    backgroundSprite4.setPosition(backgroundSprite3.getPosition().x + backgroundSprite3.getGlobalBounds().width, 0.f);
+}
+
+void Map::renderBackground(sf::RenderWindow& window) {
+    window.draw(backgroundSprite);
+    window.draw(backgroundSprite2);
+    window.draw(backgroundSprite3);
+    window.draw(backgroundSprite4);
+}
 
 vector<vector<char>> Map::getMap() {
     return map;
@@ -68,6 +110,38 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
 
                 if (tileValue < 102) {
                     tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, tileValue));
+                }
+                if (tileValue == 103) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 6));
+                }
+                if (tileValue == 104) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 33));
+                }
+                if (tileValue == 105) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 51));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 12));
+                }
+                if (tileValue == 106) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 32));
+                }
+                if (tileValue == 107) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 31));
+                }
+                if (tileValue == 108) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 30));
+                }
+                if (tileValue == 109) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 63));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 4));
+                }
+                if (tileValue == 110) {
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 51));
+                    tiles.push_back(make_unique<Tiles>(i / 3 * gridCellSize, map.size() * gridCellSize, 10));
                 }
                 if (tileValue == 999) {
                     //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);

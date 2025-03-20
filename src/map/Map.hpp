@@ -23,9 +23,14 @@ private:
 	vector<sf::RectangleShape> recTab;
 	sf::Sprite assetfull;
 
+	sf::Texture backgroundTexture, backgroundTexture2, backgroundTexture3, backgroundTexture4;
+
 public:
 	Map();
 	~Map();
+
+	sf::Sprite backgroundSprite, backgroundSprite2, backgroundSprite3, backgroundSprite4;
+	void renderBackground(sf::RenderWindow& window);
 
 	vector<vector<char>> getMap();
 	vector<unique_ptr<Tiles>>& getTiles();
@@ -37,6 +42,8 @@ public:
 	void editormode(sf::RenderWindow& window, sf::View& view);
 	void handleInput(sf::RenderWindow& window, sf::View& view);
 	void modifyMapFile(int griX, int gridY, int type);
+	void initBackground();
+	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window);
 
 	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie);
 };
