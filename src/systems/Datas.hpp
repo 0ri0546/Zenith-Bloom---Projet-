@@ -72,6 +72,7 @@ public:
 	static sf::Texture lifeBar2Texture;
 	static sf::Texture energyBarTexture;
 	static sf::Texture progressBarTexture;
+	static sf::Texture surchauffeBarTexture;
 
 	//menus
 	static sf::Texture backgroundTexture;

@@ -41,10 +41,10 @@ sf::Texture Shared::panneauTexture;
 //assets du HUD
 sf::Texture Shared::dayTexture;
 sf::Texture Shared::nightTexture;
-sf::Texture Shared::lifeBarTexture;
 sf::Texture Shared::lifeBar2Texture;
 sf::Texture Shared::energyBarTexture;
 sf::Texture Shared::progressBarTexture;
+sf::Texture Shared::surchauffeBarTexture;
 
 //assets des background
 sf::Texture Shared::backgroundTexture;

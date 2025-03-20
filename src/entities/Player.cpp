@@ -6,9 +6,9 @@ Player::Player(sf::Texture& texture) :
 	walkToLeftAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.2f, 100, 100), 
 	walkToRightAnimation(texture, 194, 256, 3, 0.2f, 100, 100),
 	staticToLeftAnimation(Shared::playerReverseTexture, 194, 256, 1, 0.5f, 100, 100),
-	staticToRightAnimation(texture, 194, 256, 1, 0.5f, 100, 100),
+	staticToRightAnimation(texture, 194, 256, 1, 0.2f, 100, 100),
 	hangedToLefAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.5f, 100, 100),
-	hangedToRightAnimation(texture, 194, 256, 3, 0.5f, 100, 100),
+	hangedToRightAnimation(texture, 194, 256, 3, 0.2f, 100, 100),
 
 	takeDamageToLeftAnimation(Shared::playerReverseTexture, 194, 256, 2, 0.5f, 100, 100),
 	takeDamageToRightAnimation(texture, 194, 256, 2, 0.5f, 100, 100),
@@ -70,7 +70,10 @@ Player::Player(sf::Texture& texture) :
 	assets.resize(energyBarSprite, 268, 100);
 
 	progressBarSprite.setTexture(Shared::progressBarTexture);
-	assets.resize(progressBarSprite, 270, 40);
+	assets.resize(progressBarSprite, 400, 50);
+
+	surchauffeBarSprite.setTexture(Shared::surchauffeBarTexture);
+	assets.resize(surchauffeBarSprite, 300, 90);
 
 	damage = 15;
 	hp = 10.f; // -------------------------------------------------------------------------------------------HP---------------
@@ -112,8 +115,8 @@ void Player::animate(float deltaTime) {
 	}
 	else { // En l'air (saut ou accroché)
 		if (hangedToWallsLeft || hangedToWallsRight) {
-			(hangedToWallsLeft ? hangedToLefAnimation : hangedToRightAnimation).update(deltaTime);
-			(hangedToWallsLeft ? hangedToLefAnimation : hangedToRightAnimation).applyToSprite(playerSprite, 8);
+			(hangedToWallsLeft ? hangedToRightAnimation : hangedToLefAnimation).update(deltaTime);
+			(hangedToWallsLeft ? hangedToRightAnimation : hangedToLefAnimation).applyToSprite(playerSprite, 8);
 		}
 		else { // Saut normal
 			(lastDepIsLeft ? jumpToLeftAnimation : jumpToRightAnimation).update(deltaTime);
@@ -398,7 +401,8 @@ void Player::updateHUD(sf::View& view) {
 
 	lifeBarSprite.setPosition(hudX, hudY);
 	energyBarSprite.setPosition(hudX + 15, hudY + lifeBarSprite.getGlobalBounds().height + spacing);
-	progressBarSprite.setPosition(hudX + 15, hudY + lifeBarSprite.getGlobalBounds().height * 2 + (spacing * 3));
+	surchauffeBarSprite.setPosition(hudX, hudY + lifeBarSprite.getGlobalBounds().height * 2 + (spacing * 2));
+	progressBarSprite.setPosition(hudX + Config::WINDOW_WIDTH / 2 - progressBarSprite.getGlobalBounds().width / 2, hudY + spacing);
 
 	shapeFillEnergy.setPosition(hudX + spacing - 1, hudY + lifeBarSprite.getGlobalBounds().height + 53);
 	shapeFillHP.setPosition(hudX + spacing - 2, hudY + (spacing * 2) + 8);
@@ -471,6 +475,7 @@ sf::Sprite Player::getLifeBarSprite() const { return lifeBarSprite; }
 sf::Sprite Player::getLifeBar2Sprite() const { return lifeBarSprite; }
 sf::Sprite Player::getEnergyBarSprite() const { return energyBarSprite; }
 sf::Sprite Player::getProgressBarSprite() const { return progressBarSprite; }
+sf::Sprite Player::getSurchauffeBarSprite() const { return surchauffeBarSprite; }
 sf::RectangleShape Player::getShapeFillEnergy() const { return shapeFillEnergy; }
 sf::RectangleShape Player::getShapeFillHP() const { return shapeFillHP; }
 std::vector<Projectile> Player::getProj() const { return projectiles; }

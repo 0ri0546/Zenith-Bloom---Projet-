@@ -35,7 +35,6 @@ void Assets::loadAssetsFromFiles() {
 	Shared::energyBarTexture.loadFromFile("assets/textures/hud/energyBar.png");
 	Shared::progressBarTexture.loadFromFile("assets/textures/hud/progressBar.png");
 
-	Shared::lifeBarTexture.loadFromFile("assets/textures/hud/lifeBar.png");
 	Shared::lifeBar2Texture.loadFromFile("assets/textures/hud/lifeBar2.png");
 	Shared::backgroundTexture.loadFromFile("assets/textures/menu/background.jpg");
 	Shared::capsuleHPTexture.loadFromFile("assets/maps/tileset/capsule_hp.png");
@@ -50,6 +49,7 @@ void Assets::loadAssetsFromFiles() {
 	Shared::lampadaireTexture.loadFromFile("assets/maps/reparable/solarrebirth_lampadaire.png");
 	Shared::panneauTexture.loadFromFile("assets/maps/reparable/solarrebirth_solaire.png");
 
+	Shared::surchauffeBarTexture.loadFromFile("assets/textures/hud/surchauffeBar.png");
 
 }
 

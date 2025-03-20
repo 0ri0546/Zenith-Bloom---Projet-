@@ -28,6 +28,7 @@ public:
 	sf::Sprite getLifeBar2Sprite() const;
 	sf::Sprite getEnergyBarSprite() const;
 	sf::Sprite getProgressBarSprite() const;
+	sf::Sprite getSurchauffeBarSprite() const;
 	sf::RectangleShape getShapeFillEnergy() const;
 	sf::RectangleShape getShapeFillHP() const;
 	std::vector<Projectile> getProj() const;
@@ -52,7 +53,7 @@ public:
 
 private:
 	sf::Sprite swordSprite, smokeSprite, playerSprite;
-	sf::Sprite daySprite, nightSprite, lifeBarSprite, energyBarSprite, progressBarSprite;
+	sf::Sprite daySprite, nightSprite, lifeBarSprite, energyBarSprite, progressBarSprite, surchauffeBarSprite;
 
 	sf::RectangleShape shapeFillEnergy, shapeFillHP;
 

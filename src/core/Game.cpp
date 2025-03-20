@@ -225,6 +225,7 @@ void Game::render() {
 		window.draw(player.getShapeFillHP());
 		window.draw(player.getLifeBar2Sprite()); 
 		window.draw(player.getEnergyBarSprite());
+		window.draw(player.getSurchauffeBarSprite());
 		if (isDay) { window.draw(player.getDaySprite()); }
 		else { window.draw(player.getNightSprite()); }
 		window.draw(player.getProgressBarSprite());
