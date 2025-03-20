@@ -17,7 +17,7 @@
 #include "../entities/Tank.hpp"
 #include "../systems/grid.hpp"
 #include "../hud/menu/BouncingTitle.hpp"
-#include "../hud/menu/gameOver.hpp"
+#include "../hud/menu/gameOverMenu.hpp"
 #include "../hud/menu/LevelSelectorMenu.hpp"
 
 class Game {
