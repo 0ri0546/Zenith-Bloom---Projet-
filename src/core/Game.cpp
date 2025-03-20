@@ -74,7 +74,11 @@ void Game::update(float deltaTime) {
 			}
 		}
 		break;
-	case GameState::MAIN_MENU:
+	case GameState::SOUND_MENU:
+		soundMenu.updateSliderValues();
+		break;
+	case GameState::VIDEO_MENU:
+		videoMenu.update(window);
 		break;
 	case GameState::PLAYING:
 		player.setTakingDamageBool(false);
@@ -218,6 +222,17 @@ void Game::render() {
 	case GameState::LEVEL_SELECTOR_MENU:
 		levelSelectMenu.render(window);
 		break;
+	case GameState::EDITOR:
+		for (auto& tile : gamemap.getTiles()) {
+			window.draw(tile->getSprite());
+		}
+		for (const auto& tile : gamemap.getTiles()) {
+			window.draw(tile->getSprite());
+			if (tile->hasShadow()) {
+				window.draw(tile->getShadowShape());
+			}
+		}
+		break;
 	default:
 		break;
 	}
@@ -262,6 +277,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			isRunning = false;
 			window.close();
 		}
+		else if (result == 4) { // Editeur Mode
+			currentState = GameState::EDITOR;
+		}
 		break;
 	}
 	case GameState::PAUSE_MENU: {
@@ -276,6 +294,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		}
 		else if (result == 3) { // Menu Principal
 			currentState = GameState::MAIN_MENU;
+		}
+		else if (result == 4) { // Editeur Mode
+			currentState = GameState::EDITOR;
 		}
 		break;
 	}
@@ -296,7 +317,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			currentState = GameState::SOUND_MENU;
 		}
 		else if (result == 4) { // Controles
-			currentState = GameState::CONTROL_MENU;
+			if (!sf::Joystick::isConnected(0)) {
+				currentState = GameState::CONTROL_MENU;
+			}
 		}
 		break;
 	}

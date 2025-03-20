@@ -172,7 +172,6 @@
     <ClCompile Include="src\hud\menu\Menu.cpp" />
     <ClCompile Include="src\hud\menu\OptionsMenu.cpp" />
     <ClCompile Include="src\hud\menu\PauseMenu.cpp" />
-    <ClCompile Include="src\hud\menu\Slider.cpp" />
     <ClCompile Include="src\hud\menu\SoundMenu.cpp" />
     <ClCompile Include="src\hud\menu\VideoMenu.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -209,7 +208,6 @@
     <ClInclude Include="src\hud\menu\Menu.hpp" />
     <ClInclude Include="src\hud\menu\OptionsMenu.hpp" />
     <ClInclude Include="src\hud\menu\PauseMenu.hpp" />
-    <ClInclude Include="src\hud\menu\Slider.hpp" />
     <ClInclude Include="src\hud\menu\SoundMenu.hpp" />
     <ClInclude Include="src\hud\menu\VideoMenu.hpp" />
     <ClInclude Include="src\map\Map.hpp" />

@@ -20,6 +20,7 @@ public:
     int handleInput(sf::RenderWindow& window, const sf::Event& event) override;
     void toggleFullscreen(sf::RenderWindow& window);
     void toggleVSync(sf::RenderWindow& window);
+    void update(sf::RenderWindow& window);
 };
 
 #endif // VIDEO_MENU_HPP

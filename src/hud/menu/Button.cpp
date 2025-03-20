@@ -2,7 +2,7 @@
 #include <iostream>
 
 Button::Button(int id, const std::string& label, const std::string& label2, sf::Font& font, sf::Vector2f position, sf::Vector2f size, std::function<void()> callback, int minValue, int maxValue, int initialValue, bool slider)
-    : id(id), onClick(callback), isHovered(false), originalText(label2), minValue(minValue), maxValue(maxValue), currentValue(initialValue), isDragging(false), name(label), initialValue(initialValue), isSlider(slider), font(font) {
+    : id(id), name(label), originalText(label2), font(font), onClick(callback), isSlider(slider), minValue(minValue), maxValue(maxValue), initialValue(initialValue), currentValue(initialValue), isHovered(false), isDragging(false) {
 
     if (slider) {
         bar.setSize(size);
@@ -16,21 +16,20 @@ Button::Button(int id, const std::string& label, const std::string& label2, sf::
         circle.setOrigin(circle.getRadius(), circle.getRadius());
         circle.setPosition(circleX, position.y + bar.getSize().y / 2);
 
-        this->font = font;
 
-        minText.setFont(this->font);
+        minText.setFont(font);
         minText.setString(std::to_string(minValue));
         minText.setCharacterSize(20);
         minText.setFillColor(sf::Color::White);
         minText.setPosition(position.x - 40, position.y - 10);
 
-        maxText.setFont(this->font);
+        maxText.setFont(font);
         maxText.setString(std::to_string(maxValue));
         maxText.setCharacterSize(20);
         maxText.setFillColor(sf::Color::White);
         maxText.setPosition(position.x + size.x + 10, position.y - 10);
 
-        valueText.setFont(this->font);
+        valueText.setFont(font);
         valueText.setString(std::to_string(currentValue));
         valueText.setCharacterSize(30);
         valueText.setFillColor(sf::Color::White);
@@ -38,7 +37,7 @@ Button::Button(int id, const std::string& label, const std::string& label2, sf::
         valueText.setPosition(position.x + size.x / 2.f + 20, position.y - 70);
         valueText.setOutlineThickness(1);
 
-        nameText.setFont(this->font);
+        nameText.setFont(font);
         nameText.setString(name);
         nameText.setCharacterSize(30);
         nameText.setFillColor(sf::Color::White);
