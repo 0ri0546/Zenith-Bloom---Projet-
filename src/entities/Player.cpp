@@ -293,7 +293,7 @@ void Player::deplacement(float deltaTime) {
 	// méthode pour gérer le déplacement du joueur
 	deltaTime = std::min(deltaTime, 0.1f);
 	const float acceleration = 1000.0f;
-	const float friction = 1000.0f;
+	const float friction = 2000.0f;
 	const float maxSpeed = 700.0f; 
 	float test = maxSpeed / 2;
 

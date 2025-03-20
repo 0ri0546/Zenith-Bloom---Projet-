@@ -57,7 +57,7 @@ void Game::processEvents(float deltaTime) {
 			break;
 		case GameState::LEVEL_SELECTOR_MENU:
 			levelSelectMenu.handleInput(window, event);
-			break;		
+			break;
 		default:
 			break;
 		}
