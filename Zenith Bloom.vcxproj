@@ -174,8 +174,10 @@
     <ClCompile Include="src\hud\menu\SoundMenu.cpp" />
     <ClCompile Include="src\hud\menu\VideoMenu.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\map\Deco.cpp" />
     <ClCompile Include="src\map\Map.cpp" />
     <ClCompile Include="src\map\Platform.cpp" />
+    <ClCompile Include="src\map\Reparable.cpp" />
     <ClCompile Include="src\map\Tiles.cpp" />
     <ClCompile Include="src\systems\Animation.cpp" />
     <ClCompile Include="src\systems\AssetLoader.cpp" />
@@ -208,8 +210,10 @@
     <ClInclude Include="src\hud\menu\PauseMenu.hpp" />
     <ClInclude Include="src\hud\menu\SoundMenu.hpp" />
     <ClInclude Include="src\hud\menu\VideoMenu.hpp" />
+    <ClInclude Include="src\map\Deco.hpp" />
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
+    <ClInclude Include="src\map\Reparable.hpp" />
     <ClInclude Include="src\map\Tiles.hpp" />
     <ClInclude Include="src\systems\Animation.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
