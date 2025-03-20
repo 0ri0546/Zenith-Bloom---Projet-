@@ -221,6 +221,17 @@ void Game::render() {
 	case GameState::LEVEL_SELECTOR_MENU:
 		levelSelectMenu.render(window);
 		break;
+	case GameState::EDITOR:
+		for (auto& tile : gamemap.getTiles()) {
+			window.draw(tile->getSprite());
+		}
+		for (const auto& tile : gamemap.getTiles()) {
+			window.draw(tile->getSprite());
+			if (tile->hasShadow()) {
+				window.draw(tile->getShadowShape());
+			}
+		}
+		break;
 	default:
 		break;
 	}
