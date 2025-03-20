@@ -19,6 +19,7 @@ sf::Texture Shared::droneTexture;
 sf::Texture Shared::droneTextureR;
 sf::Texture Shared::incendTexture;
 sf::Texture Shared::incendTextureR;
+sf::Texture Shared::projIcend;
 
 //assets des tiles
 sf::Texture Shared::groundTexture;

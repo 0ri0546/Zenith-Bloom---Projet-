@@ -46,6 +46,7 @@ public:
 	static sf::Texture droneTextureR;
 	static sf::Texture incendTexture;
 	static sf::Texture incendTextureR;
+	static sf::Texture projIcend;
 
 	//assets map
 	static sf::Texture groundTexture; 

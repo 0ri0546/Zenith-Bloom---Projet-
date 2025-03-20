@@ -294,11 +294,11 @@ void Ennemy::rangedAttack(float deltaTime) {
         //rangClock.restart();
         sf::Vector2f spawnPos = spriteEnnemy.getPosition();
         spawnPos.x += lastDepIsLeft ? -20 : spriteEnnemy.getGlobalBounds().width;
-
+        spawnPos.y -= 40;
         AudioManager::getInstance().playSound("tir");
         
-        Projectile newProjectile(Shared::projectileTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
-        newProjectile.resize(20, 20);
+        Projectile newProjectile(Shared::projIcend, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
+        newProjectile.resize(30, 30);
         projectiles.push_back(newProjectile);
 
         /*if (rangClock.getElapsedTime().asSeconds() <= 0.5f) {
