@@ -2,11 +2,11 @@
 #include <iostream>
 
 void VideoMenu::initButtons() {
-    buttons.emplace_back(1, "Retour", "Retour", font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 200), sf::Vector2f(200, 50), []() {});
-    buttons.emplace_back(2, "Plein Ecran", "Plein Ecran", font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 300), sf::Vector2f(200, 50), []() {});
-    buttons.emplace_back(3, "Synchronisation Vertical - ON", "Synchronisation Vertical - ON", font, sf::Vector2f((Config::WINDOW_WIDTH - 400) / 2.f, 400), sf::Vector2f(400, 50), []() {});
+    buttons.emplace_back(1, "Retour", "Retour", Shared::font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 200), sf::Vector2f(200, 50), []() {});
+    buttons.emplace_back(2, "Plein Ecran", "Plein Ecran", Shared::font, sf::Vector2f((Config::WINDOW_WIDTH - 200) / 2.f, 300), sf::Vector2f(200, 50), []() {});
+    buttons.emplace_back(3, "Synchronisation Vertical - ON", "Synchronisation Vertical - ON", Shared::font, sf::Vector2f((Config::WINDOW_WIDTH - 400) / 2.f, 400), sf::Vector2f(400, 50), []() {});
 
-    buttons.emplace_back(4, "Max FPS : ", "Max FPS : ", font, sf::Vector2f((Config::WINDOW_WIDTH - 400) / 2.f, 530), sf::Vector2f(400, 5), []() {}, 30, 240, 60, true);
+    buttons.emplace_back(4, "Max FPS : ", "Max FPS : ", Shared::font, sf::Vector2f((Config::WINDOW_WIDTH - 400) / 2.f, 530), sf::Vector2f(400, 5), []() {}, 30, 240, 60, true);
 }
 
 VideoMenu::VideoMenu(MenuList lastMenu) : Menu(), isFullscreen(true), isVSync(true), lastMenu(lastMenu) {

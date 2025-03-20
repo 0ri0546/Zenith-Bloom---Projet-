@@ -34,7 +34,8 @@ sf::Texture Shared::lifeBar2Texture;
 sf::Texture Shared::energyBarTexture;
 sf::Texture Shared::progressBarTexture;
 
-//assets des menus
+//assets des 
+sf::Texture Shared::backgroundTexture;
 
 namespace Keybind {
     static std::unordered_map<Action, sf::Keyboard::Key> keyBindings = {

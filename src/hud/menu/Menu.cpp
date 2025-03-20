@@ -1,23 +1,13 @@
 #include "Menu.hpp"
 #include <iostream>
 
-void Menu::initFont() {
-    if (!font.loadFromFile("assets/fonts/Ethnocentric Rg.otf")) {
-        std::cerr << "Error loading font! : arial.ttf" << std::endl;
-    }
-}
-
 void Menu::initBackground() {
-    if (!backgroundTexture.loadFromFile("assets/textures/menu/background.jpg")) {
-        std::cerr << "Error loading texture! : background.png" << std::endl;
-    }
-    backgroundSprite.setTexture(backgroundTexture);
+    backgroundSprite.setTexture(Shared::backgroundTexture);
     backgroundSprite.setScale(1.23f, 1.23f);
     backgroundSprite.setPosition((Config::WINDOW_WIDTH - backgroundSprite.getGlobalBounds().width) / 2.f, 0.f);
 }
 
 Menu::Menu() {
-    initFont();
     initBackground();
 
     isGamepadConnected = sf::Joystick::isConnected(0);

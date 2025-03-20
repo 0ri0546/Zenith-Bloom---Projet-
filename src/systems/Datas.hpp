@@ -60,6 +60,9 @@ public:
 	static sf::Texture lifeBar2Texture;
 	static sf::Texture energyBarTexture;
 	static sf::Texture progressBarTexture;
+
+	//menus
+	static sf::Texture backgroundTexture;
 };
 
 #endif
