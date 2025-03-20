@@ -23,7 +23,6 @@ void Assets::loadAssetsFromFiles() {
 
 	Shared::tankTexture.loadFromFile("assets/ennemies/retouche/tankTile.png");
 	Shared::tankTextureR.loadFromFile("assets/ennemies/retouche/tankTileR.png");
-	//Shared::droneTexture.loadFromFile("assets/ennemies/droneTest.png");
 
 	Shared::incendTextureR.loadFromFile("assets/ennemies/retouche/incendTile.png");
 	Shared::incendTexture.loadFromFile("assets/ennemies/retouche/incendTileR.png");
@@ -38,10 +37,20 @@ void Assets::loadAssetsFromFiles() {
 
 	Shared::lifeBarTexture.loadFromFile("assets/textures/hud/lifeBar.png");
 	Shared::lifeBar2Texture.loadFromFile("assets/textures/hud/lifeBar2.png");
-	Shared::itemsTexture.loadFromFile("assets/maps/tileset/items.png");
 	Shared::backgroundTexture.loadFromFile("assets/textures/menu/background.jpg");
 	Shared::capsuleHPTexture.loadFromFile("assets/maps/tileset/capsule_hp.png");
 	Shared::capsuleEnergyTexture.loadFromFile("assets/maps/tileset/capsule_energie.png");
+
+	Shared::propsTexture.loadFromFile("assets/maps/tileset/props.png");
+	Shared::boxTexture.loadFromFile("assets/maps/reparable/solarebirth_panneau_recyclage_bac.png");
+	Shared::serreTexture.loadFromFile("assets/maps/reparable/solarebirth_serre.png");
+	Shared::antenneTexture.loadFromFile("assets/maps/reparable/solarrebirth_antenne.png");
+	Shared::carTexture.loadFromFile("assets/maps/reparable/solarrebirth_car.png");
+	Shared::eolienneTexture.loadFromFile("assets/maps/reparable/solarrebirth_eolienne.png");
+	Shared::lampadaireTexture.loadFromFile("assets/maps/reparable/solarrebirth_lampadaire.png");
+	Shared::panneauTexture.loadFromFile("assets/maps/reparable/solarrebirth_solaire.png");
+
+
 }
 
 void Assets::resize(sf::Sprite& sprite, float scaleX, float scaleY) {

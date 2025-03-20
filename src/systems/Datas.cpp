@@ -28,6 +28,14 @@ sf::Texture Shared::floorTexture;
 sf::Texture Shared::itemsTexture;
 sf::Texture Shared::capsuleHPTexture;
 sf::Texture Shared::capsuleEnergyTexture;
+sf::Texture Shared::propsTexture;
+sf::Texture Shared::boxTexture;
+sf::Texture Shared::serreTexture;
+sf::Texture Shared::antenneTexture;
+sf::Texture Shared::carTexture;
+sf::Texture Shared::eolienneTexture;
+sf::Texture Shared::lampadaireTexture;
+sf::Texture Shared::panneauTexture;
 //sf::Sprite groundSprite;
 
 //assets du HUD
@@ -38,7 +46,7 @@ sf::Texture Shared::lifeBar2Texture;
 sf::Texture Shared::energyBarTexture;
 sf::Texture Shared::progressBarTexture;
 
-//assets des 
+//assets des background
 sf::Texture Shared::backgroundTexture;
 
 namespace Keybind {

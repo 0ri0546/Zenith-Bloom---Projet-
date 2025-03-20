@@ -55,6 +55,14 @@ public:
 	static sf::Texture itemsTexture;
 	static sf::Texture capsuleHPTexture;
 	static sf::Texture capsuleEnergyTexture;
+	static sf::Texture propsTexture;
+	static sf::Texture boxTexture;
+	static sf::Texture serreTexture;
+	static sf::Texture antenneTexture;
+	static sf::Texture carTexture;
+	static sf::Texture eolienneTexture;
+	static sf::Texture lampadaireTexture;
+	static sf::Texture panneauTexture;
 	//static sf::Sprite groundSprite; 
 
 	//HUD

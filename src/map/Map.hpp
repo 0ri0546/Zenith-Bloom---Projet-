@@ -38,13 +38,10 @@ public:
 	void spawnTile(int x, int y, int mapNum);
 	void supprTile(int x, int y);
 	void preshowTile(int x, int y, sf::RenderWindow& window);
-	void loadMap(int mapNum, vector<Ennemy>& ennemies, Player& player, sf::RenderWindow& window);
 	void editormode(sf::RenderWindow& window, sf::View& view);
 	void handleInput(sf::RenderWindow& window, sf::View& view);
 	void modifyMapFile(int griX, int gridY, int type);
 	void initBackground();
-	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window);
-
 	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie);
 };
 
