@@ -48,6 +48,7 @@ private:
 	Player player;
 	sf::View view;
 	Map gamemap;
+	sf::Clock cycleClock;
 	
 	std::vector<Platform> platforms;
 	vector<std::unique_ptr<Ennemy>> ennemies;
@@ -70,6 +71,7 @@ private:
 	void handleState(const sf::Event& event, float deltaTime);
 	void handleKeyboardInput(const sf::Event& event);
 	void handleGamepadInput(float deltaTime);
+	void cycleDayNight();
 
 	BouncingTitle title;
 	GameState currentState;

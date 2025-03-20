@@ -55,13 +55,14 @@ Player::Player(sf::Texture& texture) :
 	isDead = false;
 	canDisplayGameOverBool = false;	
 	isRepairing = false;
+	progress = 0;
 
 	energy = 100.f;
-	energyMax = 100.f;
-	maxJetpackEnergy = 100.f;
+	maxEnergy = 100.f;
 	jetpackPower = -3.f;
 	energyConsumption = 10.f;
-	energyRecharge = 1.f;
+	energyRecharge = 0.2f;
+	hpRecharge = 0.2f;
 
 	lifeBarSprite.setTexture(Shared::lifeBar2Texture);
 	assets.resize(lifeBarSprite, 300, 100);
@@ -142,7 +143,7 @@ void Player::animate(float deltaTime) {
 
 }
 
-void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
+void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime, bool isDay) {
 	// méthode pour mettre à jour le joueur
 	if (hp <= 0) {
 		if (!isDead) {
@@ -154,6 +155,7 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 		}
 	}
 
+	statsManager(isDay);
 	animate(deltaTime);
 	collide(tiles);
 	if (!isDead) {
@@ -171,6 +173,24 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 }
 
 bool Player::getCanDisplayGameOverBool() const { return canDisplayGameOverBool; }
+
+void Player::statsManager(bool isDay) {
+	if (energy < maxEnergy) {
+		energy += energyRecharge;
+	}
+	if (energy <= 0) {
+		energy = 0;
+	}
+
+	if (isDay) {
+		if (hp < maxHp) {
+			hp += hpRecharge;
+		}
+		if (hp <= 0) {
+			hp = 0;
+		}
+	}
+}
 
 void Player::jump(float deltaTime) {
 	// méthode pour gérer le saut du joueur (mouvement + fumée)
@@ -197,9 +217,7 @@ void Player::jump(float deltaTime) {
 		}
 		if (!sf::Joystick::isButtonPressed(0, 0)) {
 			canJump = true;
-			if (energy < maxJetpackEnergy) {
-				energy += energyRecharge;
-			}
+			
 		}
 	}
 	else {
@@ -213,9 +231,7 @@ void Player::jump(float deltaTime) {
 		}
 		if (!sf::Keyboard::isKeyPressed(Keybind::getKey(Keybind::Action::Jump))) {
 			canJump = true;
-			if (energy < maxJetpackEnergy) {
-				energy += energyRecharge;
-			}
+			
 		}
 	}
 	playerSprite.move(0, velocityY * deltaTime);
@@ -396,7 +412,7 @@ void Player::updateHUD(sf::View& view) {
 	shapeFillHP.setSize(sf::Vector2f(((hp / maxHp) * 100) * 2.67f, sizeY));
 	shapeFillHP.setFillColor(sf::Color::Red);
 
-	shapeFillEnergy.setSize(sf::Vector2f(((energy / maxJetpackEnergy) * 100) * 2.62f, sizeY));
+	shapeFillEnergy.setSize(sf::Vector2f(((energy / maxEnergy) * 100) * 2.62f, sizeY));
 	shapeFillEnergy.setFillColor(sf::Color::Green);
 
 	lifeBarSprite.setPosition(hudX, hudY);
@@ -453,8 +469,8 @@ bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
 
 void Player::augmenterEnergie(int quantite) {
 	energy += quantite;
-	if (energy > energyMax) {
-		energy = energyMax;
+	if (energy > maxEnergy) {
+		energy = maxEnergy;
 	}
 }
 

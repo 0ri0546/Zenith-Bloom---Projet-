@@ -80,10 +80,11 @@ void Game::update(float deltaTime) {
 		videoMenu.update(window);
 		break;
 	case GameState::PLAYING:
+		cycleDayNight();
 		player.setTakingDamageBool(false);
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 		
-		player.update(gamemap.getTiles(), window, view, deltaTime);
+		player.update(gamemap.getTiles(), window, view, deltaTime, isDay);
 
 		for (auto& ennemy : ennemies) {
 			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
@@ -275,7 +276,7 @@ void Game::render() {
 
 void Game::run() {
 	sf::Clock clock;
-	
+	cycleClock.restart();
 	while (isRunning) {
 		float deltaTime = clock.restart().asSeconds();
 		processEvents(deltaTime);
@@ -440,5 +441,15 @@ void Game::handleGamepadInput(float deltaTime) {
 				isGamePaused = true;
 			}
 		}
+	}
+}
+
+void Game::cycleDayNight() {
+	if (cycleClock.getElapsedTime().asSeconds() >= 30.f && isDay) {
+		cycleClock.restart();
+		isDay = false;
+	}if (cycleClock.getElapsedTime().asSeconds() >= 15.f && !isDay) {
+		cycleClock.restart();
+		isDay = true;
 	}
 }

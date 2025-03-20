@@ -12,7 +12,7 @@ class Player : public Entity {
 public:
 	Player(sf::Texture& texture);
 	~Player();
-	void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) override;
+	void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime, bool isDay) override;
 	void jump(float deltaTime);
 	void deplacement(float deltaTime);
 	void collide(const std::vector<std::unique_ptr<Tiles>>& tiles);
@@ -20,6 +20,7 @@ public:
 	void updateHUD(sf::View& view);
 	bool takeDamage(sf::Sprite projEnnemi, float deltaTime);
 	void animate(float deltaTime);
+	void statsManager(bool isDay);
 
 	sf::Sprite getShape() const;
 	sf::Sprite getShapeAtk() const;
@@ -75,7 +76,6 @@ private:
 	const int maxJumps = 2;
 	bool canJump;
 	bool lastDepIsLeft;
-	int vie;
 	bool isDead;
 	bool hangedToWallsLeft;
 	bool hangedToWallsRight;
@@ -83,11 +83,11 @@ private:
 	float bounce;
 
 	float energy;
-	float energyMax;
-	float maxJetpackEnergy;
+	float maxEnergy;
 	float jetpackPower;
 	float energyConsumption;
 	float energyRecharge;
+	float hpRecharge;
 	float damage;
 	float hp;
 	float maxHp;
