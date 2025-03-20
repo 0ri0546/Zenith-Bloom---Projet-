@@ -2,9 +2,20 @@
 #include "../systems/audioManager.hpp"
 #include <iostream>
 
+AudioManager::AudioManager() {
+    loadAllSounds(); // Charge tous les sons automatiquement
+}
+
 AudioManager& AudioManager::getInstance() {
     static AudioManager instance;
     return instance;
+}
+
+void AudioManager::loadAllSounds() {
+    loadSound("tir", "assets/sound/tir.MP3");
+    /*loadSound("jump", "assets/jump.wav");
+    loadSound("damage", "assets/damage.wav");*/
+    
 }
 
 void AudioManager::loadSound(const std::string& name, const std::string& filename) {

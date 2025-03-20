@@ -6,6 +6,7 @@
 #include "Projectile.hpp"
 #include "../map/Platform.hpp"
 #include "../systems/Animation.hpp"
+#include "../systems/audioManager.hpp"
 
 enum ennemyState {
     PATROL,
