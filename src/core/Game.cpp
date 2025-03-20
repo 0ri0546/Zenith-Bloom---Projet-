@@ -111,7 +111,6 @@ void Game::update(float deltaTime) {
 				++it;
 			}
 		}
-
 		for (auto it = capsulesHP.begin(); it != capsulesHP.end(); ) {
 			if ((*it)->getSprite().getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
 				player.augmenterHP((*it)->getHPValue());
@@ -121,6 +120,23 @@ void Game::update(float deltaTime) {
 				++it;
 			}
 		}
+		/*for (auto it = player.getProj().begin(); it != player.getProj().end(); ) {
+			bool erased = false;  
+			auto currentProj = *it; 
+
+			for (auto& tile : gamemap.getTiles()) {
+				if (currentProj.getSprite().getGlobalBounds().intersects(player.getProjShape(currentProj).getGlobalBounds())) {
+					it = player.getProj().erase(it);
+					erased = true;
+					break;  
+				}
+			}
+
+			if (!erased) {
+				++it; 
+			}
+		}*/
+
 
 		view.setCenter(player.getShape().getPosition());
 		if (player.getCanDisplayGameOverBool()) {
