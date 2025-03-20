@@ -8,7 +8,7 @@
 
 class Entity {
 public:
-	virtual void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime, bool isDay) = 0;
+	virtual void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime, bool isDay, bool isInTheSun) = 0;
 };
 
 #endif

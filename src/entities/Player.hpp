@@ -12,7 +12,7 @@ class Player : public Entity {
 public:
 	Player(sf::Texture& texture);
 	~Player();
-	void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime, bool isDay) override;
+	void update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime, bool isDay, bool isInTheSun) override;
 	void jump(float deltaTime);
 	void deplacement(float deltaTime);
 	void collide(const std::vector<std::unique_ptr<Tiles>>& tiles);
@@ -20,7 +20,7 @@ public:
 	void updateHUD(sf::View& view);
 	bool takeDamage(sf::Sprite projEnnemi, float deltaTime);
 	void animate(float deltaTime);
-	void statsManager(bool isDay);
+	void statsManager(bool isDay, bool isInTheSun);
 
 	sf::Sprite getShape() const;
 	sf::Sprite getShapeAtk() const;
@@ -32,6 +32,7 @@ public:
 	sf::Sprite getSurchauffeBarSprite() const;
 	sf::RectangleShape getShapeFillEnergy() const;
 	sf::RectangleShape getShapeFillHP() const;
+	sf::RectangleShape getShapeSurchauffe() const;
 	std::vector<Projectile> getProj() const;
 	sf::Sprite getProjShape(Projectile& proj) const;
 	sf::Sprite getDaySprite() const;
@@ -56,7 +57,7 @@ private:
 	sf::Sprite swordSprite, smokeSprite, playerSprite;
 	sf::Sprite daySprite, nightSprite, lifeBarSprite, energyBarSprite, progressBarSprite, surchauffeBarSprite;
 
-	sf::RectangleShape shapeFillEnergy, shapeFillHP;
+	sf::RectangleShape shapeFillEnergy, shapeFillHP, shapeFillSurchauffe;
 
 	sf::Clock attackClock;	
 	sf::Clock attackDurationClock;
@@ -83,6 +84,9 @@ private:
 	float bounce;
 
 	float energy;
+	float surchauffe;
+	float maxSurchauffe;
+	float surchauffeRecharge;
 	float maxEnergy;
 	float jetpackPower;
 	float energyConsumption;

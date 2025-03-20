@@ -10,6 +10,7 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 
 	textFall = false;
 	isDay = true;
+	isInTheSun = true;
 }
 
 void Game::createWindow() {
@@ -84,7 +85,7 @@ void Game::update(float deltaTime) {
 		player.setTakingDamageBool(false);
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 		
-		player.update(gamemap.getTiles(), window, view, deltaTime, isDay);
+		player.update(gamemap.getTiles(), window, view, deltaTime, isDay, isInTheSun);
 
 		for (auto& ennemy : ennemies) {
 			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
@@ -226,6 +227,7 @@ void Game::render() {
 		window.draw(player.getShapeFillHP());
 		window.draw(player.getLifeBar2Sprite()); 
 		window.draw(player.getEnergyBarSprite());
+		window.draw(player.getShapeSurchauffe());
 		window.draw(player.getSurchauffeBarSprite());
 		if (isDay) { window.draw(player.getDaySprite()); }
 		else { window.draw(player.getNightSprite()); }

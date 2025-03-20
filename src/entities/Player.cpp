@@ -63,6 +63,9 @@ Player::Player(sf::Texture& texture) :
 	energyConsumption = 10.f;
 	energyRecharge = 0.2f;
 	hpRecharge = 0.2f;
+	surchauffe = 50.f;
+	maxSurchauffe = 100.f;
+	surchauffeRecharge = 0.1f;
 
 	lifeBarSprite.setTexture(Shared::lifeBar2Texture);
 	assets.resize(lifeBarSprite, 300, 100);
@@ -143,7 +146,7 @@ void Player::animate(float deltaTime) {
 
 }
 
-void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime, bool isDay) {
+void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime, bool isDay, bool isInTheSun) {
 	// méthode pour mettre à jour le joueur
 	if (hp <= 0) {
 		if (!isDead) {
@@ -155,7 +158,7 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 		}
 	}
 
-	statsManager(isDay);
+	statsManager(isDay, isInTheSun);
 	animate(deltaTime);
 	collide(tiles);
 	if (!isDead) {
@@ -174,21 +177,22 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 
 bool Player::getCanDisplayGameOverBool() const { return canDisplayGameOverBool; }
 
-void Player::statsManager(bool isDay) {
-	if (energy < maxEnergy) {
-		energy += energyRecharge;
-	}
-	if (energy <= 0) {
-		energy = 0;
-	}
+void Player::statsManager(bool isDay, bool isInTheSun) {
+	if (energy < maxEnergy) { energy += energyRecharge; }
+	if (energy <= 0) { energy = 0; }
 
 	if (isDay) {
-		if (hp < maxHp) {
-			hp += hpRecharge;
+		if (hp < maxHp) { hp += hpRecharge; }
+		if (hp <= 0) { hp = 0; }
+		if (isInTheSun) {
+			if (surchauffe < maxSurchauffe) { surchauffe += surchauffeRecharge; }
 		}
-		if (hp <= 0) {
-			hp = 0;
+		else {
+			if (surchauffe > 0) { surchauffe -= surchauffeRecharge; }
 		}
+	}
+	else {
+		if (surchauffe > 0) { surchauffe -= surchauffeRecharge; }
 	}
 }
 
@@ -415,6 +419,9 @@ void Player::updateHUD(sf::View& view) {
 	shapeFillEnergy.setSize(sf::Vector2f(((energy / maxEnergy) * 100) * 2.62f, sizeY));
 	shapeFillEnergy.setFillColor(sf::Color::Green);
 
+	shapeFillSurchauffe.setSize(sf::Vector2f(((surchauffe / maxSurchauffe) * 100) * 2.62f, sizeY));
+	shapeFillSurchauffe.setFillColor(sf::Color::White);
+
 	lifeBarSprite.setPosition(hudX, hudY);
 	energyBarSprite.setPosition(hudX + 15, hudY + lifeBarSprite.getGlobalBounds().height + spacing);
 	surchauffeBarSprite.setPosition(hudX, hudY + lifeBarSprite.getGlobalBounds().height * 2 + (spacing * 2));
@@ -422,6 +429,7 @@ void Player::updateHUD(sf::View& view) {
 
 	shapeFillEnergy.setPosition(hudX + spacing - 1, hudY + lifeBarSprite.getGlobalBounds().height + 53);
 	shapeFillHP.setPosition(hudX + spacing - 2, hudY + (spacing * 2) + 8);
+	shapeFillSurchauffe.setPosition(hudX + spacing, hudY + lifeBarSprite.getGlobalBounds().height * 2 + (spacing * 3.6));
 	//------ENERGY------
 	//------DAY/NIGHT------
 	daySprite.setPosition(viewCenter.x + viewSize.x / 2 - daySprite.getGlobalBounds().width - spacing, viewCenter.y - viewSize.y / 2 + spacing);
@@ -494,6 +502,7 @@ sf::Sprite Player::getProgressBarSprite() const { return progressBarSprite; }
 sf::Sprite Player::getSurchauffeBarSprite() const { return surchauffeBarSprite; }
 sf::RectangleShape Player::getShapeFillEnergy() const { return shapeFillEnergy; }
 sf::RectangleShape Player::getShapeFillHP() const { return shapeFillHP; }
+sf::RectangleShape Player::getShapeSurchauffe() const { return shapeFillSurchauffe; }
 std::vector<Projectile> Player::getProj() const { return projectiles; }
 sf::Sprite Player::getProjShape(Projectile& proj) const { return proj.getSprite(); }
 sf::Sprite Player::getDaySprite() const { return daySprite; }

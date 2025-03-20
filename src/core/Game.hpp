@@ -63,6 +63,7 @@ private:
 	bool isDay;
 	bool gameStarted = false;
 	bool textFall;
+	bool isInTheSun;
 
 	void createWindow();
 	void processEvents(float deltaTime);
