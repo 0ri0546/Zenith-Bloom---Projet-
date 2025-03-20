@@ -294,7 +294,7 @@ void Ennemy::rangedAttack(float deltaTime) {
         //rangClock.restart();
         sf::Vector2f spawnPos = spriteEnnemy.getPosition();
         if (lastDepIsLeft == false) {
-            
+             
             spawnPos.x += 50;
             spawnPos.y -= 80;
         }
