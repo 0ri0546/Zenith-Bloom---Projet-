@@ -63,7 +63,7 @@ Player::Player(sf::Texture& texture) :
 	energyConsumption = 10.f;
 	energyRecharge = 0.1f;
 	hpRecharge = 0.1f;
-	surchauffe = 50.f;
+	surchauffe = 0.f;
 	maxSurchauffe = 100.f;
 	surchauffeRecharge = 0.05f;
 
