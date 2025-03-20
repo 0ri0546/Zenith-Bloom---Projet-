@@ -18,7 +18,8 @@ Player::Player(sf::Texture& texture) :
 	healAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
 	attackToLeftAnimation(Shared::playerReverseTexture, 275, 256, 4, 0.1f, 100, 100),
 	attackToRightAnimation(texture, 275, 256, 4, 0.1f, 100, 100),
-	rangedAttackAnimation(texture, 310, 256, 4, 0.25f, 100, 100),
+	rangedAttackToLeftAnimation(Shared::playerReverseTexture, 310, 256, 4, 0.3f, 100, 100),
+	rangedAttackToRightAnimation(texture, 310, 256, 4, 0.3f, 100, 100),
 	repairAnimation(texture, 256, 256, 1, 0.5f, 100, 100),
 
 	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f, 50, 50)
@@ -131,8 +132,8 @@ void Player::animate(float deltaTime) {
 	}
 
 	if (isRangedAttacking) {
-		rangedAttackAnimation.update(deltaTime);
-		rangedAttackAnimation.applyToSprite(playerSprite, 4);
+		(lastDepIsLeft ? rangedAttackToLeftAnimation : rangedAttackToRightAnimation).update(deltaTime);
+		(lastDepIsLeft ? rangedAttackToLeftAnimation : rangedAttackToRightAnimation).applyToSprite(playerSprite, 4);
 	}
 }
 

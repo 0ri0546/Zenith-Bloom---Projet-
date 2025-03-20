@@ -105,7 +105,8 @@ private:
 		deathToLeftAnimation, deathToRightAnimation,
 		healAnimation,
 		attackToLeftAnimation, attackToRightAnimation,
-		rangedAttackAnimation,
+		rangedAttackToLeftAnimation,
+		rangedAttackToRightAnimation,
 		repairAnimation,
 		smokeAnimation;
 };
