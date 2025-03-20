@@ -178,6 +178,7 @@
     <ClCompile Include="src\map\Tiles.cpp" />
     <ClCompile Include="src\systems\Animation.cpp" />
     <ClCompile Include="src\systems\AssetLoader.cpp" />
+    <ClCompile Include="src\systems\audioManager.cpp" />
     <ClCompile Include="src\systems\AudioSystem.cpp" />
     <ClCompile Include="src\systems\Datas.cpp" />
     <ClCompile Include="src\systems\grid.cpp" />
@@ -209,8 +210,8 @@
     <ClInclude Include="src\map\Map.hpp" />
     <ClInclude Include="src\map\Platform.hpp" />
     <ClInclude Include="src\map\Tiles.hpp" />
-    <ClInclude Include="src\systems\Animation.hpp" />
     <ClInclude Include="src\systems\AssetLoader.hpp" />
+    <ClInclude Include="src\systems\audioManager.hpp" />
     <ClInclude Include="src\systems\AudioSystem.hpp" />
     <ClInclude Include="src\systems\Datas.hpp" />
     <ClInclude Include="src\systems\GESTION TEXTURE.hpp" />

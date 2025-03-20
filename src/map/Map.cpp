@@ -81,7 +81,7 @@ void Map::loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player&
             if (tileValue == 14)
             {
                 //Ennemy newEnnemy(i / 2 * gridCellSize, map.size() * gridCellSize);
-                ennemies.push_back(make_unique<Ennemy>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTexture, Shared::tankTextureR, 139/* pas toucher*/, 178/* pas toucher*/, 80/*scaleX*/, 80/*scaleY*/, 150/*coliboxX*/, 150/*coliboxY*/)); // scale égaux obligatoire car carré 
+                ennemies.push_back(make_unique<Ennemy>(i / 2 * gridCellSize, map.size() * gridCellSize, Shared::ennemyTexture, Shared::ennemyTextureR, 139/* pas toucher*/, 178/* pas toucher*/, 80/*scaleX*/, 80/*scaleY*/, 150/*coliboxX*/, 150/*coliboxY*/)); // scale égaux obligatoire car carré 
             }
             if (tileValue == 15)
             {
