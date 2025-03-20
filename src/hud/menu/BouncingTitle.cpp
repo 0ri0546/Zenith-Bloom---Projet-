@@ -84,7 +84,7 @@ void BouncingTitle::update(float deltaTime) {
 
 void BouncingTitle::handleInput(bool& gameStarted) {
     if (canSkip && (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
-        (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 1)))) {
+        (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0,0)))) {
         gameStarted = true;
     }
 }

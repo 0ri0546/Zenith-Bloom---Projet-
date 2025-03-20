@@ -68,3 +68,8 @@ void VideoMenu::toggleVSync(sf::RenderWindow& window) {
         buttons[2].setText("Synchronisation Vertical - OFF");
     }
 }
+
+void VideoMenu::update(sf::RenderWindow& window) {
+    int currentFPS = buttons[3].getValue();
+    window.setFramerateLimit(currentFPS);
+}

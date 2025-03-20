@@ -74,7 +74,11 @@ void Game::update(float deltaTime) {
 			}
 		}
 		break;
-	case GameState::MAIN_MENU:
+	case GameState::SOUND_MENU:
+		soundMenu.updateSliderValues();
+		break;
+	case GameState::VIDEO_MENU:
+		videoMenu.update(window);
 		break;
 	case GameState::PLAYING:
 		player.setTakingDamageBool(false);
@@ -261,6 +265,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			isRunning = false;
 			window.close();
 		}
+		else if (result == 4) { // Editeur Mode
+			currentState = GameState::EDITEUR;
+		}
 		break;
 	}
 	case GameState::PAUSE_MENU: {
@@ -275,6 +282,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		}
 		else if (result == 3) { // Menu Principal
 			currentState = GameState::MAIN_MENU;
+		}
+		else if (result == 4) { // Editeur Mode
+			currentState = GameState::EDITEUR;
 		}
 		break;
 	}
@@ -295,7 +305,9 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			currentState = GameState::SOUND_MENU;
 		}
 		else if (result == 4) { // Controles
-			currentState = GameState::CONTROL_MENU;
+			if (!sf::Joystick::isConnected(0)) {
+				currentState = GameState::CONTROL_MENU;
+			}
 		}
 		break;
 	}
