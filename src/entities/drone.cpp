@@ -4,6 +4,7 @@ Drone::Drone(unsigned long long x, unsigned long long y, sf::Texture& text, sf::
     : Ennemy(x, y, text, textR, xT, yT, scaleX, scaleY, textRecX, textRecY), 
     deplacementAnimation(Shared::droneTexture, 719.81, 404.12, 3, 0.4f, scaleX, scaleY)
         {
+    life = 30;
     spriteEnnemy.setTexture(Shared::droneTexture);
     initialPosition = spriteEnnemy.getPosition();
     attackClock.restart();
@@ -12,10 +13,13 @@ Drone::Drone(unsigned long long x, unsigned long long y, sf::Texture& text, sf::
 
 void Drone::attack(Player& player, float deltaTime) {
     if (attackClock.getElapsedTime().asSeconds() >= 0.5f) {
+
         sf::Vector2f spawnPos = spriteEnnemy.getPosition();
-        spawnPos.x += lastDepIsLeft ? -20 : spriteEnnemy.getGlobalBounds().width;
+        spawnPos.x += 110;
+        spawnPos.y += 170;
         Projectile newProjectile(Shared::waterProjTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
         newProjectile.resize(30, 30);
+
         projectiles.push_back(newProjectile);
         attackClock.restart();
         attackClockDuration.restart();
