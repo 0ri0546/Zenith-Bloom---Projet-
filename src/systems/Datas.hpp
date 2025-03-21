@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <SFML/Window/Keyboard.hpp>
 #include <cmath> 
+#include <cstdlib>
+#include <ctime>
 
 namespace Config {
 	static int WINDOW_WIDTH = 1920;

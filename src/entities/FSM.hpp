@@ -8,6 +8,7 @@
 #include "../systems/Animation.hpp"
 #include "../systems/audioManager.hpp"
 
+
 enum ennemyState {
     PATROL,
     SEARCH,

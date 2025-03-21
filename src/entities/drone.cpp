@@ -1,9 +1,13 @@
 #include "../entities/drone.hpp"
 
-Drone::Drone(unsigned long long x, unsigned long long y, sf::Texture text, sf::Texture& textR, float xT, float yT, float scaleX, float scaleY, float textRecX, float textRecY)
-    : Ennemy(x, y, text, textR, xT, yT, scaleX, scaleY, textRecX, textRecY) {
+Drone::Drone(unsigned long long x, unsigned long long y, sf::Texture& text, sf::Texture& textR, float xT, float yT, float scaleX, float scaleY, float textRecX, float textRecY)
+    : Ennemy(x, y, text, textR, xT, yT, scaleX, scaleY, textRecX, textRecY), 
+    deplacementAnimation(Shared::droneTexture, 719.81, 404.12, 3, 0.4f, scaleX, scaleY)
+        {
     spriteEnnemy.setTexture(Shared::droneTexture);
-    initialPosition = spriteEnnemy.getPosition(); // Enregistre la position initiale
+    initialPosition = spriteEnnemy.getPosition();
+    attackClock.restart();
+    directionTimer = 0.0f;
 }
 
 void Drone::attack(Player& player, float deltaTime) {
@@ -12,50 +16,80 @@ void Drone::attack(Player& player, float deltaTime) {
         spawnPos.x += lastDepIsLeft ? -20 : spriteEnnemy.getGlobalBounds().width;
         Projectile newProjectile(Shared::waterProjTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
         newProjectile.resize(30, 30);
-        projectilesDrone.push_back(newProjectile);
+        projectiles.push_back(newProjectile);
         attackClock.restart();
         attackClockDuration.restart();
     }
 }
 
+void Drone::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
+    for (auto it = projectiles.begin(); it != projectiles.end();) {
+        it->updateForDrone(deltaTime);
+        ++it;
+    }
+}
+
+sf::Sprite Drone::getProjShape(Projectile& proj) const { return proj.getSprite(); }
+std::vector<Projectile>& Drone::getProj() { return projectilesDrone; }
+
 void Drone::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectiles, std::vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime) {
     colEnnemiToGround(ennemies, tiles);
 
-    // Le drone ne subit pas la gravité, donc la vélocitéY n'est pas modifiée.
-    // Il est libre de se déplacer sans être affecté par la gravité
+    directionTimer += deltaTime;
+    if (directionTimer >= 2.0f) {  
+        directionTimer = 0.0f;
+        currentDirection = static_cast<Direction>((currentDirection + 1) % 4); 
+    }
 
-    // Déplacement du drone autour de son point d'apparition (comportement de patrouille ou de mouvement libre)
-    float movementSpeed = 50.0f; // Vitesse de déplacement
-    float amplitudeX = 100.0f;  // Amplitude horizontale du mouvement
-    float amplitudeY = 50.0f;   // Amplitude verticale du mouvement
+    float movementSpeed = 300.0f;
 
-    // Se déplacer autour du point d'apparition en créant un mouvement sinusoïdal pour l'effet de va-et-vient
-    float offsetX = amplitudeX * sinf(spriteEnnemy.getPosition().x / 100.0f);  // Déplacement horizontal
-    float offsetY = amplitudeY * cosf(spriteEnnemy.getPosition().y / 100.0f);  // Déplacement vertical
+    float newPosX = spriteEnnemy.getPosition().x;
+    float newPosY = spriteEnnemy.getPosition().y;
 
-    spriteEnnemy.setPosition(initialPosition.x + offsetX, initialPosition.y + offsetY);  // Appliquer le déplacement
-
-    // Détection d'attaque
-    attack(player, deltaTime);
-
-    // Animation de l'ennemi
-    switch (currentState) {
-    case PATROL:
-        standAnim.update(deltaTime);
-        standAnim.applyToSprite(spriteEnnemy, 0);
+    switch (currentDirection) {
+    case LEFT:
+        newPosX -= movementSpeed * deltaTime; 
         break;
-    case SEARCH:
+    case RIGHT:
+        newPosX += movementSpeed * deltaTime; 
         break;
-    case CHASE:
-        chase(player);
+    case UP:
+        newPosY -= movementSpeed * deltaTime;
         break;
-    case DEAD:
-        break;
-    case NIGHT:
+    case DOWN:
+        newPosY += movementSpeed * deltaTime;  
         break;
     }
 
+    float limit = 400.0f;
+
+    if (newPosX < initialPosition.x - limit) {
+        newPosX = initialPosition.x - limit;  
+    }
+    else if (newPosX > initialPosition.x + limit) {
+        newPosX = initialPosition.x + limit; 
+    }
+
+    if (newPosY < initialPosition.y - limit) {
+        newPosY = initialPosition.y - limit; 
+    }
+    else if (newPosY > initialPosition.y + limit) {
+        newPosY = initialPosition.y + limit;
+    }
+
+    spriteEnnemy.setPosition(newPosX, newPosY);
+
+    attack(player, deltaTime);
+
+    for (const auto& proj : projectilesDrone) {
+        window.draw(proj.getSprite());
+    }
+    deplacementAnimation.update(deltaTime);
+    deplacementAnimation.applyToSprite(spriteEnnemy, 0);
+ 
     collision(player, projectiles, ennemies, deltaTime);
+
     updateProjectiles(deltaTime, window);
 }
+
 
