@@ -65,7 +65,7 @@ Player::Player(sf::Texture& texture) :
 	jetpackPower = -3.f;
 	energyConsumption = 10.f;
 	energyRecharge = 0.1f;
-	hpRecharge = 0.1f;
+	hpRecharge = -0.1f;
 	surchauffe = 0.f;
 	maxSurchauffe = 100.f;
 	surchauffeRecharge = 0.05f;
@@ -545,4 +545,48 @@ void Player::setTakingDamageBool(bool takingDamage) { this->takingDamage = takin
 
 Player::~Player() {
 	projectiles.clear();
+}
+
+void Player::resetPlayer() {
+	playerSprite.setPosition(sf::Vector2f(400, 0));
+	playerSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
+
+	velocityY = 0;
+	gravity = 1700.f;
+	isOnGround = false;
+	lastDepIsLeft = false;
+
+	jumpCount = maxJumps;
+	canJump = true;
+	hangedToWallsLeft = false;
+	hangedToWallsRight = false;
+	depX = 0;
+	bounce = 1000.f;
+	jumpTime = 0.f;
+	velocityX = 0.f;
+
+	isAttacking = false;
+	isRangedAttacking = false;
+	setAnimationDamage = false;
+	canAttack = true;
+	takingDamage = false;
+	isDead = false;
+	canDisplayGameOverBool = false;
+	isRepairing = false;
+	progress = 0;
+	isThrowingWater = false;
+
+	energy = 100.f;
+	maxEnergy = 100.f;
+	jetpackPower = -3.f;
+	energyConsumption = 10.f;
+	energyRecharge = 0.1f;
+	hpRecharge = 0.1f;
+	surchauffe = 0.f;
+	maxSurchauffe = 100.f;
+	surchauffeRecharge = 0.05f;
+
+	damage = 15;
+	hp = 10.f;
+	maxHp = 100.f;
 }

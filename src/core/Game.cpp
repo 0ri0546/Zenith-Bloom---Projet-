@@ -52,6 +52,7 @@ void Game::processEvents(float deltaTime) {
 		case GameState::GAMEOVER_MENU:
 			if (gameOverScreen.handleInput()) {
 				currentState = GameState::MAIN_MENU;
+				player.resetPlayer();
 			}
 			break;
 		case GameState::LEVEL_SELECTOR_MENU:

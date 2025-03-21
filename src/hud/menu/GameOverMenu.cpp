@@ -29,10 +29,37 @@ void GameOverMenu::render(sf::RenderWindow& window) {
 }
 
 bool GameOverMenu::handleInput() {
-    for (int i = sf::Keyboard::Key::A; i <= sf::Keyboard::Key::BackSlash; ++i) {
+    // Vérifier les touches du clavier
+    for (int i = sf::Keyboard::Key::A; i <= sf::Keyboard::Key::KeyCount; ++i) {
         if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(i))) {
             return true;
         }
     }
+
+    // Vérifier les boutons de la souris
+    for (int i = sf::Mouse::Left; i <= sf::Mouse::ButtonCount; ++i) {
+        if (sf::Mouse::isButtonPressed(static_cast<sf::Mouse::Button>(i))) {
+            return true;
+        }
+    }
+
+    // Vérifier les boutons de la manette (supporte une seule manette ici)
+    for (unsigned int joystickId = 0; joystickId < sf::Joystick::Count; ++joystickId) {
+        if (sf::Joystick::isConnected(joystickId)) {
+            for (unsigned int button = 0; button < sf::Joystick::getButtonCount(joystickId); ++button) {
+                if (sf::Joystick::isButtonPressed(joystickId, button)) {
+                    return true;
+                }
+            }
+
+            // Vérifier si un axe de la manette est déplacé
+            for (int axis = 0; axis < sf::Joystick::AxisCount; ++axis) {
+                if (std::abs(sf::Joystick::getAxisPosition(joystickId, static_cast<sf::Joystick::Axis>(axis))) > 50) {
+                    return true;
+                }
+            }
+        }
+    }
+
     return false;
 }

@@ -28,6 +28,7 @@ public:
 	void augmenterEnergie(int quantite);
 	void augmenterHP(int quantite);
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
+	void resetPlayer();
 
 	// getters float
 	float attack(float deltaTime);
