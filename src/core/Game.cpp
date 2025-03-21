@@ -8,7 +8,7 @@ Game::Game() : isRunning(false), currentState(GameState::TITLE_MENU), optionsMen
 	view.setCenter(player.getShape().getPosition());
 
 	textFall = false;
-	isDay = true;
+	isDay = true; 
 	isInTheSun = true;
 }
 
