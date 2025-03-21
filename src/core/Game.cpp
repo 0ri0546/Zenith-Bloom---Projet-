@@ -204,7 +204,11 @@ void Game::render() {
 		for (auto& ennemy : ennemies) {
 			//window.draw(ennemy->circle);
 			window.draw(ennemy->getSprite());
+			
 		}
+		/*for (auto& flame : Incendiaire::flames) {
+			window.draw(flame.getSprite());
+		}*/
 		/*for (auto& tank : Tanks) {
 			window.draw(tank.getSprite());
 		}*/

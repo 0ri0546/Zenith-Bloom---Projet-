@@ -22,6 +22,7 @@ sf::Texture Shared::incendTexture;
 sf::Texture Shared::incendTextureR;
 sf::Texture Shared::projIcend;
 sf::Texture Shared::projMini;
+sf::Texture Shared::flame;
 
 //assets des tiles
 sf::Texture Shared::groundTexture;

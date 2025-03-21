@@ -40,6 +40,7 @@ void Assets::loadAssetsFromFiles() {
 	Shared::incendTextureR.loadFromFile("assets/ennemies/retouche/incendTile.png");
 	Shared::incendTexture.loadFromFile("assets/ennemies/retouche/incendTileR.png");
 	Shared::projIcend.loadFromFile("assets/proj/feu.png");
+	Shared::flame.loadFromFile("assets/flame.png");
 
 	// HUD
 	Shared::dayTexture.loadFromFile("assets/textures/hud/day.png");

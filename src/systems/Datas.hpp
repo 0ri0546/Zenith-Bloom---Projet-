@@ -52,6 +52,7 @@ public:
 	static sf::Texture incendTextureR;
 	static sf::Texture projIcend;
 	static sf::Texture projMini;
+	static sf::Texture flame;
 
 	//assets map
 	static sf::Texture groundTexture; 
