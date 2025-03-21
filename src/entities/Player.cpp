@@ -389,7 +389,7 @@ float Player::attack(float deltaTime) {
 	if (attackClock.getElapsedTime().asSeconds() >= 0.5f) {
 		if (sf::Joystick::isConnected(0)) {
 			if (sf::Joystick::isButtonPressed(0, 2) && energy > 5.0) {
-				shortRangeDamage = damage;
+				shortRangeDamage = 0.1f;
 				energy -= 5.0;
 				attackClock.restart();
 				attackDurationClock.restart();
@@ -397,7 +397,7 @@ float Player::attack(float deltaTime) {
 		}
 		else {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && energy > 5.0) {
-				shortRangeDamage = damage;
+				shortRangeDamage = 0.1f;
 				energy -= 5.0;
 				attackClock.restart();
 				attackDurationClock.restart();
@@ -514,7 +514,7 @@ bool Player::takeDamageSimple(float deltaTime) {
 	takeDamageClock.restart();
 
 	AudioManager::getInstance().playSound("hit1");
-	hp -= 5;
+	hp -= 0.1;
 	takingDamage = true;
 	setAnimationDamage = true;
 	

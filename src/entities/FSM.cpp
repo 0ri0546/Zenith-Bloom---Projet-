@@ -102,8 +102,8 @@ void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, vect
     }
 
     if (player.getShapeAtk().getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
-         AudioManager::getInstance().playSound("hit1");
-        life -= 1;  
+        AudioManager::getInstance().playSound("hit1");
+        life -= 0.0001f;  
        
         takeDamageClock.restart();
         /*hitAnim.update(deltaTime);
