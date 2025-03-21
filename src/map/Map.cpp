@@ -86,9 +86,6 @@ void Map::preshowTile(int x, int y, sf::RenderWindow& window) {
 }
 
 void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie, vector<unique_ptr<Shadow>>& shadows) {
-    
-    reparables.push_back(make_unique<Reparable>(0 / 3 * gridCellSize, map.size() * gridCellSize, 1));
-
     map.clear();
     fond.clear();
     tiles.clear();
@@ -258,7 +255,7 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
 }
 
 void Map::modifyMapFile(int gridX, int gridY, int type) {
-    string path = "assets/maps/level" + to_string(currentmap) + "/decors.txt";
+    string path = "assets/maps/level" + to_string(currentmap) + "/map.txt";
     fstream file(path, ios::in | ios::out);
     if (!file.is_open()) {
         cout << "Error: Unable to open map file." << endl;
