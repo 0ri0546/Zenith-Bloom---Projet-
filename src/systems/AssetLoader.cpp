@@ -32,6 +32,7 @@ void Assets::loadAssetsFromFiles() {
 
 	// ennemies
 	Shared::ennemyTexture.loadFromFile("assets/ennemies/retouche/ennemiTile2.png");
+	Shared::droneTexture.loadFromFile("assets/ennemies/drone.png");
 	Shared::ennemyTextureR.loadFromFile("assets/ennemies/retouche/ennemiTile2R.png");
 	Shared::projMini.loadFromFile("assets/proj/missile.png");
 	Shared::tankTexture.loadFromFile("assets/ennemies/retouche/tankTile.png");
