@@ -80,7 +80,8 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
     tiles.clear();
     currentmap = mapNum;
 
-    string path = "assets/maps/map" + to_string(mapNum) + ".txt";
+    string path = "assets/maps/level" + to_string(mapNum) + "/map.txt";
+
     ifstream file(path);
     if (!file.is_open()) {
         cout << "Error: file not found" << endl;
@@ -205,7 +206,7 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
 }
 
 void Map::modifyMapFile(int gridX, int gridY, int type) {
-    string path = "assets/maps/map" + to_string(currentmap) + ".txt";
+    string path = "assets/maps/level" + to_string(currentmap) + "/map.txt";
     fstream file(path, ios::in | ios::out);
     if (!file.is_open()) {
         cout << "Error: Unable to open map file." << endl;
