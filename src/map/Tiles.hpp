@@ -16,7 +16,7 @@ private:
 	float y;
 	int size = 240;
 	int type;
-	bool shadow;
+	bool isShadow;
 	bool empty;
 	int value;
 	bool isReparable;

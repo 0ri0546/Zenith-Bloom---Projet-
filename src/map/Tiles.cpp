@@ -6,6 +6,8 @@ Tiles::Tiles(float x, float y, int type)  : x(x), y(y), type(type) {
     setSprite(type);
 	sprite.setScale(0.5, 0.5);
 	sprite.setPosition(x, y);
+
+    shadowShape.setFillColor(sf::Color(255, 255, 255, 128));
 }
 
 void Tiles::setSprite(int type) {
@@ -222,11 +224,11 @@ void Tiles::setSprite(int type) {
 
 //-----------------------------------------------------Pour les ombres-----------------------------------------------------
 void Tiles::setShadow(bool hasShadow) {
-    shadow = hasShadow;
+    isShadow = hasShadow;
 }
 
 bool Tiles::hasShadow() const {
-    return shadow;
+    return isShadow;
 }
 
 sf::RectangleShape Tiles::getShadowShape() const {

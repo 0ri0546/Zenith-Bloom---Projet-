@@ -75,7 +75,7 @@ void Map::preshowTile(int x, int y, sf::RenderWindow& window) {
     tempTile = std::make_unique<Tiles>(posX, posY, numtile);
 }
 
-void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie) {
+void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie, vector<unique_ptr<Shadow>>& shadows) {
     map.clear();
     tiles.clear();
     currentmap = mapNum;
@@ -164,6 +164,9 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
                 }
                 if (tileValue == 667) {
                     capsulesHP.push_back(make_unique<CapsuleHP>(15, Shared::capsuleHPTexture, i / 3 * gridCellSize, map.size() * gridCellSize));
+                }
+                if (tileValue == 555) { /// ombre
+                    shadows.push_back(make_unique<Shadow>(sf::Vector2f(120, 120), i / 3 * gridCellSize, map.size() * gridCellSize));
                 }
             }
         }

@@ -61,6 +61,7 @@ private:
     std::vector<std::unique_ptr<Ennemy>> ennemies;
     std::vector<std::unique_ptr<CapsuleHP>> capsulesHP;
     std::vector<std::unique_ptr<CapsuleEnergie>> capsulesEnergy;
+    std::vector<std::unique_ptr<Shadow>> shadows;
     std::vector<Tank> Tanks;
 
     // player et etats du jeu
