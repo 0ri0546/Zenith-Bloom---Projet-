@@ -18,11 +18,11 @@ private:
 	float y;
 	int size = 240;
 	int type;
-	bool fixed;
+
 	sf::Sprite sprite;
 
 public:
-
+	bool fixed;
 	Reparable(float x, float y, int type);
 	sf::Sprite getSprite() const;
 

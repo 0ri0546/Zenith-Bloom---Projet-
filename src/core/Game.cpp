@@ -88,7 +88,7 @@ void Game::update(float deltaTime) {
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 		
 		player.update(gamemap.getTiles(), window, view, deltaTime, isDay, isInTheSun);
-
+		player.fix(gamemap.getReparables());
 		for (auto& ennemy : ennemies) {
 			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
 			auto& projectiles = ennemy->getProj();
@@ -259,22 +259,25 @@ void Game::render() {
 		for (auto& item : capsulesHP) {
 			window.draw(item->getSprite());
 		}
-		window.draw(player.getShapeSmoke());
-		window.draw(player.getShape());
+		
 
 		for (const auto& deco : gamemap.getDecos()) {
 			window.draw(deco->getSprite());
 		}
-		for (const auto& reparable : gamemap.getTiles()) {
+		for (const auto& reparable : gamemap.getReparables()) {
 			window.draw(reparable->getSprite());
 		}
+		window.draw(player.getShapeSmoke());
+		window.draw(player.getShape());
 		for (const auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 			window.draw(tile->getShadowShape());
 		}
+
 		for (auto& shadow : shadows) {
 			window.draw(*shadow);
 		}
+
 		//----HUD----
 		window.draw(player.getShapeFillEnergy());
 		window.draw(player.getShapeFillHP());

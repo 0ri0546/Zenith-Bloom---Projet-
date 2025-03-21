@@ -49,6 +49,7 @@ public:
 	void handleInput(sf::RenderWindow& window, sf::View& view);
 	void modifyMapFile(int griX, int gridY, int type);
 	void initBackground();
+	void loadDecors(int mapNum);
 	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie, vector<unique_ptr<Shadow>>& shadows);
 };
 

@@ -185,8 +185,22 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 	}
 	if (throwWaterClockDuration.getElapsedTime().asSeconds() >= 1.0f) { isThrowingWater = false; }
 	else { isThrowingWater = true; }
+
 }
 
+
+
+void Player::fix(const std::vector<std::unique_ptr<Reparable>>& re) {
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+		for (auto& it : re) {
+			if(playerSprite.getGlobalBounds().intersects(it->getSprite().getGlobalBounds()) && it->fixed == false)
+			{
+				it->fixing();
+			}
+		}
+	}
+}
 bool Player::getCanDisplayGameOverBool() const { return canDisplayGameOverBool; }
 
 void Player::statsManager(bool isDay, bool isInTheSun) {

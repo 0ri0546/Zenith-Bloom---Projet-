@@ -2,7 +2,6 @@
 
 Reparable::Reparable(float x, float y, int type) : x(x), y(y), type(type), fixed(false) {
     setSprite(type);
-	sprite.setScale(0.5, 0.5);
 	sprite.setPosition(x, y);
 
 }
@@ -17,7 +16,9 @@ void Reparable::setSprite(int type) {
         sprite.setTexture(Shared::boxTexture);
         sprite.setTextureRect(sf::IntRect(0, 0 , 481, 720)); break;
     case(02):
-        sprite.setTextureRect(sf::IntRect(0, 721 , 481, 720)); break;
+        sprite.setTexture(Shared::boxTexture);
+        sprite.setScale(0.25, 0.25);
+        sprite.setTextureRect(sf::IntRect(721, 0 , 481, 720)); break;
     case(03):
         sprite.setTexture(Shared::boxTexture);
         sprite.setTextureRect(sf::IntRect(1480,362 ,2120-1480 ,719-362)); break;
@@ -60,11 +61,13 @@ void Reparable::setSprite(int type) {
         sprite.setTextureRect(sf::IntRect(21,0 ,0 ,0)); break;
     default:
         return;
+        sprite.setScale(0.5, 0.5);
+        sprite.setPosition(x, y);
     }
 }
 
 void Reparable::fixing() {
-    type += 1;
+    type -= 1;
     fixed = true;
     setSprite(type);
 }

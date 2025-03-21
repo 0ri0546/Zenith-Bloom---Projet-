@@ -6,6 +6,7 @@
 #include "Entity.hpp"
 #include "Projectile.hpp"
 #include "../map/Tiles.hpp"
+#include "../map/Reparable.hpp"
 #include "../systems/Animation.hpp"
 #include "../systems/audioManager.hpp"
 
@@ -30,6 +31,8 @@ public:
 	void augmenterHP(int quantite);
 	void updateProjectiles(float deltaTime, sf::RenderWindow& window);
 	void resetPlayer();
+	void fix(const std::vector<std::unique_ptr<Reparable>>& re);
+
 
 	// getters float
 	float attack(float deltaTime);

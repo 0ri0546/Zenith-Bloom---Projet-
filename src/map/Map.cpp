@@ -188,46 +188,33 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
         }
         map.push_back(row);
     }
+    file.close();
 
-    string pathd = "assets/maps/level" + to_string(mapNum) + "/decors.txt";
-
-    ifstream filed(path);
-    if (!filed.is_open()) {
-        cout << "Error: filed not found" << endl;
+    // Load decors.txt
+    ifstream decorsFile("assets/maps/level" + to_string(mapNum) + "/decors.txt");
+    if (!decorsFile.is_open()) {
+        cout << "Error: Decors file not found at " << "assets/maps/level" + to_string(mapNum) + "/decors.txt" << endl;
         return;
     }
 
-    string lined;
-    while (getline(filed, line)) {
-        vector<char> rowd;
+    int rowIndex = 0;
+    while (getline(decorsFile, line)) {
         for (size_t i = 0; i < line.size(); i += 3) {
-            if (i + 1 >= line.size()) {
-                cout << "Warning: Uneven characters in map filed. Skipping last character." << endl;
-                break;
-            }
+            if (i + 2 >= line.size()) break;
 
-            string tileCode = line.substr(i, 3);
-            if (tileCode != "   ") {
-                if (!isdigit(tileCode[0]) || !isdigit(tileCode[1]) || !isdigit(tileCode[2])) {
-                    cout << "Warning: Invalid tile code '" << tileCode << "' at position " << i << "." << endl;
-                    continue;
-                }
+            string decorCode = line.substr(i, 3);
+            if (decorCode != "   ") {
+                if (!isdigit(decorCode[0]) || !isdigit(decorCode[1]) || !isdigit(decorCode[2])) continue;
 
-                int tileValue;
-                tileValue = stoi(tileCode);
-
-                rowd.push_back(tileCode[0]);
-
-                if (tileValue < 19) {
-                    reparables.push_back(make_unique<Reparable>(i / 3 * gridCellSize, map.size() * gridCellSize, tileValue));
-                }
-                else if (tileValue < 37) {
-                    decos.push_back(make_unique<Deco>(i / 3 * gridCellSize, map.size()* gridCellSize, tileValue));
+                int decorValue = stoi(decorCode);
+                if (decorValue < 103) {
+                    reparables.push_back(make_unique<Reparable>(i / 3 * 120, rowIndex * 120+60, decorValue));
                 }
             }
         }
-        map.push_back(rowd);
+        rowIndex++;
     }
+    decorsFile.close();
 }
 
 void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
