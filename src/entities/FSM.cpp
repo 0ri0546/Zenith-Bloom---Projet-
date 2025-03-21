@@ -71,11 +71,12 @@ void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, vect
     for (auto it = projectile.begin(); it != projectile.end();) {
         if (player.getProjShape(*it).getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
             takeDamageClock.restart();
-            
+           
             life -= 1;
             /*hitAnim.update(deltaTime);
             hitAnim.takeSecondImage(spriteEnnemy, 2);*/
             if (life == 0) {
+                AudioManager::getInstance().playSound("explo");
                 currentState = DEAD;
             }
             it = projectile.erase(it);
@@ -101,11 +102,14 @@ void Ennemy::collision(Player& player, std::vector<Projectile>& projectile, vect
     }
 
     if (player.getShapeAtk().getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
-        life -= 1; 
+         AudioManager::getInstance().playSound("hit1");
+        life -= 1;  
+       
         takeDamageClock.restart();
         /*hitAnim.update(deltaTime);
         hitAnim.takeSecondImage(spriteEnnemy, 2);*/
         if (life == 0) {
+            AudioManager::getInstance().playSound("explo");
             currentState = DEAD;
         }
     }
@@ -289,7 +293,7 @@ void Ennemy::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Pro
 }
 
 void Ennemy::rangedAttack(float deltaTime) {
-    if (rangedAttackClock.getElapsedTime().asSeconds() >= 0.6f) {
+    if (rangedAttackClock.getElapsedTime().asSeconds() >= 1.f) {
         //takeDamageClock.getElapsedTime().asSeconds();
         //rangClock.restart();
         sf::Vector2f spawnPos = spriteEnnemy.getPosition();
@@ -304,7 +308,7 @@ void Ennemy::rangedAttack(float deltaTime) {
             spawnPos.x -= 50;
             spawnPos.y -= 40;
         }
-        AudioManager::getInstance().playSound("tir");
+        AudioManager::getInstance().playSound("tirE");
         
         Projectile newProjectile(Shared::projMini, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
         newProjectile.resize(50, 25);

@@ -21,11 +21,13 @@ void Tank::attack(Player& player, float deltaTime)
         isAttacking = true;
         if (player.getShape().getPosition().x < spriteEnnemy.getPosition().x) {
             lastDepIsLeft = true;
+            AudioManager::getInstance().playSound("hit1");
             attackAnim.update(deltaTime);
 		    attackAnim.applyToSprite(spriteEnnemy, 2);
         }
         else {
             lastDepIsLeft = false;
+            AudioManager::getInstance().playSound("hit1");
             attackAnimR.update(deltaTime);
             attackAnimR.applyToSprite(spriteEnnemy, 2);
         cout << "attaque";

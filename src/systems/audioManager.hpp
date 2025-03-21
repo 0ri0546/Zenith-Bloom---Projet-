@@ -16,6 +16,9 @@ public:
     void stopSound(const std::string& name);
     void stopAllSounds();
 
+    void setSoundVolume(const std::string& name, float volume);
+    void setSoundLoop(const std::string& name, bool loop);
+
 private:
     AudioManager();
     ~AudioManager() = default;

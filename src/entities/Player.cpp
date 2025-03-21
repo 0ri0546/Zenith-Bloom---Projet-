@@ -454,6 +454,8 @@ void Player::rangedAttack() {
 		newProjectile.resize(30, 30);
 		projectiles.push_back(newProjectile);
 		energy -= 10.0f;
+		AudioManager::getInstance().setSoundVolume("tir", 10);
+		AudioManager::getInstance().playSound("tir");
 		rangedAttackClock.restart();
 		rangedAttackClockDuration.restart();
 	}
@@ -488,6 +490,8 @@ bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
 	// méthode pour gérer les dégâts infligés au joueur
 	if (playerSprite.getGlobalBounds().intersects(projEnnemi.getGlobalBounds())) {
 		takeDamageClock.restart();
+
+		AudioManager::getInstance().playSound("hit1");
 		hp--;
 		takingDamage = true;
 		setAnimationDamage = true;

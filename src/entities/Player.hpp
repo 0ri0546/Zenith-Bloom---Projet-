@@ -7,6 +7,7 @@
 #include "Projectile.hpp"
 #include "../map/Tiles.hpp"
 #include "../systems/Animation.hpp"
+#include "../systems/audioManager.hpp"
 
 class Player : public Entity {
 public:

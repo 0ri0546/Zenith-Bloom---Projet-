@@ -65,6 +65,7 @@ void Game::processEvents(float deltaTime) {
 }
 
 void Game::update(float deltaTime) {
+
 	switch (currentState) {
 	case GameState::TITLE_MENU:
 		title.update(deltaTime);
@@ -81,6 +82,7 @@ void Game::update(float deltaTime) {
 		videoMenu.update(window);
 		break;
 	case GameState::PLAYING:
+		
 		cycleDayNight();
 		player.setTakingDamageBool(false);
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
@@ -282,7 +284,10 @@ void Game::render() {
 void Game::run() {
 	sf::Clock clock;
 	cycleClock.restart();
+	AudioManager::getInstance().setSoundVolume("lv1", 30);
+	AudioManager::getInstance().playSound("lv1");
 	while (isRunning) {
+		
 		float deltaTime = clock.restart().asSeconds();
 		processEvents(deltaTime);
 		update(deltaTime);
