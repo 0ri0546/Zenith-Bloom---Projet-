@@ -1,10 +1,10 @@
 #include "Game.hpp"
 
-Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font), player(Shared::playerTexture) {
+Game::Game() : isRunning(false), currentState(GameState::TITLE_MENU), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font), player(Shared::playerTexture) {
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
-	gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy, shadows);
+	gamemap.loadMap(2, ennemies, player, window, capsulesHP, capsulesEnergy, shadows);
 	view.setCenter(player.getShape().getPosition());
 
 	textFall = false;
