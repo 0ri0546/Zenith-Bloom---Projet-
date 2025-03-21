@@ -17,7 +17,7 @@ void Map::initBackground() {
 
     if (!backgroundTexture2.loadFromFile("assets/maps/tuto_tiles_2.png")) {
         std::cerr << "Error loading texture! : background.png" << std::endl;
-    }
+    } 
     backgroundSprite2.setTexture(backgroundTexture2);
     backgroundSprite2.setScale(0.5f, 0.5f);
     backgroundSprite2.setColor(sf::Color(255, 255, 255, 102));
