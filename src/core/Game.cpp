@@ -338,7 +338,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		int result = mainMenu.handleInput(window, event);
 		
 		if (result == 1) { // Jouer
-			currentState = GameState::PLAYING;
+			currentState = GameState::LEVEL_SELECTOR_MENU;
 		}
 		else if (result == 2) { // Options
 			currentState = GameState::OPTIONS_MENU;
@@ -428,10 +428,19 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			currentState = GameState::MAIN_MENU;
 		}
 		else if (result == 2) { // Level Tuto
-			// Play Level Tuto
+			gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy);
+			player.resetPlayer();
+			currentState = GameState::PLAYING;
 		}
 		else if (result == 3) { // Level 1
-			// Play Level 1
+			gamemap.loadMap(2, ennemies, player, window, capsulesHP, capsulesEnergy);
+			player.resetPlayer();
+			currentState = GameState::PLAYING;
+		}
+		else if (result == 4) { // Level 2
+			gamemap.loadMap(3, ennemies, player, window, capsulesHP, capsulesEnergy);
+			player.resetPlayer();
+			currentState = GameState::PLAYING;
 		}
 		break;
 	}
