@@ -69,10 +69,14 @@ vector<vector<char>> Map::getMap() {
  }
 
 void Map::preshowTile(int x, int y, sf::RenderWindow& window) {
-    float posX = x * gridCellSize;
+    
+    if (numtile < 103)
+    {
+        float posX = x * gridCellSize;
     float posY = y * gridCellSize;
 
     tempTile = std::make_unique<Tiles>(posX, posY, numtile);
+    }
 }
 
 void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie, vector<unique_ptr<Shadow>>& shadows) {
@@ -181,8 +185,11 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
         int gridX = static_cast<int>(mousePosWorld.x) / gridCellSize;
         int gridY = static_cast<int>(mousePosWorld.y) / gridCellSize;
         modifyMapFile(gridX, gridY, numtile);
-        supprTile(gridX * gridCellSize, gridY * gridCellSize);
-        spawnTile(gridX * gridCellSize, gridY * gridCellSize, numtile);
+        if (numtile < 103)
+        {
+            supprTile(gridX * gridCellSize, gridY * gridCellSize);
+            spawnTile(gridX * gridCellSize, gridY * gridCellSize, numtile);
+        }
 
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
@@ -198,6 +205,9 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) { if (inputOn == false) { numtile -= 1; cout << numtile << endl;    } inputOn = true; }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { if (inputOn == false) { numtile -= 10; cout << numtile << endl;    } inputOn = true; }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { if (inputOn == false) { numtile += 10; cout << numtile << endl;    } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) { if (inputOn == false) { numtile = 0; cout << numtile << endl; } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)) { if (inputOn == false) { numtile = 555; cout << numtile << endl; } inputOn = true; }
+
     else { inputOn = false; }
 
     float moveSpeed = 10.0f;

@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font), player(Shared::playerTexture) {
+Game::Game() : isRunning(false), currentState(GameState::EDITOR), optionsMenu(OptionsMenu::MenuList::MAIN_MENU), videoMenu(VideoMenu::MenuList::MAIN_MENU), title("Zenith Bloom", Shared::font), player(Shared::playerTexture) {
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	

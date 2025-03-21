@@ -9,10 +9,10 @@ public:
 	//float life = 5;
 	void rangedAttack(float deltaTime) override;
 
-	void spawnFlame(); 
+	/*void spawnFlame(); 
 	void updateFlames(float deltaTime); 
-	void drawFlames(sf::RenderWindow& window); 
-	void runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime) override;
+	void drawFlames(sf::RenderWindow& window); */
+	//void runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime) override;
 	//radiusDetection = 50;
 struct Flame {
 		sf::Sprite spriteFlame;
