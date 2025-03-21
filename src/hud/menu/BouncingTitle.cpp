@@ -18,6 +18,8 @@ BouncingTitle::BouncingTitle(const std::string& title, sf::Font& font) {
     instructionText.setCharacterSize(30);
     instructionText.setFillColor(sf::Color(255, 255, 255, 0));
     instructionText.setStyle(sf::Text::Bold);
+    instructionText.setOutlineColor(sf::Color::Black);
+    instructionText.setOutlineThickness(4);
     sf::FloatRect instrBounds = instructionText.getLocalBounds();
     instructionText.setOrigin(instrBounds.width / 2, instrBounds.height / 2);
     instructionText.setPosition(Config::WINDOW_WIDTH / 2, Config::WINDOW_HEIGHT * 3 / 4);
@@ -37,7 +39,14 @@ BouncingTitle::BouncingTitle(const std::string& title, sf::Font& font) {
     blinkingTimer.restart();
 }
 
+void BouncingTitle::initBackground() {
+    backgroundSprite.setTexture(Shared::backgroundTexture);
+    backgroundSprite.setScale(1.23f, 1.23f);
+    backgroundSprite.setPosition((Config::WINDOW_WIDTH - backgroundSprite.getGlobalBounds().width) / 2.f, 0.f);
+}
+
 void BouncingTitle::update(float deltaTime) {
+    initBackground();
     if (!isWaitingForInput) {
         velocityY += gravity * deltaTime;
         titleText.move(0, velocityY * deltaTime);
@@ -90,6 +99,7 @@ void BouncingTitle::handleInput(bool& gameStarted) {
 }
 
 void BouncingTitle::draw(sf::RenderWindow& window) {
+    window.draw(backgroundSprite);
     window.draw(titleText);
     if (showInstruction) {
         window.draw(instructionText);
@@ -97,6 +107,7 @@ void BouncingTitle::draw(sf::RenderWindow& window) {
     if (timer.getElapsedTime().asSeconds() > 2.0f) {
         window.draw(pressKeyText);
     }
+
 }
 
 bool BouncingTitle::fallingText(float deltaTime) {

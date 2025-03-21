@@ -18,10 +18,11 @@ public:
 
     // variables
     bool canSkip = false;
+    void initBackground();
 
 private:
     sf::Clock timer, blinkingTimer;
-
+    sf::Sprite backgroundSprite;
     sf::Text titleText, instructionText, pressKeyText;
 
     float velocityY = 0.f;

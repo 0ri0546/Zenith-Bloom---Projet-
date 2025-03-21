@@ -498,7 +498,7 @@ bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
 		takeDamageClock.restart();
 
 		AudioManager::getInstance().playSound("hit1");
-		hp--;
+		hp -= 5;
 		takingDamage = true;
 		setAnimationDamage = true;
 	}
