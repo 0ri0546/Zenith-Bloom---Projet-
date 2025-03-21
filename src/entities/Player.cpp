@@ -36,7 +36,7 @@ Player::Player(sf::Texture& texture) :
 	assets.resize(swordSprite, 30, 50);
 
 	velocityY = 0;
-	gravity = 1700.f;
+	gravity = 1300.f;
 	isOnGround = false;
 	lastDepIsLeft = false;
 
