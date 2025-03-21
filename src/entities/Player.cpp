@@ -65,7 +65,7 @@ Player::Player(sf::Texture& texture) :
 	jetpackPower = -3.f;
 	energyConsumption = 10.f;
 	energyRecharge = 0.1f;
-	hpRecharge = -0.1f;
+	hpRecharge = 0.1f;
 	surchauffe = 0.f;
 	maxSurchauffe = 100.f;
 	surchauffeRecharge = 0.05f;
@@ -83,7 +83,7 @@ Player::Player(sf::Texture& texture) :
 	assets.resize(surchauffeBarSprite, 300, 90);
 
 	damage = 15;
-	hp = 10.f; // -------------------------------------------------------------------------------------------HP---------------
+	hp = 100.f; // -------------------------------------------------------------------------------------------HP---------------
 	maxHp = 100.f;
 
 	daySprite.setTexture(Shared::dayTexture);
@@ -587,6 +587,6 @@ void Player::resetPlayer() {
 	surchauffeRecharge = 0.05f;
 
 	damage = 15;
-	hp = 10.f;
+	hp = 100.f;
 	maxHp = 100.f;
 }
