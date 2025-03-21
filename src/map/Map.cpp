@@ -156,7 +156,7 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
                     ennemies.push_back(make_unique<Drone>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::droneTexture, Shared::tankTextureR, 139, 178, 100, 100, 64, 64));
                 }
                 if (tileValue == 996) {
-                    ennemies.push_back(make_unique<Incendiaire>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, Shared::incendTextureR, 132, 80, 120, 70, 80, 60)); // scale avec dif de 50 = perfect 
+                    ennemies.push_back(make_unique<Incendiaire>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, Shared::incendTextureR, 132, 80, 260, 140, 120, 100)); 
                 }
                 if (tileValue == 666) {
                     capsulesEnergie.push_back(make_unique<CapsuleEnergie>(15, Shared::capsuleEnergyTexture, i / 3 * gridCellSize, map.size() * gridCellSize));
