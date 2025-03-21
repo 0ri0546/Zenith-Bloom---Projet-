@@ -506,7 +506,22 @@ bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
 	if (takeDamageClock.getElapsedTime().asSeconds() > 0.5) {
 		setAnimationDamage = false;
 	}
+	return takingDamage;
+}
 
+bool Player::takeDamageSimple(float deltaTime) {
+	// méthode pour gérer les dégâts infligés au joueur (simple)
+	takeDamageClock.restart();
+
+	AudioManager::getInstance().playSound("hit1");
+	hp -= 5;
+	takingDamage = true;
+	setAnimationDamage = true;
+	
+
+	if (takeDamageClock.getElapsedTime().asSeconds() > 0.5) {
+		setAnimationDamage = false;
+	}
 	return takingDamage;
 }
 

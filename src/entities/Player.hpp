@@ -38,6 +38,7 @@ public:
 
 	// getters bools
 	bool takeDamage(sf::Sprite projEnnemi, float deltaTime);
+	bool takeDamageSimple(float deltaTime);
 	bool getTakingDamageBool() const;
 	bool getCanDisplayGameOverBool() const;
 
