@@ -144,9 +144,6 @@
     <ClCompile Include="src\systems\Animation.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\hud\menu\GameOver.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="src\entities\drone.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -161,6 +158,15 @@
     </ClCompile>
     <ClCompile Include="src\entities\CapsuleHP.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\audioManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\Reparable.cpp">
+      <Filter>Fichiers sources\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\Deco.cpp">
+      <Filter>Fichiers sources\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,14 +263,20 @@
     <ClInclude Include="src\hud\menu\BouncingTitle.hpp">
       <Filter>Fichiers d%27en-tête\Hud</Filter>
     </ClInclude>
-    <ClInclude Include="src\hud\menu\GameOver.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="src\entities\CapsuleEnergie.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="src\entities\CapsuleHP.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\audioManager.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\map\Deco.hpp">
+      <Filter>Fichiers d%27en-tête\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\map\Reparable.hpp">
+      <Filter>Fichiers d%27en-tête\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
