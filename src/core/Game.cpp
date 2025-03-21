@@ -362,7 +362,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		int result = mainMenu.handleInput(window, event);
 		
 		if (result == 1) { // Jouer
-			currentState = GameState::LEVEL_SELECTOR_MENU;
+			currentState = GameState::PLAYING;
 		}
 		else if (result == 2) { // Options
 			currentState = GameState::OPTIONS_MENU;

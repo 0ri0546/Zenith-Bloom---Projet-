@@ -8,27 +8,27 @@ Map::Map() {
 }
 
 void Map::initBackground() {
-    if (!backgroundTexture.loadFromFile("assets/maps/tuto_tiles_1.png")) {
+    if (!backgroundTexture.loadFromFile("assets/maps/level2/zone_1/zone1_city_back.png")) {
         std::cerr << "Error loading texture! : background.png" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setScale(0.5f, 0.5f);
-    backgroundSprite.setColor(sf::Color(255, 255, 255, 102));
+    backgroundSprite.setColor(sf::Color(255, 255, 255));
 
-    if (!backgroundTexture2.loadFromFile("assets/maps/tuto_tiles_2.png")) {
+    if (!backgroundTexture2.loadFromFile("assets/maps/level2/zone_1/zone1_city_front.png")) {
         std::cerr << "Error loading texture! : background.png" << std::endl;
     } 
     backgroundSprite2.setTexture(backgroundTexture2);
     backgroundSprite2.setScale(0.5f, 0.5f);
-    backgroundSprite2.setColor(sf::Color(255, 255, 255, 102));
+    backgroundSprite2.setColor(sf::Color(255, 255, 255));
     backgroundSprite2.setPosition(backgroundSprite.getPosition().x + backgroundSprite.getGlobalBounds().width, 0.f);
 
-    if (!backgroundTexture3.loadFromFile("assets/maps/tuto_tiles_3.png")) {
+    if (!backgroundTexture3.loadFromFile("assets/maps/level2/zone_1/zone1_nature.png")) {
         std::cerr << "Error loading texture! : background.png" << std::endl;
     }
     backgroundSprite3.setTexture(backgroundTexture3);
     backgroundSprite3.setScale(0.5f, 0.5f);
-    backgroundSprite3.setColor(sf::Color(255, 255, 255, 102));
+    backgroundSprite3.setColor(sf::Color(255, 255, 255));
     backgroundSprite3.setPosition(backgroundSprite2.getPosition().x + backgroundSprite2.getGlobalBounds().width, 0.f);
 
     if (!backgroundTexture4.loadFromFile("assets/maps/tuto_tiles_4.png")) {
