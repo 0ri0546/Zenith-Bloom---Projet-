@@ -10,6 +10,8 @@
 #include "../entities/CapsuleEnergie.hpp"
 #include "../entities/CapsuleHP.hpp"
 #include "../entities/Shadow.hpp"
+#include "Deco.hpp"
+#include "Reparable.hpp"
 
 class Map { 
 private:
@@ -19,7 +21,10 @@ private:
 	bool inputOn = false;
 
 	vector<vector<char>> map;
+	vector<vector<char>> fond;
 	vector<unique_ptr<Tiles>> tiles;
+	vector<unique_ptr<Deco>> decos;
+	vector<unique_ptr<Reparable>> reparables;
 	vector<sf::RectangleShape> recTab;
 	sf::Sprite assetfull;
 
@@ -34,6 +39,8 @@ public:
 
 	vector<vector<char>> getMap();
 	vector<unique_ptr<Tiles>>& getTiles();
+	vector<unique_ptr<Deco>>& getDecos();
+	vector<unique_ptr<Reparable>>& getReparables();
 	std::unique_ptr<Tiles> tempTile;
 	void spawnTile(int x, int y, int mapNum);
 	void supprTile(int x, int y);

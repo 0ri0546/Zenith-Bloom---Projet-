@@ -24,14 +24,11 @@ private:
 public:
 
 	Reparable(float x, float y, int type);
-	~Reparable();
 	void setSprite(int type);
-
+	void fixing();
 
 };
 
-Reparable::~Reparable()
-{
-}
+
 
 #endif // !REPARABLE_HPP

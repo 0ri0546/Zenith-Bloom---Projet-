@@ -53,6 +53,12 @@ vector<vector<char>> Map::getMap() {
  vector<unique_ptr<Tiles>>& Map::getTiles() {
     return tiles;
 }
+ vector<unique_ptr<Deco>>& Map::getDecos() {
+     return decos;
+ }
+ vector<unique_ptr<Reparable>>& Map::getReparables() {
+     return reparables;
+ }
 
  void Map::spawnTile(int x, int y, int mapNum) {
      tiles.push_back(make_unique<Tiles>(x, y, mapNum));
@@ -81,7 +87,10 @@ void Map::preshowTile(int x, int y, sf::RenderWindow& window) {
 
 void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie, vector<unique_ptr<Shadow>>& shadows) {
     map.clear();
+    fond.clear();
     tiles.clear();
+    decos.clear();
+    reparables.clear();
     currentmap = mapNum;
 
     string path = "assets/maps/level" + to_string(mapNum) + "/map.txt";
@@ -171,6 +180,46 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
                 }
                 if (tileValue == 555) { /// ombre
                     shadows.push_back(make_unique<Shadow>(sf::Vector2f(120, 120), i / 3 * gridCellSize, map.size() * gridCellSize));
+                }
+            }
+        }
+        map.push_back(row);
+    }
+
+    string pathd = "assets/maps/level" + to_string(mapNum) + "/decors.txt";
+
+    ifstream filed(pathd);
+    if (!filed.is_open()) {
+        cout << "Error: filed not found" << endl;
+        return;
+    }
+
+    string lined;
+    while (getline(filed, line)) {
+        vector<char> row;
+        for (size_t i = 0; i < line.size(); i += 3) {
+            if (i + 1 >= line.size()) {
+                cout << "Warning: Uneven characters in map filed. Skipping last character." << endl;
+                break;
+            }
+
+            string tileCode = line.substr(i, 3);
+            if (tileCode != "   ") {
+                if (!isdigit(tileCode[0]) || !isdigit(tileCode[1]) || !isdigit(tileCode[2])) {
+                    cout << "Warning: Invalid tile code '" << tileCode << "' at position " << i << "." << endl;
+                    continue;
+                }
+
+                int tileValue;
+                tileValue = stoi(tileCode);
+
+                row.push_back(tileCode[0]);
+
+                if (tileValue < 19) {
+                    reparables.push_back(make_unique<Reparable>(i / 3 * gridCellSize, map.size() * gridCellSize, tileValue));
+                }
+                else if (tileValue < 37) {
+                    decos.push_back(make_unique<Deco>(i / 3 * gridCellSize, map.size()* gridCellSize, tileValue));
                 }
             }
         }
@@ -282,4 +331,5 @@ void Map::editormode(sf::RenderWindow& window, sf::View& view) {
 
 Map::~Map() {
     map.clear();
+    fond.clear();
 }

@@ -62,3 +62,9 @@ void Reparable::setSprite(int type) {
         return;
     }
 }
+
+void Reparable::fixing() {
+    type += 1;
+    fixed = true;
+    setSprite(type);
+}
