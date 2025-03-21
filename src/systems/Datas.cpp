@@ -9,6 +9,7 @@ sf::Texture Shared::playerReverseTexture;
 sf::Texture Shared::smokeTexture;
 sf::Texture Shared::swordTexture;
 sf::Texture Shared::projectileTexture;
+sf::Texture Shared::waterProjTexture;
 
 //assets des ennemis
 sf::Texture Shared::ennemyTexture;
@@ -21,6 +22,7 @@ sf::Texture Shared::incendTexture;
 sf::Texture Shared::incendTextureR;
 sf::Texture Shared::projIcend;
 sf::Texture Shared::projMini;
+sf::Texture Shared::flame;
 
 //assets des tiles
 sf::Texture Shared::groundTexture;
@@ -41,10 +43,10 @@ sf::Texture Shared::panneauTexture;
 //assets du HUD
 sf::Texture Shared::dayTexture;
 sf::Texture Shared::nightTexture;
-sf::Texture Shared::lifeBarTexture;
 sf::Texture Shared::lifeBar2Texture;
 sf::Texture Shared::energyBarTexture;
 sf::Texture Shared::progressBarTexture;
+sf::Texture Shared::surchauffeBarTexture;
 
 //assets des background
 sf::Texture Shared::backgroundTexture;

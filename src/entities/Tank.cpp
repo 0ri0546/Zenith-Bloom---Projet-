@@ -15,17 +15,19 @@ Tank::Tank(unsigned long long x, unsigned long long y, sf::Texture& text, sf::Te
 
 }
 
-void Tank::attack(Player& player, float deltaTime)
-{
+void Tank::attack(Player& player, float deltaTime) {
 	if (player.getShape().getGlobalBounds().intersects(spriteEnnemy.getGlobalBounds())) {
         isAttacking = true;
+        player.takeDamageSimple(deltaTime);
         if (player.getShape().getPosition().x < spriteEnnemy.getPosition().x) {
             lastDepIsLeft = true;
+            AudioManager::getInstance().playSound("hit1");
             attackAnim.update(deltaTime);
 		    attackAnim.applyToSprite(spriteEnnemy, 2);
         }
         else {
             lastDepIsLeft = false;
+            AudioManager::getInstance().playSound("hit1");
             attackAnimR.update(deltaTime);
             attackAnimR.applyToSprite(spriteEnnemy, 2);
         cout << "attaque";
@@ -38,14 +40,8 @@ void Tank::attack(Player& player, float deltaTime)
 
 }
 
-void Tank::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime)
-{
-
+void Tank::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Projectile>& projectile, vector<std::unique_ptr<Ennemy>>& ennemies, std::vector<std::unique_ptr<Tiles>>& tiles, float deltaTime) {
     colEnnemiToGround(ennemies, tiles);
-
-
-
-
     if (!onTheGround) {
 
         velocityY += gravity * deltaTime;
@@ -60,16 +56,12 @@ void Tank::runEnnemy(Player& player, sf::RenderWindow& window, std::vector<Proje
         velocityY = 0;
     }
 
-
-
     colEnnemyToEnnemy(ennemies);
     colEnnemyToPlayer(player, ennemies);
     circle.setPosition(spriteEnnemy.getPosition());
     if (onTheGround) {
         switch (currentState) {
         case PATROL:
-
-
             standAnim.update(deltaTime);
             standAnim.applyToSprite(spriteEnnemy, 0);
             patrol(player);

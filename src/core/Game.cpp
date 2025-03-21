@@ -4,12 +4,12 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
-	gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy);
+	gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy, shadows);
 	view.setCenter(player.getShape().getPosition());
-	//grid.loadGrid(gamemap);
 
 	textFall = false;
 	isDay = true;
+	isInTheSun = true;
 }
 
 void Game::createWindow() {
@@ -52,6 +52,7 @@ void Game::processEvents(float deltaTime) {
 		case GameState::GAMEOVER_MENU:
 			if (gameOverScreen.handleInput()) {
 				currentState = GameState::MAIN_MENU;
+				player.resetPlayer();
 			}
 			break;
 		case GameState::LEVEL_SELECTOR_MENU:
@@ -64,6 +65,7 @@ void Game::processEvents(float deltaTime) {
 }
 
 void Game::update(float deltaTime) {
+
 	switch (currentState) {
 	case GameState::TITLE_MENU:
 		title.update(deltaTime);
@@ -80,10 +82,12 @@ void Game::update(float deltaTime) {
 		videoMenu.update(window);
 		break;
 	case GameState::PLAYING:
+		
+		cycleDayNight();
 		player.setTakingDamageBool(false);
 		ennemies.erase(std::remove_if(ennemies.begin(), ennemies.end(), [](const unique_ptr<Ennemy>& e) { return e->currentState == DEAD; }), ennemies.end());
 		
-		player.update(gamemap.getTiles(), window, view, deltaTime);
+		player.update(gamemap.getTiles(), window, view, deltaTime, isDay, isInTheSun);
 
 		for (auto& ennemy : ennemies) {
 			ennemy->runEnnemy(player, window, player.projectiles, ennemies, gamemap.getTiles(), deltaTime);
@@ -97,11 +101,8 @@ void Game::update(float deltaTime) {
 				}
 			}
 		}
-		if (ennemies.size() == 0)
-		{
-			player.setAnimationDamage = false;
-		}
 
+		if (ennemies.size() == 0) { player.setAnimationDamage = false; }
 		for (auto it = capsulesEnergy.begin(); it != capsulesEnergy.end(); ) {
 			if ((*it)->getSprite().getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
 				player.augmenterEnergie((*it)->getEnergyValue());
@@ -120,23 +121,62 @@ void Game::update(float deltaTime) {
 				++it;
 			}
 		}
-		/*for (auto it = player.getProj().begin(); it != player.getProj().end(); ) {
-			bool erased = false;  
-			auto currentProj = *it; 
+		for (auto it = player.projectiles.begin(); it != player.projectiles.end();) {
+			bool erased = false;
 
-			for (auto& tile : gamemap.getTiles()) {
-				if (currentProj.getSprite().getGlobalBounds().intersects(player.getProjShape(currentProj).getGlobalBounds())) {
-					it = player.getProj().erase(it);
+			for (const auto& tile : gamemap.getTiles()) {
+				if (it->getBounds().intersects(tile->getSprite().getGlobalBounds())) {
+					it = player.projectiles.erase(it);
 					erased = true;
-					break;  
+					break;
 				}
 			}
 
 			if (!erased) {
-				++it; 
+				++it;
 			}
-		}*/
+		}
+		for (auto it = player.projectilesWater.begin(); it != player.projectilesWater.end();) {
+			bool erased = false;
 
+			for (const auto& tile : gamemap.getTiles()) {
+				if (it->getBounds().intersects(tile->getSprite().getGlobalBounds())) {
+					it = player.projectilesWater.erase(it);
+					erased = true;
+					break;
+				}
+			}
+
+			if (!erased) {
+				++it;
+			}
+		}
+		for (auto& ennemy : ennemies) {
+			auto& enemyProjectiles = ennemy->getProj();
+			for (auto it = enemyProjectiles.begin(); it != enemyProjectiles.end();) {
+				bool erased = false;
+
+				for (const auto& tile : gamemap.getTiles()) {
+					if (ennemy->getProjShape(*it).getGlobalBounds().intersects(tile->getSprite().getGlobalBounds())) {
+						it = enemyProjectiles.erase(it);
+						erased = true;
+						break;
+					}
+				}
+				if (!erased) {
+					++it;
+				}
+			}
+		}
+		isInTheSun = false;
+		for (auto& shadow : shadows) {
+			if (player.getShape().getGlobalBounds().intersects(shadow->getGlobalBounds())) { 
+				isInTheSun = false; 
+				break;
+			}
+			else { isInTheSun = true; }
+		}
+		std::cout << isInTheSun << std::endl;
 
 		view.setCenter(player.getShape().getPosition());
 		if (player.getCanDisplayGameOverBool()) {
@@ -173,7 +213,11 @@ void Game::render() {
 		for (auto& ennemy : ennemies) {
 			//window.draw(ennemy->circle);
 			window.draw(ennemy->getSprite());
+			
 		}
+		/*for (auto& flame : Incendiaire::flames) {
+			window.draw(flame.getSprite());
+		}*/
 		/*for (auto& tank : Tanks) {
 			window.draw(tank.getSprite());
 		}*/
@@ -185,6 +229,9 @@ void Game::render() {
 		}
 		for (auto proj : player.getProj()) {
 			window.draw(player.getProjShape(proj));
+		}
+		for (auto proj : player.getProjWater()) {
+			window.draw(player.getProjWaterShape(proj));
 		}
 		for (auto& ennemy : ennemies) {
 			for (auto& proj : ennemy->getProj()) {
@@ -216,15 +263,18 @@ void Game::render() {
 		window.draw(player.getShape());
 		for (const auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
-			if (tile->hasShadow()) {
-				window.draw(tile->getShadowShape());
-			}
+			window.draw(tile->getShadowShape());
+		}
+		for (auto& shadow : shadows) {
+			window.draw(*shadow);
 		}
 		//----HUD----
 		window.draw(player.getShapeFillEnergy());
 		window.draw(player.getShapeFillHP());
 		window.draw(player.getLifeBar2Sprite()); 
 		window.draw(player.getEnergyBarSprite());
+		window.draw(player.getShapeSurchauffe());
+		window.draw(player.getSurchauffeBarSprite());
 		if (isDay) { window.draw(player.getDaySprite()); }
 		else { window.draw(player.getNightSprite()); }
 		window.draw(player.getProgressBarSprite());
@@ -274,8 +324,11 @@ void Game::render() {
 
 void Game::run() {
 	sf::Clock clock;
-	
+	cycleClock.restart();
+	AudioManager::getInstance().setSoundVolume("lv1", 30);
+	AudioManager::getInstance().playSound("lv1");
 	while (isRunning) {
+		
 		float deltaTime = clock.restart().asSeconds();
 		processEvents(deltaTime);
 		update(deltaTime);
@@ -299,7 +352,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		int result = mainMenu.handleInput(window, event);
 		
 		if (result == 1) { // Jouer
-			currentState = GameState::PLAYING;
+			currentState = GameState::LEVEL_SELECTOR_MENU;
 		}
 		else if (result == 2) { // Options
 			currentState = GameState::OPTIONS_MENU;
@@ -389,10 +442,19 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			currentState = GameState::MAIN_MENU;
 		}
 		else if (result == 2) { // Level Tuto
-			// Play Level Tuto
+			gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy, shadows);
+			player.resetPlayer();
+			currentState = GameState::PLAYING;
 		}
 		else if (result == 3) { // Level 1
-			// Play Level 1
+			gamemap.loadMap(2, ennemies, player, window, capsulesHP, capsulesEnergy, shadows);
+			player.resetPlayer();
+			currentState = GameState::PLAYING;
+		}
+		else if (result == 4) { // Level 2
+			gamemap.loadMap(3, ennemies, player, window, capsulesHP, capsulesEnergy, shadows);
+			player.resetPlayer();
+			currentState = GameState::PLAYING;
 		}
 		break;
 	}
@@ -439,5 +501,15 @@ void Game::handleGamepadInput(float deltaTime) {
 				isGamePaused = true;
 			}
 		}
+	}
+}
+
+void Game::cycleDayNight() {
+	if (cycleClock.getElapsedTime().asSeconds() >= 30.f && isDay) {
+		cycleClock.restart();
+		isDay = false;
+	}if (cycleClock.getElapsedTime().asSeconds() >= 15.f && !isDay) {
+		cycleClock.restart();
+		isDay = true;
 	}
 }

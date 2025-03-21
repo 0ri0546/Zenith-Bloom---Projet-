@@ -6,9 +6,9 @@ Player::Player(sf::Texture& texture) :
 	walkToLeftAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.2f, 100, 100), 
 	walkToRightAnimation(texture, 194, 256, 3, 0.2f, 100, 100),
 	staticToLeftAnimation(Shared::playerReverseTexture, 194, 256, 1, 0.5f, 100, 100),
-	staticToRightAnimation(texture, 194, 256, 1, 0.5f, 100, 100),
+	staticToRightAnimation(texture, 194, 256, 1, 0.2f, 100, 100),
 	hangedToLefAnimation(Shared::playerReverseTexture, 194, 256, 3, 0.5f, 100, 100),
-	hangedToRightAnimation(texture, 194, 256, 3, 0.5f, 100, 100),
+	hangedToRightAnimation(texture, 194, 256, 3, 0.2f, 100, 100),
 
 	takeDamageToLeftAnimation(Shared::playerReverseTexture, 194, 256, 2, 0.5f, 100, 100),
 	takeDamageToRightAnimation(texture, 194, 256, 2, 0.5f, 100, 100),
@@ -23,7 +23,9 @@ Player::Player(sf::Texture& texture) :
 	repairToLeftAnimation(Shared::playerReverseTexture, 256, 256, 5, 0.3f, 100, 100),
 	repairToRightAnimation(texture, 256, 256, 5, 0.3f, 100, 100),
 
-	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f, 50, 50)
+	smokeAnimation(Shared::smokeTexture, 350, 350, 11, 0.1f, 50, 50),
+	throwWaterToLeftAnimation(Shared::playerReverseTexture, 210, 256, 6, 0.166f, 100, 100),
+	throwWaterToRightAnimation(texture, 194, 256, 6, 0.166f, 100, 100)
 {
 	playerSprite.setPosition(sf::Vector2f(400, 0));
 	playerSprite.setTexture(texture);
@@ -55,13 +57,18 @@ Player::Player(sf::Texture& texture) :
 	isDead = false;
 	canDisplayGameOverBool = false;	
 	isRepairing = false;
+	progress = 0;
+	isThrowingWater = false;
 
 	energy = 100.f;
-	energyMax = 100.f;
-	maxJetpackEnergy = 100.f;
+	maxEnergy = 100.f;
 	jetpackPower = -3.f;
 	energyConsumption = 10.f;
-	energyRecharge = 1.f;
+	energyRecharge = 0.1f;
+	hpRecharge = 0.1f;
+	surchauffe = 0.f;
+	maxSurchauffe = 100.f;
+	surchauffeRecharge = 0.05f;
 
 	lifeBarSprite.setTexture(Shared::lifeBar2Texture);
 	assets.resize(lifeBarSprite, 300, 100);
@@ -70,10 +77,13 @@ Player::Player(sf::Texture& texture) :
 	assets.resize(energyBarSprite, 268, 100);
 
 	progressBarSprite.setTexture(Shared::progressBarTexture);
-	assets.resize(progressBarSprite, 270, 40);
+	assets.resize(progressBarSprite, 400, 50);
+
+	surchauffeBarSprite.setTexture(Shared::surchauffeBarTexture);
+	assets.resize(surchauffeBarSprite, 300, 90);
 
 	damage = 15;
-	hp = 10.f; // -------------------------------------------------------------------------------------------HP---------------
+	hp = 100.f; // -------------------------------------------------------------------------------------------HP---------------
 	maxHp = 100.f;
 
 	daySprite.setTexture(Shared::dayTexture);
@@ -111,8 +121,8 @@ void Player::animate(float deltaTime) {
 	}
 	else { // En l'air (saut ou accroché)
 		if (hangedToWallsLeft || hangedToWallsRight) {
-			(hangedToWallsLeft ? hangedToLefAnimation : hangedToRightAnimation).update(deltaTime);
-			(hangedToWallsLeft ? hangedToLefAnimation : hangedToRightAnimation).applyToSprite(playerSprite, 8);
+			(hangedToWallsLeft ? hangedToRightAnimation : hangedToLefAnimation).update(deltaTime);
+			(hangedToWallsLeft ? hangedToRightAnimation : hangedToLefAnimation).applyToSprite(playerSprite, 8);
 		}
 		else { // Saut normal
 			(lastDepIsLeft ? jumpToLeftAnimation : jumpToRightAnimation).update(deltaTime);
@@ -135,11 +145,16 @@ void Player::animate(float deltaTime) {
 		(lastDepIsLeft ? repairToLeftAnimation : repairToRightAnimation).update(deltaTime);
 		(lastDepIsLeft ? repairToLeftAnimation : repairToRightAnimation).applyToSprite(playerSprite, 10);
 	}
+	if (isThrowingWater) {
+		(lastDepIsLeft ? throwWaterToLeftAnimation : throwWaterToRightAnimation).update(deltaTime);
+		(lastDepIsLeft ? throwWaterToLeftAnimation : throwWaterToRightAnimation).applyToSprite(playerSprite, 8);
+	}
 
 }
 
-void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime) {
+void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindow& window, sf::View& view, float deltaTime, bool isDay, bool isInTheSun) {
 	// méthode pour mettre à jour le joueur
+	statsManager(isDay, isInTheSun);
 	if (hp <= 0) {
 		if (!isDead) {
 			isDead = true;
@@ -164,9 +179,35 @@ void Player::update(const std::vector<unique_ptr<Tiles>>& tiles, sf::RenderWindo
 	}
 	if (rangedAttackClockDuration.getElapsedTime().asSeconds() >= 1.0f) { isRangedAttacking = false; }
 	else { isRangedAttacking = true; }
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) || sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 4)) {
+		if (!isDead) { throwWater(); }
+	}
+	if (throwWaterClockDuration.getElapsedTime().asSeconds() >= 1.0f) { isThrowingWater = false; }
+	else { isThrowingWater = true; }
 }
 
 bool Player::getCanDisplayGameOverBool() const { return canDisplayGameOverBool; }
+
+void Player::statsManager(bool isDay, bool isInTheSun) {
+	if (energy < maxEnergy) { energy += energyRecharge; }
+	if (energy <= 0) { energy = 0; }
+
+	if (isDay) {
+		if (hp < maxHp) { hp += hpRecharge; }
+		if (hp <= 0) { hp = 0; }
+		if (isInTheSun) {
+			if (surchauffe < maxSurchauffe) { surchauffe += surchauffeRecharge; }
+		}
+		else {
+			if (surchauffe > 0) { surchauffe -= surchauffeRecharge * 4; }
+		}
+	}
+	else {
+		if (surchauffe > 0) { surchauffe -= surchauffeRecharge; }
+	}
+	if (surchauffe >= maxSurchauffe) { hp = -999; }
+}
 
 void Player::jump(float deltaTime) {
 	// méthode pour gérer le saut du joueur (mouvement + fumée)
@@ -193,9 +234,7 @@ void Player::jump(float deltaTime) {
 		}
 		if (!sf::Joystick::isButtonPressed(0, 0)) {
 			canJump = true;
-			if (energy < maxJetpackEnergy) {
-				energy += energyRecharge;
-			}
+			
 		}
 	}
 	else {
@@ -209,9 +248,7 @@ void Player::jump(float deltaTime) {
 		}
 		if (!sf::Keyboard::isKeyPressed(Keybind::getKey(Keybind::Action::Jump))) {
 			canJump = true;
-			if (energy < maxJetpackEnergy) {
-				energy += energyRecharge;
-			}
+			
 		}
 	}
 	playerSprite.move(0, velocityY * deltaTime);
@@ -351,7 +388,7 @@ float Player::attack(float deltaTime) {
 	if (attackClock.getElapsedTime().asSeconds() >= 0.5f) {
 		if (sf::Joystick::isConnected(0)) {
 			if (sf::Joystick::isButtonPressed(0, 2) && energy > 5.0) {
-				shortRangeDamage = damage;
+				shortRangeDamage = 0.1f;
 				energy -= 5.0;
 				attackClock.restart();
 				attackDurationClock.restart();
@@ -359,7 +396,7 @@ float Player::attack(float deltaTime) {
 		}
 		else {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && energy > 5.0) {
-				shortRangeDamage = damage;
+				shortRangeDamage = 0.1f;
 				energy -= 5.0;
 				attackClock.restart();
 				attackDurationClock.restart();
@@ -392,15 +429,20 @@ void Player::updateHUD(sf::View& view) {
 	shapeFillHP.setSize(sf::Vector2f(((hp / maxHp) * 100) * 2.67f, sizeY));
 	shapeFillHP.setFillColor(sf::Color::Red);
 
-	shapeFillEnergy.setSize(sf::Vector2f(((energy / maxJetpackEnergy) * 100) * 2.62f, sizeY));
+	shapeFillEnergy.setSize(sf::Vector2f(((energy / maxEnergy) * 100) * 2.62f, sizeY));
 	shapeFillEnergy.setFillColor(sf::Color::Green);
+
+	shapeFillSurchauffe.setSize(sf::Vector2f(((surchauffe / maxSurchauffe) * 100) * 2.62f, sizeY));
+	shapeFillSurchauffe.setFillColor(sf::Color::White);
 
 	lifeBarSprite.setPosition(hudX, hudY);
 	energyBarSprite.setPosition(hudX + 15, hudY + lifeBarSprite.getGlobalBounds().height + spacing);
-	progressBarSprite.setPosition(hudX + 15, hudY + lifeBarSprite.getGlobalBounds().height * 2 + (spacing * 3));
+	surchauffeBarSprite.setPosition(hudX, hudY + lifeBarSprite.getGlobalBounds().height * 2 + (spacing * 2));
+	progressBarSprite.setPosition(hudX + Config::WINDOW_WIDTH / 2 - progressBarSprite.getGlobalBounds().width / 2, hudY + spacing);
 
 	shapeFillEnergy.setPosition(hudX + spacing - 1, hudY + lifeBarSprite.getGlobalBounds().height + 53);
 	shapeFillHP.setPosition(hudX + spacing - 2, hudY + (spacing * 2) + 8);
+	shapeFillSurchauffe.setPosition(hudX + spacing, hudY + lifeBarSprite.getGlobalBounds().height * 2 + (spacing * 3.6));
 	//------ENERGY------
 	//------DAY/NIGHT------
 	daySprite.setPosition(viewCenter.x + viewSize.x / 2 - daySprite.getGlobalBounds().width - spacing, viewCenter.y - viewSize.y / 2 + spacing);
@@ -417,8 +459,23 @@ void Player::rangedAttack() {
 		newProjectile.resize(30, 30);
 		projectiles.push_back(newProjectile);
 		energy -= 10.0f;
+		AudioManager::getInstance().setSoundVolume("tir", 10);
+		AudioManager::getInstance().playSound("tir");
 		rangedAttackClock.restart();
 		rangedAttackClockDuration.restart();
+	}
+}
+
+void Player::throwWater() {
+	if (throwWaterClock.getElapsedTime().asSeconds() >= 0.5f) {
+		sf::Vector2f spawnPos = playerSprite.getPosition();
+		spawnPos.x += lastDepIsLeft ? -20 : playerSprite.getGlobalBounds().width;
+		Projectile newProjectile(Shared::waterProjTexture, sf::Vector2f(spawnPos.x, spawnPos.y), lastDepIsLeft);
+		newProjectile.resize(30, 30);
+		projectilesWater.push_back(newProjectile);
+		energy -= 10.0f;
+		throwWaterClock.restart();
+		throwWaterClockDuration.restart();
 	}
 }
 
@@ -428,13 +485,19 @@ void Player::updateProjectiles(float deltaTime, sf::RenderWindow& window) {
 		it->update(deltaTime);
 		++it;
 	}
+	for (auto it = projectilesWater.begin(); it != projectilesWater.end();) {
+		it->updateForWater(deltaTime);
+		++it;
+	}
 }
 
 bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
 	// méthode pour gérer les dégâts infligés au joueur
 	if (playerSprite.getGlobalBounds().intersects(projEnnemi.getGlobalBounds())) {
 		takeDamageClock.restart();
-		hp--;
+
+		AudioManager::getInstance().playSound("hit1");
+		hp -= 5;
 		takingDamage = true;
 		setAnimationDamage = true;
 	}
@@ -442,14 +505,29 @@ bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
 	if (takeDamageClock.getElapsedTime().asSeconds() > 0.5) {
 		setAnimationDamage = false;
 	}
+	return takingDamage;
+}
 
+bool Player::takeDamageSimple(float deltaTime) {
+	// méthode pour gérer les dégâts infligés au joueur (simple)
+	takeDamageClock.restart();
+
+	AudioManager::getInstance().playSound("hit1");
+	hp -= 0.1;
+	takingDamage = true;
+	setAnimationDamage = true;
+	
+
+	if (takeDamageClock.getElapsedTime().asSeconds() > 0.5) {
+		setAnimationDamage = false;
+	}
 	return takingDamage;
 }
 
 void Player::augmenterEnergie(int quantite) {
 	energy += quantite;
-	if (energy > energyMax) {
-		energy = energyMax;
+	if (energy > maxEnergy) {
+		energy = maxEnergy;
 	}
 }
 
@@ -470,10 +548,14 @@ sf::Sprite Player::getLifeBarSprite() const { return lifeBarSprite; }
 sf::Sprite Player::getLifeBar2Sprite() const { return lifeBarSprite; }
 sf::Sprite Player::getEnergyBarSprite() const { return energyBarSprite; }
 sf::Sprite Player::getProgressBarSprite() const { return progressBarSprite; }
+sf::Sprite Player::getSurchauffeBarSprite() const { return surchauffeBarSprite; }
 sf::RectangleShape Player::getShapeFillEnergy() const { return shapeFillEnergy; }
 sf::RectangleShape Player::getShapeFillHP() const { return shapeFillHP; }
+sf::RectangleShape Player::getShapeSurchauffe() const { return shapeFillSurchauffe; }
 std::vector<Projectile> Player::getProj() const { return projectiles; }
+std::vector<Projectile> Player::getProjWater() const { return projectilesWater; }
 sf::Sprite Player::getProjShape(Projectile& proj) const { return proj.getSprite(); }
+sf::Sprite Player::getProjWaterShape(Projectile& proj) const { return proj.getSprite(); }
 sf::Sprite Player::getDaySprite() const { return daySprite; }
 sf::Sprite Player::getNightSprite() const { return nightSprite; }
 bool Player::getTakingDamageBool() const { return takingDamage; }
@@ -481,4 +563,48 @@ void Player::setTakingDamageBool(bool takingDamage) { this->takingDamage = takin
 
 Player::~Player() {
 	projectiles.clear();
+}
+
+void Player::resetPlayer() {
+	playerSprite.setPosition(sf::Vector2f(400, 0));
+	playerSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
+
+	velocityY = 0;
+	gravity = 1700.f;
+	isOnGround = false;
+	lastDepIsLeft = false;
+
+	jumpCount = maxJumps;
+	canJump = true;
+	hangedToWallsLeft = false;
+	hangedToWallsRight = false;
+	depX = 0;
+	bounce = 1000.f;
+	jumpTime = 0.f;
+	velocityX = 0.f;
+
+	isAttacking = false;
+	isRangedAttacking = false;
+	setAnimationDamage = false;
+	canAttack = true;
+	takingDamage = false;
+	isDead = false;
+	canDisplayGameOverBool = false;
+	isRepairing = false;
+	progress = 0;
+	isThrowingWater = false;
+
+	energy = 100.f;
+	maxEnergy = 100.f;
+	jetpackPower = -3.f;
+	energyConsumption = 10.f;
+	energyRecharge = 0.1f;
+	hpRecharge = 0.1f;
+	surchauffe = 0.f;
+	maxSurchauffe = 100.f;
+	surchauffeRecharge = 0.05f;
+
+	damage = 15;
+	hp = 100.f;
+	maxHp = 100.f;
 }

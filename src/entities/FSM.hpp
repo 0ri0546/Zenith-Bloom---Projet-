@@ -2,11 +2,12 @@
 #define ENNEMY_HPP
 
 #include "Entity.hpp"
-#include "../entities/Player.hpp"
 #include "Projectile.hpp"
+#include "../entities/Player.hpp"
 #include "../map/Platform.hpp"
 #include "../systems/Animation.hpp"
 #include "../systems/audioManager.hpp"
+
 
 enum ennemyState {
     PATROL,
@@ -43,8 +44,6 @@ public:
     float x, y;
     int life = 3;
 
-
-
     ennemyState currentState;
     Assets assets;
     sf::Clock rangedAttackClock;
@@ -53,7 +52,6 @@ public:
 
     std::vector<Projectile> projectiles;
     std::vector<sf::Sprite> spritEnnemies;
-    //std::vector<sf::CircleShape> detectionCircles;
     sf::Vector2f moveForCol;
 
     size_t pathIndex;

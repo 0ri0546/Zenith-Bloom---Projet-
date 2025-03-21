@@ -69,18 +69,23 @@ vector<vector<char>> Map::getMap() {
  }
 
 void Map::preshowTile(int x, int y, sf::RenderWindow& window) {
-    float posX = x * gridCellSize;
+    
+    if (numtile < 103)
+    {
+        float posX = x * gridCellSize;
     float posY = y * gridCellSize;
 
     tempTile = std::make_unique<Tiles>(posX, posY, numtile);
+    }
 }
 
-void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie) {
+void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie, vector<unique_ptr<Shadow>>& shadows) {
     map.clear();
     tiles.clear();
     currentmap = mapNum;
 
-    string path = "assets/maps/tuto/map" + to_string(mapNum) + ".txt";
+    string path = "assets/maps/level" + to_string(mapNum) + "/map.txt";
+
     ifstream file(path);
     if (!file.is_open()) {
         cout << "Error: file not found" << endl;
@@ -153,16 +158,19 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
                     ennemies.push_back(make_unique<Tank>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::tankTexture, Shared::tankTextureR, 79, 131, 90, 120, 160, 160));
                 }
                 if (tileValue == 997) {
-                    ennemies.push_back(make_unique<Drone>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::droneTexture, Shared::tankTextureR, 139, 178, 60, 60, 64, 64));
+                    ennemies.push_back(make_unique<Drone>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::droneTexture, Shared::droneTexture, 139, 178, 270, 200, 64, 64));
                 }
                 if (tileValue == 996) {
-                    ennemies.push_back(make_unique<Incendiaire>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, Shared::incendTextureR, 132, 80, 120, 70, 80, 60)); // scale avec dif de 50 = perfect 
+                    ennemies.push_back(make_unique<Incendiaire>(i / 3 * gridCellSize, map.size() * gridCellSize, Shared::incendTexture, Shared::incendTextureR, 132, 80, 260, 140, 120, 100)); 
                 }
                 if (tileValue == 666) {
                     capsulesEnergie.push_back(make_unique<CapsuleEnergie>(15, Shared::capsuleEnergyTexture, i / 3 * gridCellSize, map.size() * gridCellSize));
                 }
                 if (tileValue == 667) {
                     capsulesHP.push_back(make_unique<CapsuleHP>(15, Shared::capsuleHPTexture, i / 3 * gridCellSize, map.size() * gridCellSize));
+                }
+                if (tileValue == 555) { /// ombre
+                    shadows.push_back(make_unique<Shadow>(sf::Vector2f(120, 120), i / 3 * gridCellSize, map.size() * gridCellSize));
                 }
             }
         }
@@ -177,7 +185,7 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
         int gridX = static_cast<int>(mousePosWorld.x) / gridCellSize;
         int gridY = static_cast<int>(mousePosWorld.y) / gridCellSize;
         modifyMapFile(gridX, gridY, numtile);
-        if(numtile < 103)
+        if (numtile < 103)
         {
             supprTile(gridX * gridCellSize, gridY * gridCellSize);
             spawnTile(gridX * gridCellSize, gridY * gridCellSize, numtile);
@@ -198,7 +206,7 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { if (inputOn == false) { numtile -= 10; cout << numtile << endl;    } inputOn = true; }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { if (inputOn == false) { numtile += 10; cout << numtile << endl;    } inputOn = true; }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) { if (inputOn == false) { numtile = 0; cout << numtile << endl; } inputOn = true; }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) { if (inputOn == false) { numtile += 555; cout << numtile << endl; } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)) { if (inputOn == false) { numtile = 555; cout << numtile << endl; } inputOn = true; }
 
     else { inputOn = false; }
 
@@ -211,7 +219,7 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
 }
 
 void Map::modifyMapFile(int gridX, int gridY, int type) {
-    string path = "assets/maps/tuto/map" + to_string(currentmap) + ".txt";
+    string path = "assets/maps/level" + to_string(currentmap) + "/map.txt";
     fstream file(path, ios::in | ios::out);
     if (!file.is_open()) {
         cout << "Error: Unable to open map file." << endl;
