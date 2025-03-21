@@ -53,3 +53,5 @@ void Deco::setSprite(int type) {
         return;
     }
 }
+
+sf::Sprite Deco::getSprite() const { return sprite; }

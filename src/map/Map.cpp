@@ -86,6 +86,9 @@ void Map::preshowTile(int x, int y, sf::RenderWindow& window) {
 }
 
 void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie, vector<unique_ptr<Shadow>>& shadows) {
+    
+    reparables.push_back(make_unique<Reparable>(0 / 3 * gridCellSize, map.size() * gridCellSize, 1));
+
     map.clear();
     fond.clear();
     tiles.clear();
@@ -188,7 +191,7 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
 
     string pathd = "assets/maps/level" + to_string(mapNum) + "/decors.txt";
 
-    ifstream filed(pathd);
+    ifstream filed(path);
     if (!filed.is_open()) {
         cout << "Error: filed not found" << endl;
         return;
@@ -196,7 +199,7 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
 
     string lined;
     while (getline(filed, line)) {
-        vector<char> row;
+        vector<char> rowd;
         for (size_t i = 0; i < line.size(); i += 3) {
             if (i + 1 >= line.size()) {
                 cout << "Warning: Uneven characters in map filed. Skipping last character." << endl;
@@ -213,7 +216,7 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
                 int tileValue;
                 tileValue = stoi(tileCode);
 
-                row.push_back(tileCode[0]);
+                rowd.push_back(tileCode[0]);
 
                 if (tileValue < 19) {
                     reparables.push_back(make_unique<Reparable>(i / 3 * gridCellSize, map.size() * gridCellSize, tileValue));
@@ -223,7 +226,7 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
                 }
             }
         }
-        map.push_back(row);
+        map.push_back(rowd);
     }
 }
 
@@ -268,7 +271,7 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
 }
 
 void Map::modifyMapFile(int gridX, int gridY, int type) {
-    string path = "assets/maps/level" + to_string(currentmap) + "/map.txt";
+    string path = "assets/maps/level" + to_string(currentmap) + "/decors.txt";
     fstream file(path, ios::in | ios::out);
     if (!file.is_open()) {
         cout << "Error: Unable to open map file." << endl;

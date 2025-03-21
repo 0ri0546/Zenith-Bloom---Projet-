@@ -261,6 +261,13 @@ void Game::render() {
 		}
 		window.draw(player.getShapeSmoke());
 		window.draw(player.getShape());
+
+		for (const auto& deco : gamemap.getDecos()) {
+			window.draw(deco->getSprite());
+		}
+		for (const auto& reparable : gamemap.getTiles()) {
+			window.draw(reparable->getSprite());
+		}
 		for (const auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
 			window.draw(tile->getShadowShape());

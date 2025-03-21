@@ -24,6 +24,8 @@ private:
 public:
 
 	Reparable(float x, float y, int type);
+	sf::Sprite getSprite() const;
+
 	void setSprite(int type);
 	void fixing();
 

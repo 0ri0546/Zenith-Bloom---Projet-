@@ -1,10 +1,10 @@
 #include "Reparable.hpp"
 
 Reparable::Reparable(float x, float y, int type) : x(x), y(y), type(type), fixed(false) {
-	sprite.setTexture(Shared::propsTexture);
-
+    setSprite(type);
 	sprite.setScale(0.5, 0.5);
 	sprite.setPosition(x, y);
+
 }
 
 
@@ -68,3 +68,5 @@ void Reparable::fixing() {
     fixed = true;
     setSprite(type);
 }
+
+sf::Sprite Reparable::getSprite() const { return sprite; }
