@@ -161,6 +161,7 @@
     <ClCompile Include="src\entities\ManagerEnnemy.cpp" />
     <ClCompile Include="src\entities\Player.cpp" />
     <ClCompile Include="src\entities\Projectile.cpp" />
+    <ClCompile Include="src\entities\Shadow.cpp" />
     <ClCompile Include="src\entities\Tank.cpp" />
     <ClCompile Include="src\hud\menu\BouncingTitle.cpp" />
     <ClCompile Include="src\hud\menu\Button.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="src\entities\ManagerEnnemy.hpp" />
     <ClInclude Include="src\entities\Player.hpp" />
     <ClInclude Include="src\entities\Projectile.hpp" />
+    <ClInclude Include="src\entities\Shadow.hpp" />
     <ClInclude Include="src\entities\Tank.hpp" />
     <ClInclude Include="src\hud\menu\BouncingTitle.hpp" />
     <ClInclude Include="src\hud\menu\Button.hpp" />

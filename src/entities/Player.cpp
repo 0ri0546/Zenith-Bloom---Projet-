@@ -93,7 +93,6 @@ Player::Player(sf::Texture& texture) :
 }
 
 void Player::animate(float deltaTime) {
-	std::cout << hp << std::endl;
 
 	// Gestion de la mort
 	if (isDead) {
@@ -389,7 +388,7 @@ float Player::attack(float deltaTime) {
 	if (attackClock.getElapsedTime().asSeconds() >= 0.5f) {
 		if (sf::Joystick::isConnected(0)) {
 			if (sf::Joystick::isButtonPressed(0, 2) && energy > 5.0) {
-				shortRangeDamage = damage;
+				shortRangeDamage = 0.1f;
 				energy -= 5.0;
 				attackClock.restart();
 				attackDurationClock.restart();
@@ -397,7 +396,7 @@ float Player::attack(float deltaTime) {
 		}
 		else {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && energy > 5.0) {
-				shortRangeDamage = damage;
+				shortRangeDamage = 0.1f;
 				energy -= 5.0;
 				attackClock.restart();
 				attackDurationClock.restart();
@@ -506,7 +505,22 @@ bool Player::takeDamage(sf::Sprite projEnnemi, float deltaTime) {
 	if (takeDamageClock.getElapsedTime().asSeconds() > 0.5) {
 		setAnimationDamage = false;
 	}
+	return takingDamage;
+}
 
+bool Player::takeDamageSimple(float deltaTime) {
+	// méthode pour gérer les dégâts infligés au joueur (simple)
+	takeDamageClock.restart();
+
+	AudioManager::getInstance().playSound("hit1");
+	hp -= 0.1;
+	takingDamage = true;
+	setAnimationDamage = true;
+	
+
+	if (takeDamageClock.getElapsedTime().asSeconds() > 0.5) {
+		setAnimationDamage = false;
+	}
 	return takingDamage;
 }
 

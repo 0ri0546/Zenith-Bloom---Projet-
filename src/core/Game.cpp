@@ -4,7 +4,7 @@ Game::Game() : isRunning(false), currentState(GameState::PLAYING), optionsMenu(O
 	createWindow();
 	view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	
-	gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy);
+	gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy, shadows);
 	view.setCenter(player.getShape().getPosition());
 
 	textFall = false;
@@ -168,6 +168,15 @@ void Game::update(float deltaTime) {
 				}
 			}
 		}
+		isInTheSun = false;
+		for (auto& shadow : shadows) {
+			if (player.getShape().getGlobalBounds().intersects(shadow->getGlobalBounds())) { 
+				isInTheSun = false; 
+				break;
+			}
+			else { isInTheSun = true; }
+		}
+		std::cout << isInTheSun << std::endl;
 
 		view.setCenter(player.getShape().getPosition());
 		if (player.getCanDisplayGameOverBool()) {
@@ -254,9 +263,10 @@ void Game::render() {
 		window.draw(player.getShape());
 		for (const auto& tile : gamemap.getTiles()) {
 			window.draw(tile->getSprite());
-			if (tile->hasShadow()) {
-				window.draw(tile->getShadowShape());
-			}
+			window.draw(tile->getShadowShape());
+		}
+		for (auto& shadow : shadows) {
+			window.draw(*shadow);
 		}
 		//----HUD----
 		window.draw(player.getShapeFillEnergy());
@@ -342,7 +352,7 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 		int result = mainMenu.handleInput(window, event);
 		
 		if (result == 1) { // Jouer
-			currentState = GameState::PLAYING;
+			currentState = GameState::LEVEL_SELECTOR_MENU;
 		}
 		else if (result == 2) { // Options
 			currentState = GameState::OPTIONS_MENU;
@@ -432,10 +442,19 @@ void Game::handleState(const sf::Event& event, float deltaTime) {
 			currentState = GameState::MAIN_MENU;
 		}
 		else if (result == 2) { // Level Tuto
-			// Play Level Tuto
+			gamemap.loadMap(1, ennemies, player, window, capsulesHP, capsulesEnergy, shadows);
+			player.resetPlayer();
+			currentState = GameState::PLAYING;
 		}
 		else if (result == 3) { // Level 1
-			// Play Level 1
+			gamemap.loadMap(2, ennemies, player, window, capsulesHP, capsulesEnergy, shadows);
+			player.resetPlayer();
+			currentState = GameState::PLAYING;
+		}
+		else if (result == 4) { // Level 2
+			gamemap.loadMap(3, ennemies, player, window, capsulesHP, capsulesEnergy, shadows);
+			player.resetPlayer();
+			currentState = GameState::PLAYING;
 		}
 		break;
 	}

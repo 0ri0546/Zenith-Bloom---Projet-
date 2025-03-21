@@ -9,7 +9,7 @@
 #include "../entities/incendiaire.hpp"
 #include "../entities/CapsuleEnergie.hpp"
 #include "../entities/CapsuleHP.hpp"
-
+#include "../entities/Shadow.hpp"
 
 class Map { 
 private:
@@ -42,7 +42,7 @@ public:
 	void handleInput(sf::RenderWindow& window, sf::View& view);
 	void modifyMapFile(int griX, int gridY, int type);
 	void initBackground();
-	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie);
+	void loadMap(int mapNum, vector<std::unique_ptr<Ennemy>>& ennemies, Player& player, sf::RenderWindow& window, vector<unique_ptr<CapsuleHP>>& capsulesHP, vector<unique_ptr<CapsuleEnergie>>& capsulesEnergie, vector<unique_ptr<Shadow>>& shadows);
 };
 
 #endif
