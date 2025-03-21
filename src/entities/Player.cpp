@@ -83,7 +83,6 @@ Player::Player(sf::Texture& texture) :
 }
 
 void Player::animate(float deltaTime) {
-	std::cout << hp << std::endl;
 
 	// Gestion de la mort
 	if (isDead) {

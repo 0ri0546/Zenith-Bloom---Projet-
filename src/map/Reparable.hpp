@@ -18,24 +18,17 @@ private:
 	float y;
 	int size = 240;
 	int type;
-	bool shadow;
-	bool empty;
-	int value;
-	bool isReparable;
-
+	bool fixed;
 	sf::Sprite sprite;
 
 public:
 
-	Reparable();
+	Reparable(float x, float y, int type);
 	~Reparable();
+	void setSprite(int type);
 
 
 };
-
-Reparable::Reparable()
-{
-}
 
 Reparable::~Reparable()
 {

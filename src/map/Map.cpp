@@ -80,7 +80,7 @@ void Map::loadMap(int mapNum, vector<unique_ptr<Ennemy>>& ennemies, Player& play
     tiles.clear();
     currentmap = mapNum;
 
-    string path = "assets/maps/map" + to_string(mapNum) + ".txt";
+    string path = "assets/maps/tuto/map" + to_string(mapNum) + ".txt";
     ifstream file(path);
     if (!file.is_open()) {
         cout << "Error: file not found" << endl;
@@ -177,8 +177,11 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
         int gridX = static_cast<int>(mousePosWorld.x) / gridCellSize;
         int gridY = static_cast<int>(mousePosWorld.y) / gridCellSize;
         modifyMapFile(gridX, gridY, numtile);
-        supprTile(gridX * gridCellSize, gridY * gridCellSize);
-        spawnTile(gridX * gridCellSize, gridY * gridCellSize, numtile);
+        if(numtile < 103)
+        {
+            supprTile(gridX * gridCellSize, gridY * gridCellSize);
+            spawnTile(gridX * gridCellSize, gridY * gridCellSize, numtile);
+        }
 
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
@@ -194,6 +197,9 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) { if (inputOn == false) { numtile -= 1; cout << numtile << endl;    } inputOn = true; }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { if (inputOn == false) { numtile -= 10; cout << numtile << endl;    } inputOn = true; }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { if (inputOn == false) { numtile += 10; cout << numtile << endl;    } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) { if (inputOn == false) { numtile = 0; cout << numtile << endl; } inputOn = true; }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) { if (inputOn == false) { numtile += 555; cout << numtile << endl; } inputOn = true; }
+
     else { inputOn = false; }
 
     float moveSpeed = 10.0f;
@@ -205,7 +211,7 @@ void Map::handleInput(sf::RenderWindow& window, sf::View& view) {
 }
 
 void Map::modifyMapFile(int gridX, int gridY, int type) {
-    string path = "assets/maps/map" + to_string(currentmap) + ".txt";
+    string path = "assets/maps/tuto/map" + to_string(currentmap) + ".txt";
     fstream file(path, ios::in | ios::out);
     if (!file.is_open()) {
         cout << "Error: Unable to open map file." << endl;
